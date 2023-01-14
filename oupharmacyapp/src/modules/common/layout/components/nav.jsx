@@ -9,7 +9,23 @@ import { Link } from "react-router-dom"
 import { useState } from "react";
 import Logo from "../../../../../public/logo";
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [
+  {
+    id: 'examinations',
+    name:'Examination',
+    link: '/examinations'
+  },
+  {  
+    id: 'examination-confirm',
+    name:'Confirm',
+    link: '/examinations'
+  },
+  {  
+    id: 'prescriptions',
+    name:'Prescriptions',
+    link: '/examinations'
+  }
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Nav = () => {
@@ -62,6 +78,7 @@ const Nav = () => {
                     noWrap
                     sx={{
                     mr: 2,
+                    my: 0,
                     py: 2,
                     display: { xs: 'none', md: 'flex' },
                     fontWeight: 700,
@@ -104,8 +121,8 @@ const Nav = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.id} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -143,11 +160,11 @@ const Nav = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button 
-                key={page}
+                key={page.id}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>

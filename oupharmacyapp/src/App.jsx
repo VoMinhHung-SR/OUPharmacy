@@ -4,17 +4,27 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './modules/common/layout'
 import userReducer from './lib/reducer/userReducer'
+import Login from './pages/login'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
+const queryClient = new QueryClient()
 function App() {
   const [user, dispatch] = useReducer(userReducer, cookie.load('user'))
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Layout />}>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        
+            <Routes>
+              <Route path='/' element={<Layout />}>
 
-        </Route>
-      </Routes>
-    </BrowserRouter>
+              </Route>
+              <Route path="/login" element={<Login />} />
+              {/* <Route path="/register" element={<Register />} /> */}
+            </Routes>
+        
+        
+      </BrowserRouter>
+    </QueryClientProvider>
   )
 }
 
