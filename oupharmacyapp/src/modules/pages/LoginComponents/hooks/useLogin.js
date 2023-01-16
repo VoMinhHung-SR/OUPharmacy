@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import * as Yup from 'yup';
 import { fetchAccessToken } from '../services';
-
+import cookies from "react-cookies"
+import { authApi, endpoints } from '../../../../config/APIs';
+import { useNavigate } from 'react-router';
 export const loginSchema = Yup.object().shape({
     username: Yup.string()
     .required("Tên người dùng không được để trống")
@@ -14,31 +16,50 @@ export const loginSchema = Yup.object().shape({
 
 const useLogin = () => {
 
-    const [isLoginError, setIsLoginError] = useState(false);
+    const [openError, setOpenError] = useState(false);
     const [signUpError, setSignUpError] = useState('');
+    const [openBackdrop, setOpenBackdop] = useState(false);
+    const nav = useNavigate();
 
-    const mutation = useMutation((username, password) =>
-        fetchAccessToken(username, password),
+    const mutation = useMutation((data) =>
+        fetchAccessToken(data.username, data.password),
     );
-    // const router = useRo();
+
     const onSubmit = async (data) => {
-        await mutation.mutateAsync({
-            username: data.username,
-            password: data.password,
-        }, {
+        console.log(data);
+        await mutation.mutateAsync(data, {
              onSuccess: (data) => {
                // handle error here
-              if (data.errMgs) {  setIsLoginError(true); return; }
+               // TODO: setCookies here
+               setOpenBackdop(false)
+               console.info(data)
+               cookies.save('token', res2.data.access_token)
+               // info current user
+               getInfoCurrentUser();
 
-              // TODO: setCookies here
-              sessionStorage.setItem('current-user', data.access_token);
-              handleGetCurrentCustomer({ token: data.access_token });
-              router.push('/');
-            },
+            },onError:(err) =>{
+                setOpenError(true);
+                console.log(err)
+            }
         });
     };
+    const getInfoCurrentUser = async () => {
+        const user = await authApi().get(endpoints['current-user'])
+        cookies.save('user', user.data)
+
+        console.info(user.data)
+        dispatch({
+            'type': 'login',
+            'payload': user.data
+        })
+        if (user != null) {
+            nav("/")
+        }
+    }
     return {
-        onSubmit
+        onSubmit,
+        openError,
+        setOpenError
     }
 }
 export default useLogin;

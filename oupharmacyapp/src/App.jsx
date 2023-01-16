@@ -6,6 +6,7 @@ import Layout from './modules/common/layout'
 import userReducer from './lib/reducer/userReducer'
 import Login from './pages/login'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import ExaminationsConfirm from './pages/examinations/confirm'
 
 const queryClient = new QueryClient()
 function App() {
@@ -16,7 +17,7 @@ function App() {
         
             <Routes>
               <Route path='/' element={<Layout />}>
-
+                <Route path='/examinations/confirm' element={<ExaminationsConfirm/>}/>
               </Route>
               <Route path="/login" element={<Login />} />
               {/* <Route path="/register" element={<Register />} /> */}

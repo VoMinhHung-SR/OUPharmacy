@@ -6,14 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useLogin, { loginSchema } from "../../modules/pages/LoginComponents/hooks/useLogin";
 import { useForm } from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup"
 const Login = () =>{
     const [openBackdrop, setOpenBackdop] = useState(false)
-    const [openError, setOpenError] = useState(false)
-    const {onSubmit} = useLogin();
+    const {onSubmit, openError , setOpenError} = useLogin();
     const methods = useForm({
         mode:"onSubmit", 
-        resolver: loginSchema,
-        // resolver: yupResolver(loginSchema),
+        resolver: yupResolver(loginSchema),
         defaultValues:{
             username:"",
             password:"",
@@ -44,7 +43,7 @@ const Login = () =>{
                                 src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354515/OUPharmacy/Untitled-1_hdvtsk.png"></Avatar>
                         </Box>
 
-                        <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <form onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
                             <Grid item xs={12} sm={12} >
                                 <Collapse in={openError}>
                                     <Alert
@@ -76,6 +75,7 @@ const Login = () =>{
                                     name="username"
                                     type="text"
                                     label="Tên người dùng"
+                                    {...methods.register("username")}
                                 />
                             </Grid>
                             <Grid item xs={12} style={{margin:"16px 0"}}>
@@ -87,6 +87,7 @@ const Login = () =>{
                                     name="password"
                                     type="password"
                                     label="Mật khẩu"
+                                    {...methods.register("password")}
                                 />
                             </Grid>
                             <div style={{ "margin": "0 auto", "textAlign": "center" }}>

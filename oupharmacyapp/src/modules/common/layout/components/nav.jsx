@@ -18,7 +18,7 @@ const pages = [
   {  
     id: 'examination-confirm',
     name:'Confirm',
-    link: '/examinations'
+    link: '/examinations/confirm'
   },
   {  
     id: 'prescriptions',
@@ -122,7 +122,9 @@ const Nav = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.id} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.name}</Typography>
+                  <Link to={page.link}>
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -159,13 +161,16 @@ const Nav = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button 
+              <Link to={page.link}>
+               <Button 
                 key={page.id}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.name}
               </Button>
+               
+              </Link>
             ))}
           </Box>
                 

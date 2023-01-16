@@ -42,7 +42,7 @@ export let endpoints = {
 }
 export const authApi = () => {
     return axios.create({
-        baseURL: "http://localhost:8000",
+        baseURL: "http://127.0.0.1:8000",
         headers: {
             'Authorization': `Bearer ${cookies.load('token')}`
         }
@@ -51,7 +51,7 @@ export const authApi = () => {
 
 export const authMediaApi = () => {
     return axios.create({
-        baseURL: "http://localhost:8000",
+        baseURL: "http://127.0.0.1:8000",
         headers: {
             'Content-Type' : 'multipart/form-data',
         }
@@ -59,5 +59,5 @@ export const authMediaApi = () => {
 }
 
 export default axios.create({
-    baseURL: "http://localhost:8000"
+    baseURL: "http://127.0.0.1:8000",
 })
