@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
+import { AppBar, Avatar, Badge, Box, Button, Container, Divider, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
 import LoginIcon from '@mui/icons-material/Login';
 import HomeIcon from '@mui/icons-material/Home';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -8,6 +8,9 @@ import Logout from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom"
 import { useState } from "react";
 import Logo from "../../../../../public/logo";
+import useNav from "../../../pages/HomeComponents/hooks/useNav";
+import { ListAlt } from "@mui/icons-material";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 const pages = [
   {
@@ -26,52 +29,148 @@ const pages = [
     link: '/examinations'
   }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Nav = () => {
-    let btn = <>
-        <ul className="ou-flex ou-text-white">
-            <MenuItem style={{ "color": "inherit" }} >
-                <Link to="/login" className="nav-link">
-                    <LoginIcon style={{ "marginRight": "5px" }} />Đăng nhập
-                </Link>
+  
+  // State trigger menu open
+  const [anchorElNav, setAnchorElNav] = useState(null);
+
+  const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+      setAnchorEl(null);
+  };
+
+  //  Hooks useNav
+  const {user, handleLogout} = useNav();
+  let btn = <>
+      <ul className="ou-flex ou-text-white">
+          <MenuItem style={{ "color": "inherit" }} >
+              <Link to="/login" className="nav-link">
+                  <LoginIcon style={{ "marginRight": "5px" }} />Đăng nhập
+              </Link>
+          </MenuItem>
+          <MenuItem style={{ "color": "inherit" }}>
+              <Link to="/register" className="nav-link">
+                  <HowToRegIcon style={{ "marginRight": "5px" }} />Đăng Ký
+              </Link>
+          </MenuItem>
+      </ul>
+  </>
+  if (user){
+    btn = <>
+        <Menu anchorEl={anchorEl} id="account-menu" open={open} onClose={handleClose} onClick={handleClose}
+            PaperProps={{
+                elevation: 0,
+                sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                    },
+                    '&:before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 12,
+                        width: 15,
+                        height: 15,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                    },
+                },
+            }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+            {/* <Link to="/profile" className="nav-link" style={{ "padding": "0px" }}>
+                <MenuItem style={{ "color": "#333" }}>
+                    <Avatar src={user.avatar_path} /> Trang cá nhân
+                </MenuItem>
+            </Link>
+            <Divider /> */}
+            <Link to="/users/examinations" className="nav-link" style={{ "padding": "0px" }}>
+                <MenuItem style={{ "color": "#333" }}>
+
+                    <ListAlt fontSize="small" />
+                    <Typography marginLeft={2}>
+                        Danh sách lịch
+                    </Typography>
+
+
+                </MenuItem>
+            </Link>
+            <Divider />
+            <MenuItem onClick={handleLogout} >
+                <Logout fontSize="small" />
+                <Typography marginLeft={2}>
+                    Đăng xuất
+                </Typography>
             </MenuItem>
-            <MenuItem style={{ "color": "inherit" }}>
-                <Link to="/register" className="nav-link">
-                    <HowToRegIcon style={{ "marginRight": "5px" }} />Đăng Ký
-                </Link>
-            </MenuItem>
+        </Menu>
+        {/* Show nav menu */}
+        <ul className="ou-flex">
+          <MenuItem style={{ "padding": "0px" }}>
+              <IconButton size="small" color="inherit" style={{ "marginRight": "5px" }}>
+                  <Link to="/">
+                      <HomeIcon className="ou-text-inherit" color="#f3f3f3"  />
+                  </Link>
+              </IconButton>
+          </MenuItem>
+
+          <MenuItem style={{ "padding": "0px" }}>
+              <IconButton size="small" color="inherit">
+                  <Badge 
+                  badgeContent={4} 
+                  color="error">
+                      <Link to="/users/message">
+                          <MailOutlineIcon className="ou-text-inherit" color="#f3f3f3"  />
+                      </Link>
+                  </Badge>
+              </IconButton>
+          </MenuItem>
+          {/* <MenuItem style={{ "padding": "0px" }}>
+              <HomeIcon style={{ "color": "#333" }} />
+          </MenuItem> */}
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}
+              aria-controls={open ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}>
+                <Avatar sx={{ width: 32, height: 32 }} src={user.avatar_path}/>
+            </IconButton>
+          </Tooltip>
+         
         </ul>
+        
+        {/* End nav menu */}
     </>
+  }
 
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-
-    return (
+  return (
     <AppBar position="static" >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Link to="/" className="ou-flex ou-items-center" >
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-                    <Logo width={50} height={50} className="ou-text-white ou-mr-2" color={"white"}/>
+                    <Logo width={50} height={50} className="ou-text-white ou-mr-2" color={'white'}/>
                 </Box>
                 <Typography
                     variant="h6"
@@ -176,37 +275,10 @@ const Nav = () => {
                 
           <Box sx={{ flexGrow: 0 }}>
             {btn}
-            {/* <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip> */}
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
-    )
+  )
 }
 export default Nav

@@ -1,6 +1,21 @@
 import APIs, { authApi, endpoints } from "../../../../config/APIs"
-
+import cookies from "react-cookies"
+import { useNavigate } from "react-router"
 export const fetchAccessToken = async (username, password) =>{
+    const getInfoCurrentUser = async () => {
+        const nav = useNavigate()
+        const user = await authApi().get(endpoints['current-user'])
+        cookies.save('user', user.data)
+    
+        console.info(user.data)
+        dispatch({
+            'type': 'login',
+            'payload': user.data
+        })
+        if (user != null) {
+            nav("/")
+        }
+    }
     const response = await APIs.get(endpoints["auth-info"])
     if(response.status === 200){
         try {
@@ -19,25 +34,12 @@ export const fetchAccessToken = async (username, password) =>{
                 // info current user
                 getInfoCurrentUser();
             }
-
+            return
 
         } catch (err) {
             if (err) {
                 console.log(err)
             }
-        }
-    }
-    const getInfoCurrentUser = async () => {
-        const user = await authApi().get(endpoints['current-user'])
-        cookies.save('user', user.data)
-
-        console.info(user.data)
-        dispatch({
-            'type': 'login',
-            'payload': user.data
-        })
-        if (user != null) {
-            nav("/")
         }
     }
 }

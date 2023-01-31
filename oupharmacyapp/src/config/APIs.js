@@ -1,7 +1,7 @@
 import axios from 'axios'
 import cookies from 'react-cookies'
-
 axios.defaults.withCredentials = false;
+
 
 export let endpoints = {
     // Auth info
@@ -18,7 +18,7 @@ export let endpoints = {
     'get-patient-by-email':'/patients/get-patient-by-email/',
     'patient':'/patients/',
     'patient-detail': (patientId)=>  `/patients/${patientId}/`,
-
+    
     // Examination
     'examination':'/examinations/',
     'examination-detail': (examinationId) => `/examinations/${examinationId}/`,
@@ -34,7 +34,7 @@ export let endpoints = {
     
     //Medicine Units
     'medicine-units':'/medicine-units/',
-
+    
     // Bill
     'bill':'/bills/',
     'receipt':'/bills/get-bill-by-pres/',

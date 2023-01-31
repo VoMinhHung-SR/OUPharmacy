@@ -1,5 +1,4 @@
-import { useReducer } from 'react'
-import cookie from 'react-cookies'
+import { createContext, useReducer } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './modules/common/layout'
@@ -7,14 +6,20 @@ import userReducer from './lib/reducer/userReducer'
 import Login from './pages/login'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import ExaminationsConfirm from './pages/examinations/confirm'
+import { Cookies, CookiesProvider, useCookies } from 'react-cookie'
+
+export const userContext = createContext()
 
 const queryClient = new QueryClient()
 function App() {
-  const [user, dispatch] = useReducer(userReducer, cookie.load('user'))
+  const [cookies] = useCookies(['user']);
+  const [user, dispatch] = useReducer(userReducer, cookies.user)
   return (
     <QueryClientProvider client={queryClient}>
+      
       <BrowserRouter>
-        
+        <CookiesProvider>
+          <userContext.Provider value={[user, dispatch]}>
             <Routes>
               <Route path='/' element={<Layout />}>
                 <Route path='/examinations/confirm' element={<ExaminationsConfirm/>}/>
@@ -22,8 +27,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               {/* <Route path="/register" element={<Register />} /> */}
             </Routes>
-        
-        
+            </userContext.Provider>
+        </CookiesProvider>
       </BrowserRouter>
     </QueryClientProvider>
   )

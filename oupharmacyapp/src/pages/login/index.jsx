@@ -2,14 +2,12 @@ import { Alert, Avatar, Button, Collapse, Container, Grid, IconButton, TextField
 import { Box } from "@mui/system";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import useLogin, { loginSchema } from "../../modules/pages/LoginComponents/hooks/useLogin";
 import { useForm } from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup"
 const Login = () =>{
-    const [openBackdrop, setOpenBackdop] = useState(false)
-    const {onSubmit, openError , setOpenError} = useLogin();
+    const {onSubmit, openError, openBackdrop, setOpenError} = useLogin();
     const methods = useForm({
         mode:"onSubmit", 
         resolver: yupResolver(loginSchema),
@@ -75,6 +73,8 @@ const Login = () =>{
                                     name="username"
                                     type="text"
                                     label="Tên người dùng"
+                                    error={methods.formState.errors.username}
+                                    helperText={methods.formState.errors.username ? methods.formState.errors.username.message : ""}
                                     {...methods.register("username")}
                                 />
                             </Grid>
@@ -87,6 +87,8 @@ const Login = () =>{
                                     name="password"
                                     type="password"
                                     label="Mật khẩu"
+                                    error={methods.formState.errors.password}
+                                    helperText={methods.formState.errors.password ? methods.formState.errors.password.message : ""}
                                     {...methods.register("password")}
                                 />
                             </Grid>
