@@ -1,9 +1,10 @@
-import { Box, Button, Container, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import useRegister, { registerSchema } from "../../modules/pages/RegisterComponents/hooks/useRegister";
 import {yupResolver} from "@hookform/resolvers/yup"
+import { useEffect } from "react";
 
 const Register = () => {
     const {imageUrl, setImageUrl, openBackdrop, dob, setDOB,
@@ -24,6 +25,12 @@ const Register = () => {
             phoneNumber: ""
         }
     })
+    useEffect(() => {
+        if (selectedImage) {
+
+            setImageUrl(URL.createObjectURL(selectedImage));
+        }
+    }, [selectedImage]);
     return (
         <>
             {openBackdrop === true ?
@@ -32,18 +39,15 @@ const Register = () => {
             }
 
             <div style={{ "width": "100%"
-            // , "backgroundColor": "#f3f3f3" 
             }}>
                 <Container style={{ "padding": "50px" }}>
 
 
 
-                    <form onSubmit={methods.handleSubmit((data)=> onSubmit)} style={{ "width": "60%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
-                        <h1 className="text-center" style={{ color: "#084468" }}>Đăng ký người dùng</h1>
+                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(data))} style={{ "width": "60%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
+                        <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>Đăng ký người dùng</h1>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={4} >
-                                {/* <RegisterForm id="firstName" name="firstName" label="Họ" type="text"
-                                    placeholder="Enter your first name" value={firstName} change={(evt) => setFirstName(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -58,8 +62,6 @@ const Register = () => {
                                 />
                             </Grid>
                             <Grid item xs={4} >
-                                {/* <RegisterForm id="lastName" name="lastName" label="Tên" type="text"
-                                    placeholder="Enter your last name" value={lastName} change={(evt) => setLastName(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -73,8 +75,6 @@ const Register = () => {
                                     {...methods.register("lastName")} />
                             </Grid>
                             <Grid item xs={3}>
-                                {/* <RegisterForm id="phoneNumber" name="phoneNumber" label="SĐT" type="text"
-                                    placeholder="Enter your phone number" value={phoneNumber} change={(evt) => setPhoneNumber(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -91,8 +91,7 @@ const Register = () => {
 
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={6}>
-                                {/* <RegisterForm id="userName" name="username" label="Tên tài khoản" type="text"
-                                    placeholder="Enter your username" value={username} change={(evt) => setUserName(evt.target.value)} /> */}
+                             
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -107,12 +106,9 @@ const Register = () => {
                                 />
                             </Grid>
                             <Grid item xs={5}>
-                                {/* <RegisterForm id="password" name="password" label="Mật khẩu" type="password"
-                                    placeholder="Enter your password" value={password} change={(evt) => setPassword(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                              
                                     id="password"
                                     name="password"
                                     type="password"
@@ -126,12 +122,9 @@ const Register = () => {
 
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={6}>
-                                {/* <RegisterForm id="email" name="email" label="Email" type="email"
-                                    placeholder="Enter your email" value={email} change={(evt) => setEmail(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                                   
                                     id="email"
                                     name="email"
                                     type="text"
@@ -142,8 +135,6 @@ const Register = () => {
                                 />
                             </Grid>
                             <Grid item xs={5}>
-                                {/* <RegisterForm id="confirmPassword" name="confirmPassword" label="Nhập lại mật khẩu" type="password"
-                                    placeholder="Enter your password" value={confirmPassword} change={(evt) => setConfirmPassword(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -165,12 +156,9 @@ const Register = () => {
 
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={11}>
-                                {/* <RegisterForm id="address" name="address" label="Địa chỉ" type="text"
-                                    placeholder="Enter your address" value={address} change={(evt) => setAddress(evt.target.value)} /> */}
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                                    
                                     id="address"
                                     name="address"
                                     type="text"
@@ -198,8 +186,8 @@ const Register = () => {
                                     style={{ "margin": "5px" }}
                                 />
 
-                                <Box sx={{ width: 220 }} style={{ "margin": "5px" }}>
-                                    <label id="demo-simple-select-label">Giới tính</label>
+                                <FormControl sx={{ width: 220 }} style={{ "margin": "5px" }}>
+                                    <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -212,37 +200,41 @@ const Register = () => {
                                         <MenuItem value={1}>Nữ</MenuItem>
                                         <MenuItem value={2}>Bí Mật</MenuItem>
                                     </Select>
-                                </Box>
+                                </FormControl>
                             </Grid>
 
                         </Grid>
 
 
 
-
-                        <Box className="mb-3" controlId="formBasicImage" style={{ "margin": "5px" }}>
-                            <label style={{ "paddingRight": "20px" }}>Chọn hình ảnh*</label>
-                            <input accept="image/*" type="file" id="select-image" style={{ display: 'none' }}
-                                onChange={(e) => {
-                                    setSelectedImage(e.target.files[0]);
-                                    console.log(selectedImage);
-                                    console.log(imageUrl);
-                                }}
-                            />
-                            <label htmlFor="select-image">
-                                <Button variant="contained" color="primary" component="span">
-                                    Upload Avatar
-                                </Button>
-                            </label>
-                            {imageUrl && selectedImage && (
-                                <Box mt={2} textAlign="center">
-                                    <img src={imageUrl} alt={selectedImage.name} height="250px" />
+                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }}  spacing={3}>
+                            <Grid item xs={11}>
+                                    <Box style={{ "margin": "5px" }} >
+                                        <input accept="image/*" type="file" id="select-image" style={{ display: 'none' }}
+                                            onChange={(e) => {
+                                                setSelectedImage(e.target.files[0]);
+                                            }}
+                                        />
+                                        <Tooltip title="Ảnh đại diện">
+                                        <label htmlFor="select-image">
+                                            <Button variant="contained" color="primary" component="span">
+                                                Upload Avatar
+                                            </Button>
+                                        </label>
+                                        </Tooltip>
+                                        {imageUrl && selectedImage && (
+                                            <Box className="ou-my-4 ou-border-solid" textAlign="center">
+                                                <img src={imageUrl} alt={selectedImage.name} height="250px" className="ou-mx-auto"/>
+                                            </Box>
+                                        )}
+                                    </Box>
+                                <Box sx={{textAlign:"right"}}>
+                                    <Button variant="contained" color="success" type="submit" >Đăng ký</Button>
                                 </Box>
-                            )}
-                        </Box>
-                        <Box sx={{textAlign:"right"}}>
-                            <Button variant="contained" color="success" type="submit" >Đăng ký</Button>
-                        </Box>
+                            </Grid>
+                              
+                        </Grid>
+                      
 
                     </form>
                 </Container>
