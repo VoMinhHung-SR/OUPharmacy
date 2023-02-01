@@ -7,6 +7,8 @@ import Login from './pages/login'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import ExaminationsConfirm from './pages/examinations/confirm'
 import { Cookies, CookiesProvider, useCookies } from 'react-cookie'
+import Home from './pages'
+import Register from './pages/register'
 
 export const userContext = createContext()
 
@@ -22,10 +24,11 @@ function App() {
           <userContext.Provider value={[user, dispatch]}>
             <Routes>
               <Route path='/' element={<Layout />}>
+                <Route path='/' element={<Home />}/>
                 <Route path='/examinations/confirm' element={<ExaminationsConfirm/>}/>
               </Route>
               <Route path="/login" element={<Login />} />
-              {/* <Route path="/register" element={<Register />} /> */}
+              <Route path="/register" element={<Register />} />
             </Routes>
             </userContext.Provider>
         </CookiesProvider>

@@ -6,6 +6,7 @@ import { authApi, endpoints } from '../../../../config/APIs';
 import { useNavigate } from 'react-router';
 import cookies from "react-cookies"
 import { userContext } from '../../../../App';
+
 export const loginSchema = Yup.object().shape({
     username: Yup.string()
     .required("Tên người dùng không được để trống")
@@ -18,7 +19,6 @@ export const loginSchema = Yup.object().shape({
 const useLogin = () => {
     const [user, dispatch] = useContext(userContext);
     const [openError, setOpenError] = useState(false);
-    const [signUpError, setSignUpError] = useState('');
     const [openBackdrop, setOpenBackdop] = useState(false);
     const nav = useNavigate();
     
@@ -35,18 +35,18 @@ const useLogin = () => {
              onSuccess: (data) => {
                // info current user
                getInfoCurrentUser();
-
             },onError:(err) =>{
                 setOpenError(true);
-                console.log(err)
+                setOpenBackdop(false);
+                console.log(err);
             }
         });
-        setOpenBackdop(false)
+
+        setOpenBackdop(false);
     };
     const getInfoCurrentUser = async () => {
         const user = await authApi().get(endpoints['current-user'])
         cookies.save('user', user.data)
-        console.info(user.data)
         dispatch({
             'type': 'login',
             'payload': user.data

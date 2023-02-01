@@ -18,28 +18,20 @@ export const fetchAccessToken = async (username, password) =>{
     }
     const response = await APIs.get(endpoints["auth-info"])
     if(response.status === 200){
-        try {
-            const res = await authApi().post(endpoints['login'], {
-                'username': username,
-                'password': password,
-                'client_id': `${response.data.client_id}`,
-                'client_secret': `${response.data.client_secret}`,
-                'grant_type': 'password'
-            })
-            if (res.status === 200) {
-                // luu trong cookies
-                // setOpenBackdop(false)
-                console.info(res.data)
-                cookies.save('token', res.data.access_token)
-                // info current user
-                getInfoCurrentUser();
-            }
-            return
-
-        } catch (err) {
-            if (err) {
-                console.log(err)
-            }
+        const res = await authApi().post(endpoints['login'], {
+            'username': username,
+            'password': password,
+            'client_id': `${response.data.client_id}`,
+            'client_secret': `${response.data.client_secret}`,
+            'grant_type': 'password'
+        })
+        if (res.status === 200) {
+            // luu trong cookies
+            // setOpenBackdop(false)
+            console.info(res.data)
+            cookies.save('token', res.data.access_token)
+            // info current user
+            getInfoCurrentUser();
         }
     }
 }

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup"
 const Login = () =>{
     const {onSubmit, openError, openBackdrop, setOpenError} = useLogin();
+    
     const methods = useForm({
         mode:"onSubmit", 
         resolver: yupResolver(loginSchema),
@@ -16,7 +17,6 @@ const Login = () =>{
             password:"",
         }
     })
-
     return (
         <>
         {openBackdrop === true ?
@@ -41,7 +41,9 @@ const Login = () =>{
                                 src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354515/OUPharmacy/Untitled-1_hdvtsk.png"></Avatar>
                         </Box>
 
-                        <form onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
+                        <form onSubmit={methods.handleSubmit((data) => {
+                                onSubmit(data);
+                            })}>
                             <Grid item xs={12} sm={12} >
                                 <Collapse in={openError}>
                                     <Alert
