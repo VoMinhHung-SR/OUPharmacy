@@ -27,7 +27,6 @@ const Register = () => {
     })
     useEffect(() => {
         if (selectedImage) {
-
             setImageUrl(URL.createObjectURL(selectedImage));
         }
     }, [selectedImage]);

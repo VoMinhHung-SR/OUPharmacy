@@ -9,6 +9,7 @@ import ExaminationsConfirm from './pages/examinations/confirm'
 import { Cookies, CookiesProvider, useCookies } from 'react-cookie'
 import Home from './pages'
 import Register from './pages/register'
+import Examination from './pages/examinations'
 
 export const userContext = createContext()
 
@@ -25,6 +26,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Layout />}>
                 <Route path='/' element={<Home />}/>
+                <Route path='/examinations' element={<Examination/>}/>
                 <Route path='/examinations/confirm' element={<ExaminationsConfirm/>}/>
               </Route>
               <Route path="/login" element={<Login />} />
