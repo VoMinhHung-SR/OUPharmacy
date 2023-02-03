@@ -23,10 +23,11 @@ export const ErrorAlert = (title, text, confirmButtonText) => {
     });
 };
 
-export const ConfirmAlert = (title, text, confirmButtonText, cancelButtonText, callback) => {
+export const ConfirmAlert = (title, text, confirmButtonText, cancelButtonText, callBackYes, callBackNo) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-            confirmButton: 'btn btn-success ml-3', cancelButton: 'btn btn-danger  mr-5'
+            confirmButton: 'ou-px-8 ou-py-3 ou-ml-3 ou-bg-green-600 ou-text-white ou-rounded', 
+            cancelButton: 'ou-rounded ou-px-8 ou-py-3 ou-p5 ou-bg-red-600 ou-mr-5 ou-text-white'
         }, buttonsStyling: false
     });
 
@@ -40,7 +41,9 @@ export const ConfirmAlert = (title, text, confirmButtonText, cancelButtonText, c
         reverseButtons: true
     }).then(function (result){
         if(result.isConfirmed)
-            callback();
+            callBackYes();
+        else
+            callBackNo();
     });
 };
 
