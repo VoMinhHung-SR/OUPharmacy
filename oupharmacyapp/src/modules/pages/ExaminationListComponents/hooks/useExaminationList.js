@@ -22,7 +22,6 @@ const useExaminationList = () => {
             }catch (err) {
                 setIsLoading(false)
                 setExaminationList([])
-                console.log(err)
             }
             
         }
@@ -47,7 +46,7 @@ const useExaminationList = () => {
         // this is callback function when user confirmed "Yes"
         ()=>{
             deleteExamination()
-        },()=>{console.log("NO")})
+        })
     }
 
     return {

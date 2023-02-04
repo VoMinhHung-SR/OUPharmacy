@@ -14,13 +14,13 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 const pages = [
   {
-    id: 'examinations',
-    name:'Examination',
-    link: '/examinations'
+    id: 'booking',
+    name:'Booking',
+    link: '/booking'
   },
   {  
     id: 'examination-confirm',
-    name:'Confirm',
+    name:'examinations',
     link: '/examinations/confirm'
   },
   {  

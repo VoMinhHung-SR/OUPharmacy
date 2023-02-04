@@ -13,9 +13,11 @@ const ExaminationList = () =>{
     if (user === null || user === undefined) {
         return (
             <>
-                <Box sx={{ height: "300px" }}>
-                    <Box className='p-5'>
-                        <Container className="text-center mt-5">
+                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
+                    <Box className='ou-absolute ou-p-5 ou-text-center 
+                        ou-flex-col ou-flex ou-justify-center ou-items-center
+                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                        <Container className="ou-text-center ou-mt-5">
                             <h4> Bạn phải đăng nhập để xem được phiếu đăng ký khám</h4>
                             <Button onClick={() => { router('/login') }}>Tại đây!</Button>
                         </Container>
@@ -31,24 +33,26 @@ const ExaminationList = () =>{
     <>
         {isLoading && examinationList.length === 0 ?
             (<Box sx={{ minHeight: "300px" }}>
-                <Box className='p-5'>
+                <Box className='ou-p-5'>
                     <Loading></Loading>
                 </Box>
             </Box>)
             : examinationList.length === 0 ?
-                (<Box sx={{ minHeight: "300px" }}>
-                    <Box className='p-5'>
-                        <h2 className='text-center text-danger'>
+                (<Box className="ou-relative ou-items-center " sx={{ minHeight: "550px" }}>
+                    <Box className='ou-absolute ou-p-5 ou-text-center 
+                    ou-flex-col ou-flex ou-justify-center ou-items-center
+                    ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                        <h2 className='ou-text-xl ou-text-red-600'>
                             Hiện tại người dùng chưa đặt lịch
                         </h2>
                         <Typography className='text-center'>
                             <h3>Quay lại đặt lịch</h3>
-                            <Button onClick={() => { router('/add-examination') }}>Tại đây!</Button>
+                            <Button onClick={() => { router('/examinations') }}>Tại đây!</Button>
                         </Typography>
                     </Box>
                 </Box>)
                 : (
-                    <Container>
+                    <Container >
                             <Box className='ou-pt-5 ou-pb-5' sx={{ minHeight: "300px" }}>
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
