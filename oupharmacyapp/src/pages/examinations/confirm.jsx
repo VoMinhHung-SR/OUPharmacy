@@ -6,11 +6,12 @@ import SendIcon from '@mui/icons-material/Send';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ErrorIcon from '@mui/icons-material/Error';
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ExaminationsConfirm = () =>{
     const {user, pagination,handleChangePage, examinationList, isLoadingButton,
         isLoadingExamination, page, handleSendEmailConfirm} = useExaminationConfirm();
+    const router = useNavigate();
     if (user === null || user === undefined) {
         return (
             <>
@@ -41,7 +42,7 @@ const ExaminationsConfirm = () =>{
         )
         
     }
-
+ 
     return (
         <>
         {isLoadingExamination && examinationList.length === 0 ?

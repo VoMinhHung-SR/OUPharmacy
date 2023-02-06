@@ -84,7 +84,6 @@ const Login = () =>{
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                                    autoFocus
                                     id="password"
                                     name="password"
                                     type="password"

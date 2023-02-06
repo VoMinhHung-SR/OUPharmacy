@@ -11,22 +11,31 @@ import Logo from "../../../../../public/logo";
 import useNav from "../../../pages/HomeComponents/hooks/useNav";
 import { ListAlt } from "@mui/icons-material";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import clsx from "clsx";
 
 const pages = [
   {
+    // Accept all user
     id: 'booking',
     name:'Booking',
     link: '/booking'
   },
   {  
-    id: 'examination-confirm',
+    // Only user-doctor and nurse
+    id: 'examinations',
     name:'examinations',
-    link: '/examinations/confirm'
+    link: '/examinations'
   },
   {  
+    // Only user-Doctor
     id: 'prescriptions',
     name:'Prescriptions',
-    link: '/examinations'
+    link: '/prescriptions'
+  },
+  {
+    id: 'payments',
+    name: 'Payments',
+    link: '/payments'
   }
 ];
 
@@ -68,6 +77,7 @@ const Nav = () => {
           </MenuItem>
       </ul>
   </>
+
   if (user){
     btn = <>
         <Menu anchorEl={anchorEl} id="account-menu" open={open} onClose={handleClose} onClick={handleClose}
@@ -107,13 +117,10 @@ const Nav = () => {
             <Divider /> */}
             <Link to="/users/examinations" className="nav-link" style={{ "padding": "0px" }}>
                 <MenuItem style={{ "color": "#333" }}>
-
                     <ListAlt fontSize="small" />
                     <Typography marginLeft={2}>
                         Danh sách lịch
                     </Typography>
-
-
                 </MenuItem>
             </Link>
             <Divider />
@@ -124,12 +131,13 @@ const Nav = () => {
                 </Typography>
             </MenuItem>
         </Menu>
+        
         {/* Show nav menu */}
         <ul className="ou-flex">
           <MenuItem style={{ "padding": "0px" }}>
               <IconButton size="small" color="inherit" style={{ "marginRight": "5px" }}>
                   <Link to="/">
-                      <HomeIcon className="ou-text-inherit" color="#f3f3f3"  />
+                      <HomeIcon className="" color="#f3f3f3"  />
                   </Link>
               </IconButton>
           </MenuItem>
@@ -140,14 +148,11 @@ const Nav = () => {
                   badgeContent={4} 
                   color="error">
                       <Link to="/users/message">
-                          <MailOutlineIcon className="ou-text-inherit" color="#f3f3f3"  />
+                          <MailOutlineIcon className="" color="#f3f3f3"  />
                       </Link>
                   </Badge>
               </IconButton>
           </MenuItem>
-          {/* <MenuItem style={{ "padding": "0px" }}>
-              <HomeIcon style={{ "color": "#333" }} />
-          </MenuItem> */}
           <Tooltip title="Open settings">
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}
               aria-controls={open ? 'account-menu' : undefined}
@@ -163,6 +168,83 @@ const Nav = () => {
     </>
   }
 
+  const renderElementNav = (pageID, pageLink, pageName, isMobile = false) => {
+    // Render for doctor
+      if(pageID === 'prescriptions'|| pageID === 'prescriptions-mb')
+        if(user && user.is_doctor)
+          return(
+            <Link to={pageLink}>
+              <Button 
+                key={pageID}
+                onClick={handleCloseNavMenu}
+                className={clsx('',{
+                  '!ou-text-black': isMobile,
+                  "!ou-text-white": !isMobile})
+                }
+                sx={{mx: 1, my: 1, display: 'block' }}
+                
+              >
+                {pageName}
+              </Button>
+              </Link>
+          )
+        else return 
+      // Render for nurse
+      if(pageID === 'payments'|| pageID === 'payments-mb')
+        if(user && user.is_nurse)
+          return(
+            <Link to={pageLink}>
+              <Button 
+                key={pageID}
+                onClick={handleCloseNavMenu}
+                className={clsx('',{
+                  '!ou-text-black': isMobile,
+                  "!ou-text-white": !isMobile})
+                }
+                sx={{mx: 1, my: 1, display: 'block' }}
+                
+              >
+                {pageName}
+              </Button>
+              </Link>
+          )
+        else return 
+    // Render for both doctor and nurse
+      if(pageID === 'examinations' || pageID === 'examinations-mb')
+        if(user && (user.is_doctor || user.is_nurse))
+          return(
+            <Link to={pageLink}>
+              <Button 
+                key={pageID}
+                onClick={handleCloseNavMenu}
+                sx={{ mx: 1, my: 1, display: 'block' }}
+                className={clsx('',{
+                  '!ou-text-black': isMobile,
+                  "!ou-text-white": !isMobile})
+                }
+              >
+                {pageName}
+              </Button>
+              </Link>
+          )  
+        else return
+      // Render Default
+      return (
+        <Link to={pageLink}>
+          <Button 
+            key={pageID}
+            onClick={handleCloseNavMenu}
+            sx={{  mx: 1, my: 1, display: 'block' }}
+            className={clsx('',{
+              '!ou-text-black': isMobile,
+              "!ou-text-white": !isMobile})
+            }
+          >
+            {pageName}
+          </Button>
+          </Link>
+      )
+  }
   return (
     <AppBar position="static" >
       <Container maxWidth="xl">
@@ -216,16 +298,10 @@ const Nav = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none'},
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page.id} onClick={handleCloseNavMenu}>
-                  <Link to={page.link}>
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+                {pages.map((page) => renderElementNav(page.id+"-mb", page.link, page.name, true))}
             </Menu>
           </Box>
           <Link to="/"  >
@@ -259,18 +335,7 @@ const Nav = () => {
             OUPHARMACY
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Link to={page.link}>
-               <Button 
-                key={page.id}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.name}
-              </Button>
-               
-              </Link>
-            ))}
+            {pages.map((page) => renderElementNav(page.id, page.link, page.name))}
           </Box>
                 
           <Box sx={{ flexGrow: 0 }}>
