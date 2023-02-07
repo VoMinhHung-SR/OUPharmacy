@@ -1,16 +1,14 @@
 import { Box, Container, FormControl, IconButton, InputLabel, OutlinedInput } from "@mui/material"
 import { Link } from "react-router-dom"
-import useExamination, { checkPatientExistSchema } from "../../modules/pages/ExaminationComponents/hooks/useExamination"
+import useExamination, { checkPatientExistSchema } from "../../modules/pages/ExaminationDetailComponents/hooks/useExamination"
 import SendIcon from '@mui/icons-material/Send';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import FormAddExamination from "../../modules/pages/ExaminationComponents/FormAddExamination";
+import FormAddExamination from "../../modules/pages/ExaminationDetailComponents/FormAddExamination";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 
 const Examination = () => {
-
     
-
     const {checkEmail, checkPatientExist, openBackdrop, user, patientID, formEmail,
     isFormEmailOpen, handleOpenFormEmail} = useExamination()
 

@@ -1,7 +1,7 @@
 import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody,
      TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import Loading from "../../modules/common/components/Loading";
-import useExaminationConfirm from "../../modules/pages/ExaminationComponents/ExaminationConfirm/hooks/useExaminationConfirm"
+import useExaminationConfirm from "../../modules/pages/ExaminationDetailComponents/ExaminationConfirm/hooks/useExaminationConfirm"
 import SendIcon from '@mui/icons-material/Send';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -64,7 +64,7 @@ const ExaminationsConfirm = () =>{
                     </Box>
                 </Box>)
                 : (<>
-                    <Box className='ou-py-5 ou-w-[80%] ou-m-auto ou-max-w-[1536px]'>
+                    <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>

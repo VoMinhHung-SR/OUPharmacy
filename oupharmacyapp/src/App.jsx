@@ -12,6 +12,8 @@ import Examination from './pages/examinations'
 import cookies from "react-cookies";
 import ExaminationList from './pages/users/examinations'
 import Diagnosis from './pages/examinations/id/diagnosis'
+import PrescriptionList from './pages/prescriptions'
+import PrescriptionDetail from './pages/prescriptions/id'
 
 export const userContext = createContext()
 
@@ -32,6 +34,9 @@ function App() {
                 <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
 
                 <Route path='/users/examinations' element={<ExaminationList />} />
+                
+                <Route path='/prescriptions' element={<PrescriptionList/>} />
+                <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

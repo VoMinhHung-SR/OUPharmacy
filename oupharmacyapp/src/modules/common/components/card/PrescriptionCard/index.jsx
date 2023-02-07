@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box, Button, FormControl, Grid, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router"
 import { diagnosisSchema } from "../../../../pages/DiagnosisComponents/hooks/useDiagnosis"
 import Loading from "../../Loading"
 import usePrescriptionCard from "./hooks/usePrescriptionCard"
@@ -15,7 +16,7 @@ const PrescriptionCard = (props) => {
             diagnosed: ""
         }
     })
-
+    const router = useNavigate()
     const {onSubmit, isLoadingButton} = usePrescriptionCard();
 
     // This condition meant if the examination doen't have a diagnosis 
@@ -136,7 +137,7 @@ const PrescriptionCard = (props) => {
                                 color="grey.700"
                                 className="ou-px-5"
                             >
-                                <Button variant="contained" color="success" onClick={()=> redirect(`/prescriptions/${props.id}/add-detail`)} >Kê toa</Button>
+                                <Button variant="contained" color="success" onClick={()=> router(`/prescriptions/${props.id}`)} >Kê toa</Button>
                             </Typography>
                         </Grid>
                     </Grid>
