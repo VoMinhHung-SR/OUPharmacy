@@ -48,7 +48,7 @@ const PrescriptionDetail = () => {
                         <>
                             <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
                                 <Box style={{ "margin": "auto" }}>
-                                    <h1 className="ou-text-center">Thông tin cơ bản</h1>
+                                    <h1 className="ou-text-center ou-text-xl">Thông tin cơ bản</h1>
                                     <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={2}>
                                         <Grid item xs={4} >
                                             <Typography>

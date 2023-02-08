@@ -1,6 +1,6 @@
 import { Button, Container, FormControl, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { Box } from "@mui/system"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Loading from "../../modules/common/components/Loading"
 import usePrescriptionList from "../../modules/pages/PrescriptionListComponents/hooks/usePrescription"
 import SearchIcon from '@mui/icons-material/Search';
@@ -8,15 +8,17 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import moment from "moment"
 const PrescriptionList = () => {
     const {user, prescriptionList, isLoadingPrescriptionList} = usePrescriptionList()
-
+    const router = useNavigate()
     if (user === null || user === undefined) {
         return (
             <>
-               <Box sx={{ height: "300px" }}>
-                    <Box className='ou-p-5'>
-                        <Container className="ou-text-center ou-mx-5">
-                            <h4 className="ou-text-xl ou-py-1"> Bạn phải đăng nhập để tiến hành kê toa</h4>
-                            <Link className="ou-text-blue-700" to='/login'><h4>Tại đây!</h4></Link>
+               <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
+                    <Box className='ou-absolute ou-p-5 ou-text-center 
+                        ou-flex-col ou-flex ou-justify-center ou-items-center
+                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                        <Container className="ou-text-center ou-mt-5">
+                            <h4 className="ou-text-xl"> Bạn phải đăng nhập để tiến hành chẩn đoán</h4>
+                            <Button onClick={() => { router('/login') }}>Tại đây!</Button>
                         </Container>
                     </Box>
                 </Box>
@@ -82,7 +84,7 @@ const PrescriptionList = () => {
                                                     <TableCell component="th" scope="row" >
                                                         <Typography>
                                                             {p.examination.id}
-                                                        </Typography>
+                                                        </Typography>   
                                                     </TableCell>
 
                                                     <TableCell align="center">

@@ -14,6 +14,7 @@ import ExaminationList from './pages/users/examinations'
 import Diagnosis from './pages/examinations/id/diagnosis'
 import PrescriptionList from './pages/prescriptions'
 import PrescriptionDetail from './pages/prescriptions/id'
+import Payments from './pages/examinations/id/payments'
 
 export const userContext = createContext()
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/booking' element={<Examination/>}/>
                 <Route path='/examinations' element={<ExaminationsConfirm/>}/>
                 <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                <Route path='/examinations/:examinationId/payments' element={<Payments />} />
 
                 <Route path='/users/examinations' element={<ExaminationList />} />
                 

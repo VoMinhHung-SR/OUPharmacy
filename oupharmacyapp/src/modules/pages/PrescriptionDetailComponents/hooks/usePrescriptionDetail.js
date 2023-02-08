@@ -6,6 +6,7 @@ import { fetchPrescriptionDetail } from "../services"
 const usePrescriptionDetail = () => {
     const [user] = useContext(userContext)
     const { prescriptionId } = useParams();
+   
     const [prescriptionDetail, setPrescriptionDetail] = useState(null)
     const [isLoadingPrescriptionDetail, setIsLoadingPrescriptionDetail] = useState(true)
     useEffect(() => {
