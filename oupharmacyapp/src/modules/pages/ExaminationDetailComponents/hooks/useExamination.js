@@ -14,6 +14,7 @@ export const checkPatientExistSchema = Yup.object().shape({
 
 const useExamination = () => {
     const [user] = useContext(userContext);
+
     const [formEmail, setFormEmail] = useState('');
     const [patientID, setPatientID] = useState(-1);
     const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -22,7 +23,6 @@ const useExamination = () => {
 
     // Called when form have errors
     const handleOpenFormEmail = () =>{
-        console.log(isFormEmailOpen)
         setIsFormEmailOpen(true)
     }
     

@@ -3,13 +3,11 @@ import { Button, Container, Divider, FormControl, Grid, InputAdornment, InputLab
     OutlinedInput, Select, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form";
 import BackdropLoading from "../../../common/components/BackdropLoading";
-import useExamination from "../hooks/useExamination";
 import useFormAddExamination, { formAddExaminationSchema } from "./hooks/useFormAddExamination"
 
 const FormAddExamination = (props) => {
 
     const {onSubmit, openBackdrop} = useFormAddExamination();
-    const {handleOpenFormEmail} = useExamination();
     const methods = useForm({
         mode:"onSubmit", 
         resolver: yupResolver(formAddExaminationSchema),
@@ -18,7 +16,7 @@ const FormAddExamination = (props) => {
             createdDate:"",
             firstName:"",
             lastName:"",
-            email:props.email,
+            email:props.email ? props.email : "",
             phoneNumber:"",
             address:"",
             dateOfBirth:"",

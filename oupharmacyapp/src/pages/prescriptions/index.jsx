@@ -17,7 +17,7 @@ const PrescriptionList = () => {
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4 className="ou-text-xl"> Bạn phải đăng nhập để tiến hành chẩn đoán</h4>
+                            <h4> Bạn phải đăng nhập để tiến hành chẩn đoán</h4>
                             <Button onClick={() => { router('/login') }}>Tại đây!</Button>
                         </Container>
                     </Box>

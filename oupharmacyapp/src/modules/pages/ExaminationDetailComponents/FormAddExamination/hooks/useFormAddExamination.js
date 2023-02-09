@@ -48,7 +48,6 @@ const useFormAddExamination = () => {
         }
 
         setOpenBackdrop(true)
-        console.log("patientID:" + patientID)
         const res = await fetchCreateOrUpdatePatient(patientID, patientData);
         // Update done or created patient info
         if(res.status === 200 || res.status === 201){

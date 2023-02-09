@@ -8,6 +8,7 @@ import usePrescriptionCard from "./hooks/usePrescriptionCard"
 
 const PrescriptionCard = (props) => {
     
+    const {onSubmit, isLoadingButton} = usePrescriptionCard();
     const methods = useForm({
         mode:"onSubmit",
         resolver: yupResolver(diagnosisSchema),
@@ -17,7 +18,6 @@ const PrescriptionCard = (props) => {
         }
     })
     const router = useNavigate()
-    const {onSubmit, isLoadingButton} = usePrescriptionCard();
 
     // This condition meant if the examination doen't have a diagnosis 
     // Then create a new form
