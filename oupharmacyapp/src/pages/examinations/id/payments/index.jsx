@@ -1,11 +1,13 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material"
 import moment from "moment"
 import { Container } from "postcss"
+import BillCard from "../../../../modules/common/components/card/BillCard"
 import Loading from "../../../../modules/common/components/Loading"
 import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePayment"
 
 const Payments = () => {
-    const {user, isLoadingPrescriptionDetail, examinationDetail, examinationID} = usePayment()
+    const {user, isLoadingPrescriptionDetail, examinationDetail, examinationID, 
+        receipt, handleChangeFlag} = usePayment()
      
     if (user === null || user === undefined) {
         return (
@@ -45,13 +47,12 @@ const Payments = () => {
                 </Box>)
                 : (
                     <>
-                        <Box sx={{ minHeight: "300px" }}>
-                            <Box className='p-5'>
-                               
+                        <Box className='ou-py-5 ou-my-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
+                            <Box>        
                                 <Box >
                                     <Box className="mt-2 mb-2 p-3" component={Paper}>
-                                        <h5>Thông tin cơ bản:</h5>
-                                        <Box className="mt-3 mb-3">
+                                        <h5 className="ou-text-center ou-text-xl">Thông tin cơ bản:</h5>
+                                        <Box className="ou-p-3">
                                             <Grid container>
                                                 <Grid item xs={4}>
                                                     <Typography
@@ -64,7 +65,7 @@ const Payments = () => {
                                                         Phiếu khám số: {examinationID.examinationId}
                                                     </Typography>
                                                 </Grid>
-                                                <Grid item xs={6}>
+                                                <Grid item xs={4}>
                                                     <Typography
                                                         variant="subtitle1"
                                                         gutterBottom
@@ -78,7 +79,7 @@ const Payments = () => {
                                             </Grid>
 
                                             <Grid container>
-                                                <Grid item xs={6}>
+                                                <Grid item xs={4}>
                                                     <Typography
                                                         variant="subtitle1"
                                                         gutterBottom
@@ -89,7 +90,7 @@ const Payments = () => {
                                                         Người dùng đăng ký: {examinationDetail.examination.user.username}
                                                     </Typography>
                                                 </Grid>
-                                                <Grid item xs={6}>
+                                                <Grid item xs={8}>
                                                     <Typography
                                                         variant="subtitle1"
                                                         gutterBottom
@@ -101,7 +102,7 @@ const Payments = () => {
                                                 </Grid>
                                             </Grid>
                                         </Box>
-                                        <Box className="mt-2 mb-2">
+                                        <Box className="ou-p-3">
                                             <Grid container>
                                                 <Grid item xs={4}>
                                                     <Typography
@@ -127,7 +128,7 @@ const Payments = () => {
                                             </Grid>
 
                                             <Grid container>
-                                                <Grid item xs={6}>
+                                                <Grid item xs={4}>
                                                     <Typography
                                                         variant="subtitle1"
                                                         gutterBottom
@@ -138,7 +139,7 @@ const Payments = () => {
                                                         Triệu chứng: <span>{examinationDetail.sign}</span>
                                                     </Typography>
                                                 </Grid>
-                                                <Grid item xs={6}>
+                                                <Grid item xs={8}>
                                                     <Typography
                                                         variant="subtitle1"
                                                         gutterBottom
@@ -152,12 +153,12 @@ const Payments = () => {
                                         </Box>
                                     </Box>
 
-                                    {/* <BillCard 
-                                    id={examinationDeatil.id}
-                                    wage={examinationDeatil.examination.wage}
-                                    onClickAddBill={handleChangeFlag}
+                                    <BillCard 
+                                    id={examinationDetail.id}
+                                    wage={examinationDetail.examination.wage}
+                                    handleChangeFlag={handleChangeFlag}
                                     receipt={receipt}
-                                    /> */}
+                                    />
             
                                 </Box>
                             </Box>

@@ -32,11 +32,6 @@ const pages = [
     name:'Prescriptions',
     link: '/prescriptions'
   },
-  {
-    id: 'payments',
-    name: 'Payments',
-    link: '/payments'
-  }
 ];
 
 const Nav = () => {
@@ -190,25 +185,25 @@ const Nav = () => {
           )
         else return 
       // Render for nurse
-      if(pageID === 'payments'|| pageID === 'payments-mb')
-        if(user && user.is_nurse)
-          return(
-            <Link to={pageLink}>
-              <Button 
-                key={pageID}
-                onClick={handleCloseNavMenu}
-                className={clsx('',{
-                  '!ou-text-black': isMobile,
-                  "!ou-text-white": !isMobile})
-                }
-                sx={{mx: 1, my: 1, display: 'block' }}
+      // if(pageID === 'payments'|| pageID === 'payments-mb')
+      //   if(user && user.is_nurse)
+      //     return(
+      //       <Link to={pageLink}>
+      //         <Button 
+      //           key={pageID}
+      //           onClick={handleCloseNavMenu}
+      //           className={clsx('',{
+      //             '!ou-text-black': isMobile,
+      //             "!ou-text-white": !isMobile})
+      //           }
+      //           sx={{mx: 1, my: 1, display: 'block' }}
                 
-              >
-                {pageName}
-              </Button>
-              </Link>
-          )
-        else return 
+      //         >
+      //           {pageName}
+      //         </Button>
+      //         </Link>
+      //     )
+      //   else return 
     // Render for both doctor and nurse
       if(pageID === 'examinations' || pageID === 'examinations-mb')
         if(user && (user.is_doctor || user.is_nurse))

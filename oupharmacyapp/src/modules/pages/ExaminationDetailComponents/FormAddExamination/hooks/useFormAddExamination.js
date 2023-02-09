@@ -67,6 +67,7 @@ const useFormAddExamination = () => {
             // setOpenBackdrop(false)
         }
         else{
+            setOpenBackdrop(false)
             ErrorAlert("CO LOI XAY RA", "VUI LONG THU LAI SAU","Oke")
         }
         setOpenBackdrop(false)

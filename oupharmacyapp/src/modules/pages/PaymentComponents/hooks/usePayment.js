@@ -11,6 +11,10 @@ const usePayment = () => {
     const [flag, setFlag] = useState(false)
     const [receipt, setReceipt] = useState(false)
 
+    const handleChangeFlag = () => {
+        setFlag(!flag)
+    }
+
     useEffect(()=>{
         const loadPrescription = async () => {
             try {
@@ -51,7 +55,8 @@ const usePayment = () => {
         isLoadingPrescriptionDetail,
         user,
         examinationDetail,
-        examinationID
+        examinationID,
+        handleChangeFlag
     }
 }
 export default usePayment
