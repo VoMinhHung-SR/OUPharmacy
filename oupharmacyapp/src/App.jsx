@@ -15,6 +15,8 @@ import Diagnosis from './pages/examinations/id/diagnosis'
 import PrescriptionList from './pages/prescriptions'
 import PrescriptionDetail from './pages/prescriptions/id'
 import Payments from './pages/examinations/id/payments'
+import ConversationList from './pages/conversations'
+import ChatWindow from './pages/conversations/id/recipientID/message'
 
 export const userContext = createContext()
 
@@ -39,6 +41,10 @@ function App() {
                 
                 <Route path='/prescriptions' element={<PrescriptionList/>} />
                 <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
+
+                <Route path='/conversations'  element={<ConversationList/>} >
+                  <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                </Route>
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

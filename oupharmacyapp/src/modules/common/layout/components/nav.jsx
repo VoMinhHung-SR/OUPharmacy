@@ -142,7 +142,7 @@ const Nav = () => {
                   <Badge 
                   badgeContent={4} 
                   color="error">
-                      <Link to="/users/message">
+                      <Link to="/conversations">
                           <MailOutlineIcon className="" color="#f3f3f3"  />
                       </Link>
                   </Badge>

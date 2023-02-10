@@ -23,6 +23,7 @@
     "react-cookie": "^4.1.1",
     "react-cookies": "^0.1.1",
     "react-dom": "^18.2.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.42.0",
     "react-image-gallery": "^1.2.11",
     "react-moment": "^1.1.3",
