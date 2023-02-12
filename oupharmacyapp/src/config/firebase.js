@@ -1,15 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { FIREBASE_APIKEY, FIREBASE_APPID, FIREBASE_AUTHDOMAIN, FIREBASE_DATABASEURL, FIREBASE_MEASUREMENTID, FIREBASE_MESSAGINGSENDERID, FIREBASE_PROJECTID, FIREBASE_STOREAGEBUCKET } from "../lib/constants";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDI-WFb2Mn-JzHjHrBZNzBnv7FUfv8BFV4",
-    authDomain: "oupharmacy-5ddaa.firebaseapp.com",
-    databaseURL: "https://oupharmacy-5ddaa-default-rtdb.firebaseio.com",
-    projectId: "oupharmacy-5ddaa",
-    storageBucket: "oupharmacy-5ddaa.appspot.com",
-    messagingSenderId: "999793746685",
-    appId: "1:999793746685:web:311028632b737f551d5494",
-    measurementId: "G-JB59G5JCQH"
+    apiKey: FIREBASE_APIKEY,
+    authDomain: FIREBASE_AUTHDOMAIN,
+    databaseURL: FIREBASE_DATABASEURL,
+    projectId: FIREBASE_PROJECTID,
+    storageBucket: FIREBASE_STOREAGEBUCKET,
+    messagingSenderId: FIREBASE_MESSAGINGSENDERID,
+    appId: FIREBASE_APPID,
+    measurementId: FIREBASE_MEASUREMENTID
   };
 
   const app = initializeApp(firebaseConfig);

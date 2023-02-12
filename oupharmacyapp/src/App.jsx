@@ -17,6 +17,9 @@ import PrescriptionDetail from './pages/prescriptions/id'
 import Payments from './pages/examinations/id/payments'
 import ConversationList from './pages/conversations'
 import ChatWindow from './pages/conversations/id/recipientID/message'
+import LanguageProvider from './lib/context/LanguageContext'
+import { I18nextProvider } from 'react-i18next'
+import i18n from './i18n'
 
 export const userContext = createContext()
 
@@ -25,33 +28,36 @@ function App() {
   const [user, dispatch] = useReducer(userReducer, cookies.load('user'))
   return (
     <QueryClientProvider client={queryClient}>
-      
-      <BrowserRouter>
-        {/* <CookiesProvider> */}
-          <userContext.Provider value={[user, dispatch]}>
-            <Routes>
-              <Route path='/' element={<Layout />}>
-                <Route path='/' element={<Home />}/>
-                <Route path='/booking' element={<Examination/>}/>
-                <Route path='/examinations' element={<ExaminationsConfirm/>}/>
-                <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                <Route path='/examinations/:examinationId/payments' element={<Payments />} />
+      {/* <LanguageProvider> */}
+      <I18nextProvider i18n={i18n}>
+        <BrowserRouter>
+          {/* <CookiesProvider> */}
+            <userContext.Provider value={[user, dispatch]}>
+              <Routes>
+                <Route path='/' element={<Layout />}>
+                  <Route path='/' element={<Home />}/>
+                  <Route path='/booking' element={<Examination/>}/>
+                  <Route path='/examinations' element={<ExaminationsConfirm/>}/>
+                  <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                  <Route path='/examinations/:examinationId/payments' element={<Payments />} />
 
-                <Route path='/users/examinations' element={<ExaminationList />} />
-                
-                <Route path='/prescriptions' element={<PrescriptionList/>} />
-                <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
+                  <Route path='/users/examinations' element={<ExaminationList />} />
+                  
+                  <Route path='/prescriptions' element={<PrescriptionList/>} />
+                  <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
 
-                <Route path='/conversations'  element={<ConversationList/>} >
-                  <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                  <Route path='/conversations'  element={<ConversationList/>} >
+                    <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                  </Route>
                 </Route>
-              </Route>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-            </userContext.Provider>
-        {/* </CookiesProvider> */}
-      </BrowserRouter>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+              </userContext.Provider>
+          {/* </CookiesProvider> */}
+        </BrowserRouter>
+      {/* </LanguageProvider> */}
+      </I18nextProvider>
     </QueryClientProvider>
   )
 }
