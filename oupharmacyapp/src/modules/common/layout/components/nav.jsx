@@ -12,6 +12,8 @@ import useNav from "../../../pages/HomeComponents/hooks/useNav";
 import { ListAlt } from "@mui/icons-material";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
+import { changeLanguage } from "i18next";
 
 const pages = [
   {
@@ -36,6 +38,7 @@ const pages = [
 
 const Nav = () => {
   
+  const { t, i18n } = useTranslation();
   // State trigger menu open
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -56,6 +59,7 @@ const Nav = () => {
       setAnchorEl(null);
   };
 
+  console.log(i18n.language)
   //  Hooks useNav
   const {user, handleLogout} = useNav();
   let btn = <>
@@ -129,14 +133,6 @@ const Nav = () => {
         
         {/* Show nav menu */}
         <ul className="ou-flex">
-          <MenuItem style={{ "padding": "0px" }}>
-              <IconButton size="small" color="inherit" style={{ "marginRight": "5px" }}>
-                  <Link to="/">
-                      <HomeIcon className="" color="#f3f3f3"  />
-                  </Link>
-              </IconButton>
-          </MenuItem>
-
           <MenuItem style={{ "padding": "0px" }}>
               <IconButton size="small" color="inherit">
                   <Badge 
@@ -333,7 +329,11 @@ const Nav = () => {
             {pages.map((page) => renderElementNav(page.id, page.link, page.name))}
           </Box>
                 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }} className="ou-flex">
+            {i18n.language === 'en' ? 
+              <Button className="!ou-text-white" onClick={()=> changeLanguage('vi')}> CHang language VN</Button> :
+              <Button className="!ou-text-white" onClick={()=> changeLanguage('en')}> CHang language EN</Button>
+            }
             {btn}
           </Box>
         </Toolbar>

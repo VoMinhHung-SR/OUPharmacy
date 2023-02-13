@@ -1,0 +1,20 @@
+{
+    "enterEmail": "Nhập vào email để tạo lịch khám",
+    
+    "booking": "Đặt lịch khám",
+    "patientInfo": "Thông tin bệnh nhân",
+    "description": "Mô tả",
+    "createdDate": "Ngày khám",
+    "firstName": "Họ",
+    "lastName": "Tên",
+    "email": "Email",
+    "phoneNumber": "Số điện thoại",
+    "address": "Địa chỉ",
+    "dateOfBirth": "Ngày sinh",
+    "gender": "Giới tính",
+    "submit": "Đăng ký",
+    "new": "Tạo mới",
+    "man": "Nam",
+    "woman": "Nữ",
+    "secret": "Bí mật"
+}

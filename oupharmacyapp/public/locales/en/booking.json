@@ -1,0 +1,20 @@
+{
+    "enterEmail": "Enter your email",
+
+    "booking": "Booking",
+    "patientInfo": "Paient info",
+    "description": "Description",
+    "createdDate": "Day of the examination",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "address": "Address",
+    "dateOfBirth": "Date of birth",
+    "gender": "Gender",
+    "submit": "Submit",
+    "new": "Create new",
+    "man": "Man",
+    "woman": "Woman",
+    "secret": "Secret"
+}

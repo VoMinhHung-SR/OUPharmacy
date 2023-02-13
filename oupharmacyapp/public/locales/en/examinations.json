@@ -1,0 +1,17 @@
+{
+    "errExaminationList": "Examination list was not found or just empty",
+    
+    "id":"Id",
+    "description":"Description",
+    "createdDate":"Created date",
+    "mailStatus":"Mail status",
+    "userCreated": "User created",
+    "funtion": "Function",
+
+    "diagnose":"Diagnose",
+    "pay": "Pay",
+
+    "noReady": "No ready",
+    "sent": "Sent",
+    "noSent":"No"
+}

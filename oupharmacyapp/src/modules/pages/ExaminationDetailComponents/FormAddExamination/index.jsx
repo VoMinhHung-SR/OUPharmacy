@@ -1,12 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Button, Container, Divider, FormControl, Grid, InputAdornment, InputLabel, MenuItem, 
     OutlinedInput, Select, TextField, Typography } from "@mui/material"
+import { t } from "i18next";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import BackdropLoading from "../../../common/components/BackdropLoading";
 import useFormAddExamination, { formAddExaminationSchema } from "./hooks/useFormAddExamination"
 
 const FormAddExamination = (props) => {
 
+    const {t , ready} = useTranslation('booking')
     const {onSubmit, openBackdrop} = useFormAddExamination();
     const methods = useForm({
         mode:"onSubmit", 
@@ -23,6 +26,8 @@ const FormAddExamination = (props) => {
             gender:0
         }
     })
+    if(!ready)
+        return <div>Loading translations...</div>;
     return (
         <>
             {openBackdrop ?
@@ -33,11 +38,11 @@ const FormAddExamination = (props) => {
                 <Container>
                     <form onSubmit={methods.handleSubmit((data)=> onSubmit(props.patientID, data))} 
                     style={{ "width": "70%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
-                        <h3 className="ou-text-center ou-text-2xl ou-font-medium">Đặt lịch khám</h3>
+                        <h3 className="ou-text-center ou-text-2xl ou-font-medium">{t('booking')}</h3>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={11} >
                                 <FormControl fullWidth >
-                                    <InputLabel htmlFor="description">Mô tả(<span className="text-danger">*</span>)</InputLabel>
+                                    <InputLabel htmlFor="description">{t('description')}</InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         autoComplete="given-name"
@@ -47,7 +52,7 @@ const FormAddExamination = (props) => {
                                         id="description"
                                         name="description"
                                         type="text"
-                                        label="Mô tả(*)"
+                                        label={t('description')}
                                         error={methods.formState.errors.description}
                                         helperText={methods.formState.errors.description ? methods.formState.errors.description.message : ""}
                                         {...methods.register("description")}
@@ -64,7 +69,7 @@ const FormAddExamination = (props) => {
                                     id="createdDate"
                                     name="createdDate"
                                     type="date"
-                                    label="Ngày khám"
+                                    label={t('createdDate')}
                                     error={methods.formState.errors.createdDate}
                                     helperText={methods.formState.errors.createdDate ? methods.formState.errors.createdDate.message : ""}
                                     {...methods.register("createdDate")}
@@ -75,7 +80,7 @@ const FormAddExamination = (props) => {
                             </Grid>
                         </Grid>
 
-                        <h5 className="ou-text-center ou-mt-5 ou-font-medium ou-text-2xl">Thông tin bệnh nhân(<span className="text-danger">*</span>)</h5>
+                        <h5 className="ou-text-center ou-mt-5 ou-font-medium ou-text-2xl">{t('patientInfo')}</h5>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3} id={props.id}>
                             <Grid item xs={5} >
 
@@ -85,7 +90,7 @@ const FormAddExamination = (props) => {
                                     id="firstName"
                                     name="firstName"
                                     type="text"
-                                    label="Họ"
+                                    label={t('firstName')}
                                     // value={props.firstName === "" ? "": props.firstName}
                                     error={methods.formState.errors.firstName}
                                     helperText={methods.formState.errors.firstName ? methods.formState.errors.firstName.message : ""}
@@ -103,7 +108,7 @@ const FormAddExamination = (props) => {
                                     id="lastName"
                                     name="lastName"
                                     type="text"
-                                    label="Tên"
+                                    label={t('lastName')}
                                     // value={props.lastName === ""? "" : props.lastName}
                                     error={methods.formState.errors.lastName}
                                     helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
@@ -124,7 +129,7 @@ const FormAddExamination = (props) => {
                                     id="email"
                                     name="email"
                                     type="text"
-                                    label="Email"
+                                    label={t('email')}
                                     value={props.email}
                                     error={methods.formState.errors.email}
                                     helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
@@ -144,7 +149,7 @@ const FormAddExamination = (props) => {
                                     id="phoneNumber"
                                     name="phoneNumber"
                                     type="text"
-                                    label="SĐT"
+                                    label={t('phoneNumber')}
                                     // value={props.phoneNumber ===""? "": props.phoneNumber}
                                     error={methods.formState.errors.phoneNumber}
                                     helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
@@ -164,7 +169,7 @@ const FormAddExamination = (props) => {
                                     id="address"
                                     name="address"
                                     type="text"
-                                    label="Địa chỉ"
+                                    label={t('address')}
                                     value={props.address}
                                     error={methods.formState.errors.address}
                                     helperText={methods.formState.errors.address ? methods.formState.errors.address.message : ""}
@@ -183,7 +188,7 @@ const FormAddExamination = (props) => {
                                 <FormControl>
                                     <TextField
                                         id="dateOfBirth"
-                                        label="Ngày sinh"
+                                        label={t('dateOfBirth')}
                                         type="date"
                                         name="dateOfBirth"
                                         error={methods.formState.errors.dateOfBirth}
@@ -203,13 +208,13 @@ const FormAddExamination = (props) => {
                                         id="demo-simple-select"
                                         name="gender"
                                         error={methods.formState.errors.gender}
-                                        label="Giới tính"
+                                        label={t('gender')}
                                         defaultValue={0}
                                         {...methods.register("gender")} 
                                     >
-                                        <MenuItem value={0}>Nam</MenuItem>
-                                        <MenuItem value={1}>Nữ</MenuItem>
-                                        <MenuItem value={2}>Bí Mật</MenuItem>
+                                        <MenuItem value={0}>{t('man')}</MenuItem>
+                                        <MenuItem value={1}>{t('woman')}</MenuItem>
+                                        <MenuItem value={2}>{t('secret')}</MenuItem>
                                     </Select>
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.gender?.message}</p>) : <></>}
                                 </FormControl>
@@ -229,7 +234,7 @@ const FormAddExamination = (props) => {
                                         color="success" 
                                         type="submit" 
                                         style={{"marginRight":"20px", "padding": "6px 40px"}}>
-                                        Đăng ký
+                                        {t('submit')}
                                     </Button>
                                     
                                     <Button variant="contained" 
@@ -238,8 +243,8 @@ const FormAddExamination = (props) => {
                                         type="button" 
                                         style={{"padding": "6px 40px"}}
                                     >
-                                        Tạo mới
-                                        </Button>
+                                        {t('new')}
+                                    </Button>
                                 </Typography>
                             </Grid>
                         </Grid>

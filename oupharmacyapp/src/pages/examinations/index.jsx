@@ -1,120 +1,188 @@
-import { Box, Button, Container, FormControl, IconButton, InputLabel, OutlinedInput } from "@mui/material"
-import { Link, useNavigate } from "react-router-dom"
-import useExamination, { checkPatientExistSchema } from "../../modules/pages/ExaminationDetailComponents/hooks/useExamination"
+import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody,
+     TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import Loading from "../../modules/common/components/Loading";
+import useExaminationConfirm from "../../modules/pages/ExaminationDetailComponents/ExaminationConfirm/hooks/useExaminationConfirm"
 import SendIcon from '@mui/icons-material/Send';
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import FormAddExamination from "../../modules/pages/ExaminationDetailComponents/FormAddExamination";
-import BackdropLoading from "../../modules/common/components/BackdropLoading";
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import ErrorIcon from '@mui/icons-material/Error';
+import moment from "moment";
+import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
-const Examination = () => {
-    const {checkEmail, checkPatientExist, openBackdrop, user, 
-        patientID, formEmail, isFormEmailOpen, handleOpenFormEmail} = useExamination()
+const Examinations = () =>{
+    const {user, pagination,handleChangePage, examinationList, isLoadingButton,
+        isLoadingExamination, page, handleSendEmailConfirm} = useExaminationConfirm();
     const router = useNavigate();
 
-    
-    const methods = useForm({
-        mode:"onSubmit",
-        resolver: yupResolver(checkPatientExistSchema),
-        defaultValues:{
-            email:""
-        }
-    })
+    const { t, ready } = useTranslation(['examinations', 'common'])
+
+    if (!ready)
+        return <div>Loading translations...</div>;
+        
     if (user === null || user === undefined) {
         return (
             <>
-                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
+                <Box className="ou-relative ou-items-center" sx={{ height: "550px" }}>
                     <Box className='ou-absolute ou-p-5 ou-text-center 
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4> Bạn phải đăng nhập để tiến hành đặt lịch</h4>
-                            <Button onClick={() => { router('/login') }}>Tại đây!</Button>
+                            <h4>{t('common:errNullUser')}</h4>
+                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
                         </Container>
                     </Box>
                 </Box>
             </>
         )
     }
+    const renderButton = (examinationID) =>{
+        if (isLoadingButton)
+            return(
+                <Loading/>
+        )
+        return (
+            <Button onClick={() => {
+                    handleSendEmailConfirm(examinationID)
+                }} variant="contained" endIcon={<SendIcon />}>
+                    {t("common:send")}
+            </Button>
+        )
+        
+    }
+    const renderMailStatus = (mailStatus) => {
+        if (mailStatus)
+            return <TableCell align="center"> {t('sent')}</TableCell> 
 
+        return <TableCell align="center"> {t('noSent')}</TableCell> 
+    }
     return (
         <>
-            {openBackdrop === true ?
-                (<BackdropLoading />)
-                : <></>
-            }
-            {isFormEmailOpen ? 
-            (<Box>        
-                <div style={{ "width": "100%" }}>
-                    <Container className="ou-py-5">
-                        <form className="mb-5 p-4" onSubmit={methods.handleSubmit(checkEmail)} style={{ "width": "60%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
-                            <FormControl fullWidth >
-                                <InputLabel htmlFor="email">Nhập vào email để tạo lịch khám(<span className="text-danger">*</span>)</InputLabel>
-                                <OutlinedInput
-                                    autoComplete="given-name"
-                                    id="email"
-                                    name="email"
-                                    label="Nhập vào Email để tạo lịch khám (*)"
-                                    endAdornment={
-                                        <IconButton position="start" type='submit' >
-                                            <SendIcon />
-                                        </IconButton>
-                                    }
-                                    error={methods.formState.errors.email}
-                                    {...methods.register("email")}
-                                />
-                                {methods.formState.errors ? (<span className="ou-text-xs ou-text-red-600 ou-mt-1">{methods.formState.errors.email?.message}</span>) : <></>}
-                            </FormControl>
-                        </form>      
-                                 
-                    </Container>
-                </div>
-            </Box>) : 
-            <> 
-                {(!methods.formState.errors.email && methods.getValues('email') !== '' && !isFormEmailOpen) ?
-                    <FormAddExamination 
-                        checkPatientExist={checkPatientExist} 
-                        patientID={patientID}
-                        email={formEmail.email}
-                        handleOpenFormEmail={handleOpenFormEmail}
-                    /> : <></>
-                }   
-            </>}
+        {isLoadingExamination && examinationList.length === 0 ?
+            (<Box sx={{ height: "300px" }}>
+                <Box className='p-5'>
+                    <Loading></Loading>
+                </Box>
+            </Box>)
+            : examinationList.length === 0 ?
+                (
+                    <Box className="ou-relative ou-items-center " sx={{ minHeight: "550px" }}>
+                        <Box className='ou-absolute ou-p-5 ou-text-center 
+                        ou-flex-col ou-flex ou-justify-center ou-items-center
+                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                            <h2 className='ou-text-xl ou-text-red-600'>
+                                {t('errExaminationList')}
+                            </h2>
+                            <Typography className='text-center'>
+                                <h3>{t('common:goToBooking')} </h3>
+                                <Button onClick={() => { router('/booking') }}>{t('common:here')}!</Button>
+                            </Typography>
+                        </Box>
+                     </Box>
+                )
+                : (<>
+                    <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow >
+                                        <TableCell>{t('id')}</TableCell>
+                                        <TableCell align="center">{t('description')}</TableCell>
+                                        <TableCell align="center">{t('createdDate')}</TableCell>
+                                        <TableCell align="center">{t('mailStatus')}</TableCell>
+                                        <TableCell align="center">{t('userCreated')}</TableCell>
+                                        <TableCell align="center">{t('funtion')}</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {examinationList.map(e => (
+                                        <TableRow
+                                            key={e.id}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" >
+                                                <Typography>
+                                                    {e.id}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Typography>
+                                                    {e.description}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Typography>{moment(e.created_date).format("DD/MM/YYYY")}</Typography>
+                                            </TableCell>
+                                                {renderMailStatus(e.mail_status)}
+                                            <TableCell align="center">
+                                                <Typography>
+                                                    {e.user.username}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {e.mail_status === true ?
+                                                    (<>
+                                                        {user && user.is_doctor === true ?
+                                                            (<><Typography>
+                                                                <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/diagnosis`}>
+                                                                    <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
+                                                                        {t('diagnose')}
+                                                                    </Button>
+                                                                </Link>
+                                                            </Typography></>)
+                                                            : <></>}
+                                                        {user && user.is_nurse === true ?
+                                                            (<>
+                                                                <Typography>
+                                                                    <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/payments`}>
+                                                                        <Button variant="contained" color="success" size="small" endIcon={<AssignmentIcon />}>
+                                                                            {t('pay')}
+                                                                        </Button>
+                                                                    </Link>
+                                                                </Typography>
+                                                            </>)
+                                                            : <></>}
+                                                    </>
+                                                    )
+                                                    : (
+                                                        <>
+                                                            {user && user.is_doctor === true ?
+                                                                (<>
+                                                                <Typography className='text-danger'>
+                                                                    {t('noReady')} <ErrorIcon />
+                                                                </Typography>
+                                                                </>)
+                                                                : <></>}
+                                                            {user && user.is_nurse === true ? 
+                                                                renderButton(e.id) 
+                                                                : <></>
+                                                            }
+                                                        </>)
+                                                }
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
 
-            {/* <Box>        
-                <div style={{ "width": "100%" }}>
-                    <Container className="ou-py-5">
-                        <form className="mb-5 p-4" onSubmit={methods.handleSubmit(checkEmail)} style={{ "width": "60%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
-                            <FormControl fullWidth >
-                                <InputLabel htmlFor="email">Nhập vào email để tạo lịch khám(<span className="text-danger">*</span>)</InputLabel>
-                                <OutlinedInput
-                                    autoComplete="given-name"
-                                    id="email"
-                                    name="email"
-                                    label="Nhập vào Email để tạo lịch khám (*)"
-                                    endAdornment={
-                                        <IconButton position="start" type='submit' >
-                                            <SendIcon />
-                                        </IconButton>
-                                    }
-                                    error={methods.formState.errors.email}
-                                    {...methods.register("email")}
-                                />
-                                {methods.formState.errors ? (<span className="ou-text-xs ou-text-red-600 ou-mt-1">{methods.formState.errors.email?.message}</span>) : <></>}
-                            </FormControl>
-                        </form>
-                        { (!methods.formState.errors.email && methods.getValues('email') !== '' && isOpenForm) ?
-                            <FormAddExamination 
-                                checkPatientExist={checkPatientExist} 
-                                patientID={patientID}
-                                email={formEmail.email}
-                            /> : <></>
-                        }              
-                    </Container>
-                </div>
-            </Box> */}
-        </>
+                        {pagination.sizeNumber >= 2 && (
+                            <Box sx={{ pt: 5, pb: 2 }}>
+                                <Stack>
+                                    <Pagination
+                                        count={pagination.sizeNumber}
+                                        variant="outlined"
+                                        sx={{ margin: "0 auto" }}
+                                        page={page}
+                                        onChange={handleChangePage}
+                                    />
+                                </Stack>
+                            </Box>
+                        )}
+                    </Box>
+                </>)
+
+        }
+    </>
     )
-    
 }
-export default Examination
+export default Examinations

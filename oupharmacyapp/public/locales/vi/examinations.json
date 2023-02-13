@@ -1,0 +1,17 @@
+{
+    "errExaminationList": "Hệ thống không xác nhận được danh sách đặt lịch hoặc người dùng chưa tiến hành đặt lịch",
+
+    "id": "Mã phiếu",
+    "description":"Mô tả",
+    "createdDate":"Ngày đăng ký",
+    "mailStatus":"Tình trạng mail",
+    "userCreated": "Người dùng đăng ký",
+    "function": "Chức năng",
+
+    "diagnose": "Chẩn doán",
+    "pay": "Thanh toán",
+
+    "noReady": "Chưa xác nhận",
+    "sent":"Đã gửi",
+    "noSent":"No"
+}
