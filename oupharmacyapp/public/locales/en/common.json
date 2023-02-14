@@ -4,5 +4,17 @@
     "backToHomepage": "Back to homepage",
     "here": "Here",
     "send": "Send",
-    "undefined": "Undefined"
+    "undefined": "Undefined",
+
+    "booking": "Booking",
+    "examination": "Examinations",
+    "prescription": "Prescriptions",  
+
+    "login": "Login",
+    "register":"Register",
+    "logout": "Logout",
+    "bookingList": "Booking list",
+    "openSettings": "Open settings",
+
+    "changeLanguage": "Change to Vietnamese"
 }

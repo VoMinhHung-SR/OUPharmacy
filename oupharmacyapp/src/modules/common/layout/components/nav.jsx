@@ -1,8 +1,6 @@
 import { AppBar, Avatar, Badge, Box, Button, Container, Divider, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
 import LoginIcon from '@mui/icons-material/Login';
-import HomeIcon from '@mui/icons-material/Home';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-// import Notifications from "../components/Notifications";
 import MenuIcon from '@mui/icons-material/Menu';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom"
@@ -14,31 +12,14 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { changeLanguage } from "i18next";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import FlagUK from "../../../../../public/flagUK";
+import FlagVN from "../../../../../public/flagVN";
 
-const pages = [
-  {
-    // Accept all user
-    id: 'booking',
-    name:'Booking',
-    link: '/booking'
-  },
-  {  
-    // Only user-doctor and nurse
-    id: 'examinations',
-    name:'examinations',
-    link: '/examinations'
-  },
-  {  
-    // Only user-Doctor
-    id: 'prescriptions',
-    name:'Prescriptions',
-    link: '/prescriptions'
-  },
-];
 
 const Nav = () => {
   
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
   // State trigger menu open
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -59,19 +40,39 @@ const Nav = () => {
       setAnchorEl(null);
   };
 
-  console.log(i18n.language)
+  const pages = [
+    {
+      // Accept all user
+      id: 'booking',
+      name:t('booking'),
+      link: '/booking'
+    },
+    {  
+      // Only user-doctor and nurse
+      id: 'examinations',
+      name:t('examination'),
+      link: '/examinations'
+    },
+    {  
+      // Only user-Doctor
+      id: 'prescriptions',
+      name:t('prescription'),
+      link: '/prescriptions'
+    },
+  ];
+
   //  Hooks useNav
   const {user, handleLogout} = useNav();
   let btn = <>
       <ul className="ou-flex ou-text-white">
           <MenuItem style={{ "color": "inherit" }} >
               <Link to="/login" className="nav-link">
-                  <LoginIcon style={{ "marginRight": "5px" }} />Đăng nhập
+                  <LoginIcon style={{ "marginRight": "5px" }} />{t('login')}
               </Link>
           </MenuItem>
           <MenuItem style={{ "color": "inherit" }}>
               <Link to="/register" className="nav-link">
-                  <HowToRegIcon style={{ "marginRight": "5px" }} />Đăng Ký
+                  <HowToRegIcon style={{ "marginRight": "5px" }} />{t('register')}
               </Link>
           </MenuItem>
       </ul>
@@ -118,7 +119,7 @@ const Nav = () => {
                 <MenuItem style={{ "color": "#333" }}>
                     <ListAlt fontSize="small" />
                     <Typography marginLeft={2}>
-                        Danh sách lịch
+                        {t('bookingList')}
                     </Typography>
                 </MenuItem>
             </Link>
@@ -126,7 +127,7 @@ const Nav = () => {
             <MenuItem onClick={handleLogout} >
                 <Logout fontSize="small" />
                 <Typography marginLeft={2}>
-                    Đăng xuất
+                    {t('logout')}
                 </Typography>
             </MenuItem>
         </Menu>
@@ -139,12 +140,25 @@ const Nav = () => {
                   badgeContent={4} 
                   color="error">
                       <Link to="/conversations">
-                          <MailOutlineIcon className="" color="#f3f3f3"  />
+                          <MailOutlineIcon color="#f3f3f3"  />
+                          {/* <FlagUK width={24} height={24}/> */}
                       </Link>
                   </Badge>
               </IconButton>
           </MenuItem>
-          <Tooltip title="Open settings">
+          
+            <IconButton onClick={handleClick} size="small" color="inherit" sx={{ ml: 1 }}
+              aria-controls={open ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}>
+                  <Badge 
+                    badgeContent={4} 
+                    color="error">
+                    <NotificationsIcon color="#f3f3f3"/>
+                  </Badge>
+            </IconButton>
+       
+          <Tooltip title={t('openSettings')}>
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}
               aria-controls={open ? 'account-menu' : undefined}
               aria-haspopup="true"
@@ -245,18 +259,16 @@ const Nav = () => {
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
                     <Logo width={50} height={50} className="ou-text-white ou-mr-2" color={'white'}/>
                 </Box>
-                <Typography
-                    variant="h6"
-                    noWrap
+                <Typography variant="h6" noWrap
                     sx={{
-                    mr: 2,
-                    my: 0,
-                    py: 2,
-                    display: { xs: 'none', md: 'flex' },
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
+                      mr: 2,
+                      my: 0,
+                      py: 2,
+                      display: { xs: 'none', md: 'flex' },
+                      fontWeight: 700,
+                      letterSpacing: '.3rem',
+                      color: 'inherit',
+                      textDecoration: 'none',
                     }}
                 >
                     OUPHARMACY
@@ -274,9 +286,7 @@ const Nav = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
+            <Menu id="menu-appbar" anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
@@ -308,11 +318,7 @@ const Nav = () => {
                     }}
                         src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354767/OUPharmacy/logo_oupharmacy_1x1_zks7t4.png" />
             </Link>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
+          <Typography variant="h5" noWrap component="a" href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -331,8 +337,17 @@ const Nav = () => {
                 
           <Box sx={{ flexGrow: 0 }} className="ou-flex">
             {i18n.language === 'en' ? 
-              <Button className="!ou-text-white" onClick={()=> changeLanguage('vi')}> CHang language VN</Button> :
-              <Button className="!ou-text-white" onClick={()=> changeLanguage('en')}> CHang language EN</Button>
+              <Tooltip title={t('changeLanguage')}>
+                <Button className="!ou-text-white" onClick={()=> changeLanguage('vi')}>
+                  <FlagUK/>
+                </Button> 
+              </Tooltip>
+              :
+              <Tooltip title={t('changeLanguage')}>
+                <Button className="!ou-text-white" onClick={()=> changeLanguage('en')}>
+                  <FlagVN width={24} height={24}/>
+                </Button>
+              </Tooltip>
             }
             {btn}
           </Box>

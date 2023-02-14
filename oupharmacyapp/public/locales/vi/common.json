@@ -4,5 +4,17 @@
     "backToHomepage": "Quay về trang chủ",
     "here": "Tại đây",
     "send":"Gửi",
-    "Undefined":"Chưa xác định"
+    "Undefined":"Chưa xác định",
+
+    "booking": "Đặt lịch",
+    "examination": "Phiếu khám",
+    "prescription": "Kê toa",
+
+    "login": "Đăng nhập",
+    "register":"Đăng ký",
+    "logout": "Đăng xuất",
+    "bookingList": "Danh sách đặt lịch",
+    "openSettings": "Mở cài đặt",
+
+    "changeLanguage": "Đổi sang tiếng Anh"
 }
