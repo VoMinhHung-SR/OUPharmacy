@@ -34,7 +34,7 @@ const Booking = () => {
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4> {t('errNullUser')} </h4>
+                            <h4> {t('common:errNullUser')} </h4>
                             <Button onClick={() => { router('/login') }}>{t('here')}!</Button>
                         </Container>
                     </Box>

@@ -1,0 +1,20 @@
+{
+    "errNullPrescription":"Phiếu khám chưa được chẩn đoán",
+    "basicInformation": "Thông tin cơ bản",
+    "patientFullName": "Họ tên bệnh nhân",
+    "dateOfBirth": "Ngày sinh",
+    "phoneNumber": "Số điện thoại",
+    "prescriptionId": "Phiếu khám số",
+    "createdDate": "Ngày tạo",
+    "diagnosisDate": "Ngày chẩn đoán",
+    "doctorName": "Bác sĩ chẩn đoán",
+    "sign": "Triệu chứng",
+    "diagnosed": "Chấn đoán",
+    "uses": "Liều dùng",
+    "quantity": "Số lượng",
+    "medicineName": "Tên thuốc",
+    "prescriptionDetail": "Phiếu kê toa",
+    "nullMedicine": "Hiện tại chưa có thuốc",
+    "prescribing":"Kê toa",
+    "addMedicine": "Thêm thuốc"
+}

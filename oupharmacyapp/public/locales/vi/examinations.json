@@ -8,10 +8,10 @@
     "userCreated": "Người dùng đăng ký",
     "function": "Chức năng",
 
-    "diagnose": "Chẩn doán",
+    "diagnose": "Chẩn đoán",
     "pay": "Thanh toán",
 
     "noReady": "Chưa xác nhận",
     "sent":"Đã gửi",
-    "noSent":"No"
+    "noSent":"Chưa"
 }

@@ -6,10 +6,21 @@ import usePrescriptionList from "../../modules/pages/PrescriptionListComponents/
 import SearchIcon from '@mui/icons-material/Search';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import moment from "moment"
+import { useTranslation } from "react-i18next"
 const PrescriptionList = () => {
     const {user, prescriptionList, isLoadingPrescriptionList} = usePrescriptionList()
     const router = useNavigate()
-    if (user === null || user === undefined) {
+    const {t, ready} = useTranslation(['prescription', 'common'])
+
+    // TODO: add skeletons here
+    if(!ready)
+        return <Box sx={{ height: "300px" }}>
+        <Box className='p-5'>
+            <Loading/>
+        </Box>
+    </Box>
+
+    if (!user) {
         return (
             <>
                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
@@ -17,8 +28,8 @@ const PrescriptionList = () => {
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4> Bạn phải đăng nhập để tiến hành chẩn đoán</h4>
-                            <Button onClick={() => { router('/login') }}>Tại đây!</Button>
+                            <h4>{t('common:errNullUser')}</h4>
+                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
                         </Container>
                     </Box>
                 </Box>
@@ -35,17 +46,19 @@ const PrescriptionList = () => {
                     </Box>
                 </Box>)
                 : prescriptionList.length === 0 ?
-                    (<Box sx={{ height: "300px" }}>
-                        <Box className='p-5'>
-                            <h2 className='text-center text-danger'>
-                                Hiện tại chưa có phiếu khám được chẩn đoán.
-                            </h2>
-                            <Typography className='text-center'>
-                                <h3>Vui lòng quay lại đặt lịch khám</h3>
-                                <Button onClick={() => { redirect('/add-examination') }}>Tại đây!</Button>
-                            </Typography>
-                        </Box>
-                    </Box>)
+                    (<Box className="ou-relative ou-items-center " sx={{ minHeight: "550px" }}>
+                    <Box className='ou-absolute ou-p-5 ou-text-center 
+                    ou-flex-col ou-flex ou-justify-center ou-items-center
+                    ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                        <h2 className='ou-text-xl ou-text-red-600'>
+                            {t('errNullPrescription')}
+                        </h2>
+                        <Typography className='text-center'>
+                            <h3>{t('common:goToBooking')} </h3>
+                            <Button onClick={() => { router('/booking') }}>{t('common:here')}!</Button>
+                        </Typography>
+                    </Box>
+                 </Box>)
                     : (
                         <>
                             <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
@@ -67,12 +80,12 @@ const PrescriptionList = () => {
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell>Mã phiếu khám</TableCell>
-                                                <TableCell align="center">Triệu chứng</TableCell>
-                                                <TableCell align="center">Chẩn đoán</TableCell>
-                                                <TableCell align="center">Ngày chẩn đoán</TableCell>
-                                                <TableCell align="center">Bác sĩ chẩn đoán</TableCell>
-                                                <TableCell align="center">Chức năng</TableCell>
+                                                <TableCell>{t('prescriptionId')}</TableCell>
+                                                <TableCell align="center">{t('sign')}</TableCell>
+                                                <TableCell align="center">{t('diagnosed')}</TableCell>
+                                                <TableCell align="center">{t('diagnosisDate')}</TableCell>
+                                                <TableCell align="center">{t('doctorName')}</TableCell>
+                                                <TableCell align="center">{t('feature')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -113,19 +126,7 @@ const PrescriptionList = () => {
 
                                                                         to={`/prescriptions/${p.id}`}>
                                                                         <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
-                                                                            Kê toa
-                                                                        </Button>
-                                                                    </Link>
-                                                                </Typography>
-                                                            </>)
-                                                            : <></>}
-
-                                                        {user && user.is_nurse === true ?
-                                                            (<>
-                                                                <Typography>
-                                                                    <Link style={{ "textDecoration": "none" }} to={`/examinations/${p.examination.id}/payments`}>
-                                                                        <Button variant="contained" color="success" size="small" endIcon={<AssignmentIcon />}>
-                                                                            Thanh toán
+                                                                            {t('prescribing')}
                                                                         </Button>
                                                                     </Link>
                                                                 </Typography>

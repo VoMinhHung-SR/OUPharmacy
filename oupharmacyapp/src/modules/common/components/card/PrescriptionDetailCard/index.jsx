@@ -5,10 +5,14 @@ import { prescrtionDetailSchema } from "./hooks/usePrescriptionDetailCard"
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import usePrescriptionDetailCard from "./hooks/usePrescriptionDetailCard";
 import BackdropLoading from "../../BackdropLoading";
+import { useTranslation } from "react-i18next";
 
 const PrescriptionDetailCard = () => {
     const {onSubmit, medicinesSubmit, openBackdrop, handleAddPrescriptionDetail,
         medicineUnits, setMedicine, handleDeleteItem} = usePrescriptionDetailCard()
+
+    const {t, ready} = useTranslation('prescription-detail')
+
     const methods = useForm({
         mode:"onSubmit",
         resolver: yupResolver(prescrtionDetailSchema),
@@ -17,17 +21,18 @@ const PrescriptionDetailCard = () => {
             quantity:""
         }
     })
-    // const options = top100Films.map((option) => {
-    //     const firstLetter = option.title[0].toUpperCase();
-    //     return {
-    //       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-    //       ...option,
-    //     };
-    // });
     const filterOptions = createFilterOptions({
         matchFrom: 'start',
         stringify: (option) => option.medicine.name,
     });
+    // TODO: add skeletons here
+    // if(!ready)
+    //     return <Box sx={{ height: "300px" }}>
+    //     <Box className='p-5'>
+    //         <Loading/>
+    //     </Box>
+    // </Box>
+
     return (
         <>
             {openBackdrop ?
@@ -55,15 +60,13 @@ const PrescriptionDetailCard = () => {
                                     name="medicineName"
 
                                     onChange={(event, value) => {
-                                        // console.log(value.id)
                                         setMedicine({
                                             "medicineName": value.medicine.name,
                                             "medicineUnitId": value.id
                                         })
-                                        // console.log(medicine)
                                     }}
 
-                                    renderInput={(params) => <TextField {...params} label="Tên thuốc (*)" />}
+                                    renderInput={(params) => <TextField {...params} label={t('medicineName') + "*"} />}
                                 />
                                 {/* <Autocomplete
                                 id="grouped-demo"
@@ -80,7 +83,7 @@ const PrescriptionDetailCard = () => {
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
-                                label="Liều dùng"
+                                label={t('uses')+'*'}
                                 variant="outlined"
                                 id="uses"
                                 name="uses"
@@ -94,7 +97,7 @@ const PrescriptionDetailCard = () => {
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
-                                label="Số lượng"
+                                label={t('quantity')+'*'}
                                 variant="outlined"
                                 id="quantity"
                                 name="quantity"
@@ -113,7 +116,7 @@ const PrescriptionDetailCard = () => {
                                     className=""
                                 >
                                     <Button variant="contained" color="success" type="submit">
-                                        Thêm thuốc</Button>
+                                        {t('addMedicine')}</Button>
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -123,11 +126,11 @@ const PrescriptionDetailCard = () => {
                 <form
                     className="ou-my-4"
                     style={{ "padding": "20px 20px", "border": "1.5px solid black", "borderRadius": "5px" }}>
-                    <h1 className="ou-text-center ou-text-xl ou-pb-4">Phiếu kê toa</h1>
+                    <h1 className="ou-text-center ou-text-xl ou-pb-4">{t('prescriptionDetail')}</h1>
 
                     {medicinesSubmit.length === 0 ?
                         (<>
-                            <Typography className="ou-text-center m-3">HIện tại chưa có thuốc</Typography>
+                            <Typography className="ou-text-center m-3">{t('nullMedicine')}</Typography>
                         </>)
                         : medicinesSubmit.map((item) => (
                             <>
@@ -140,7 +143,7 @@ const PrescriptionDetailCard = () => {
                                                 fullWidth
                                                 autoComplete="given-name"
                                                 autoFocus
-                                                label="Tên thuốc"
+                                                label={t('medicineName')}
                                                 variant="outlined"
                                                 id="medicineName"
                                                 name="medicineName"
@@ -159,7 +162,7 @@ const PrescriptionDetailCard = () => {
                                         <TextField
                                             fullWidth
                                             autoComplete="given-name"
-                                            label="Liều dùng"
+                                            label={t('uses')}
                                             variant="outlined"
                                             id="uses"
                                             name="uses"
@@ -176,7 +179,7 @@ const PrescriptionDetailCard = () => {
                                         <TextField
                                             fullWidth
                                             autoComplete="given-name"
-                                            label="Số lượng"
+                                            label={t('quantity')}
                                             variant="outlined"
                                             id="quantity"
                                             name="quantity"
@@ -214,7 +217,7 @@ const PrescriptionDetailCard = () => {
                                     <Button className="!ou-mt-5 ou-w-[120px]" variant="contained" color="success"
                                         onClick={handleAddPrescriptionDetail} 
                                     >
-                                        Kê toa
+                                        {t('prescribing')}
                                     </Button>
                                 </Typography>
                             </Grid>

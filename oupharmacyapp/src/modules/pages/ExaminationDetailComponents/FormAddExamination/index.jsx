@@ -202,7 +202,7 @@ const FormAddExamination = (props) => {
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.dateOfBirth?.message}</p>) : <></>}
                                 </FormControl>
                                 <FormControl sx={{ width: 220 }} style={{ "margin": "5px" }}>
-                                    <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+                                    <InputLabel id="demo-simple-select-label">{t('gender')}</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"

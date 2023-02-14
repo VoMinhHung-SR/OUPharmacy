@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box, Button, FormControl, Grid, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 import { diagnosisSchema } from "../../../../pages/DiagnosisComponents/hooks/useDiagnosis"
 import Loading from "../../Loading"
@@ -8,6 +9,7 @@ import usePrescriptionCard from "./hooks/usePrescriptionCard"
 
 const PrescriptionCard = (props) => {
     
+    const {t,ready} = useTranslation('diagnosis')
     const {onSubmit, isLoadingButton} = usePrescriptionCard();
     const methods = useForm({
         mode:"onSubmit",
@@ -18,7 +20,8 @@ const PrescriptionCard = (props) => {
         }
     })
     const router = useNavigate()
-
+    if (!ready)
+        return <div>Loading translation...</div>
     // This condition meant if the examination doen't have a diagnosis 
     // Then create a new form
     // Else show the info of the diagnosis
@@ -30,11 +33,11 @@ const PrescriptionCard = (props) => {
                         onSubmit(data,props.examinationId, props.userID, props.handleChangeFlag))
                     } 
                         style={{ "width": "80%", "margin": "auto", "padding": "20px 20px", "border": "1px solid black", "borderRadius": "4px" }}>
-                        <h1 className="ou-text-center ou-text-blue-500 ou-text-2xl ou-font-bold">Tạo phiếu chẩn đoán</h1>
+                        <h1 className="ou-text-center ou-text-blue-500 ou-text-2xl ou-font-bold">{t('createPrescription')}</h1>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={11} >
                                 <FormControl fullWidth >
-                                    <InputLabel htmlFor="sign">Triệu chứng(<span className="text-danger">*</span>)</InputLabel>
+                                    <InputLabel htmlFor="sign">{t('sign')}<span className="text-danger">*</span></InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         autoComplete="given-name"
@@ -44,7 +47,7 @@ const PrescriptionCard = (props) => {
                                         id="sign"
                                         name="sign"
                                         type="text"
-                                        label="Triệu chứng(*)"
+                                        label={t('sign') + '*'}
                                         error={methods.formState.errors.sign}
                                         {...methods.register("sign")}
                                     />
@@ -57,7 +60,7 @@ const PrescriptionCard = (props) => {
                                     fullWidth
                                     autoComplete="given-name"
                                     id="diagnosed"
-                                    label="Chẩn đoán(*)"
+                                    label={t('diagnosed') + '*'}
                                     name="diagnosed"
                                     type="text"
                                     error={methods.formState.errors.diagnosed}
@@ -75,8 +78,15 @@ const PrescriptionCard = (props) => {
                                     color="grey.700"
                                     
                                 >
-                                    {isLoadingButton ? (<Button variant="contained" disabled color="success">Đang xử lý <Loading/> </Button>)
-                                    : (<Button variant="contained" color="success" type="submit">Đăng ký</Button>) }
+                                    {isLoadingButton ? (<Button variant="contained" disabled color="success">{t('wait')} <Loading/> </Button>)
+                                    : (<Button variant="contained" 
+                                        color="success" 
+                                        className="!ou-mt-5 !ou-w-[30%] !ou-min-w-[150px] !ou-min-h-[40px] " 
+                                        type="submit">
+                                            {t('submit')}
+                                        </Button>
+                                        )
+                                    }
                                     
                                 </Typography>
                             </Grid>
@@ -92,15 +102,14 @@ const PrescriptionCard = (props) => {
             <Box  sx={{ minHeight: "300px" }} >
                 <form  style={{ "width": "80%", "margin": "auto", "padding": "20px 20px", "border": "1px solid black", "borderRadius": "4px" }}>
                     <h1 className="ou-text-center ou-text-blue-500 ou-text-2xl ou-font-bold">
-                        Thông tin phiếu chẩn đoán
+                        {t('prescriptionInfomation')}
                         </h1>
                     <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                         <Grid item xs={11} >
-                            <InputLabel htmlFor="diagnosed">Triệu chứng(<span className="text-danger">*</span>)</InputLabel>
+                            <InputLabel htmlFor="diagnosed">{t('sign')}(<span className="text-danger">*</span>)</InputLabel>
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
-                                autoFocus
                                 id="sign"
                                 name="sign"
                                 type="text"
@@ -113,11 +122,10 @@ const PrescriptionCard = (props) => {
                         </Grid>
 
                         <Grid item xs={11}>
-                            <InputLabel htmlFor="diagnosed">Chẩn đoán(<span className="text-danger">*</span>)</InputLabel>
+                            <InputLabel htmlFor="diagnosed">{t('diagnosed')}(<span className="text-danger">*</span>)</InputLabel>
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
-                                autoFocus
                                 id="diagnosed"
                                 name="diagnosed"
                                 type="text"
@@ -135,9 +143,14 @@ const PrescriptionCard = (props) => {
                                 gutterBottom
                                 style={{ textDecoration: "inherit" }}
                                 color="grey.700"
-                                className="ou-px-5"
+                      
                             >
-                                <Button variant="contained" color="success" onClick={()=> router(`/prescriptions/${props.id}`)} >Kê toa</Button>
+                                <Button variant="contained" 
+                                    className="!ou-mt-5 !ou-min-w-[150px] !ou-min-h-[40px]" 
+                                    color="success" 
+                                    onClick={()=> router(`/prescriptions/${props.id}`)} >
+                                    {t('prescribing')}
+                                </Button>
                             </Typography>
                         </Grid>
                     </Grid>

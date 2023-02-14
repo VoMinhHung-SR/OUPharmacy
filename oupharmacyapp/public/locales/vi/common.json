@@ -1,7 +1,8 @@
 {
     "errNullUser":"Bạn phải đăng nhập để xử dụng dịch vụ hệ thống",
     "goToBooking":"Quay về đặt lịch",
+    "backToHomepage": "Quay về trang chủ",
     "here": "Tại đây",
-
-    "send":"Gửi"
+    "send":"Gửi",
+    "Undefined":"Chưa xác định"
 }

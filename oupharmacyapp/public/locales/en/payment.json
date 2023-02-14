@@ -1,0 +1,25 @@
+{
+    "errNullPrescription": "The medical records that have not been prescribed or diagnosed by a doctor",
+    "basicInformation": "Basic infomation",
+    "prescriptionId": "Prescription Id",
+    "examinationId": "Examination Id",
+    "patientFullName": "Patient full name",
+    "userCreated": "User created",
+    "description": "Description",
+    "diagnosisDate": "Diagnosis date",
+    "diagnosed": "Diagnosed",
+    "sign":"Sign",
+
+    "prescriptionDetail": "Prescription detail",
+    "prescriptionDetailId": "ID",
+    "medicineName": "Medicine name",
+    "uses": "Uses",
+    "quantity": "Quantity",
+    "unitPrice": "Unit price",
+    "total": "Total",
+    "serviceFee": "Service fee",
+    "amount": "Amount",
+    "pay": "Pay",
+    "momoPayment": "Momo payment",
+    "success": "Completed"
+}

@@ -1,0 +1,10 @@
+{
+    "errNullPrescription":"There is no prescription exist",
+    "prescriptionId": "ID",
+    "sign": "Sign",
+    "diagnosed": "Diagnosed",
+    "diagnosisDate": "Diagnosis date",
+    "doctorName": "Doctor name",
+    "feature": "Feature",
+    "prescribing": "Prescribing"
+}

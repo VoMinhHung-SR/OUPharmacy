@@ -1,0 +1,20 @@
+{
+    "errNullPrescription":"There is no prescription exist",
+    "basicInformation": "Basic infomation",
+    "patientFullName": "Patient full name",
+    "dateOfBirth": "Date of birth",
+    "phoneNumber": "Phone number",
+    "prescriptionId": "Prescription ID",
+    "createdDate": "Created date",
+    "diagnosisDate": "Diagnosis date",
+    "doctorName": "Doctor name",
+    "sign": "Sign",
+    "diagnosed": "Diagnosed",
+    "uses": "Uses",
+    "quantity": "Quantity",
+    "medicineName": "Medicine name",
+    "prescriptionDetail": "Prescription detail",
+    "nullMedicine": "There is no medicine in this form",
+    "prescribing":"Prescribing",
+    "addMedicine": "Add medicine"
+}

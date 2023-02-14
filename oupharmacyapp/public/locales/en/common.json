@@ -1,7 +1,8 @@
 {
-    "errNullUser":"You don't have the permission to use this function, please login",
+    "errNullUser":"You don't have the permission to use this feature, please login",
     "goToBooking": "Go to booking",
+    "backToHomepage": "Back to homepage",
     "here": "Here",
-    
-    "send": "Send"
+    "send": "Send",
+    "undefined": "Undefined"
 }

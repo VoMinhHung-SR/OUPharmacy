@@ -3,9 +3,11 @@ import Loading from "../../Loading"
 import useBillCard from "./hooks/useBillCard"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { calculateAmount } from "./utils/helper";
+import { useTranslation } from "react-i18next";
 const BillCard = (props) =>{
     const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail, isLoadingButton} = useBillCard(props.id)
-   
+    const {t, ready} = useTranslation(['payment','common']);
+
     const renderLoadingButton = () => {
         if(isLoadingButton)
             return(<Box className="!ou-mt-2">
@@ -18,13 +20,13 @@ const BillCard = (props) =>{
                 // onClick={momoPayment}
                 disabled
                 color="success">
-                        Thanh toán MoMo
+                        {t('momoPayment')}
                 </Button>
                 <Button className="!ou-ml-5" onClick={()=>
                     onSubmit(calculateAmount(prescriptionDetail, props.wage), 
                     props.id, props.handleChangeFlag)} 
                     variant="contained" color="success">
-                    Thanh toán
+                    {t('pay')}
                 </Button>
             </Box>
         )
@@ -33,39 +35,41 @@ const BillCard = (props) =>{
     
 
     return (<>
-        {isLoadingPrescriptionDetail && prescriptionDetail.length === 0 ?
+        {ready && isLoadingPrescriptionDetail && prescriptionDetail.length === 0 ?
             (<Box sx={{ height: "300px" }}>
                 <Box className='p-5'>
                     <Loading/>                
                 </Box>
             </Box>)
             : prescriptionDetail.length === 0 ?
-                (<Box sx={{ height: "300px" }}>
-                    <Box className='p-5'>
-                        <h2 className='text-center text-danger'>
-                            Phiếu chẩn đoán chưa được kê toa
-                        </h2>
-                        <Typography className='text-center'>
-                            <h3>Quay lại trang chủ</h3>
-                            <Button onClick={() => { redirect('/') }}>Tại đây!</Button>
-                        </Typography>
-                    </Box>
-                </Box>)
+                (<Box className="ou-relative ou-items-center " sx={{ minHeight: "300px" }}>
+                <Box className='ou-absolute ou-p-5 ou-text-center 
+                ou-flex-col ou-flex ou-justify-center ou-items-center
+                ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                    <h2 className='ou-text-xl ou-text-red-600'>
+                        {t('errNullPrescription')}
+                    </h2>
+                    <Typography className='text-center'>
+                        <h3>{t('common:backToHomePage')} </h3>
+                        <Button onClick={() => { router('/') }}>{t('common:here')}!</Button>
+                    </Typography>
+                </Box>
+             </Box>)
                 : (
                     <>
-                        <h1 className="ou-text-center ou-mt-8 ou-mb-5 ou-text-xl">Chi tiết phiếu kê toa</h1>
+                        <h1 className="ou-text-center ou-mt-8 ou-mb-5 ou-text-xl">{t('prescriptionDetail')}</h1>
                         <Box component={Paper}>
                             <Box className="ou-p-3">
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell colSpan={1} align="center">Mã phiếu</TableCell>
-                                                <TableCell colSpan={5} align="center">Tên thuốc</TableCell>
-                                                <TableCell colSpan={1} align="center">Liều dùng</TableCell>
-                                                <TableCell colSpan={1} align="center">Số lượng</TableCell>
-                                                <TableCell colSpan={1} align="center">Đơn giá</TableCell>
-                                                <TableCell colSpan={2} align="center">Thành tiền (VND)</TableCell>
+                                                <TableCell colSpan={1} align="center">{t('prescriptionDetailId')}</TableCell>
+                                                <TableCell colSpan={5} align="center">{t('medicineName')}</TableCell>
+                                                <TableCell colSpan={1} align="center">{t('uses')}</TableCell>
+                                                <TableCell colSpan={1} align="center">{t('quantity')}</TableCell>
+                                                <TableCell colSpan={1} align="center">{t('unitPrice')}</TableCell>
+                                                <TableCell colSpan={2} align="center">{t('total')} (VND)</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -111,11 +115,11 @@ const BillCard = (props) =>{
 
                                 </TableContainer>
                                 <Box className="ou-p-3" style={{ textAlign: "right" }}>
-                                    <Typography className="ou-p-2">Phí dịch vụ: {props.wage} VND</Typography>
-                                    <h4 className="p-2">Tổng tiền: {calculateAmount(prescriptionDetail, props.wage)} VND</h4>
+                                    <Typography className="ou-p-2">{t('serviceFee')}: {props.wage} VND</Typography>
+                                    <h4 className="p-2">{t('amount')}: {calculateAmount(prescriptionDetail, props.wage)} VND</h4>
                                     {props.receipt? 
                                     (<>
-                                        <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">Đã thanh toán <CheckCircleOutlineIcon /></h3>
+                                        <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">{t('success')} <CheckCircleOutlineIcon /></h3>
                                     </>)
                                         : renderLoadingButton()}
 

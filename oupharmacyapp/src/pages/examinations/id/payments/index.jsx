@@ -1,6 +1,7 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material"
+import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material"
 import moment from "moment"
-import { Container } from "postcss"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 import BillCard from "../../../../modules/common/components/card/BillCard"
 import Loading from "../../../../modules/common/components/Loading"
 import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePayment"
@@ -8,7 +9,16 @@ import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePay
 const Payments = () => {
     const {user, isLoadingPrescriptionDetail, examinationDetail, examinationID, 
         receipt, handleChangeFlag} = usePayment()
-     
+    const router = useNavigate()
+    const {t, ready} = useTranslation(['payment','common'])
+    // TODO: skeleton here
+    if(!ready){
+        return <Box sx={{ minHeight: "300px" }}>
+            <Box className='p-5'>
+                <Loading></Loading>
+            </Box>
+        </Box>
+    }
     if (user === null || user === undefined) {
         return (
             <>
@@ -17,8 +27,8 @@ const Payments = () => {
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4 className="ou-text-xl"> Bạn phải đăng nhập để  tiến hành thanh toán hóa đơn</h4>
-                            <Button onClick={() => { router('/login') }}>Tại đây!</Button>
+                            <h4 className="ou-text-xl"> {t('common:errNullUser')}</h4>
+                            <Button onClick={() => { router('/login') }}>{t('here')}!</Button>
                         </Container>
                     </Box>
                 </Box>
@@ -34,14 +44,17 @@ const Payments = () => {
                 </Box>
             </Box>)
             : examinationDetail.length === 0 ?
-                (<Box sx={{ minHeight: "300px" }}>
-                    <Box className='p-5'>
-                        <h2 className='text-center text-danger'>
-                            Phiếu khám chưa được chẩn đoán hoặc kê toa bởi bác sĩ
+                (
+                <Box className="ou-relative ou-items-center " sx={{ minHeight: "550px" }}>
+                    <Box className='ou-absolute ou-p-5 ou-text-center 
+                    ou-flex-col ou-flex ou-justify-center ou-items-center
+                    ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                        <h2 className='ou-text-xl ou-text-red-600'>
+                        {t('errNullPrescription')}
                         </h2>
                         <Typography className='text-center'>
-                            <h3>Quay lại trang chủ</h3>
-                            <Button onClick={() => { redirect('/') }}>Tại đây!</Button>
+                            <h3>{t('common:goToBooking')}</h3>
+                            <Button onClick={() => { router('/booking') }}>{t('common:here')}!</Button>
                         </Typography>
                     </Box>
                 </Box>)
@@ -51,7 +64,7 @@ const Payments = () => {
                             <Box>        
                                 <Box >
                                     <Box className="mt-2 mb-2 p-3" component={Paper}>
-                                        <h5 className="ou-text-center ou-text-xl">Thông tin cơ bản:</h5>
+                                        <h5 className="ou-text-center ou-text-xl">{t('basicInformation')}</h5>
                                         <Box className="ou-p-3">
                                             <Grid container>
                                                 <Grid item xs={4}>
@@ -62,7 +75,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit", marginRight: "20px" }}
                                                         color="grey.700"
                                                     >
-                                                        Phiếu khám số: {examinationID.examinationId}
+                                                        {t('examinationId')}: {examinationID.examinationId}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={4}>
@@ -72,8 +85,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit" }}
                                                         color="grey.700"
                                                     >
-                                                        Họ tên bệnh nhân:
-                                                        {examinationDetail.examination.patient.first_name} {examinationDetail.examination.patient.last_name}
+                                                        {t('patientFullName')}: {examinationDetail.examination.patient.first_name} {examinationDetail.examination.patient.last_name}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -87,7 +99,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit", marginRight: "20px" }}
                                                         color="grey.700"
                                                     >
-                                                        Người dùng đăng ký: {examinationDetail.examination.user.username}
+                                                        {t('userCreated')}: {examinationDetail.examination.user.username}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={8}>
@@ -97,7 +109,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit" }}
                                                         color="grey.700"
                                                     >
-                                                        Mô tả: {examinationDetail.examination.description}
+                                                        {t('description')}: {examinationDetail.examination.description}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -112,7 +124,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit", marginRight: "20px" }}
                                                         color="grey.700"
                                                     >
-                                                        Phiếu chẩn đoán số: {examinationDetail.id}
+                                                        {t('prescriptionId')}: {examinationDetail.id}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={6}>
@@ -122,7 +134,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit" }}
                                                         color="grey.700"
                                                     >
-                                                        Ngày chẩn đoán: <span >{moment(examinationDetail.created_date).format('DD/MM/YYYY')}</span>
+                                                        {t('diagnosisDate')}: <span >{moment(examinationDetail.created_date).format('DD/MM/YYYY')}</span>
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -136,7 +148,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit", marginRight: "20px" }}
                                                         color="grey.700"
                                                     >
-                                                        Triệu chứng: <span>{examinationDetail.sign}</span>
+                                                        {t('sign')}: <span>{examinationDetail.sign}</span>
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={8}>
@@ -146,7 +158,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit" }}
                                                         color="grey.700"
                                                     >
-                                                        Chẩn đoán: {examinationDetail.diagnosed}
+                                                        {t('diagnosed')}: {examinationDetail.diagnosed}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>

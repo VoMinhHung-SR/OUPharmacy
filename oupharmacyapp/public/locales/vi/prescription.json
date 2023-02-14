@@ -1,0 +1,10 @@
+{
+    "errNullPrescription":"Phiếu khám chưa được chẩn đoán",
+    "prescriptionId": "Mã phiếu khám",
+    "sign": "Triệu chứng",
+    "diagnosed": "Chẩn đoán",
+    "diagnosisDate": "Ngày chẩn đoán",
+    "doctorName": "Bác sĩ chẩn đoán",
+    "feature": "Chức năng",
+    "prescribing": "Kê toa"
+}

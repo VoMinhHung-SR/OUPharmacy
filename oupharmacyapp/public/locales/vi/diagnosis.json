@@ -1,0 +1,14 @@
+{
+    "examinationInformantion":"Thông tin phiếu đặt lịch khám",
+    "patientFullName": "Họ tên bệnh nhân",
+    "createdDate": "Ngày tạo",
+    "description": "Mô tả",
+    "errNullExamination": "Phiếu khám không tồn tại hoặc chưa được y tá duyệt đơn",
+    "createPrescription": "Tạo phiếu chẩn đoán",
+    "prescriptionInfomation": "Thông tin phiếu chẩn đoán",
+    "sign": "Triệu chứng",
+    "diagnosed": "Chẩn đoán",
+    "prescribing": "Kê toa",
+    "submit": "Đăng ký",
+    "wait": "Đang xử lý..."
+}

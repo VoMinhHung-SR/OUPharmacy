@@ -90,7 +90,7 @@ const Examinations = () =>{
                                         <TableCell align="center">{t('createdDate')}</TableCell>
                                         <TableCell align="center">{t('mailStatus')}</TableCell>
                                         <TableCell align="center">{t('userCreated')}</TableCell>
-                                        <TableCell align="center">{t('funtion')}</TableCell>
+                                        <TableCell align="center">{t('function')}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

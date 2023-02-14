@@ -1,5 +1,6 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material"
 import moment from "moment"
+import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 import PrescriptionCard from "../../../../modules/common/components/card/PrescriptionCard"
 import Loading from "../../../../modules/common/components/Loading"
@@ -9,7 +10,16 @@ const Diagnosis = () => {
     const { examinationDetail, isLoadingExamination, prescription,
         prescriptionId, examinationId, user, handleChangeFlag } = useDiagnosis()
     const router = useNavigate()
-    if (user === null || user === undefined) {
+    const {t , ready} = useTranslation(['diagnosis','common'])
+
+    if (!ready)
+        return <Box sx={{ height: "300px" }}>
+        <Box className='ou-p-5'>
+            <Loading></Loading>
+        </Box>
+    </Box>
+
+    if (!user) {
         return (
             <>
                 <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
@@ -17,8 +27,8 @@ const Diagnosis = () => {
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4> Bạn phải đăng nhập để tiến hành chẩn đoán</h4>
-                            <Button onClick={() => { router('/login') }}>Tại đây!</Button>
+                            <h4>{t('common:errNullUser')}</h4>
+                            <Button onClick={() => { router('/login') }}>{t('here')}!</Button>
                         </Container>
                     </Box>
                 </Box>
@@ -29,50 +39,52 @@ const Diagnosis = () => {
         <>
             {isLoadingExamination && examinationDetail.length === 0 ?
                 (<Box sx={{ height: "300px" }}>
-                    <Box className='p-5'>
+                    <Box className='ou-p-5'>
                         <Loading></Loading>
                     </Box>
                 </Box>)
                 : examinationDetail.length === 0 ?
-                    (<Box sx={{ height: "300px" }}>
-                        <Box className='p-5'>
-                            <h2 className='text-center text-danger'>
-                                Phiếu khám không tồn tại hoặc chưa được y tá duyệt đơn.
+                    (
+                    <Box className="ou-relative ou-items-center " sx={{ minHeight: "550px" }}>
+                        <Box className='ou-absolute ou-p-5 ou-text-center 
+                        ou-flex-col ou-flex ou-justify-center ou-items-center
+                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
+                            <h2 className='ou-text-xl ou-text-red-600'>
+                                {t('errNullExamination')}
                             </h2>
                             <Typography className='text-center'>
-                                <h3>Quay lại kê toa</h3>
-                                <Button onClick={() => { redirect('/add-examination') }}>Tại đây!</Button>
+                                <h3>{t('common:goToBooking')}</h3>
+                                <Button onClick={() => { router('/booking') }}>{t('here')}!</Button>
                             </Typography>
                         </Box>
                     </Box>)
                     : (
                         <Container>
-                            <Box className='ou-my-5'>
+                            <Box className='ou-my-5 ou-w-[80%] ou-m-auto'>
                                 <Box style={{ "margin": "auto" }}>
-                                    <h1 className="ou-text-center text-primary ou-text-3xl">Thông tin phiếu đặt lịch khám số {examinationId}</h1>
+                                    <h1 className="ou-text-center text-primary ou-text-xl">{t('examinationInformantion')}</h1>
                                     <Grid container justifyContent="flex" style={{ "margin": "10px auto" }} spacing={2}>
-                                        <Grid item xs={3} >
+                                        <Grid  xs={6} >
                                             <Typography>
-                                                <span className="ou-font-bold">Họ tên bệnh nhân: </span>  
+                                                <span className="ou-font-semibold">{t('patientFullName')}: </span>  
                                                 {examinationDetail.patient.first_name} {examinationDetail.patient.last_name} 
                                             </Typography>
                                         </Grid>
-                                        <Grid item xs={3}>
+                                        <Grid  xs={3}>
                                             <Typography>
-                                                <span className="ou-font-bold">Ngày tạo:</span> {moment(examinationDetail.created_date).format('DD/MM/YYYY')}
+                                                <span className="ou-font-semibold">{t('createdDate')}:</span> {moment(examinationDetail.created_date).format('DD/MM/YYYY')}
                                             </Typography>
                                         </Grid>
-
-                                        <Grid item xs={12}>
+                                        <Grid  xs={12} className="ou-pt-3">
                                             <Typography>
-                                                <span className="ou-font-bold">Mô tả:</span> {examinationDetail.description}
+                                                <span className="ou-font-semibold">{t('description')}:</span> {examinationDetail.description}
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                 </Box>
                             </Box>
 
-                            <Box className='p-5'>
+                            <Box className='ou-mt-5'>
                                 <Box style={{ "margin": "auto" }}>
                                     {user && <PrescriptionCard
                                         id={prescriptionId}
