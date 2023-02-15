@@ -1,5 +1,5 @@
-import { Box, Button, Container, FormControl, IconButton, InputLabel, OutlinedInput } from "@mui/material"
-import { useNavigate } from "react-router-dom"
+import { Box, Container, FormControl, IconButton, InputLabel, OutlinedInput } from "@mui/material"
+
 import useExamination from "../../modules/pages/ExaminationDetailComponents/hooks/useExamination"
 import SendIcon from '@mui/icons-material/Send';
 import { useForm } from "react-hook-form";
@@ -12,10 +12,8 @@ import Loading from "../../modules/common/components/Loading";
 const Booking = () => {
     const { t, ready } = useTranslation(['booking','common'])
 
-    const {checkEmail, checkPatientExist, openBackdrop, user, checkPatientExistSchema,
+    const {checkEmail, checkPatientExist, openBackdrop, checkPatientExistSchema,
         patientID, formEmail, isFormEmailOpen, handleOpenFormEmail} = useExamination()
-    const router = useNavigate();
-
 
     const methods = useForm({
         mode:"onSubmit",
@@ -32,22 +30,6 @@ const Booking = () => {
         </Box>
     </Box>;
 
-    if (user === null || user === undefined) {
-        return (
-            <>
-                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
-                    <Box className='ou-absolute ou-p-5 ou-text-center 
-                        ou-flex-col ou-flex ou-justify-center ou-items-center
-                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                        <Container className="ou-text-center ou-mt-5">
-                            <h4> {t('common:errNullUser')} </h4>
-                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
-                        </Container>
-                    </Box>
-                </Box>
-            </>
-        )
-    }
     const renderIsOpenEmailForm = (isFormEmailOpen) => {
         if(isFormEmailOpen)
         return (

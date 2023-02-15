@@ -18,25 +18,6 @@ const ExaminationList = () =>{
         </Box>
     </Box>
 
-    if (user === null || user === undefined) {
-        return (
-            <>
-                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
-                    <Box className='ou-absolute ou-p-5 ou-text-center 
-                        ou-flex-col ou-flex ou-justify-center ou-items-center
-                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                        <Container className="ou-text-center ou-mt-5">
-                            <h4> {t('common:errNullUser')}</h4>
-                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
-                        </Container>
-                    </Box>
-                </Box>
-            </>
-        )
-    }
-
-
-
     return(
     <>
         {isLoading && examinationList.length === 0 ?
@@ -55,15 +36,15 @@ const ExaminationList = () =>{
                         </h2>
                         <Typography className='text-center'>
                             <h3>{t('common:goToBooking')}</h3>
-                            <Button onClick={() => { router('/examinations') }}>{t('common:here')}!</Button>
+                            <Button onClick={() => { router('/booking') }}>{t('common:here')}!</Button>
                         </Typography>
                     </Box>
                 </Box>)
                 : (
                     <Container >
                             <Box className='ou-pt-5 ou-pb-5' sx={{ minHeight: "300px" }}>
-                                <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableContainer component={Paper} elevation={4}>
+                                    <Table sx={{ minWidth: 800 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>{t('id')}</TableCell>
@@ -95,7 +76,7 @@ const ExaminationList = () =>{
                                                         <Typography>{moment(e.created_date).format('DD/MM/YYYY')}</Typography>
                                                         {/* <Moment format="DD/MM/YYY" >{e.created_date}</Moment> */}
                                                     </TableCell>
-                                                    <TableCell align="center">{e.mail_status === true ? "Đã gửi" : "Chưa"}</TableCell>
+                                                    <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
                                                     <TableCell align="center">
                                                         <Typography>
                                                             {e.patient.first_name +" "+ e.patient.last_name}

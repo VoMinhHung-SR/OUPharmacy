@@ -41,7 +41,7 @@ const FormAddExamination = (props) => {
             }
             <div className="ou-w-[100%] ou-m-auto ou-my-8">
                 <Container>
-                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(props.patientID, data))} 
+                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(props.patientID, data, props.handleOpenFormEmail))} 
                     style={{ "width": "70%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
                         <h3 className="ou-text-center ou-text-2xl ou-font-medium">{t('booking')}</h3>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>

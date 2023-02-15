@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { userContext } from "../../../../App";
+import { useState } from "react";
 import { fetchPatientExist } from "../services";
 import * as Yup from 'yup';
 import { REGEX_EMAIL } from "../../../../lib/constants";
@@ -7,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 const useExamination = () => {
     const {t} = useTranslation('yup-validate')
-    const [user] = useContext(userContext);
 
     const [formEmail, setFormEmail] = useState('');
     const [patientID, setPatientID] = useState(-1);
@@ -19,7 +17,6 @@ const useExamination = () => {
     const handleOpenFormEmail = () =>{
         setIsFormEmailOpen(true)
     }
-    
     const checkPatientExistSchema = Yup.object().shape({
         email: Yup.string()
             .required(t('yupEmailRequired'))
@@ -48,7 +45,6 @@ const useExamination = () => {
     }
 
     return {
-        user,
         patientID,
         isFormEmailOpen,
         setIsFormEmailOpen,

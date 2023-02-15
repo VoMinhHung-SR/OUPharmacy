@@ -1,5 +1,6 @@
 {
-    "errNullPrescription": "Phiếu khám chưa được chẩn đoán hoặc kê toa bởi bác sĩ",
+    "errNullPrescription": "Phiếu khám chưa được chẩn đoán bởi bác sĩ",
+    "errNullPrescriptionDetail": "Phiếu khám chưa được kê toa bởi bác sĩ",
     "basicInformation": "Thông tin cơ bản",
     "prescriptionId": "Phiếu chẩn đoán số",
     "examinationId": "Phiếu khám số",

@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useSearchParams } from "react-router-dom"
 import { userContext } from "../../../../../App"
-import SuccessfulAlert, { ConfirmAlert } from "../../../../../config/sweetAlert2"
+import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../config/sweetAlert2"
 import { fetchExaminationListConfirm, fetchSendEmailConfirmExamination } from "../services"
 
 const useExaminationConfirm = () =>{
+    const {t} = useTranslation(['examinations','modal'])
     // ====== QuerySet ======
     const [q] = useSearchParams();
 
@@ -53,17 +55,21 @@ const useExaminationConfirm = () =>{
         const sendEmail = async ()=>{
             const res = await fetchSendEmailConfirmExamination(examinationID)
             if (res.status === 200){
-                SuccessfulAlert("Gửi email hoàn tất", "OK")
                 setFlag(!flag)
-            }
+                SuccessfulAlert(t('sendMailSuccessed'), t('modal:oke'))
+            }else 
+                if (res.status === 400){
+                    setFlag(!flag)
+                    ErrorAlert(t('modal:errSomethingWentWrong'),t('modal:pleaseTryAgain'), t('modal:ok'))
+                } 
             setIsLoadingButton(false)
         }
-        return ConfirmAlert("Xác nhận gửi thư xác nhận","Hành động nay sẽ không thể hoàn tác, tiếp tục gửi.","Yes","Cancel",
+        return ConfirmAlert(t('confirmSendEmail'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
             // this is callback function when user confirmed "Yes"
             ()=>{
                 setIsLoadingButton(true)
                 sendEmail()
-        })
+        },()=>{return;})
     }
     return{
         user,

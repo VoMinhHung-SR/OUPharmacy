@@ -51,7 +51,7 @@ const useFormAddExamination = () => {
     
     });
 
-    const onSubmit = async (patientID, data) => {
+    const onSubmit = async (patientID, data, callback) => {
         if(data === undefined)
             return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
 
@@ -76,12 +76,14 @@ const useFormAddExamination = () => {
                 created_date: data.createdDate
             }
             const resExamination = await featchCreateExamination(examinationData);
-            if(resExamination.status === 201)
+            if(resExamination.status === 201){
+                callback();
                 SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
+            }
             else{
+                setOpenBackdrop(false)
                 ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
             }
-            // setOpenBackdrop(false)
         }
         else{
             setOpenBackdrop(false)

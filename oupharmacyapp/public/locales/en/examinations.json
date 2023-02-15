@@ -15,5 +15,7 @@
     "sent": "Sent",
     "noSent":"No",
 
-    "confirmDelete":"Confirm to delete this examination sheet"
+    "confirmDelete":"Confirm to delete this examination sheet",
+    "confirmSendEmail": "Confirm to send an email",
+    "sendMailSuccessed": "Send mail successed"
 }

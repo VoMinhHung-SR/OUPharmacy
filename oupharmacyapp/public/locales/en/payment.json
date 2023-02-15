@@ -1,5 +1,6 @@
 {
-    "errNullPrescription": "The medical records that have not been prescribed or diagnosed by a doctor",
+    "errNullPrescription": "The medical records that have not been diagnosed by a doctor",
+    "errNullPrescriptionDetail": "The medical records that have not been prescribed by a doctor",
     "basicInformation": "Basic infomation",
     "prescriptionId": "Prescription Id",
     "examinationId": "Examination Id",

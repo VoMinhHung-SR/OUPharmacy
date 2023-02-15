@@ -28,7 +28,7 @@ const Payments = () => {
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
                             <h4 className="ou-text-xl"> {t('common:errNullUser')}</h4>
-                            <Button onClick={() => { router('/login') }}>{t('here')}!</Button>
+                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
                         </Container>
                     </Box>
                 </Box>
@@ -60,12 +60,12 @@ const Payments = () => {
                 </Box>)
                 : (
                     <>
-                        <Box className='ou-py-5 ou-my-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
+                        <Box className='ou-my-5 ou-mb-8 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
                             <Box>        
                                 <Box >
-                                    <Box className="mt-2 mb-2 p-3" component={Paper}>
-                                        <h5 className="ou-text-center ou-text-xl">{t('basicInformation')}</h5>
-                                        <Box className="ou-p-3">
+                                    <Box className="ou-my-4" component={Paper} elevation={4}>
+                                        <h5 className="ou-text-center ou-text-xl ou-mb-4 ou-pt-4">{t('basicInformation')}</h5>
+                                        <Box className="ou-p-4">
                                             <Grid container>
                                                 <Grid item xs={4}>
                                                     <Typography
@@ -114,7 +114,7 @@ const Payments = () => {
                                                 </Grid>
                                             </Grid>
                                         </Box>
-                                        <Box className="ou-p-3">
+                                        <Box className="ou-p-4">
                                             <Grid container>
                                                 <Grid item xs={4}>
                                                     <Typography

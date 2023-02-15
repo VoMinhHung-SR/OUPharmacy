@@ -4,10 +4,11 @@ import useBillCard from "./hooks/useBillCard"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { calculateAmount } from "./utils/helper";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 const BillCard = (props) =>{
     const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail, isLoadingButton} = useBillCard(props.id)
     const {t, ready} = useTranslation(['payment','common']);
-
+    const router = useNavigate();
     const renderLoadingButton = () => {
         if(isLoadingButton)
             return(<Box className="!ou-mt-2">
@@ -47,18 +48,18 @@ const BillCard = (props) =>{
                 ou-flex-col ou-flex ou-justify-center ou-items-center
                 ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                     <h2 className='ou-text-xl ou-text-red-600'>
-                        {t('errNullPrescription')}
+                        {t('errNullPrescriptionDetail')}
                     </h2>
                     <Typography className='text-center'>
-                        <h3>{t('common:backToHomePage')} </h3>
+                        <h3>{t('common:backToHomepage')} </h3>
                         <Button onClick={() => { router('/') }}>{t('common:here')}!</Button>
                     </Typography>
                 </Box>
              </Box>)
                 : (
                     <>
-                        <h1 className="ou-text-center ou-mt-8 ou-mb-5 ou-text-xl">{t('prescriptionDetail')}</h1>
-                        <Box component={Paper}>
+                        <Box component={Paper} elevation={4}>
+                            <h1 className="ou-text-center ou-mt-8 ou-mb-4 ou-pt-4 ou-text-xl">{t('prescriptionDetail')}</h1>
                             <Box className="ou-p-3">
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">

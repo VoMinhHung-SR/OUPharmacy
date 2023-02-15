@@ -8,16 +8,22 @@ import ErrorIcon from '@mui/icons-material/Error';
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { ROLE_DOCTOR, ROLE_NURSE } from "../../lib/constants";
 
 const Examinations = () =>{
     const {user, pagination,handleChangePage, examinationList, isLoadingButton,
         isLoadingExamination, page, handleSendEmailConfirm} = useExaminationConfirm();
     const router = useNavigate();
 
-    const { t, ready } = useTranslation(['examinations', 'common'])
+    const { t, ready } = useTranslation(['examinations', 'common', 'modal'])
 
+    // TODO: adding skeleton here
     if (!ready)
-        return <div>Loading translations...</div>;
+        return <Box sx={{ height: "300px" }}>
+        <Box className='p-5'>
+            <Loading></Loading>
+        </Box>
+    </Box>
         
     if (user === null || user === undefined) {
         return (
@@ -81,7 +87,7 @@ const Examinations = () =>{
                 )
                 : (<>
                     <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
-                        <TableContainer component={Paper}>
+                        <TableContainer component={Paper} elevation={4}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow >
@@ -121,7 +127,7 @@ const Examinations = () =>{
                                             <TableCell align="center">
                                                 {e.mail_status === true ?
                                                     (<>
-                                                        {user && user.is_doctor === true ?
+                                                        {user && user.role.name === ROLE_DOCTOR ?
                                                             (<><Typography>
                                                                 <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/diagnosis`}>
                                                                     <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
@@ -130,7 +136,7 @@ const Examinations = () =>{
                                                                 </Link>
                                                             </Typography></>)
                                                             : <></>}
-                                                        {user && user.is_nurse === true ?
+                                                        {user && user.role.name === ROLE_NURSE ?
                                                             (<>
                                                                 <Typography>
                                                                     <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/payments`}>
@@ -145,14 +151,14 @@ const Examinations = () =>{
                                                     )
                                                     : (
                                                         <>
-                                                            {user && user.is_doctor === true ?
+                                                            {user && user.role.name === ROLE_DOCTOR ?
                                                                 (<>
                                                                 <Typography className='text-danger'>
                                                                     {t('noReady')} <ErrorIcon />
                                                                 </Typography>
                                                                 </>)
                                                                 : <></>}
-                                                            {user && user.is_nurse === true ? 
+                                                            {user && user.role.name === ROLE_NURSE ? 
                                                                 renderButton(e.id) 
                                                                 : <></>
                                                             }

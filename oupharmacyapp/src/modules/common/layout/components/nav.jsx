@@ -15,6 +15,7 @@ import { changeLanguage } from "i18next";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FlagUK from "../../../../../public/flagUK";
 import FlagVN from "../../../../../public/flagVN";
+import { ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
 
 
 const Nav = () => {
@@ -176,7 +177,7 @@ const Nav = () => {
   const renderElementNav = (pageID, pageLink, pageName, isMobile = false) => {
     // Render for doctor
       if(pageID === 'prescriptions'|| pageID === 'prescriptions-mb')
-        if(user && user.is_doctor)
+        if(user && user.role?.name === ROLE_DOCTOR)
           return(
             <Link to={pageLink}>
               <Button 
@@ -216,7 +217,7 @@ const Nav = () => {
       //   else return 
     // Render for both doctor and nurse
       if(pageID === 'examinations' || pageID === 'examinations-mb')
-        if(user && (user.is_doctor || user.is_nurse))
+        if(user && (user.role?.name === ROLE_DOCTOR || user.role?.name === ROLE_NURSE))
           return(
             <Link to={pageLink}>
               <Button 

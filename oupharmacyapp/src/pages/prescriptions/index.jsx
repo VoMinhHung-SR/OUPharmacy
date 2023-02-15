@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import moment from "moment"
 import { useTranslation } from "react-i18next"
+import { ROLE_DOCTOR } from "../../lib/constants"
 const PrescriptionList = () => {
     const {user, prescriptionList, isLoadingPrescriptionList} = usePrescriptionList()
     const router = useNavigate()
@@ -76,7 +77,7 @@ const PrescriptionList = () => {
                                         <SearchIcon />
                                     </Button>
                                 </form> */}
-                                <TableContainer component={Paper}>
+                                <TableContainer component={Paper} elevation={4}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
@@ -119,7 +120,7 @@ const PrescriptionList = () => {
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        {user && user.is_doctor === true ?
+                                                        {user && user.role.name === ROLE_DOCTOR ?
                                                             (<>
                                                                 <Typography className="mb-2">
                                                                     <Link style={{ "textDecoration": "none" }}

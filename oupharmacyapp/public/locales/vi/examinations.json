@@ -16,5 +16,7 @@
     "sent":"Đã gửi",
     "noSent":"Chưa",
 
-    "confirmDelete":"Xác nhận xóa phiếu đặt lịch"
+    "confirmDelete":"Xác nhận xóa phiếu đặt lịch",
+    "confirmSendEmail": "Xác nhận gửi thư xác nhận",
+    "sendMailSuccessed": "Gửi email hoàn tất"
 }

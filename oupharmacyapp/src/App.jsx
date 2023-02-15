@@ -19,6 +19,8 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
 import Booking from './pages/booking'
 import Examinations from './pages/examinations'
+import ProtectedUserRoute from './modules/common/layout/userRoute'
+
 
 export const userContext = createContext()
 
@@ -35,19 +37,22 @@ function App() {
               <Routes>
                 <Route path='/' element={<Layout />}>
                   <Route path='/' element={<Home />}/>
-                  <Route path='/booking' element={<Booking/>}/>
-                  <Route path='/examinations' element={<Examinations/>}/>
-                  <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                  <Route path='/examinations/:examinationId/payments' element={<Payments />} />
+                  <Route element={<ProtectedUserRoute/>}>
+                    <Route path='/booking' element={<Booking/>}/>
+                    <Route path='/examinations' element={<Examinations/>}/>
+                    <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                    <Route path='/examinations/:examinationId/payments' element={<Payments />} />
 
-                  <Route path='/users/examinations' element={<ExaminationList />} />
-                  
-                  <Route path='/prescriptions' element={<PrescriptionList/>} />
-                  <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
+                    <Route path='/users/examinations' element={<ExaminationList />} />
+                    
+                    <Route path='/prescriptions' element={<PrescriptionList/>} />
+                    <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
 
-                  <Route path='/conversations'  element={<ConversationList/>} >
-                    <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                    <Route path='/conversations'  element={<ConversationList/>} >
+                      <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                    </Route>
                   </Route>
+          
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
