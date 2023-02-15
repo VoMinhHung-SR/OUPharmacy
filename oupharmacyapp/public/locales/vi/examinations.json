@@ -6,6 +6,7 @@
     "createdDate":"Ngày đăng ký",
     "mailStatus":"Tình trạng mail",
     "userCreated": "Người dùng đăng ký",
+    "patientName": "Tên bệnh nhân",
     "function": "Chức năng",
 
     "diagnose": "Chẩn đoán",
@@ -13,5 +14,7 @@
 
     "noReady": "Chưa xác nhận",
     "sent":"Đã gửi",
-    "noSent":"Chưa"
+    "noSent":"Chưa",
+
+    "confirmDelete":"Xác nhận xóa phiếu đặt lịch"
 }

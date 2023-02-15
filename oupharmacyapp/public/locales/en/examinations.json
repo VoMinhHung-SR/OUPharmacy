@@ -6,12 +6,14 @@
     "createdDate":"Created date",
     "mailStatus":"Mail status",
     "userCreated": "User created",
+    "patientName": "Patient name",
     "function": "Feature",
 
     "diagnose":"Diagnose",
     "pay": "Pay",
-
     "noReady": "No ready",
     "sent": "Sent",
-    "noSent":"No"
+    "noSent":"No",
+
+    "confirmDelete":"Confirm to delete this examination sheet"
 }

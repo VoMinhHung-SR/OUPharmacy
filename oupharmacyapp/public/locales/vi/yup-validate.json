@@ -1,0 +1,30 @@
+{
+    "yupEmailRequired":"Email không được để trống",
+    "yupEmailMaxLenght":"Email vượt quá độ dài cho phép",
+    "yupEmailInvalid": "Email không hợp lệ",
+    
+    "yupFirstNameRequired":"Họ không được để trống",
+    "yupFirstNameMaxLenght":"Họ vượt quá độ dài cho phép",
+    "yupFirstNameInvalid":"Họ không hợp lệ",
+    
+    "yupLastNameRequired":"Tên không được để trống",
+    "yupLastNameMaxLenght":"Tên vượt quá độ dài cho phép",
+    "yupLastNameInvalid":"Tên không hợp lệ",
+
+    "yupPhoneNumberRequired":"Số điện thoại không được để trống",
+    "yupPhoneNumberInvalid":"Số điện thoại không hợp lệ",
+
+
+    "yupAddressRequired":"Địa chỉ không được để trống",
+    "yupAddressInvalid":"Địa chỉ không hợp lệ",
+
+    "yupDOBRequired":"Ngày sinh không được để trống",
+
+    "yupGenderRequired":"Giới tính không được để trống",
+    
+    "yupDescriptionRequired":"Mô tả không được phép để trống",
+    "yupDescriptionMaxLenght":"Mô tả vượt quá độ dài cho phép",
+    "yupDescriptionInvalid":"Mô tả không hợp lệ",
+
+    "yupCreatedDateRequired":"Ngày tạo không được phép để trống"
+}

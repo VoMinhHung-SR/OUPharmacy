@@ -1,0 +1,29 @@
+{
+    "yupEmailRequired":"Email was required",
+    "yupEmailMaxLenght":"Email exceeds the allowed length",
+    "yupEmailInvalid": "Invalid email",
+
+    "yupFirstNameRequired":"First name was required",
+    "yupFirstNameMaxLenght":"First name exceeds the allowed length",
+    "yupFirstNameInvalid":"Invalid first name",
+    
+    "yupLastNameRequired":"Last name was required",
+    "yupLastNameMaxLenght":"Last name exceeds the allowed length",
+    "yupLastNameInvalid":"Invalid last name",
+    
+    "yupPhoneNumberRequired":"Phone number was required",
+    "yupPhoneNumberInvalid":"Invalid phone number",
+
+    "yupAddressRequired":"Address was required",
+    "yupAddressInvalid":"Invalid address",
+
+    "yupDOBRequired":"Date of birth was required",
+
+    "yupGenderRequired":"Gender was required",
+
+    "yupDescriptionRequired":"Description was required",
+    "yupDescriptionMaxLenght":"Description exceeds the allowed length",
+    "yupDescriptionInvalid":"Invalid description",
+
+    "yupCreatedDateRequired":"Created date was required"
+}

@@ -3,16 +3,10 @@ import { userContext } from "../../../../App";
 import { fetchPatientExist } from "../services";
 import * as Yup from 'yup';
 import { REGEX_EMAIL } from "../../../../lib/constants";
-
-export const checkPatientExistSchema = Yup.object().shape({
-    email: Yup.string()
-        .required("Email không được để trống")
-        .max(254, "Email vượt quá độ dài cho phép")
-        .matches(REGEX_EMAIL, "email khong hop le")
-        .trim()
-});
+import { useTranslation } from "react-i18next";
 
 const useExamination = () => {
+    const {t} = useTranslation('yup-validate')
     const [user] = useContext(userContext);
 
     const [formEmail, setFormEmail] = useState('');
@@ -21,11 +15,19 @@ const useExamination = () => {
     const [isFormEmailOpen, setIsFormEmailOpen] = useState(true)
     const [checkPatientExist, setCheckPatientExist] = useState(false);
 
-    // Called when form have errors
+    // Called when form dont have errors
     const handleOpenFormEmail = () =>{
         setIsFormEmailOpen(true)
     }
     
+    const checkPatientExistSchema = Yup.object().shape({
+        email: Yup.string()
+            .required(t('yupEmailRequired'))
+            .max(254, t('yupEmailMaxLenght'))
+            .matches(REGEX_EMAIL, t('yupEmailInvalid'))
+            .trim()
+    });
+
     const checkEmail = async (email) => {
         setFormEmail(email)
         setOpenBackdrop(true);
@@ -55,7 +57,8 @@ const useExamination = () => {
         openBackdrop,
         checkPatientExist,
         formEmail,
-        setCheckPatientExist
+        setCheckPatientExist,
+        checkPatientExistSchema
     }
 }
 

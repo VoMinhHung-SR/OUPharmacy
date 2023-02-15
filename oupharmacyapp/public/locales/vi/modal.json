@@ -1,0 +1,16 @@
+{
+    "ok":"OK",
+    "yes": "Đồng ý",
+    "cancel": "Hủy",
+
+    "createSuccessed": "Tạo thành công",
+    "createFailed": "Tạo thất bại",
+
+    "deleteCompleted": "Xóa thành công",
+    "deleteFailed": "Xóa thất bại",
+
+    "errSomethingWentWrong":"Đã có lỗi xảy ra",
+    "pleaseTryAgain": "Vui lòng thử lại sau",
+
+    "noThrowBack": "Hành động nay sẽ không thể hoàn tác, tiếp tục"
+}

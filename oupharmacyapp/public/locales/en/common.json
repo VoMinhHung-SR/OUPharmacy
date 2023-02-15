@@ -2,14 +2,15 @@
     "errNullUser":"You don't have the permission to use this feature, please login",
     "goToBooking": "Go to booking",
     "backToHomepage": "Back to homepage",
+
     "here": "Here",
     "send": "Send",
+    "delete": "Delete",
     "undefined": "Undefined",
 
     "booking": "Booking",
     "examination": "Examinations",
     "prescription": "Prescriptions",  
-
     "login": "Login",
     "register":"Register",
     "logout": "Logout",

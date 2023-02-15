@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { userContext } from "../../../../App"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../config/sweetAlert2"
 import { fetchDeleteAnExamination, fetchExaminationList } from "../services"
@@ -9,7 +10,9 @@ const useExaminationList = () => {
     const [flag, setFlag] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 
+    const {t} = useTranslation(['examinations','modal'])
    
+
     useEffect(()=> {
         const loadExaminations = async (userID) =>{
             try{
@@ -33,20 +36,21 @@ const useExaminationList = () => {
     const handleDeleteExamination = (examinationID) =>{
 
         const deleteExamination = async () =>{
-            console.log("da xoa", examinationID)
             const res = await fetchDeleteAnExamination(examinationID)
             if (res.status === 204){
-                SuccessfulAlert("Xóa thành công", "OK")
+                SuccessfulAlert(t('modal:deleteCompleted'), t('modal:ok'))
                 setFlag(!flag)
             }else{
-                ErrorAlert("Xóa thất bại", "Đã có lỗi xảy ra", "OK")
+                ErrorAlert(t('modal:deleteFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
             }
         }
-        return ConfirmAlert("Xác nhận xóa phiếu đặt lịch","Hành động nay sẽ không thể hoàn tác, tiếp tục xóa.","Yes","Cancel",
+        return ConfirmAlert(t('confirmDelete'),t('modal:noThrowBack'),
+        t('modal:yes'),
+        t('modal:cancel'),
         // this is callback function when user confirmed "Yes"
         ()=>{
             deleteExamination()
-        })
+        }, ()=> {return;})
     }
 
     return {

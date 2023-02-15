@@ -1,41 +1,59 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import SuccessfulAlert, { ErrorAlert } from '../../../../../config/sweetAlert2';
+import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER } from '../../../../../lib/constants';
 import { featchCreateExamination, fetchCreateOrUpdatePatient } from '../services';
-
-export const formAddExaminationSchema = Yup.object().shape({
-    firstName: Yup.string()
-        .required("Họ bện nhân không được để trống")
-        .max(254, "Họ bện nhân vượt quá độ dài cho phép"),
-    lastName: Yup.string()
-        .required("Tên bệnh nhân không được để trống")
-        .max(254, "Tên bệnh nhân vượt quá độ dài cho phép"),
-    email: Yup.string()
-        .required("Email không được để trống")
-        .max(254, "Email vượt quá độ dài cho phép")
-        .email("Phải là một email hợp lệ"),
-    phoneNumber: Yup.string()
-        .required("SĐT không được để trống"),
-    address: Yup.string()
-        .required("Địa chỉ không được để trống"),
-    dateOfBirth: Yup.string()
-    .required("Địa chỉ không được để trống"),
-    gender: Yup.string()
-    .required("Địa chỉ không được để trống"),
-
-    description: Yup.string()
-        .required("Mô tả không được phép để trống"),
-    createdDate: Yup.string()
-        .required("Ngày tạo không được phép để trống"),
-
-});
 
 
 const useFormAddExamination = () => {
+    const {t} = useTranslation(['yup-validate','modal']);
+
     const [openBackdrop, setOpenBackdrop] = useState(false)
+
+    const formAddExaminationSchema = Yup.object().shape({
+        firstName: Yup.string().trim()
+            .required(t('yupFirstNameRequired'))
+            .max(150, t('yupFirstNameMaxLenght'))
+            .matches(REGEX_NAME, t('yupFirstNameInvalid')),
+
+        lastName: Yup.string().trim()
+            .required(t('yupLastNameRequired'))
+            .max(150, t('yupLastNameMaxLenght'))
+            .matches(REGEX_NAME, t('yupFirstNameInvalid')),
+
+        email: Yup.string().trim()
+            .required(t('yupEmailRequired'))
+            .max(254, t('yupEmailMaxLenght'))
+            .matches(REGEX_EMAIL, t('yupEmailInvalid')),
+
+        phoneNumber: Yup.string().trim()
+            .required(t('yupPhoneNumberRequired'))
+            .matches(REGEX_PHONE_NUMBER, t('yupPhoneNumberInvalid')),
+            
+        address: Yup.string().trim()
+            .required(t('yupAddressRequired'))
+            .matches(REGEX_ADDRESS, t('yupAddressInvalid')),
+
+        dateOfBirth: Yup.string()
+            .required(t('yupDOBRequired'))
+            .max(254, t('yupLastNameMaxLenght')),
+
+        gender: Yup.string()
+        .required(t('yupGenderRequired')),
+    
+        description: Yup.string().trim()
+            .required(t('yupDescriptionRequired'))
+            .max(254, t('yupDescriptionMaxLenght'))
+            .matches(REGEX_NOTE, t('yupDescriptionInvalid')),
+        createdDate: Yup.string()
+            .required(t('yupCreatedDateRequired')),
+    
+    });
+
     const onSubmit = async (patientID, data) => {
         if(data === undefined)
-            return ErrorAlert("CO LOI XAY RA", "VUI LONG THU LAI SAU","Oke");
+            return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
 
         const patientData = {
             first_name: data.firstName,
@@ -59,21 +77,22 @@ const useFormAddExamination = () => {
             }
             const resExamination = await featchCreateExamination(examinationData);
             if(resExamination.status === 201)
-                SuccessfulAlert("Tạo thành công","OK")
+                SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
             else{
-                ErrorAlert("CO LOI XAY RA", "VUI LONG THU LAI SAU","Oke")
+                ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
             }
             // setOpenBackdrop(false)
         }
         else{
             setOpenBackdrop(false)
-            ErrorAlert("CO LOI XAY RA", "VUI LONG THU LAI SAU","Oke")
+            ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
         }
         setOpenBackdrop(false)
     }
     return {
         openBackdrop,
-        onSubmit
+        onSubmit,
+        formAddExaminationSchema
     }
 }
-export default useFormAddExamination
+export default useFormAddExamination;

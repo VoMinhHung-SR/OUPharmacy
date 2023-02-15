@@ -3,13 +3,21 @@ import { useNavigate } from "react-router";
 import Loading from "../../../modules/common/components/Loading";
 import useExaminationList from "../../../modules/pages/ExaminationListComponents/hooks/useExaminationList"
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const ExaminationList = () =>{
     const {user, isLoading, examinationList, handleDeleteExamination} = useExaminationList();
     const router = useNavigate();
 
+    const {t,ready} = useTranslation(['examinations','common'])   
     
-    
+    if(!ready)
+        return <Box sx={{ minHeight: "300px" }}>
+        <Box className='ou-p-5'>
+            <Loading></Loading>
+        </Box>
+    </Box>
+
     if (user === null || user === undefined) {
         return (
             <>
@@ -18,8 +26,8 @@ const ExaminationList = () =>{
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center ou-mt-5">
-                            <h4> Bạn phải đăng nhập để xem được phiếu đăng ký khám</h4>
-                            <Button onClick={() => { router('/login') }}>Tại đây!</Button>
+                            <h4> {t('common:errNullUser')}</h4>
+                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
                         </Container>
                     </Box>
                 </Box>
@@ -43,11 +51,11 @@ const ExaminationList = () =>{
                     ou-flex-col ou-flex ou-justify-center ou-items-center
                     ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <h2 className='ou-text-xl ou-text-red-600'>
-                            Hiện tại người dùng chưa đặt lịch
+                            {t('errExaminationList')}
                         </h2>
                         <Typography className='text-center'>
-                            <h3>Quay lại đặt lịch</h3>
-                            <Button onClick={() => { router('/examinations') }}>Tại đây!</Button>
+                            <h3>{t('common:goToBooking')}</h3>
+                            <Button onClick={() => { router('/examinations') }}>{t('common:here')}!</Button>
                         </Typography>
                     </Box>
                 </Box>)
@@ -58,12 +66,12 @@ const ExaminationList = () =>{
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell>Mã phiếu</TableCell>
-                                                <TableCell align="center">Mô tả</TableCell>
-                                                <TableCell align="center">Ngày đăng ký</TableCell>
-                                                <TableCell align="center">Tình trạng mail</TableCell>
-                                                <TableCell align="center">Tên bệnh nhân</TableCell>
-                                                <TableCell align="center">Chức năng</TableCell>
+                                                <TableCell>{t('id')}</TableCell>
+                                                <TableCell align="center">{t('description')}</TableCell>
+                                                <TableCell align="center">{t('createdDate')}</TableCell>
+                                                <TableCell align="center">{t('mailStatus')}</TableCell>
+                                                <TableCell align="center">{t('patientName')}</TableCell>
+                                                <TableCell align="center">{t('function')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -104,7 +112,7 @@ const ExaminationList = () =>{
                                                                 handleDeleteExamination(e.id)
                                                             }}
                                                             color="error" >
-                                                            Xóa
+                                                            {t('common:delete')}
                                                         </Button>
                                                     </TableCell>
                                                 </TableRow>

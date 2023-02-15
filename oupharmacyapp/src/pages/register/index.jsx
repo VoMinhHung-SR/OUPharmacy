@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 const Register = () => {
     const {imageUrl, setImageUrl, openBackdrop, dob, setDOB,
-        selectedImage, setOpenBackdop, setSelectedImage,
+        selectedImage, setSelectedImage,
         currentDate, gender, setGender ,onSubmit
     } = useRegister();
     const methods = useForm({
@@ -40,9 +40,6 @@ const Register = () => {
             <div style={{ "width": "100%"
             }}>
                 <Container style={{ "padding": "50px" }}>
-
-
-
                     <form onSubmit={methods.handleSubmit((data)=> onSubmit(data))} style={{ "width": "60%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
                         <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>Đăng ký người dùng</h1>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>

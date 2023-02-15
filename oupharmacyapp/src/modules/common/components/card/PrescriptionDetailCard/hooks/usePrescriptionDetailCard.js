@@ -10,10 +10,10 @@ export const prescrtionDetailSchema = Yup.object().shape({
         .required("Lần sử dụng được phép trống"),
     quantity: Yup.string()
         .required("Số lượng được phép trống"),
-
 });
 
 const usePrescriptionDetailCard = () => {
+
     const {prescriptionId} = useParams();
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)

@@ -1,16 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Button, Container, Divider, FormControl, Grid, InputAdornment, InputLabel, MenuItem, 
+import { Box, Button, Container, FormControl, Grid, InputAdornment, InputLabel, MenuItem, 
     OutlinedInput, Select, TextField, Typography } from "@mui/material"
-import { t } from "i18next";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import BackdropLoading from "../../../common/components/BackdropLoading";
-import useFormAddExamination, { formAddExaminationSchema } from "./hooks/useFormAddExamination"
+import Loading from "../../../common/components/Loading";
+import useFormAddExamination from "./hooks/useFormAddExamination"
 
 const FormAddExamination = (props) => {
 
-    const {t , ready} = useTranslation('booking')
-    const {onSubmit, openBackdrop} = useFormAddExamination();
+    const {t , ready} = useTranslation(['booking', 'yup-validate', 'modal'])
+    const {onSubmit, openBackdrop, formAddExaminationSchema} = useFormAddExamination();
     const methods = useForm({
         mode:"onSubmit", 
         resolver: yupResolver(formAddExaminationSchema),
@@ -26,8 +26,13 @@ const FormAddExamination = (props) => {
             gender:0
         }
     })
-    if(!ready)
-        return <div>Loading translations...</div>;
+    // TODO: adding skeletons here
+    if (!ready)
+        return <Box sx={{ minHeight: "300px" }}>
+        <Box className='ou-p-5'>
+            <Loading></Loading>
+        </Box>
+    </Box>;
     return (
         <>
             {openBackdrop ?
@@ -135,7 +140,7 @@ const FormAddExamination = (props) => {
                                     helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
                                     {...methods.register("email")}
                                     InputProps={{
-                                        // readOnly: true,
+                                        readOnly: true,
                                         // disabled:true,
                                         startAdornment: <InputAdornment position="start"></InputAdornment>,
                                     }}
@@ -230,20 +235,22 @@ const FormAddExamination = (props) => {
                                     style={{ textDecoration: "inherit", margin:"40px auto 0px auto" }}
                                     color="grey.700"
                                 >
-                                    <Button variant="contained" 
-                                        color="success" 
-                                        type="submit" 
-                                        style={{"marginRight":"20px", "padding": "6px 40px"}}>
-                                        {t('submit')}
-                                    </Button>
+                                    
                                     
                                     <Button variant="contained" 
                                         onClick={props.handleOpenFormEmail}
                                         color="primary" 
                                         type="button" 
-                                        style={{"padding": "6px 40px"}}
-                                    >
+                                        style={{"marginRight":"20px", "padding": "6px 40px"}}>
                                         {t('new')}
+                                    </Button>
+
+                                    <Button variant="contained" 
+                                        color="success" 
+                                        type="submit" 
+                                        style={{"padding": "6px 40px"}}
+                                        >
+                                        {t('submit')}
                                     </Button>
                                 </Typography>
                             </Grid>

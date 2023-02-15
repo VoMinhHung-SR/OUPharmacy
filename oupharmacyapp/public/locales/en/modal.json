@@ -1,0 +1,16 @@
+{
+    "ok":"OK",
+    "yes": "Yes",
+    "cancel": "Cancel",
+
+    "createSuccessed": "Create successed",
+    "createFailed": "Create failed",
+
+    "deleteCompleted": "Delete completed",
+    "deleteFailed": "Delete failed",
+
+    "errSomethingWentWrong":"Something went wrong",
+    "pleaseTryAgain": "Please try again",
+
+    "noThrowBack": "This action can not be throwback, continue"
+}

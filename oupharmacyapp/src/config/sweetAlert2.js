@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 const SuccessfulAlert = (title, confirmButtonText, callback) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-            confirmButton: 'btn btn-success'
+            confirmButton: 'ou-px-8 ou-py-3 ou-ml-3 ou-bg-green-600 ou-text-white ou-rounded'
         }, buttonsStyling: false
     });
 
