@@ -8,7 +8,7 @@ import Loading from "../../../modules/common/components/Loading"
 import usePrescriptionDetail from "../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
 
 const PrescriptionDetail = () => {
-    const {user, isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()
+    const {isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()
     const router = useNavigate()
     const {t, ready} = useTranslation(['prescription-detail','common']) 
     // TODO: add skeletons here
@@ -18,22 +18,6 @@ const PrescriptionDetail = () => {
             <Loading />
         </Box>
     </Box>
-    if (user === null || user === undefined) {
-        return (
-            <>
-                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
-                    <Box className='ou-absolute ou-p-5 ou-text-center 
-                        ou-flex-col ou-flex ou-justify-center ou-items-center
-                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                        <Container className="ou-text-center ou-mt-5">
-                            <h4> {t('common:errNullUser')}</h4>
-                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
-                        </Container>
-                    </Box>
-                </Box>
-            </>
-        )
-    }
 
     return (
         <>

@@ -7,10 +7,11 @@ import Loading from "../../../../modules/common/components/Loading"
 import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePayment"
 
 const Payments = () => {
-    const {user, isLoadingPrescriptionDetail, examinationDetail, examinationID, 
+    const {isLoadingPrescriptionDetail, examinationDetail, examinationID, 
         receipt, handleChangeFlag} = usePayment()
     const router = useNavigate()
     const {t, ready} = useTranslation(['payment','common'])
+    
     // TODO: skeleton here
     if(!ready){
         return <Box sx={{ minHeight: "300px" }}>
@@ -18,22 +19,6 @@ const Payments = () => {
                 <Loading></Loading>
             </Box>
         </Box>
-    }
-    if (user === null || user === undefined) {
-        return (
-            <>
-                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
-                    <Box className='ou-absolute ou-p-5 ou-text-center 
-                        ou-flex-col ou-flex ou-justify-center ou-items-center
-                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                        <Container className="ou-text-center ou-mt-5">
-                            <h4 className="ou-text-xl"> {t('common:errNullUser')}</h4>
-                            <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
-                        </Container>
-                    </Box>
-                </Box>
-            </>
-        )
     }
 
     return (<>

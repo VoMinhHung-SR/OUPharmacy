@@ -54,8 +54,7 @@ const Booking = () => {
                                 />
                                 {methods.formState.errors ? (<span className="ou-text-xs ou-text-red-600 ou-mt-1">{methods.formState.errors.email?.message}</span>) : <></>}
                             </FormControl>
-                        </form>      
-                                 
+                        </form>                   
                     </Container>
                 </div>
             </Box>

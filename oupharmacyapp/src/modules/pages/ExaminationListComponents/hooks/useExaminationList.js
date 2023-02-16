@@ -54,7 +54,6 @@ const useExaminationList = () => {
     }
 
     return {
-        user,
         examinationList,
         isLoading,
         setExaminationList,

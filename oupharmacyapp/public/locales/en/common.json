@@ -1,5 +1,8 @@
 {
     "errNullUser":"You don't have the permission to use this feature, please login",
+    "errForbidden": "Access not granted",
+    "errNotFound": "The page you requested could not be found",
+    "loginValidUser": "Please login a valid user",
     "goToBooking": "Go to booking",
     "backToHomepage": "Back to homepage",
 

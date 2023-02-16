@@ -1,5 +1,8 @@
 {
     "errNullUser":"Bạn phải đăng nhập để xử dụng dịch vụ hệ thống",
+    "errForbidden": "Không được cấp quyền truy cập",
+    "errNotFound": "Trang mà bạn truy cập không tồn tại",
+    "loginValidUser": "Vui lòng đăng nhập tài khoản người dùng hợp lệ",
     "goToBooking":"Quay về đặt lịch",
     "backToHomepage": "Quay về trang chủ",
     "here": "Tại đây",

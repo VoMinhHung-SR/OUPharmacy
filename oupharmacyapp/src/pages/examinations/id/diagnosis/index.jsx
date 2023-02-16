@@ -19,22 +19,6 @@ const Diagnosis = () => {
         </Box>
     </Box>
 
-    if (!user) {
-        return (
-            <>
-                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
-                    <Box className='ou-absolute ou-p-5 ou-text-center 
-                        ou-flex-col ou-flex ou-justify-center ou-items-center
-                        ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                        <Container className="ou-text-center ou-mt-5">
-                            <h4>{t('common:errNullUser')}</h4>
-                            <Button onClick={() => { router('/login') }}>{t('here')}!</Button>
-                        </Container>
-                    </Box>
-                </Box>
-            </>
-        )
-    }
     return (
         <>
             {isLoadingExamination && examinationDetail.length === 0 ?
@@ -94,8 +78,7 @@ const Diagnosis = () => {
                                         userID={user.id}
                                         handleChangeFlag={handleChangeFlag}
                                         />
-                                    }
-                                    
+                                    }       
                                 </Box>
                             </Box>
                         </Container>

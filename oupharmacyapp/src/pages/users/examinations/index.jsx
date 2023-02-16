@@ -6,7 +6,7 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 
 const ExaminationList = () =>{
-    const {user, isLoading, examinationList, handleDeleteExamination} = useExaminationList();
+    const { isLoading, examinationList, handleDeleteExamination} = useExaminationList();
     const router = useNavigate();
 
     const {t,ready} = useTranslation(['examinations','common'])   

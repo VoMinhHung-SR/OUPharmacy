@@ -20,6 +20,10 @@ import i18n from './i18n'
 import Booking from './pages/booking'
 import Examinations from './pages/examinations'
 import ProtectedUserRoute from './modules/common/layout/userRoute'
+import { ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
+import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
+import Forbidden from './modules/common/layout/components/403-forbidden'
+import NotFound from './modules/common/layout/components/404-not_found'
 
 
 export const userContext = createContext()
@@ -29,7 +33,6 @@ function App() {
   const [user, dispatch] = useReducer(userReducer, cookies.load('user'))
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <LanguageProvider> */}
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
           {/* <CookiesProvider> */}
@@ -37,22 +40,37 @@ function App() {
               <Routes>
                 <Route path='/' element={<Layout />}>
                   <Route path='/' element={<Home />}/>
+
+                   {/* Accepted when user authorized */}
                   <Route element={<ProtectedUserRoute/>}>
                     <Route path='/booking' element={<Booking/>}/>
-                    <Route path='/examinations' element={<Examinations/>}/>
-                    <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                    <Route path='/examinations/:examinationId/payments' element={<Payments />} />
-
                     <Route path='/users/examinations' element={<ExaminationList />} />
-                    
-                    <Route path='/prescriptions' element={<PrescriptionList/>} />
-                    <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
+
+
+                    {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
+                    <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
+                      <Route path='/examinations' element={<Examinations/>}/> 
+                    </Route>
+
+                    {/* Accepted user.role = ROLE_DOCTOR */}
+                    <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
+                      <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                      <Route path='/prescriptions' element={<PrescriptionList/>} />
+                      <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
+                    </Route>
+
+                    {/* Accepted user.role = ROLE_NURSE */}
+                    <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
+                      <Route path='/examinations/:examinationId/payments' element={<Payments />} />
+                    </Route>
 
                     <Route path='/conversations'  element={<ConversationList/>} >
                       <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
                     </Route>
+
                   </Route>
-          
+                  <Route path="/forbidden" element={<Forbidden />} />
+                  <Route path="*" element={<NotFound/>} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
@@ -60,7 +78,6 @@ function App() {
               </userContext.Provider>
           {/* </CookiesProvider> */}
         </BrowserRouter>
-      {/* </LanguageProvider> */}
       </I18nextProvider>
     </QueryClientProvider>
   )
