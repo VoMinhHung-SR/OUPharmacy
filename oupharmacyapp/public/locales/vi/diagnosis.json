@@ -10,5 +10,7 @@
     "diagnosed": "Chẩn đoán",
     "prescribing": "Kê toa",
     "submit": "Đăng ký",
-    "wait": "Đang xử lý..."
+    "wait": "Đang xử lý...",
+
+    "confirmCreateDiagnosis":"Xác nhận tạo phiếu chẩn đoán"
 }

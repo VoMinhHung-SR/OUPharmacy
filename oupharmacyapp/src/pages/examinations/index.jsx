@@ -17,14 +17,14 @@ const Examinations = () =>{
 
     const { t, ready } = useTranslation(['examinations', 'common', 'modal'])
 
-    // TODO: adding skeleton here
-    if (!ready)
+    //TODO: add skeletons here
+    if(!ready)
         return <Box sx={{ height: "300px" }}>
-        <Box className='p-5'>
-            <Loading></Loading>
-        </Box>
+            <Box className='ou-p-5'>
+                <Loading/>
+            </Box>
     </Box>
-    
+
     const renderButton = (examinationID) =>{
         if (isLoadingButton)
             return(

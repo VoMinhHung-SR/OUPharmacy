@@ -22,5 +22,8 @@
     "amount": "Tổng tiền",
     "pay": "Thanh toán",
     "momoPayment": "Thanh toán MoMo",
-    "success": "Đã thanh toán"
+    "success": "Đã thanh toán",
+    "payCompleled":"Thanh toán thành công",
+    "payFailed":"Thanh toán thất bại",
+    "confirmCreateBill": "Xác nhận tạo hóa đơn cho phiếu khám này"
 }

@@ -26,5 +26,22 @@
     "yupDescriptionMaxLenght":"Mô tả vượt quá độ dài cho phép",
     "yupDescriptionInvalid":"Mô tả không hợp lệ",
 
-    "yupCreatedDateRequired":"Ngày tạo không được phép để trống"
+    "yupCreatedDateRequired":"Ngày tạo không được phép để trống",
+
+    "yupSignRequired": "Triệu chứng không được để trống",
+    "yupSignMaxLenght":"Triệu chứng vượt quá độ dài cho phép",
+    "yupSignInvalid":"Triệu chứng không hợp lệ",
+
+    "yupDiagnosedRequired": "Chẩn đoán không được để trống",
+    "yupDiagnosedMaxLenght": "Chẩn đoán vượt quá độ dài cho phép",
+    "yupDiagnosedInvalid":"Chẩn đoán không hợp lệ",
+
+    "yupUsesRequired": "Lần sử dụng không được để trống",
+    "yupUsesMaxLenght":"Lần sử dụng vượt quá độ dài cho phép",
+    "yupUsesInvalid":"Lần sử dụng không hợp lệ",
+
+    "yupQuantityNumber": "Số lượng phải là số",
+    "yupQuantityRequired": "Số lượng không được để trống",
+    "yupQuantityMax": "Số lượng phải vượt quá số lượng cho phép",
+    "yupQuantityInvalid":"Số lượng không hợp lệ "
 }

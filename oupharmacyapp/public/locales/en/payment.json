@@ -22,5 +22,8 @@
     "amount": "Amount",
     "pay": "Pay",
     "momoPayment": "Momo payment",
-    "success": "Completed"
+    "success": "Completed",
+    "payCompleled":"Successed",
+    "payFailed":"Failed",
+    "confirmCreateBill": "Confirm to create this bill"
 }

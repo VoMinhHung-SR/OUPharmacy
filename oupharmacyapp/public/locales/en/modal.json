@@ -11,6 +11,6 @@
 
     "errSomethingWentWrong":"Something went wrong",
     "pleaseTryAgain": "Please try again",
-
+    "pleaseDoubleCheck": "Please double check the form information",
     "noThrowBack": "This action can not be throwback, continue"
 }

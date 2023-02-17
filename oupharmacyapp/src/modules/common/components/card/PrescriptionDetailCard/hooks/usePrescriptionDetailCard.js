@@ -4,20 +4,15 @@ import { userContext } from "../../../../../../App";
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2";
 import * as Yup from 'yup';
 import { fetchAddPrescriptionDetail, fetchMedicinesUnit } from "../services";
-
-export const prescrtionDetailSchema = Yup.object().shape({
-    uses: Yup.string()
-        .required("Lần sử dụng được phép trống"),
-    quantity: Yup.string()
-        .required("Số lượng được phép trống"),
-});
+import { useTranslation } from "react-i18next";
+import { REGEX_ADDRESS, REGEX_NUMBER999 } from "../../../../../../lib/constants";
 
 const usePrescriptionDetailCard = () => {
-
+    const {t} = useTranslation(['yup-validate', 'modal', 'prescription-detail'])
     const {prescriptionId} = useParams();
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)
-    const {router} = useNavigate();
+    const router = useNavigate();
     const [openBackdrop, setOpenBackdop] = useState(false)
     const [medicine, setMedicine] = useState({
         "medicineName": '',
@@ -25,6 +20,18 @@ const usePrescriptionDetailCard = () => {
     })
     const [medicineUnits, setMedicineUnits] = useState([])
     const [medicinesSubmit, setMedicineSubmit] = useState([])
+
+
+    const prescrtionDetailSchema = Yup.object().shape({
+        uses: Yup.string().trim()
+            .required(t('yupUsesRequired'))
+            .max(100, t('yupUsesMaxLenght'))
+            .matches(REGEX_ADDRESS,t('yupUsesInvalid')),
+        quantity: Yup.string(t('yupQuantityNumber')).trim()
+            .max(3, t('yupQuantityMax'))
+            .required(t('yupQuantityRequired'))
+            .matches(REGEX_NUMBER999,t('yupQuantityInvalid')),
+    });
 
     const addMedicine = (medicineUnitId, medicineName, uses, quantity) => {
         const newItem = {
@@ -45,14 +52,14 @@ const usePrescriptionDetailCard = () => {
             if (medicinesSubmit.length !== 0) {
                 medicinesSubmit.forEach((medicineUnit, i) => {
                     if (medicineUnit.id === itemId) {
-                        SuccessfulAlert("Xóa thành công", "OK")
+                        SuccessfulAlert(t('modal:deleteCompleted'),t('modal:ok'))
                         medicinesSubmit.splice(i, 1)
                         setFlag(!flag)
                     }
                 })
             }
         }
-        return ConfirmAlert("Xác nhận xóa đơn vị thuốc này","Hành động nay sẽ không thể hoàn tác, tiếp tục tạo.","Yes","Cancel",
+        return ConfirmAlert(t('prescription-detail:confirmDeleteMedicine'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
         // this is callback function when user confirmed "Yes"
         ()=>{
             deleteItem()
@@ -72,19 +79,19 @@ const usePrescriptionDetailCard = () => {
                         }
                         const res = await fetchAddPrescriptionDetail(formData)
                         if(res.status === 201)
-                            return SuccessfulAlert("Thêm thành công", "OK", () => router('/'))
+                            return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
                             
                     } catch (err) {
                         setOpenBackdop(false)
-                        ErrorAlert("Thêm thất bại", "Vui lòng xem kĩ lại thông tin ở biểu mẫu", "OK")
+                        ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
                     }
                 })
             } else {
-                ErrorAlert("Thêm thất bại", "Vui lòng xem kĩ lại thông tin ở biểu mẫu", "OK")
+                ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
             }
             setOpenBackdop(false)
         }
-        return ConfirmAlert("Xác nhận tạo phiếu kê toa","Hành động nay sẽ không thể hoàn tác, tiếp tục tạo.","Yes","Cancel",
+        return ConfirmAlert(t('prescription-detail:confirmAddPrescription'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
         // this is callback function when user confirmed "Yes"
         ()=>{
             setOpenBackdop(true)
@@ -95,10 +102,8 @@ const usePrescriptionDetailCard = () => {
     const onSubmit = (data, resetForm) => {
         const addMedicinesUnit = async () => {
             try {
-                console.log("Xử lí submit")
-                console.log(medicine)
                 if (medicine.medicineUnitId === -1)
-                    return ErrorAlert("Thêm thất bại", "Vui lòng xem kĩ lại thông tin ở biểu mẫu", "OK")
+                    return ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
                 else {
                     resetForm
                     if (medicinesSubmit.length !== 0) {
@@ -123,7 +128,7 @@ const usePrescriptionDetailCard = () => {
                             data.uses, data.quantity);
                 }
             } catch (err) {
-                ErrorAlert("Thêm thất bại", "Vui lòng xem kĩ lại thông tin ở biểu mẫu", "OK");
+                ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
             }
         }
         addMedicinesUnit();
@@ -152,7 +157,9 @@ const usePrescriptionDetailCard = () => {
         openBackdrop,
         setMedicine,
         onSubmit,
-        handleDeleteItem,handleAddPrescriptionDetail
+        handleDeleteItem,
+        handleAddPrescriptionDetail,
+        prescrtionDetailSchema
     }
 }
 export default usePrescriptionDetailCard

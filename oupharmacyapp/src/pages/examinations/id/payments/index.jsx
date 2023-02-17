@@ -10,16 +10,15 @@ const Payments = () => {
     const {isLoadingPrescriptionDetail, examinationDetail, examinationID, 
         receipt, handleChangeFlag} = usePayment()
     const router = useNavigate()
-    const {t, ready} = useTranslation(['payment','common'])
+    const {t, ready} = useTranslation(['payment','common', 'modal'])
     
-    // TODO: skeleton here
-    if(!ready){
-        return <Box sx={{ minHeight: "300px" }}>
-            <Box className='p-5'>
-                <Loading></Loading>
+    //TODO: add skeletons here
+    if(!ready)
+        return <Box sx={{ height: "300px" }}>
+            <Box className='ou-p-5'>
+                <Loading/>
             </Box>
         </Box>
-    }
 
     return (<>
         {isLoadingPrescriptionDetail && examinationDetail.length === 0 ?

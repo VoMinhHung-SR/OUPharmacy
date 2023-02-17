@@ -20,7 +20,7 @@ const NotFound = () => {
                 ou-flex-col ou-flex ou-justify-center ou-items-center
                 ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                 <Container className="ou-text-center ou-mt-5">
-                    <h3 className="ou-text-red-600 ou-font-semibold ou-text-2xl">{t('common:errNotFound')}</h3>
+                    <h3 className="ou-text-red-600 ou-text-xl">{t('common:errNotFound')}</h3>
                     <Typography className='text-center'>
                         <h3>{t('common:backToHomepage')}</h3>
                         <Button onClick={() => { router('/') }}>{t('here')}!</Button>

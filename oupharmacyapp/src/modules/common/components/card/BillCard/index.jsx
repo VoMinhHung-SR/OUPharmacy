@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 const BillCard = (props) =>{
     const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail, isLoadingButton} = useBillCard(props.id)
-    const {t, ready} = useTranslation(['payment','common']);
+    const {t} = useTranslation(['payment','common', 'modal']);
     const router = useNavigate();
     const renderLoadingButton = () => {
         if(isLoadingButton)
@@ -36,7 +36,7 @@ const BillCard = (props) =>{
     
 
     return (<>
-        {ready && isLoadingPrescriptionDetail && prescriptionDetail.length === 0 ?
+        {isLoadingPrescriptionDetail && prescriptionDetail.length === 0 ?
             (<Box sx={{ height: "300px" }}>
                 <Box className='p-5'>
                     <Loading/>                

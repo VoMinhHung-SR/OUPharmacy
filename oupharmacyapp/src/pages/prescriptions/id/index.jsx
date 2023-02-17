@@ -11,14 +11,14 @@ const PrescriptionDetail = () => {
     const {isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()
     const router = useNavigate()
     const {t, ready} = useTranslation(['prescription-detail','common']) 
-    // TODO: add skeletons here
-    if (!ready)
+    //TODO: add skeletons here
+    if(!ready)
         return <Box sx={{ height: "300px" }}>
-        <Box className='p-5'>
-            <Loading />
+            <Box className='ou-p-5'>
+                <Loading/>
+            </Box>
         </Box>
-    </Box>
-
+        
     return (
         <>
             {isLoadingPrescriptionDetail && prescriptionDetail === null ?

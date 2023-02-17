@@ -25,5 +25,22 @@
     "yupDescriptionMaxLenght":"Description exceeds the allowed length",
     "yupDescriptionInvalid":"Invalid description",
 
-    "yupCreatedDateRequired":"Created date was required"
+    "yupCreatedDateRequired":"Created date was required",
+
+    "yupSignRequired": "Sign was required",
+    "yupSignMaxLenght":"Sign exceeds the allowed length",
+    "yupSignInvalid":"Invalid sign",
+
+    "yupDiagnosedRequired": "Diagnosis was required",
+    "yupDiagnosedMaxLenght":"Diagnosis exceeds the allowed length",
+    "yupDiagnosedInvalid":"Invalid Diagnosis",
+
+    "yupUsesRequired": "Uses was required",
+    "yupUsesMaxLenght":"Uses exceeds the allowed length",
+    "yupUsesInvalid":"Invalid uses",
+
+    "yupQuantityNumber": "Quantity must be a number",
+    "yupQuantityRequired": "Quantity was required",
+    "yupQuantityMax": "Quantity does not accept",
+    "yupQuantityInvalid":"Invalid quantity"
 }

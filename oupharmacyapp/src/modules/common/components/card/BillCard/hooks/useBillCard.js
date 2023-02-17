@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
 import { fetchAddBill, fetchPrescrriptionDetailBillCard } from "../services"
 
 const useBillCard = (prescriptionID) => {
+    const {t} = useTranslation(['payment','modal'])
     const [isLoadingPrescriptionDetail, setIsLoadingPrescriptionDetail] = useState(true)
     const [prescriptionDetail, setPrescriptionDetail] = useState([])
     const [isLoadingButton, setIsLoadingButton] = useState(false)
@@ -27,16 +29,16 @@ const useBillCard = (prescriptionID) => {
             try {
                 const res = await fetchAddBill({amount: amount, prescriptionId: prescriptionID})
                 if (res.status === 201) {
-                    SuccessfulAlert("Thanh toán thành công", "Ok")
+                    SuccessfulAlert(t('payCompleled'), t('modal:ok'))
                     setIsLoadingButton(false)
                     callback()
                 }
             } catch (err) {
                 setIsLoadingButton(false)
-                ErrorAlert("Thanh toán thất bại", "Hệ thống xảy ra sự cố, vui lòng thử lại sau.", "OK")
+                ErrorAlert(t('payFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
             }
         }
-        return ConfirmAlert("Xác nhận tạo hóa đơn cho phiếu khám này","Hành động này sẽ không thể hoàn tác, tiếp tục tạo.","Yes","Cancel",
+        return ConfirmAlert(t('confirmCreateBill'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
         // this is callback function when user confirmed "Yes"
         ()=>{
             setIsLoadingButton(true)

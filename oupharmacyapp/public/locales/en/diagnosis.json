@@ -10,6 +10,7 @@
     "diagnosed": "Diagnosed",
     "prescribing": "Prescribing",
     "submit": "Submit",
-    "wait": "Wait..."
-
+    "wait": "Wait...",
+    
+    "confirmCreateDiagnosis":"Confirm to create this diagnosis form"
 }

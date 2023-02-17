@@ -1,9 +1,26 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
+import { REGEX_NOTE } from "../../../../../../lib/constants"
 import { fetchCreateDiagnosis } from "../../../../../pages/DiagnosisComponents/services"
+import * as Yup from "yup";
 
 const usePrescriptionCard = () => {
+    const {t} = useTranslation(['yup-validate', 'diagnosis', 'modal'])
     const [isLoadingButton, setIsLoadingButton] = useState(false)
+
+    const diagnosisSchema = Yup.object().shape({
+        sign: Yup.string().trim()
+            .required(t('yupSignRequired'))
+            .max(254,t('yupSignMaxLenght'))
+            .matches(REGEX_NOTE, t('yupSignInvalid')),
+        diagnosed: Yup.string().trim()
+            .required(t('yupDiagnosedRequired'))
+            .max(254, t('yupDiagnosedMaxLenght'))
+            .matches(REGEX_NOTE, t('yupDiagnosedInvalid')),
+    
+    });
+
     const onSubmit = (data, examinationID, userID, callback) =>{
         const handleOnSubmit = async () => {
             try{
@@ -16,24 +33,26 @@ const usePrescriptionCard = () => {
                 const res = await fetchCreateDiagnosis(prescriptionData)
                 if (res.status === 201){
                     callback()
-                    SuccessfulAlert("Thêm chẩn đoán thành công", "OK")
+                    SuccessfulAlert(t('modal:createSuccessed'), t("modal:ok"))
                 }
             }catch(err){
-                ErrorAlert("Thêm thất bại", "Vui lòng xem kĩ lại thông tin ở biểu mẫu", "OK")
+                ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t("modal:ok"))
             }
             setIsLoadingButton(false)
         }
-        return ConfirmAlert("Xác nhận tạo phiếu chẩn đoán","Hành động nay sẽ không thể hoàn tác, tiếp tục tạo.","Yes","Cancel",
+        return ConfirmAlert(t('diagnosis:confirmCreateDiagnosis'),t('modal:noThrowBack'), 
+        t("modal:yes"),t("modal:cancel"),
         // this is callback function when user confirmed "Yes"
         ()=>{
             setIsLoadingButton(true)
             handleOnSubmit()
-        })
+        }, ()=> {return;})
 
     }
     return {
         isLoadingButton,
-        onSubmit
+        onSubmit,
+        diagnosisSchema
     }
 }
 export default usePrescriptionCard

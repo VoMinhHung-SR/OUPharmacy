@@ -10,7 +10,7 @@ const useExaminationList = () => {
     const [flag, setFlag] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 
-    const {t} = useTranslation(['examinations','modal'])
+    const {t} = useTranslation(['modal'])
    
 
     useEffect(()=> {

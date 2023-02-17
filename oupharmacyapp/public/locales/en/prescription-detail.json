@@ -16,5 +16,7 @@
     "prescriptionDetail": "Prescription detail",
     "nullMedicine": "There is no medicine in this form",
     "prescribing":"Prescribing",
-    "addMedicine": "Add medicine"
+    "addMedicine": "Add medicine",
+    "confirmDeleteMedicine":"Confirm to delete this medicine unit",
+    "confirmAddPrescription":"Confirm to add prescription"
 }

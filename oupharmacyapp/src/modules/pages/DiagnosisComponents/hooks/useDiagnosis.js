@@ -2,17 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userContext } from "../../../../App";
 import { authApi, endpoints } from "../../../../config/APIs";
-import * as Yup from "yup";
-
-export const diagnosisSchema = Yup.object().shape({
-    sign: Yup.string()
-        .required("Triệu chứng không được phép trống")
-        .max(254, "Triệu chứng vượt quá độ dài cho phép"),
-    diagnosed: Yup.string()
-        .required("Chẩn đoán không được phép trống")
-        .max(254, "Chẩn đoán vượt quá độ dài cho phép"),
-
-});
 
 const useDiagnosis = () => {
     const { examinationId } = useParams();
@@ -34,7 +23,6 @@ const useDiagnosis = () => {
                 if (res.status === 200) {
                     setIsLoadingExamination(false)
                     setExaminationDetail(res.data)
-                    console.log(res.data)
                 }
 
             } catch (err) {
@@ -42,14 +30,12 @@ const useDiagnosis = () => {
                     setIsLoadingExamination(false)
                     setExaminationDetail([])
                 }
-                console.log(err);
             }
        }
        const loadPrescription = async () => {
         try {
             const res = await authApi().get(endpoints['get-prescription-by-examinationId'](examinationId))
             if (res.status === 200) {
-                console.log(res.data)
                 setPrescriptionId(res.data.id)
                 setPrescription(res.data)
             }
@@ -59,11 +45,10 @@ const useDiagnosis = () => {
                 "sign":"",
                 "diagnosed":"",
             })
-            console.log(err);
         }
     }
        if(user){
-           loadExaminationDetail()
+            loadExaminationDetail()
             loadPrescription()
        }
     },[flag,user])

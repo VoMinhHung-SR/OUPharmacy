@@ -3,14 +3,13 @@ import { Box, Button, FormControl, Grid, InputLabel, OutlinedInput, TextField, T
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import { diagnosisSchema } from "../../../../pages/DiagnosisComponents/hooks/useDiagnosis"
 import Loading from "../../Loading"
 import usePrescriptionCard from "./hooks/usePrescriptionCard"
 
 const PrescriptionCard = (props) => {
     
-    const {t,ready} = useTranslation('diagnosis')
-    const {onSubmit, isLoadingButton} = usePrescriptionCard();
+    const {t, ready} = useTranslation(['diagnosis','yup-validate','modal'])
+    const {onSubmit, isLoadingButton, diagnosisSchema} = usePrescriptionCard();
     const methods = useForm({
         mode:"onSubmit",
         resolver: yupResolver(diagnosisSchema),
@@ -20,8 +19,15 @@ const PrescriptionCard = (props) => {
         }
     })
     const router = useNavigate()
-    if (!ready)
-        return <div>Loading translation...</div>
+    //TODO: add skeletons here
+    if(!ready)
+        return <Box sx={{ height: "300px" }}>
+        <Box className='ou-p-5'>
+            <Loading/>
+        </Box>
+    </Box>
+
+
     // This condition meant if the examination doen't have a diagnosis 
     // Then create a new form
     // Else show the info of the diagnosis
@@ -106,7 +112,7 @@ const PrescriptionCard = (props) => {
                         </h1>
                     <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                         <Grid item xs={11} >
-                            <InputLabel htmlFor="diagnosed">{t('sign')}(<span className="text-danger">*</span>)</InputLabel>
+                            <InputLabel htmlFor="diagnosed">{t('sign')}<span className="text-danger">*</span></InputLabel>
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
@@ -122,7 +128,7 @@ const PrescriptionCard = (props) => {
                         </Grid>
 
                         <Grid item xs={11}>
-                            <InputLabel htmlFor="diagnosed">{t('diagnosed')}(<span className="text-danger">*</span>)</InputLabel>
+                            <InputLabel htmlFor="diagnosed">{t('diagnosed')}<span className="text-danger">*</span></InputLabel>
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"

@@ -1,17 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Autocomplete, Box, Button, createFilterOptions, FormControl, Grid, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
-import { prescrtionDetailSchema } from "./hooks/usePrescriptionDetailCard"
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import usePrescriptionDetailCard from "./hooks/usePrescriptionDetailCard";
 import BackdropLoading from "../../BackdropLoading";
 import { useTranslation } from "react-i18next";
+import Loading from "../../Loading";
 
 const PrescriptionDetailCard = () => {
     const {onSubmit, medicinesSubmit, openBackdrop, handleAddPrescriptionDetail,
-        medicineUnits, setMedicine, handleDeleteItem} = usePrescriptionDetailCard()
+        medicineUnits, setMedicine, handleDeleteItem, prescrtionDetailSchema} = usePrescriptionDetailCard()
 
-    const {t, ready} = useTranslation('prescription-detail')
+    const {t, ready} = useTranslation(['prescription-detail', 'yup-validate', 'modal'])
 
     const methods = useForm({
         mode:"onSubmit",
@@ -25,13 +25,13 @@ const PrescriptionDetailCard = () => {
         matchFrom: 'start',
         stringify: (option) => option.medicine.name,
     });
-    // TODO: add skeletons here
-    // if(!ready)
-    //     return <Box sx={{ height: "300px" }}>
-    //     <Box className='p-5'>
-    //         <Loading/>
-    //     </Box>
-    // </Box>
+    //TODO: add skeletons here
+    if(!ready)
+        return <Box sx={{ height: "300px" }}>
+        <Box className='ou-p-5'>
+            <Loading/>
+        </Box>
+    </Box>
 
     return (
         <>
@@ -68,14 +68,6 @@ const PrescriptionDetailCard = () => {
 
                                     renderInput={(params) => <TextField {...params} label={t('medicineName') + "*"} />}
                                 />
-                                {/* <Autocomplete
-                                id="grouped-demo"
-                                options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
-                                groupBy={(option) => option.firstLetter}
-                                getOptionLabel={(option) => option.title}
-                                sx={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="With categories" />}
-                              /> */}
                             </FormControl>
                         </Grid>
 
@@ -101,7 +93,7 @@ const PrescriptionDetailCard = () => {
                                 variant="outlined"
                                 id="quantity"
                                 name="quantity"
-                                type="number"
+                                type="text"
                                 error={methods.formState.errors.quantity}
                                 helperText={methods.formState.errors.quantity ? methods.formState.errors.quantity.message : ""}
                                 {...methods.register("quantity")}

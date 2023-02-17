@@ -16,5 +16,7 @@
     "prescriptionDetail": "Phiếu kê toa",
     "nullMedicine": "Hiện tại chưa có thuốc",
     "prescribing":"Kê toa",
-    "addMedicine": "Thêm thuốc"
+    "addMedicine": "Thêm thuốc",
+    "confirmDeleteMedicine":"Xác nhận xóa đơn vị thuốc này",
+    "confirmAddPrescription":"Xác nhận tạo phiếu kê toa"
 }
