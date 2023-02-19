@@ -22,5 +22,5 @@ export const FIREBASE_APPID = import.meta.env.VITE_APPID
 export const FIREBASE_MEASUREMENTID = import.meta.env.VITE_MEASUREMENTID
 
 // Default params constant
-export const currentDate = new Date();
+export const CURRENT_DATE = new Date();
 export const SERVER = import.meta.env.VITE_SERVER

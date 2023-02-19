@@ -103,7 +103,7 @@ const PrescriptionList = () => {
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        {user && user.role.name === ROLE_DOCTOR ?
+                                                        {user && user.role === ROLE_DOCTOR ?
                                                             (<>
                                                                 <Typography className="mb-2">
                                                                     <Link style={{ "textDecoration": "none" }}

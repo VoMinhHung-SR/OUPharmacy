@@ -6,7 +6,7 @@ const ProtectedSpecialRoleRoute = ({allowedRoles = []}) => {
     const [user] = useContext(userContext);
     if (allowedRoles.length === 0)
         return <Outlet/>;
-    return allowedRoles.includes(user.role?.name) ? <Outlet/> : <Navigate to='/forbidden' />
+    return allowedRoles.includes(user.role) ? <Outlet/> : <Navigate to='/forbidden' />
 }
 
 export default ProtectedSpecialRoleRoute

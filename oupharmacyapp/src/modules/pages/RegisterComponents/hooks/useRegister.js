@@ -1,18 +1,42 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { authMediaApi, endpoints } from '../../../../config/APIs';
+import { ROLE_USER } from '../../../../lib/constants';
+import { fetchCreateUser, fetchUserRoles } from '../services';
+
 
 const useRegister = () => {
-    const nav = useNavigate();
     const [openBackdrop, setOpenBackdrop] = useState(false);
+    const [isLoadingUserRole, setIsLoadingUserRole] = useState(true);
     const [dob, setDOB] = useState()
-    const currentDate = new Date()
     const [gender, setGender] = useState(0)
-    const [signUpError, setSignUpError] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
-
+    const [userRoleID, setUserRoleID] = useState('');
+    useEffect(()=> {
+        const loadUserRoles = async () => {
+            const res = await fetchUserRoles();
+            if(res.status === 200){
+                if(res.data){
+                    const userRole = res.data.filter(role => role.name === ROLE_USER)
+                    console.log(userRole)
+                    if(userRole.length !== 0){
+                        setUserRoleID(userRole[0].id)
+                        setIsLoadingUserRole(false);
+                    }
+                    else{
+                        setUserRoleID(-1);
+                        setIsLoadingUserRole(false)
+                    }
+                }
+                else{
+                    setIsLoadingUserRole(false)
+                }
+            }else {
+                setIsLoadingUserRole(false)
+            }
+        }
+        loadUserRoles()
+    },[])
 
     // Sample data    
     // data{
@@ -27,16 +51,21 @@ const useRegister = () => {
     //   address: data.address,
     //   avatar: selectedImage,
     // };
-    const onSubmit = (data) => {
+
+    // if(roles.length !== 0){
+    //     const a = roles.filter(role => role.name === 'XUZ')
+    //     console.log(a)
+    // }
+
+    const onSubmit = (data, setError) => {
         let date 
         setOpenBackdrop(true)
-        if (dob !== undefined)
-            date = new Date(dob).toISOString()
-        else
-            date = new Date(currentDate).toISOString() 
-     
-        let formData = new FormData()
+        if (data.dob !== undefined)
+            date = new Date(data.dob).toISOString()
 
+            
+        let formData = new FormData()
+        console.log(userRoleID)
         formData.append("first_name", data.firstName)
         formData.append("last_name", data.lastName)
         formData.append("username", data.username)
@@ -47,10 +76,12 @@ const useRegister = () => {
         formData.append("date_of_birth", date)
         formData.append("gender", gender)
         formData.append("avatar", selectedImage)
+        formData.append("role",userRoleID)
+        // JSON.stringify({ id: parseInt(userRoleID), name:ROLE_USER})
 
         const register = async () => {
             try {
-                const res = await authMediaApi().post(endpoints["register"], formData);
+                const res = await fetchCreateUser(formData);
 
                 if (res.status === 201) {
                     setOpenBackdrop(false)
@@ -58,19 +89,25 @@ const useRegister = () => {
                 }
             } catch (err) {
                 if (err) {
-                    console.log(err)
-                    // let data = err.response.data;
-                    // setOpenBackdrop(false)
-                    // if (data.username)
-                    //     setError("username", {
-                    //         type: "custom",
-                    //         message: data.username.join(", "),
-                    //     });
-                    // if (data.email)
-                    //     setError("email", {
-                    //         type: "custom",
-                    //         message: data.email.join(", "),
-                    //     });
+                    let data = err.response.data;
+                    setOpenBackdrop(false)
+                    if (data.username)
+                    setError("username", {
+                        type: "custom",
+                        // message: data.username.join(", "),
+                        message: "Tên tài khoản đã tồn tại"
+                    });
+                    if (data.email)
+                    setError("email", {
+                        type: "custom",
+                        message: data.email.join(", "),
+                    });
+                    if (data.phone_number)
+                    setError("phoneNumber", {
+                        type: "custom",
+                        // message: data.phone_number.join(", "),
+                        message: "Số điện thoại đã tồn tại"
+                    });
 
                 }
             }
@@ -79,7 +116,7 @@ const useRegister = () => {
         register();
     }
     return{
-        currentDate,
+        userRoleID,isLoadingUserRole,
         dob,
         gender,
         openBackdrop,
@@ -93,6 +130,7 @@ const useRegister = () => {
         setOpenBackdrop
     }
 }
+
 export default useRegister
 
 export const registerSchema = Yup.object().shape({

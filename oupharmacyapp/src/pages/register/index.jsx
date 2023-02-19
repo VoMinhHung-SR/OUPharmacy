@@ -5,11 +5,11 @@ import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import useRegister, { registerSchema } from "../../modules/pages/RegisterComponents/hooks/useRegister";
 import {yupResolver} from "@hookform/resolvers/yup"
 import { useEffect } from "react";
+import Loading from "../../modules/common/components/Loading";
 
 const Register = () => {
-    const {imageUrl, setImageUrl, openBackdrop, dob, setDOB,
-        selectedImage, setSelectedImage,
-        currentDate, gender, setGender ,onSubmit
+    const {imageUrl, setImageUrl, openBackdrop, dob, setDOB, isLoadingUserRole,
+        selectedImage, setSelectedImage, userRoleID, gender, setGender ,onSubmit
     } = useRegister();
     const methods = useForm({
         mode:"onSubmit", 
@@ -22,14 +22,24 @@ const Register = () => {
             password: "",
             confirmPassword: "",
             address: "",
+            dob:"",
             phoneNumber: ""
         }
     })
+    console.log(userRoleID)
     useEffect(() => {
         if (selectedImage) {
             setImageUrl(URL.createObjectURL(selectedImage));
         }
     }, [selectedImage]);
+
+    if (isLoadingUserRole)
+        return <Box sx={{ minHeight: "300px" }}>
+        <Box className='ou-p-5'>
+            <Loading></Loading>
+        </Box>
+    </Box>
+    
     return (
         <>
             {openBackdrop === true ?
@@ -40,7 +50,7 @@ const Register = () => {
             <div style={{ "width": "100%"
             }}>
                 <Container style={{ "padding": "50px" }}>
-                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(data))} style={{ "width": "60%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
+                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(data, methods.setError))} style={{ "width": "80%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
                         <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>Đăng ký người dùng</h1>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={4} >
@@ -172,8 +182,8 @@ const Register = () => {
                                     id="date"
                                     label="Ngày sinh"
                                     type="date"
-                                    defaultValue={currentDate}
-                                    value={dob}
+                                    name="dob"
+                                    {...methods.register('dob')}
                                     onChange={(evt) => setDOB(evt.target.value)}
                                     sx={{ width: 220 }}
                                     InputLabelProps={{
@@ -220,13 +230,22 @@ const Register = () => {
                                         </Tooltip>
                                         {imageUrl && selectedImage && (
                                             <Box className="ou-my-4 ou-border-solid" textAlign="center">
-                                                <img src={imageUrl} alt={selectedImage.name} height="250px" className="ou-mx-auto"/>
+                                                <img src={imageUrl} alt={selectedImage.name} height="250px" width={250} className="ou-mx-auto"/>
                                             </Box>
                                         )}
                                     </Box>
-                                <Box sx={{textAlign:"right"}}>
-                                    <Button variant="contained" color="success" type="submit" >Đăng ký</Button>
-                                </Box>
+                                {userRoleID === -1 ? (
+                                    <Box className="ou-p-5 ou-text-center">
+                                        <div className="ou-text-red-700 ou-text-xl">Hệ thống hiện tại không thể tạo người dùng mới </div>
+                                        <div>vui lòng liên hệ quản trị viên để kiểm tra tình trạng người dùng</div>
+                                    </Box>
+                                    
+                                ): (
+                                    <Box sx={{textAlign:"right"}}>
+                                        <Button variant="contained" color="success" type="submit" >Đăng ký</Button>
+                                    </Box>
+                                )}
+                                
                             </Grid>
                               
                         </Grid>

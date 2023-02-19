@@ -111,7 +111,7 @@ const Examinations = () =>{
                                             <TableCell align="center">
                                                 {e.mail_status === true ?
                                                     (<>
-                                                        {user && user.role.name === ROLE_DOCTOR ?
+                                                        {user && user.role === ROLE_DOCTOR ?
                                                             (<><Typography>
                                                                 <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/diagnosis`}>
                                                                     <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
@@ -120,7 +120,7 @@ const Examinations = () =>{
                                                                 </Link>
                                                             </Typography></>)
                                                             : <></>}
-                                                        {user && user.role.name === ROLE_NURSE ?
+                                                        {user && user.role === ROLE_NURSE ?
                                                             (<>
                                                                 <Typography>
                                                                     <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/payments`}>
@@ -135,14 +135,14 @@ const Examinations = () =>{
                                                     )
                                                     : (
                                                         <>
-                                                            {user && user.role.name === ROLE_DOCTOR ?
+                                                            {user && user.role === ROLE_DOCTOR ?
                                                                 (<>
                                                                 <Typography className='text-danger'>
                                                                     {t('noReady')} <ErrorIcon />
                                                                 </Typography>
                                                                 </>)
                                                                 : <></>}
-                                                            {user && user.role.name === ROLE_NURSE ? 
+                                                            {user && user.role === ROLE_NURSE ? 
                                                                 renderButton(e.id) 
                                                                 : <></>
                                                             }

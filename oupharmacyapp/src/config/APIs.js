@@ -9,6 +9,9 @@ export let endpoints = {
     // token user
     'login': '/o/token/',
     'current-user':'/users/current-user/',
+    // Role
+    'roles': "/roles/",
+    // User
     'register': '/users/',
     'users':'/users/',
     'user-detail':(userId) => `/users/${userId}/`,/*  */

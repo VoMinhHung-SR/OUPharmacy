@@ -6,9 +6,10 @@ import { calculateAmount } from "./utils/helper";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 const BillCard = (props) =>{
-    const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail, isLoadingButton} = useBillCard(props.id)
+    const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail, isLoadingButton, momoPayment} = useBillCard(props.id)
     const {t} = useTranslation(['payment','common', 'modal']);
     const router = useNavigate();
+
     const renderLoadingButton = () => {
         if(isLoadingButton)
             return(<Box className="!ou-mt-2">
@@ -18,8 +19,7 @@ const BillCard = (props) =>{
         else return (
             <Box className="!ou-mt-2">
                 <Button variant="contained" 
-                // onClick={momoPayment}
-                disabled
+                onClick={()=> momoPayment(calculateAmount(prescriptionDetail, props.wage), props.id)}
                 color="success">
                         {t('momoPayment')}
                 </Button>

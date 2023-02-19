@@ -11,3 +11,11 @@ export const fetchAddBill = async (prescriptionData) => {
     })
     return res;
 }
+
+export const fetchMomoPaymentURL = async (prescriptionData) => {
+    const res = await authApi().post(endpoints['momoPayUrl'],{
+        amount: prescriptionData.amount,
+        prescription: prescriptionData.prescriptionId
+    })
+    return res;
+}

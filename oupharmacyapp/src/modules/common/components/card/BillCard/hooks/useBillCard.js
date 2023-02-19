@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
-import { fetchAddBill, fetchPrescrriptionDetailBillCard } from "../services"
+import { fetchAddBill, fetchMomoPaymentURL, fetchPrescrriptionDetailBillCard } from "../services"
 
 const useBillCard = (prescriptionID) => {
     const {t} = useTranslation(['payment','modal'])
@@ -45,9 +45,30 @@ const useBillCard = (prescriptionID) => {
             handleOnSubmit()
         }, () => { return; })
     }
+
+    const momoPayment = (amount, prescriptionID) =>{
+        const addBill = async () => {
+            try {
+                const res = await fetchMomoPaymentURL({amount: amount, prescriptionId: prescriptionID})
+                if (res.status === 200) {
+                    // console.log(res.data.payUrl)
+                    window.location.replace(res.data.payUrl);
+                }
+            } catch (err) {
+                ErrorAlert("Thêm thất bại", "", "OK")
+            }
+        }
+        return ConfirmAlert(t('confirmCreateBill'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
+        // this is callback function when user confirmed "Yes"
+        ()=>{
+            addBill()
+        }, () => { return; })
+    }
+
     return {
         prescriptionDetail,isLoadingPrescriptionDetail,
-        onSubmit, isLoadingButton
+        onSubmit, isLoadingButton, momoPayment
     }
+
 }
 export default useBillCard

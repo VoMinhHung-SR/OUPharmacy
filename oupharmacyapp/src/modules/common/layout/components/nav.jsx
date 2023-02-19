@@ -177,7 +177,7 @@ const Nav = () => {
   const renderElementNav = (pageID, pageLink, pageName, isMobile = false) => {
     // Render for doctor
       if(pageID === 'prescriptions'|| pageID === 'prescriptions-mb')
-        if(user && user.role?.name === ROLE_DOCTOR)
+        if(user && user.role === ROLE_DOCTOR)
           return(
             <Link to={pageLink}>
               <Button 
@@ -217,7 +217,7 @@ const Nav = () => {
       //   else return 
     // Render for both doctor and nurse
       if(pageID === 'examinations' || pageID === 'examinations-mb')
-        if(user && (user.role?.name === ROLE_DOCTOR || user.role?.name === ROLE_NURSE))
+        if(user && (user.role === ROLE_DOCTOR || user.role === ROLE_NURSE))
           return(
             <Link to={pageLink}>
               <Button 
