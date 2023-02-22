@@ -5,21 +5,16 @@ import { fetchDiagnosisByExaminationID, fetchPrescribingByDiagnosis } from "../s
 
 const usePayment = () => {
     const [user] = useContext(userContext)
-    const examinationID = useParams()
+    const {examinationId} = useParams()
     const [isLoadingPrescriptionDetail, setIsloadingPrescriptionDetail] = useState(true)
     const [examinationDetail, setExaminationDetail] = useState([])
-    const [flag, setFlag] = useState(false)
 
     const [prescribing, setPrecribing] = useState([])
-    const handleChangeFlag = () => {
-        setFlag(!flag)
-    }
 
     useEffect(()=>{
-        const loadPrescription = async () => {
+        const loadDiagnosis = async () => {
             try {
-                console.log(examinationID)
-                const res = await fetchDiagnosisByExaminationID(examinationID.examinationId)
+                const res = await fetchDiagnosisByExaminationID(examinationId)
                 if (res.status === 200) {
                     setExaminationDetail(res.data)
                     setIsloadingPrescriptionDetail(false)
@@ -45,16 +40,15 @@ const usePayment = () => {
             }
         }
         if(user){
-            loadPrescription()
+            loadDiagnosis()
         }
-    },[flag, examinationID])
+    },[ examinationId])
     return{
         prescribing,
         isLoadingPrescriptionDetail,
         user,
         examinationDetail,
-        examinationID,
-        handleChangeFlag
+        examinationId,
     }
 }
 export default usePayment

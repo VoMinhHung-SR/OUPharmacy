@@ -1,12 +1,13 @@
 import { authApi, endpoints } from "../../../../config/APIs"
 
-// Sample diagnosisData: {
-//     sign: string,
-//     diagnosed: string,
-//     examination: int,
-//     user: int
-// }
+// To: create diagnosis sheet
 export const fetchCreateDiagnosis = async (diagnosisData) => {
+   // Sample diagnosisData: {
+   //     sign: string,
+   //     diagnosed: string,
+   //     examination: int,
+   //     user: int
+   // }
    const res = await authApi().post(endpoints['diagnosis'], diagnosisData)
    return res;
 }

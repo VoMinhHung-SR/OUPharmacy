@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 import Loading from "../../Loading"
-import usePrescriptionCard from "./hooks/usePrescriptionCard"
+import useDiagnosisCard from "./hooks/useDiagnosisCard"
 
-const PrescriptionCard = (props) => {
+const DiagnosisCard = (props) => {
     
     const {t, ready} = useTranslation(['diagnosis','yup-validate','modal'])
-    const {onSubmit, isLoadingButton, diagnosisSchema} = usePrescriptionCard();
+    const {onSubmit, isLoadingButton, diagnosisSchema} = useDiagnosisCard();
     const methods = useForm({
         mode:"onSubmit",
         resolver: yupResolver(diagnosisSchema),
@@ -154,7 +154,7 @@ const PrescriptionCard = (props) => {
                                 <Button variant="contained" 
                                     className="!ou-mt-5 !ou-min-w-[150px] !ou-min-h-[40px]" 
                                     color="success" 
-                                    onClick={()=> router(`/prescriptions/${props.id}`)} >
+                                    onClick={()=> router(`/prescribing/${props.id}`)} >
                                     {t('prescribing')}
                                 </Button>
                             </Typography>
@@ -168,4 +168,4 @@ const PrescriptionCard = (props) => {
             </Box>
         </>)
 }
-export default PrescriptionCard
+export default DiagnosisCard

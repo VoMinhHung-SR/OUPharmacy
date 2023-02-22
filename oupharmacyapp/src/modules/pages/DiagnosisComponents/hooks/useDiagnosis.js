@@ -9,7 +9,7 @@ const useDiagnosis = () => {
     const [examinationDetail, setExaminationDetail] = useState([])
     const [isLoadingExamination, setIsLoadingExamination] = useState(true)
     const [prescriptionId, setPrescriptionId] = useState(-1)
-    const [prescription, setPrescription] = useState({})
+    const [diagnosis, setDiagnosis] = useState({})
     const [flag, setFlag] = useState(false)
 
     const handleChangeFlag = () => {
@@ -32,16 +32,16 @@ const useDiagnosis = () => {
                 }
             }
        }
-       const loadPrescription = async () => {
+       const loadDiagnosis = async () => {
         try {
             const res = await authApi().get(endpoints['get-diagnosis'](examinationId))
             if (res.status === 200) {
                 setPrescriptionId(res.data.id)
-                setPrescription(res.data)
+                setDiagnosis(res.data)
             }
         } catch (err) {
             setPrescriptionId(-1)
-            setPrescription({
+            setDiagnosis({
                 "sign":"",
                 "diagnosed":"",
             })
@@ -49,7 +49,7 @@ const useDiagnosis = () => {
     }
        if(user){
             loadExaminationDetail()
-            loadPrescription()
+            loadDiagnosis()
        }
     },[flag,user])
 
@@ -59,7 +59,7 @@ const useDiagnosis = () => {
         examinationDetail,
         examinationId,
         prescriptionId,
-        prescription,
+        diagnosis,
         handleChangeFlag
     }
 }

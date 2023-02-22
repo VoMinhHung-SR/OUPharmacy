@@ -68,7 +68,6 @@ const useRegister = () => {
         console.log(userRoleID)
         formData.append("first_name", data.firstName)
         formData.append("last_name", data.lastName)
-        // formData.append("username", data.username)
         formData.append("password", data.password)
         formData.append("email", data.email)
         formData.append("address", data.address)
@@ -76,8 +75,7 @@ const useRegister = () => {
         formData.append("date_of_birth", date)
         formData.append("gender", gender)
         formData.append("avatar", selectedImage)
-        formData.append("role",userRoleID)
-        // JSON.stringify({ id: parseInt(userRoleID), name:ROLE_USER})
+        formData.append("role", userRoleID)
 
         const register = async () => {
             try {
@@ -91,12 +89,6 @@ const useRegister = () => {
                 if (err) {
                     let data = err.response;
                     setOpenBackdrop(false)
-                    // if (data.username)
-                    // setError("username", {
-                    //     type: "custom",
-                    //     // message: data.username.join(", "),
-                    //     message: "Tên tài khoản đã tồn tại"
-                    // });
                     if (data.email)
                     setError("email", {
                         type: "custom",
@@ -105,7 +97,6 @@ const useRegister = () => {
                     if (data.phone_number)
                     setError("phoneNumber", {
                         type: "custom",
-                        // message: data.phone_number.join(", "),
                         message: "Số điện thoại đã tồn tại"
                     });
 
@@ -140,9 +131,6 @@ export const registerSchema = Yup.object().shape({
     lastName: Yup.string()
         .required("Tên không được để trống")
         .max(254, "Tên vượt quá độ dài cho phép"),
-    // username: Yup.string()
-    //     .required("Tên người dùng không được để trống")
-    //     .max(150, "Tên người dùng vượt quá độ dài cho phép"),
     email: Yup.string()
         .required("Email không được để trống")
         .max(254, "Email vượt quá độ dài cho phép")

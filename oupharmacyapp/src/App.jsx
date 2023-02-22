@@ -57,7 +57,7 @@ function App() {
                     <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
                       <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
                       <Route path='/prescribing' element={<PrescriptionList/>} />
-                      <Route path='/prescribing/:prescriptionId' element={<PrescriptionDetail/>} />
+                      <Route path='/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
                     </Route>
 
                     {/* Accepted user.role = ROLE_NURSE */}

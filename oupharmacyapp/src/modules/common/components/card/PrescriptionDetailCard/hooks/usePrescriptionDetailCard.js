@@ -9,7 +9,7 @@ import { REGEX_ADDRESS, REGEX_NUMBER999 } from "../../../../../../lib/constants"
 
 const usePrescriptionDetailCard = () => {
     const {t} = useTranslation(['yup-validate', 'modal', 'prescription-detail'])
-    const {prescriptionId} = useParams();
+    const {prescribingId} = useParams();
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)
     const router = useNavigate();
@@ -46,7 +46,6 @@ const usePrescriptionDetailCard = () => {
         });
     }
 
-
     const handleDeleteItem = (itemId) => {
         const deleteItem = () => {
             if (medicinesSubmit.length !== 0) {
@@ -69,9 +68,9 @@ const usePrescriptionDetailCard = () => {
     const handleAddPrescriptionDetail = () => {
         const addPrescriptionDetail = async () => {
             if (medicinesSubmit.length !== 0) {
-                let prescribingData = {user:user.id, diagnosis: parseInt(prescriptionId)}
+                let prescribingData = {user:user.id, diagnosis: parseInt(prescribingId)}
                 const res = await fetchCreatePrescribing(prescribingData)
-                if(res.status === 201)
+                if(res.status === 201){
                     medicinesSubmit.forEach( async (m) => {
                         try {
                             let formData = {
@@ -80,23 +79,26 @@ const usePrescriptionDetailCard = () => {
                                 'prescribing': res.data.id,
                                 'medicine_unit': m.id
                             }
-                            const res2 = await fetchAddPrescriptionDetail(formData)
-                            if(res2.status === 201)
-                                return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
-                                
+                            await fetchAddPrescriptionDetail(formData)
+        
                         } catch (err) {
                             setOpenBackdop(false)
-                            ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
+                            return ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
                         }
                     })
+                    setOpenBackdop(false)
+                    return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
+                }
+                   
                 else{
                     setOpenBackdop(false)
-                    ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'))
+                    return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'))
                 }
             } else {
-                ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
+                setOpenBackdop(false)
+                return ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
             }
-            setOpenBackdop(false)
+
         }
         return ConfirmAlert(t('prescription-detail:confirmAddPrescription'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
         // this is callback function when user confirmed "Yes"

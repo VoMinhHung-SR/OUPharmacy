@@ -7,8 +7,7 @@ import Loading from "../../../../modules/common/components/Loading"
 import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePayment"
 
 const Payments = () => {
-    const {isLoadingPrescriptionDetail, examinationDetail, examinationID, 
-        handleChangeFlag, prescribing} = usePayment()
+    const {isLoadingPrescriptionDetail, examinationDetail, examinationId, prescribing} = usePayment()
     const router = useNavigate()
     const {t, ready} = useTranslation(['payment','common', 'modal'])
     
@@ -59,7 +58,7 @@ const Payments = () => {
                                                         style={{ textDecoration: "inherit", marginRight: "20px" }}
                                                         color="grey.700"
                                                     >
-                                                        {t('examinationId')}: {examinationID.examinationId}
+                                                        {t('examinationId')}: {examinationId}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={4}>
@@ -150,9 +149,8 @@ const Payments = () => {
                                     </Box>
                                 {prescribing.length !== 0 && prescribing.map(p => 
                                     <BillCard 
-                                    id={p.id}
-                                    wage={examinationDetail.examination.wage}
-                                    handleChangeFlag={handleChangeFlag}
+                                        id={p.id}
+                                        wage={examinationDetail.examination.wage}
                                     />
                                 ) 
                                 }
