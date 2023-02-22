@@ -5,7 +5,7 @@ import { REGEX_NOTE } from "../../../../../../lib/constants"
 import { fetchCreateDiagnosis } from "../../../../../pages/DiagnosisComponents/services"
 import * as Yup from "yup";
 
-const usePrescriptionCard = () => {
+const useDiagnosisCard = () => {
     const {t} = useTranslation(['yup-validate', 'diagnosis', 'modal'])
     const [isLoadingButton, setIsLoadingButton] = useState(false)
 
@@ -55,4 +55,4 @@ const usePrescriptionCard = () => {
         diagnosisSchema
     }
 }
-export default usePrescriptionCard
+export default useDiagnosisCard

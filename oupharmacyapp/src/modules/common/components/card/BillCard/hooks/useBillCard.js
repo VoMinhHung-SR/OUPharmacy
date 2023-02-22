@@ -9,7 +9,13 @@ const useBillCard = (prescribingID) => {
     const [isLoadingPrescriptionDetail, setIsLoadingPrescriptionDetail] = useState(true)
     const [prescriptionDetail, setPrescriptionDetail] = useState([])
     const [receipt, setReceipt] = useState(false)
+    const [flag, setFlag] = useState(false)
     const [isLoadingButton, setIsLoadingButton] = useState(false)
+     
+    const handleChangeFlag = () => {
+        setFlag(!flag)
+    }
+
     useEffect(()=>{
         const loadPrescriptionDetail = async () =>{
             try{
@@ -39,19 +45,19 @@ const useBillCard = (prescribingID) => {
             loadPrescriptionDetail()
             loadReceipt()
         }
-    },[prescribingID])
-    const onSubmit = (amount, prescribingID, callback) => {
+    },[flag, prescribingID])
+    const onSubmit = (amount, prescribingID) => {
         const handleOnSubmit = async () => {
             try {
                 const res = await fetchAddBill({amount: amount, prescribing: prescribingID})
                 if (res.status === 201) {
-                    SuccessfulAlert(t('payCompleled'), t('modal:ok'))
+                    handleChangeFlag();
                     setIsLoadingButton(false)
-                    callback()
+                    return SuccessfulAlert(t('payCompleled'), t('modal:ok'))                 
                 }
             } catch (err) {
                 setIsLoadingButton(false)
-                ErrorAlert(t('payFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
+                return ErrorAlert(t('payFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
             }
         }
         return ConfirmAlert(t('confirmCreateBill'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),

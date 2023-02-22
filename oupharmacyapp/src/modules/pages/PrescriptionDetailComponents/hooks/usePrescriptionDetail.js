@@ -5,14 +5,14 @@ import { fetchPrescriptionDetail } from "../services"
 
 const usePrescriptionDetail = () => {
     const [user] = useContext(userContext)
-    const { prescriptionId } = useParams();
+    const { prescribingId } = useParams();
    
     const [prescriptionDetail, setPrescriptionDetail] = useState(null)
     const [isLoadingPrescriptionDetail, setIsLoadingPrescriptionDetail] = useState(true)
     useEffect(() => {
         const loadPrescriptionDetail = async () => {
             try {
-                const res = await fetchPrescriptionDetail(prescriptionId)
+                const res = await fetchPrescriptionDetail(prescribingId)
                 if (res.status === 200) {
                     setPrescriptionDetail(res.data)
                     setIsLoadingPrescriptionDetail(false)

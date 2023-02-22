@@ -4,19 +4,22 @@ axios.defaults.withCredentials = false;
 
 
 export let endpoints = {
+    
     // Auth info
     'auth-info': '/oauth2-info/',
+
     // token user
     'login': '/o/token/',
     'current-user':'/users/current-user/',
+
     // Role
     'roles': "/roles/",
+
     // User
-    'register': '/users/',
     'users':'/users/',
-    'user-detail':(userId) => `/users/${userId}/`,/*  */
-    'notifications':(userId) => `/users/${userId}/notifications/`,
+    'user-detail':(userId) => `/users/${userId}/`,
     'booking-list':(userId) => `/users/${userId}/booking-list/`,
+
     // Patient
     'get-patient-by-email':'/patients/get-patient-by-email/',
     'patient':'/patients/',

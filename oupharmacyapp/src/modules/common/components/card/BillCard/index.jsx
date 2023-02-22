@@ -26,7 +26,9 @@ const BillCard = (props) =>{
                 </Button>
                 <Button className="!ou-ml-5" onClick={()=>
                     onSubmit(calculateAmount(prescriptionDetail, props.wage), 
-                    props.id, props.handleChangeFlag)} 
+                    // , props.handleChangeFlag
+                    props.id)} 
+              
                     variant="contained" color="success">
                     {t('pay')}
                 </Button>
@@ -119,7 +121,7 @@ const BillCard = (props) =>{
                                 <Box className="ou-p-3" style={{ textAlign: "right" }}>
                                     <Typography className="ou-p-2">{t('serviceFee')}: {props.wage} VND</Typography>
                                     <h4 className="p-2">{t('amount')}: {calculateAmount(prescriptionDetail, props.wage)} VND</h4>
-                                    {receipt? 
+                                    {receipt ? 
                                     (<>
                                         <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">{t('success')} <CheckCircleOutlineIcon /></h3>
                                     </>)

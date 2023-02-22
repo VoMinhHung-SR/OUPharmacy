@@ -1,5 +1,6 @@
 import { authApi, endpoints } from "../../../../../config/APIs"
 
+// To: create or update a patient with patientData and patientId
 export const fetchCreateOrUpdatePatient = async (patientId = -1, patientData) => {
     // Update when patientID !== -1
     if(patientId !== -1 ){
@@ -10,7 +11,7 @@ export const fetchCreateOrUpdatePatient = async (patientId = -1, patientData) =>
     const res = await authApi().post(endpoints['patient'], patientData)
     return res;
 }
-
+// To: create examination by examination data was declared in formAddExaminationSchema
 export const featchCreateExamination = async (examinationData) => {
     const res = await authApi().post(endpoints['examination'], examinationData)
     return res;

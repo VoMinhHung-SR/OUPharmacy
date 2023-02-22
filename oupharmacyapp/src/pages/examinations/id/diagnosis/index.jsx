@@ -2,12 +2,12 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import PrescriptionCard from "../../../../modules/common/components/card/PrescriptionCard"
+import DiagnosisCard from "../../../../modules/common/components/card/DiagnosisCard"
 import Loading from "../../../../modules/common/components/Loading"
 import useDiagnosis from "../../../../modules/pages/DiagnosisComponents/hooks/useDiagnosis"
 
 const Diagnosis = () => {
-    const { examinationDetail, isLoadingExamination, prescription,
+    const { examinationDetail, isLoadingExamination, diagnosis,
         prescriptionId, examinationId, user, handleChangeFlag } = useDiagnosis()
     const router = useNavigate()
     const {t , ready} = useTranslation(['diagnosis','common'])
@@ -70,11 +70,11 @@ const Diagnosis = () => {
 
                             <Box className='ou-mt-5'>
                                 <Box style={{ "margin": "auto" }}>
-                                    {user && <PrescriptionCard
+                                    {user && <DiagnosisCard
                                         id={prescriptionId}
                                         examinationId={examinationId}
-                                        diagnosed={prescription.diagnosed}
-                                        sign={prescription.sign}
+                                        diagnosed={diagnosis.diagnosed}
+                                        sign={diagnosis.sign}
                                         userID={user.id}
                                         handleChangeFlag={handleChangeFlag}
                                         />
