@@ -105,7 +105,7 @@ const Examinations = () =>{
                                                 {renderMailStatus(e.mail_status)}
                                             <TableCell align="center">
                                                 <Typography>
-                                                    {e.user.username}
+                                                    {e.user.email}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell align="center">

@@ -8,7 +8,7 @@ import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePay
 
 const Payments = () => {
     const {isLoadingPrescriptionDetail, examinationDetail, examinationID, 
-        receipt, handleChangeFlag} = usePayment()
+        handleChangeFlag, prescribing} = usePayment()
     const router = useNavigate()
     const {t, ready} = useTranslation(['payment','common', 'modal'])
     
@@ -148,13 +148,15 @@ const Payments = () => {
                                             </Grid>
                                         </Box>
                                     </Box>
-
+                                {prescribing.length !== 0 && prescribing.map(p => 
                                     <BillCard 
-                                    id={examinationDetail.id}
+                                    id={p.id}
                                     wage={examinationDetail.examination.wage}
                                     handleChangeFlag={handleChangeFlag}
-                                    receipt={receipt}
                                     />
+                                ) 
+                                }
+                                   
             
                                 </Box>
                             </Box>

@@ -56,9 +56,9 @@ const Nav = () => {
     },
     {  
       // Only user-Doctor
-      id: 'prescriptions',
-      name:t('prescription'),
-      link: '/prescriptions'
+      id: 'pescribings',
+      name:t('prescribing'),
+      link: '/prescribing'
     },
   ];
 
@@ -340,13 +340,13 @@ const Nav = () => {
             {i18n.language === 'en' ? 
               <Tooltip title={t('changeLanguage')}>
                 <Button className="!ou-text-white" onClick={()=> changeLanguage('vi')}>
-                  <FlagUK/>
+                  <FlagUK width={30} height={30}/>
                 </Button> 
               </Tooltip>
               :
               <Tooltip title={t('changeLanguage')}>
                 <Button className="!ou-text-white" onClick={()=> changeLanguage('en')}>
-                  <FlagVN width={24} height={24}/>
+                  <FlagVN width={30} height={30}/>
                 </Button>
               </Tooltip>
             }

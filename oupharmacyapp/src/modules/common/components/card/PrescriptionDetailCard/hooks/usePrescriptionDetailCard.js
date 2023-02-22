@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { userContext } from "../../../../../../App";
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2";
 import * as Yup from 'yup';
-import { fetchAddPrescriptionDetail, fetchMedicinesUnit } from "../services";
+import { fetchAddPrescriptionDetail, fetchCreatePrescribing, fetchMedicinesUnit } from "../services";
 import { useTranslation } from "react-i18next";
 import { REGEX_ADDRESS, REGEX_NUMBER999 } from "../../../../../../lib/constants";
 
@@ -67,25 +67,32 @@ const usePrescriptionDetailCard = () => {
     }
 
     const handleAddPrescriptionDetail = () => {
-        const addPrescriptionDetail = () => {
+        const addPrescriptionDetail = async () => {
             if (medicinesSubmit.length !== 0) {
-                medicinesSubmit.forEach( async (m) => {
-                    try {
-                        let formData = {
-                            'quantity': m.quantity,
-                            'uses': m.uses,
-                            'prescription': prescriptionId,
-                            'medicine_unit': m.id
+                let prescribingData = {user:user.id, diagnosis: parseInt(prescriptionId)}
+                const res = await fetchCreatePrescribing(prescribingData)
+                if(res.status === 201)
+                    medicinesSubmit.forEach( async (m) => {
+                        try {
+                            let formData = {
+                                'quantity': m.quantity,
+                                'uses': m.uses,
+                                'prescribing': res.data.id,
+                                'medicine_unit': m.id
+                            }
+                            const res2 = await fetchAddPrescriptionDetail(formData)
+                            if(res2.status === 201)
+                                return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
+                                
+                        } catch (err) {
+                            setOpenBackdop(false)
+                            ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
                         }
-                        const res = await fetchAddPrescriptionDetail(formData)
-                        if(res.status === 201)
-                            return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
-                            
-                    } catch (err) {
-                        setOpenBackdop(false)
-                        ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
-                    }
-                })
+                    })
+                else{
+                    setOpenBackdop(false)
+                    ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'))
+                }
             } else {
                 ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
             }

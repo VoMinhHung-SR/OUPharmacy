@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
+import { fetchReciept } from "../../../../../pages/PaymentComponents/services"
 import { fetchAddBill, fetchMomoPaymentURL, fetchPrescrriptionDetailBillCard } from "../services"
 
-const useBillCard = (prescriptionID) => {
+const useBillCard = (prescribingID) => {
     const {t} = useTranslation(['payment','modal'])
     const [isLoadingPrescriptionDetail, setIsLoadingPrescriptionDetail] = useState(true)
     const [prescriptionDetail, setPrescriptionDetail] = useState([])
+    const [receipt, setReceipt] = useState(false)
     const [isLoadingButton, setIsLoadingButton] = useState(false)
     useEffect(()=>{
         const loadPrescriptionDetail = async () =>{
             try{
-                const res = await fetchPrescrriptionDetailBillCard(prescriptionID)
+                const res = await fetchPrescrriptionDetailBillCard(prescribingID)
                 if (res.status === 200){
                     setIsLoadingPrescriptionDetail(false)
                     setPrescriptionDetail(res.data)
@@ -21,13 +23,27 @@ const useBillCard = (prescriptionID) => {
                 setPrescriptionDetail([])
             }
         }
-        if(prescriptionID)
+        const loadReceipt = async () => {
+            try {
+                const res = await fetchReciept(prescribingID)
+                if (res.status === 200) {
+                    setReceipt(true)
+                    console.log(res.data)
+                }
+            } catch (err) {
+                if(err.status === 500)
+                    setReceipt(false)
+            }
+        }
+        if(prescribingID){
             loadPrescriptionDetail()
-    },[prescriptionID])
-    const onSubmit = (amount, prescriptionID, callback) => {
+            loadReceipt()
+        }
+    },[prescribingID])
+    const onSubmit = (amount, prescribingID, callback) => {
         const handleOnSubmit = async () => {
             try {
-                const res = await fetchAddBill({amount: amount, prescriptionId: prescriptionID})
+                const res = await fetchAddBill({amount: amount, prescribing: prescribingID})
                 if (res.status === 201) {
                     SuccessfulAlert(t('payCompleled'), t('modal:ok'))
                     setIsLoadingButton(false)
@@ -46,10 +62,10 @@ const useBillCard = (prescriptionID) => {
         }, () => { return; })
     }
 
-    const momoPayment = (amount, prescriptionID) =>{
+    const momoPayment = (amount, prescribingID) =>{
         const addBill = async () => {
             try {
-                const res = await fetchMomoPaymentURL({amount: amount, prescriptionId: prescriptionID})
+                const res = await fetchMomoPaymentURL({amount: amount, prescribing: prescribingID})
                 if (res.status === 200) {
                     // console.log(res.data.payUrl)
                     window.location.replace(res.data.payUrl);
@@ -67,7 +83,7 @@ const useBillCard = (prescriptionID) => {
 
     return {
         prescriptionDetail,isLoadingPrescriptionDetail,
-        onSubmit, isLoadingButton, momoPayment
+        onSubmit, isLoadingButton, momoPayment, receipt
     }
 
 }

@@ -20,7 +20,7 @@ const useFormAddExamination = () => {
         lastName: Yup.string().trim()
             .required(t('yupLastNameRequired'))
             .max(150, t('yupLastNameMaxLenght'))
-            .matches(REGEX_NAME, t('yupFirstNameInvalid')),
+            .matches(REGEX_NAME, t('yupLastNameInvalid')),
 
         email: Yup.string().trim()
             .required(t('yupEmailRequired'))
@@ -36,8 +36,7 @@ const useFormAddExamination = () => {
             .matches(REGEX_ADDRESS, t('yupAddressInvalid')),
 
         dateOfBirth: Yup.string()
-            .required(t('yupDOBRequired'))
-            .max(254, t('yupLastNameMaxLenght')),
+            .required(t('yupDOBRequired')),
 
         gender: Yup.string()
         .required(t('yupGenderRequired')),

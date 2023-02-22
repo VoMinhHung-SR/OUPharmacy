@@ -26,12 +26,17 @@ export let endpoints = {
     'examination':'/examinations/',
     'examination-detail': (examinationId) => `/examinations/${examinationId}/`,
     'send-mail': (examinationId) => `/examinations/${examinationId}/send_mail/`,
-    'get-prescription-by-examinationId': (examinationId) => `/examinations/${examinationId}/get-pres-by-examinationId/`,
+    'get-diagnosis': (examinationId) => `/examinations/${examinationId}/get-diagnosis/`,
     
-    // Prescription
-    'prescriptions':'/prescriptions/',
-    'prescription':(prescriptionId) => `/prescriptions/${prescriptionId}/`,
-    'get-prescription-detail-by-prescId': (prescriptionId) => `/prescriptions/${prescriptionId}/get-pres-detail/`,
+    // Diagnosis
+    'diagnosis':'/diagnosis/',
+    'prescription':(diagnosisId) => `/diagnosis/${diagnosisId}/`,
+    
+    // Prescripbing:
+    'prescribing': '/prescribing/',
+    'get-pres-by-diagnosis': '/prescribing/get-by-diagnosis/',
+    'get-prescription-detail': (prescribingID) => `/prescribing/${prescribingID}/get-pres-detail/`,
+
     // Prescription Detail
     'prescription-detail':'/prescription-details/',
     

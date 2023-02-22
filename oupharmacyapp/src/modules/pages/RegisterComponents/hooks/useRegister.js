@@ -68,7 +68,7 @@ const useRegister = () => {
         console.log(userRoleID)
         formData.append("first_name", data.firstName)
         formData.append("last_name", data.lastName)
-        formData.append("username", data.username)
+        // formData.append("username", data.username)
         formData.append("password", data.password)
         formData.append("email", data.email)
         formData.append("address", data.address)
@@ -89,14 +89,14 @@ const useRegister = () => {
                 }
             } catch (err) {
                 if (err) {
-                    let data = err.response.data;
+                    let data = err.response;
                     setOpenBackdrop(false)
-                    if (data.username)
-                    setError("username", {
-                        type: "custom",
-                        // message: data.username.join(", "),
-                        message: "Tên tài khoản đã tồn tại"
-                    });
+                    // if (data.username)
+                    // setError("username", {
+                    //     type: "custom",
+                    //     // message: data.username.join(", "),
+                    //     message: "Tên tài khoản đã tồn tại"
+                    // });
                     if (data.email)
                     setError("email", {
                         type: "custom",
@@ -140,9 +140,9 @@ export const registerSchema = Yup.object().shape({
     lastName: Yup.string()
         .required("Tên không được để trống")
         .max(254, "Tên vượt quá độ dài cho phép"),
-    username: Yup.string()
-        .required("Tên người dùng không được để trống")
-        .max(150, "Tên người dùng vượt quá độ dài cho phép"),
+    // username: Yup.string()
+    //     .required("Tên người dùng không được để trống")
+    //     .max(150, "Tên người dùng vượt quá độ dài cho phép"),
     email: Yup.string()
         .required("Email không được để trống")
         .max(254, "Email vượt quá độ dài cho phép")

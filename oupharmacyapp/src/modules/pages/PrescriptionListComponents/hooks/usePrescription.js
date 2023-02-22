@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { userContext } from "../../../../App"
-import { fetchPrescriptionList } from "../services"
+import { fetchDiagnosisList } from "../services"
 
 const usePrescriptionList = () =>{
     const [user] = useContext(userContext)
@@ -10,7 +10,7 @@ const usePrescriptionList = () =>{
     useEffect(()=>{
         const loadPrescriptionList = async () =>{
             try {
-                const res = await fetchPrescriptionList();
+                const res = await fetchDiagnosisList();
                 if (res.status === 200) {
                     setIsLoadingPrescriptionList(false);
                     setPrescriptionList(res.data);

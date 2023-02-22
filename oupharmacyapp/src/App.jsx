@@ -10,8 +10,8 @@ import Register from './pages/register'
 import cookies from "react-cookies";
 import ExaminationList from './pages/users/examinations'
 import Diagnosis from './pages/examinations/id/diagnosis'
-import PrescriptionList from './pages/prescriptions'
-import PrescriptionDetail from './pages/prescriptions/id'
+import PrescriptionList from './pages/prescribing'
+import PrescriptionDetail from './pages/prescribing/id'
 import Payments from './pages/examinations/id/payments'
 import ConversationList from './pages/conversations'
 import ChatWindow from './pages/conversations/id/recipientID/message'
@@ -56,8 +56,8 @@ function App() {
                     {/* Accepted user.role = ROLE_DOCTOR */}
                     <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
                       <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                      <Route path='/prescriptions' element={<PrescriptionList/>} />
-                      <Route path='/prescriptions/:prescriptionId' element={<PrescriptionDetail/>} />
+                      <Route path='/prescribing' element={<PrescriptionList/>} />
+                      <Route path='/prescribing/:prescriptionId' element={<PrescriptionDetail/>} />
                     </Route>
 
                     {/* Accepted user.role = ROLE_NURSE */}
