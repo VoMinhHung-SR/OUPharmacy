@@ -9,15 +9,16 @@ const ProtectedUserRoute = () => {
     const [user] = useContext(userContext);
     const router = useNavigate()
     const {t, ready} = useTranslation('common');
+    if (user)
+        return <Outlet/>
     //TODO: add skeletons here
-        if(!ready)
+    if(!ready)
         return <Box sx={{ height: "300px" }}>
             <Box className='ou-p-5'>
                 <Loading/>
             </Box>
         </Box>
-    if (user)
-        return <Outlet/>
+   
     return (
             <>
                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>

@@ -176,7 +176,7 @@ const Nav = () => {
 
   const renderElementNav = (pageID, pageLink, pageName, isMobile = false) => {
     // Render for doctor
-      if(pageID === 'prescriptions'|| pageID === 'prescriptions-mb')
+      if(pageID === 'pescribings'|| pageID === 'pescribings-mb')
         if(user && user.role === ROLE_DOCTOR)
           return(
             <Link to={pageLink}>
