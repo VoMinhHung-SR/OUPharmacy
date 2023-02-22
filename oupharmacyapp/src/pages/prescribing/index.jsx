@@ -108,7 +108,7 @@ const PrescriptionList = () => {
                                                                 <Typography className="mb-2">
                                                                     <Link style={{ "textDecoration": "none" }}
 
-                                                                        to={`/prescriptions/${p.id}`}>
+                                                                        to={`/prescribing/${p.id}`}>
                                                                         <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
                                                                             {t('prescribing')}
                                                                         </Button>

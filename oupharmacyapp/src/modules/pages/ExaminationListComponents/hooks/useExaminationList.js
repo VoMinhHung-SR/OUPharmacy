@@ -10,7 +10,7 @@ const useExaminationList = () => {
     const [flag, setFlag] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 
-    const {t} = useTranslation(['modal'])
+    const {t} = useTranslation(['examinations','modal'])
    
 
     useEffect(()=> {
@@ -44,7 +44,7 @@ const useExaminationList = () => {
                 ErrorAlert(t('modal:deleteFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
             }
         }
-        return ConfirmAlert(t('confirmDelete'),t('modal:noThrowBack'),
+        return ConfirmAlert(t('examinations:confirmDelete'),t('modal:noThrowBack'),
         t('modal:yes'),
         t('modal:cancel'),
         // this is callback function when user confirmed "Yes"

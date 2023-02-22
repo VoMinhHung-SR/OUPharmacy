@@ -17,7 +17,7 @@ const Register = () => {
         defaultValues:{
             firstName: "",
             lastName: "",
-            username: "",
+            // username: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -52,8 +52,8 @@ const Register = () => {
                 <Container style={{ "padding": "50px" }}>
                     <form onSubmit={methods.handleSubmit((data)=> onSubmit(data, methods.setError))} style={{ "width": "80%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
                         <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>Đăng ký người dùng</h1>
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={4} >
+                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} >
+                            <Grid item xs={6} >
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -67,7 +67,7 @@ const Register = () => {
                                     {...methods.register("firstName")}
                                 />
                             </Grid>
-                            <Grid item xs={4} >
+                            <Grid item xs={6} >
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -80,7 +80,7 @@ const Register = () => {
                                     helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
                                     {...methods.register("lastName")} />
                             </Grid>
-                            <Grid item xs={3}>
+                            {/* <Grid item xs={3}>
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -92,13 +92,23 @@ const Register = () => {
                                     error={methods.formState.errors.phoneNumber}
                                     helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
                                     {...methods.register("phoneNumber")} />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
 
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
                             <Grid item xs={6}>
-                             
                                 <TextField
+                                        fullWidth
+                                        autoComplete="given-name"
+                                        id="email"
+                                        name="email"
+                                        type="text"
+                                        label="Email"
+                                        error={methods.formState.errors.email}
+                                        helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
+                                        {...methods.register("email")}
+                                    />
+                                {/* <TextField
                                     fullWidth
                                     autoComplete="given-name"
                                 
@@ -109,7 +119,7 @@ const Register = () => {
                                     error={methods.formState.errors.username}
                                     helperText={methods.formState.errors.username ? methods.formState.errors.username.message : ""}
                                     {...methods.register("username")}
-                                />
+                                /> */}
                             </Grid>
                             <Grid item xs={5}>
                                 <TextField
@@ -131,14 +141,14 @@ const Register = () => {
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                                    id="email"
-                                    name="email"
+                      
+                                    id="phoneNumber"
+                                    name="phoneNumber"
                                     type="text"
-                                    label="Email"
-                                    error={methods.formState.errors.email}
-                                    helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
-                                    {...methods.register("email")}
-                                />
+                                    label="SĐT"
+                                    error={methods.formState.errors.phoneNumber}
+                                    helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
+                                    {...methods.register("phoneNumber")} />
                             </Grid>
                             <Grid item xs={5}>
                                 <TextField

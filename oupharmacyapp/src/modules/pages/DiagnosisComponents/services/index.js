@@ -1,12 +1,12 @@
 import { authApi, endpoints } from "../../../../config/APIs"
 
-// Sample PrescriptionData: {
+// Sample diagnosisData: {
 //     sign: string,
 //     diagnosed: string,
 //     examination: int,
 //     user: int
 // }
-export const fetchCreateDiagnosis = async (prescriptionData) => {
-   const res = await authApi().post(endpoints['prescriptions'], prescriptionData)
+export const fetchCreateDiagnosis = async (diagnosisData) => {
+   const res = await authApi().post(endpoints['diagnosis'], diagnosisData)
    return res;
 }

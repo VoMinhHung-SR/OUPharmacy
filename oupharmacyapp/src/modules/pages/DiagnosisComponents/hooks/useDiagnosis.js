@@ -34,7 +34,7 @@ const useDiagnosis = () => {
        }
        const loadPrescription = async () => {
         try {
-            const res = await authApi().get(endpoints['get-prescription-by-examinationId'](examinationId))
+            const res = await authApi().get(endpoints['get-diagnosis'](examinationId))
             if (res.status === 200) {
                 setPrescriptionId(res.data.id)
                 setPrescription(res.data)

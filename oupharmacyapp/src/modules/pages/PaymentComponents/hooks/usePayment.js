@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router"
 import { userContext } from "../../../../App"
-import { fetchPrescriptionByExaminationID, fetchReciept } from "../services"
+import { fetchDiagnosisByExaminationID, fetchPrescribingByDiagnosis } from "../services"
 
 const usePayment = () => {
     const [user] = useContext(userContext)
@@ -9,8 +9,8 @@ const usePayment = () => {
     const [isLoadingPrescriptionDetail, setIsloadingPrescriptionDetail] = useState(true)
     const [examinationDetail, setExaminationDetail] = useState([])
     const [flag, setFlag] = useState(false)
-    const [receipt, setReceipt] = useState(false)
 
+    const [prescribing, setPrecribing] = useState([])
     const handleChangeFlag = () => {
         setFlag(!flag)
     }
@@ -19,11 +19,11 @@ const usePayment = () => {
         const loadPrescription = async () => {
             try {
                 console.log(examinationID)
-                const res = await fetchPrescriptionByExaminationID(examinationID.examinationId)
+                const res = await fetchDiagnosisByExaminationID(examinationID.examinationId)
                 if (res.status === 200) {
                     setExaminationDetail(res.data)
                     setIsloadingPrescriptionDetail(false)
-                    loadReceipt(res.data.id)
+                    loadPrescribings(res.data.id)
                     console.log(res.data)
                 }
             } catch (err) {
@@ -32,26 +32,24 @@ const usePayment = () => {
                 console.log(err)
             }
         }
-
-        const loadReceipt = async (prescriptionId) => {
+        const loadPrescribings = async (diagnosisId) => {
             try {
-                const res = await fetchReciept(prescriptionId)
+                const res = await fetchPrescribingByDiagnosis(diagnosisId)
                 if (res.status === 200) {
-                    setReceipt(true)
+                    setPrecribing(res.data)
                     console.log(res.data)
                 }
             } catch (err) {
                 if(err.status === 500)
-                    setReceipt(false)
+                    setPrecribing([])
             }
         }
         if(user){
             loadPrescription()
         }
     },[flag, examinationID])
-
     return{
-        receipt,
+        prescribing,
         isLoadingPrescriptionDetail,
         user,
         examinationDetail,

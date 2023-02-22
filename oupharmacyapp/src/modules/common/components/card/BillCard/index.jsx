@@ -6,7 +6,8 @@ import { calculateAmount } from "./utils/helper";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 const BillCard = (props) =>{
-    const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail, isLoadingButton, momoPayment} = useBillCard(props.id)
+    const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail,receipt,
+         isLoadingButton, momoPayment} = useBillCard(props.id)
     const {t} = useTranslation(['payment','common', 'modal']);
     const router = useNavigate();
 
@@ -83,7 +84,7 @@ const BillCard = (props) =>{
                                                 >
                                                     <TableCell component="th" scope="row" align="center" >
                                                         <Typography>
-                                                            {p.prescription.id}
+                                                            {p.prescribing.id}
                                                         </Typography>
                                                     </TableCell >
 
@@ -118,7 +119,7 @@ const BillCard = (props) =>{
                                 <Box className="ou-p-3" style={{ textAlign: "right" }}>
                                     <Typography className="ou-p-2">{t('serviceFee')}: {props.wage} VND</Typography>
                                     <h4 className="p-2">{t('amount')}: {calculateAmount(prescriptionDetail, props.wage)} VND</h4>
-                                    {props.receipt? 
+                                    {receipt? 
                                     (<>
                                         <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">{t('success')} <CheckCircleOutlineIcon /></h3>
                                     </>)
