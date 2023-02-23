@@ -6,9 +6,11 @@ import { calculateAmount } from "./utils/helper";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 const BillCard = (props) =>{
-    const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail,receipt,
-         isLoadingButton, momoPayment} = useBillCard(props.id)
+
     const {t} = useTranslation(['payment','common', 'modal']);
+
+    const {isLoadingPrescriptionDetail, onSubmit,prescriptionDetail,receipt,
+         isLoadingButton, momoPayment, zaloPayPayment} = useBillCard(props.id)
     const router = useNavigate();
 
     const renderLoadingButton = () => {
@@ -18,12 +20,20 @@ const BillCard = (props) =>{
             </Box>
             )
         else return (
-            <Box className="!ou-mt-2">
-                <Button variant="contained" 
-                onClick={()=> momoPayment(calculateAmount(prescriptionDetail, props.wage), props.id)}
-                color="success">
+            <Box className="!ou-mt-2 ">
+                <Button className="!ou-mr-5 !ou-bg-[#1e88e5"
+                    variant="contained" 
+                    disabled
+                    onClick={()=> zaloPayPayment(calculateAmount(prescriptionDetail, props.wage), props.id)}
+                    >
+                        {t('zalopayPayment')}
+                </Button>
+                <Button variant="contained"  className="!ou-bg-[#a50064]"
+                    onClick={()=> momoPayment(calculateAmount(prescriptionDetail, props.wage), props.id)}
+                    >
                         {t('momoPayment')}
                 </Button>
+                
                 <Button className="!ou-ml-5" onClick={()=>
                     onSubmit(calculateAmount(prescriptionDetail, props.wage), 
                     // , props.handleChangeFlag
@@ -34,13 +44,12 @@ const BillCard = (props) =>{
                 </Button>
             </Box>
         )
-        
     }
     
 
     return (<>
         {isLoadingPrescriptionDetail && prescriptionDetail.length === 0 ?
-            (<Box sx={{ height: "300px" }}>
+            (<Box sx={{ height: "50px" }}>
                 <Box className='p-5'>
                     <Loading/>                
                 </Box>
@@ -58,7 +67,7 @@ const BillCard = (props) =>{
                         <Button onClick={() => { router('/') }}>{t('common:here')}!</Button>
                     </Typography>
                 </Box>
-             </Box>)
+                </Box>)
                 : (
                     <>
                         <Box component={Paper} elevation={4}>

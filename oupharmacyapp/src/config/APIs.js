@@ -50,6 +50,7 @@ export let endpoints = {
     'bill':'/bills/',
     'receipt':'/bills/get-bill-by-pres/',
     'momoPayUrl':'/bills/momo-payments/',
+    'zaloPayUrl':'/bills/zalo-payments/',
 }
 export const authApi = () => {
     return axios.create({

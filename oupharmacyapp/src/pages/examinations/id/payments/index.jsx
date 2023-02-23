@@ -147,12 +147,12 @@ const Payments = () => {
                                             </Grid>
                                         </Box>
                                     </Box>
-                                {prescribing.length !== 0 && prescribing.map(p => 
+                                {prescribing.length !== 0 ? prescribing.map(p => 
                                     <BillCard 
                                         id={p.id}
                                         wage={examinationDetail.examination.wage}
-                                    />
-                                ) 
+                                    />) :
+                                    <BillCard id={-1}/>
                                 }
                                    
             
