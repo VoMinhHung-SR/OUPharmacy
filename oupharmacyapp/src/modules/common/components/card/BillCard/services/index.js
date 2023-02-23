@@ -23,3 +23,11 @@ export const fetchMomoPaymentURL = async (prescriptionData) => {
     })
     return res;
 }
+
+export const fetcZaloPayPaymentURL = async (prescriptionData) => {
+    const res = await authApi().post(endpoints['zaloPayUrl'],{
+        amount: prescriptionData.amount,
+        prescribing: prescriptionData.prescribing
+    })
+    return res;
+}

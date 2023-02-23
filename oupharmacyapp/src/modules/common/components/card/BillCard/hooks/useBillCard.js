@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
 import { fetchReciept } from "../../../../../pages/PaymentComponents/services"
-import { fetchAddBill, fetchMomoPaymentURL, fetchPrescrriptionDetailBillCard } from "../services"
+import { fetchAddBill, fetchMomoPaymentURL, fetchPrescrriptionDetailBillCard, fetcZaloPayPaymentURL } from "../services"
 
 const useBillCard = (prescribingID) => {
     const {t} = useTranslation(['payment','modal'])
@@ -77,7 +77,7 @@ const useBillCard = (prescribingID) => {
                     window.location.replace(res.data.payUrl);
                 }
             } catch (err) {
-                ErrorAlert("Thêm thất bại", "", "OK")
+                ErrorAlert(t('modal:createFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
             }
         }
         return ConfirmAlert(t('confirmCreateBill'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
@@ -87,9 +87,28 @@ const useBillCard = (prescribingID) => {
         }, () => { return; })
     }
 
+    const zaloPayPayment = (amount, prescribingID) =>{
+        const addBill = async () => {
+            try {
+                const res = await fetcZaloPayPaymentURL({amount: amount, prescribing: prescribingID})
+                if (res.status === 200) {
+                    window.location.replace(res.data.order_url);
+                }
+            } catch (err) {
+                ErrorAlert(t('modal:createFailed'), t('modal:errSomethingWentWrong'), t('modal:ok'))
+            }
+        }
+        return ConfirmAlert(t('confirmCreateBill'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
+        // this is callback function when user confirmed "Yes"
+        ()=>{
+            addBill()
+        }, () => { return; })
+    }
+
+
     return {
         prescriptionDetail,isLoadingPrescriptionDetail,
-        onSubmit, isLoadingButton, momoPayment, receipt
+        onSubmit, isLoadingButton, momoPayment, receipt,zaloPayPayment
     }
 
 }

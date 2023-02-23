@@ -22,6 +22,7 @@
     "amount": "Tổng tiền",
     "pay": "Thanh toán",
     "momoPayment": "Thanh toán MoMo",
+    "zalopayPayment": "Thanh toán ZaloPay",
     "success": "Đã thanh toán",
     "payCompleled":"Thanh toán thành công",
     "payFailed":"Thanh toán thất bại",
