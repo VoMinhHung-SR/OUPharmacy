@@ -4,6 +4,7 @@
     "errNotFound": "The page you requested could not be found",
     "loginValidUser": "Please login a valid user",
     "goToBooking": "Go to booking",
+    "bookingNow":"Booking Now",
     "backToHomepage": "Back to homepage",
 
     "here": "Here",
@@ -11,6 +12,7 @@
     "delete": "Delete",
     "undefined": "Undefined",
 
+    "waitingRoom":"Waiting Room",
     "booking": "Booking",
     "examination": "Examinations",
     "prescribing": "Prescribing",  
