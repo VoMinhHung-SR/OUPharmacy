@@ -1,0 +1,312 @@
+{% extends 'admin/base_site.html' %}
+{% block title %} OUPharmacy {% endblock%}
+{% block branding %}
+<h1 id="site-name" xmlns="http://www.w3.org/1999/html">
+    <a href="">{{ site_header|default:_('OUPharmacy') }}</a>
+</h1>
+{% endblock %}
+{% block breadcrumbs %}
+{%endblock%}
+{% block content %}
+<div class="container">
+    <h1 class="text-danger text-center">Thống kê tổng quan</h1>
+    <script src="../../static/js/script.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h5 class="text-primary pt-3">Tổng số người dùng có trong hệ thống: <span style="color:red">{{users}} </span></h5>
+    <h5 class="text-primary">Tổng số bệnh nhân có trong hệ thống: <span style="color:red">{{patients}} </span></h5>
+    <!--    <h3 class="text-info"> Số lượng các đơn đặt tour trong năm {{current_year}}:<span style="color: red"> {{booking_total}}</span>-->
+    <!--    </h3>-->
+    <!--    <h3 class="text-info"> Số lượng các hóa đơn đã thanh toán trong năm {{current_year}}:<span style="color: red"> {{bill_paid_total}}</span>-->
+    <!--    </h3>-->
+    <div>
+        <div class="js">
+            <script>
+        $(function () {
+            var ctx = document.getElementById('examinations').getContext('2d');
+            var examination_chart = {
+                datasets: [{
+                    data: {{data_examination|safe}},
+                    backgroundColor: [
+                        '#2c3e50',
+                        '#3c8dbc',
+                        '#f39c12',
+                        '#f1c40f',
+                        '#d63031',
+                        '#f56954',
+                        '#e67e22',
+                        '#8e44ad',
+                        '#1abc9c',
+                        '#3498db',
+                        '#2ecc71',
+                        '#bdc3c7',
+                    ],
+                    label:"Tần suất đặt lịch khám theo các tháng trong năm {{current_year}}",
+                    borderWidth: 1,
+                }],
+                labels: [
+                    'Tháng 1',
+                    'Tháng 2',
+                    'Tháng 3',
+                    'Tháng 4',
+                    'Tháng 5',
+                    'Tháng 6',
+                    'Tháng 7',
+                    'Tháng 8',
+                    'Tháng 9',
+                    'Tháng 10',
+                    'Tháng 11',
+                    'Tháng 12'
+                ]
+            };
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: examination_chart,
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            boxWidth: 30
+                        }
+                    }
+                }
+            });
+        });
+
+
+
+            </script>
+            <script>
+        $(function () {
+            var ctx = document.getElementById('revenue_stats').getContext('2d');
+            var revenue_chart = {
+                datasets: [{
+                    data: {{data_revenue|safe}},
+                    backgroundColor: [
+                        '#2c3e50',
+                        '#3c8dbc',
+                        '#f39c12',
+                        '#f1c40f',
+                        '#d63031',
+                        '#f56954',
+                        '#e67e22',
+                        '#8e44ad',
+                        '#1abc9c',
+                        '#3498db',
+                        '#2ecc71',
+                        '#bdc3c7',
+                    ],
+                    label:"Thống kê doanh thu theo các tháng trong năm {{current_year}}",
+                    borderWidth: 1,
+                }],
+                labels: [
+                    'Tháng 1',
+                    'Tháng 2',
+                    'Tháng 3',
+                    'Tháng 4',
+                    'Tháng 5',
+                    'Tháng 6',
+                    'Tháng 7',
+                    'Tháng 8',
+                    'Tháng 9',
+                    'Tháng 10',
+                    'Tháng 11',
+                    'Tháng 12'
+                ]
+            };
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: revenue_chart,
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            boxWidth: 30
+                        }
+                    }
+                }
+            });
+        });
+
+
+
+            </script>
+            <script>
+                    $(function () {
+<!--                        var ctx_2 = document.getElementById("medicines_chart").getContext('2d');-->
+
+<!--                        const data = {-->
+<!--                          labels: ,-->
+<!--                          datasets: [{-->
+<!--                            label: 'My First Dataset',-->
+<!--                            data:,-->
+<!--                            hoverOffset: 4-->
+<!--                          }]-->
+<!--                        };-->
+<!--                        var myDoughnutChart_2 = new Chart(ctx_2, {-->
+<!--                            type: 'doughnut',-->
+<!--                            data: data,-->
+
+<!--                        });-->
+                        var ctx_2 = document.getElementById("medicines_type_stats").getContext('2d');
+                                    var data_2 = {
+                                        datasets: [{
+                                            data: {{data_medicine_quantity}},
+                                            backgroundColor: [
+                                                '#A6B6C9',
+                                                '#E1E1E1',
+                                                '#F4C29F',
+                                                '#D5AC8B',
+                                                '#B3A285',
+                                                '#B2AB98',
+                                                '#F2BE6F',
+                                                '#DFD87E',
+                                                '#E1A836',
+                                            ],
+                                        }],
+                                        labels: ['Bổ phế Nam Hà không đường (Hộp 1 chai 125ml)',
+                                         'Thực phẩm bảo vệ sức khoẻ hỗ trợ bổ phổi tăng cường sức khỏe sau ốm EU Healthcare Recovery (Hộp 30 viên)',
+                                          'Dorocodon (Hộp 2 vỉ x 10 viên)',
+                                          'Calcium-Nic Extra 10ml (Hộp 2 vỉ x 10 ống)']
+
+                                    };
+                                    var myDoughnutChart_2 = new Chart(ctx_2, {
+                                        type: 'doughnut',
+                                        data: data_2,
+                                        options: {
+                                            responsive: false,
+                                            maintainAspectRatio: false,
+                                            legend: {
+                                                position: 'bottom',
+                                                labels: {
+                                                    boxWidth: 30
+                                                }
+                                            }
+                                        }
+                                    });
+                    });
+
+
+
+            </script>
+        </div>
+        <div class="chars-stats">
+            <div style="">
+                <br/>
+                <h2>Thống kê doanh thu theo tháng</h2>
+                <br/>
+                <canvas style="margin: 0 auto" width="700px" height="400px" id="revenue_stats"></canvas>
+            </div>
+
+            <div>
+                <br/>
+                <h2>Thống kê tần suất khám trong năm</h2>
+                <br/>
+                <canvas style="margin: 0 auto" id="examinations" width="700px" height="400px"></canvas>
+                <br/>
+                <br/>
+            </div>
+            <div>
+                <br/>
+                <h2>Thống kê tần suất sử dụng thuốc trong năm</h2>
+                <br/>
+                <canvas style="margin: 0 auto" id="medicines_type_stats" width="700px" height="400px"></canvas>
+                <br/>
+                <br/>
+            </div>
+            <div>
+                <div class="dropdown" style="position: inherit">
+                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown">
+                        Thống Kê Doanh Thu
+                    </button>
+                    <div class="dropdown-menu" style="display:plex">
+                        <button data-toggle="modal" data-target="#by_month" class="dropdown-item">Theo Tháng</button>
+                        <button data-toggle="modal" data-target="#by_quarterly" class="dropdown-item">Theo Quý</button>
+                        <button data-toggle="modal" data-target="#by_year" class="dropdown-item">Theo Năm</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <br/>
+                <h1 id="title_stats" class="text-danger"></h1>
+                <h4 id="total_book_tour_stats" class="text-info"></h4>
+                <h4 id="total_bill_paid_stats" class="text-info"></h4>
+                <h4 id="total_revenue_stats" class="text-info"></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="by_month">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thống kê theo tháng</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="" method="post">
+                    <label for="revenue_stats_month">Choose month to statistic:</label>
+                    <input type="month" id="revenue_stats_month" name="revenue_stats_month"
+                           min="2010-03" required>
+                    <button onclick="revenue_stats(1)" class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="by_quarterly">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thống kê theo quý</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="">
+                    <label for="revenue_stats_from">From: </label>
+                    <input type="date" id="revenue_stats_from" name="revenue_stats_from" required>
+                    <label for="revenue_stats_to">To: </label>
+                    <input type="date" id="revenue_stats_to" name="revenue_stats_to" required>
+                    <button onclick="revenue_stats(3)" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="by_year">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thống kê theo năm</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="">
+                    <label for="revenue_stats_year">Choose year to statistic:</label>
+                    <input type="number" id="revenue_stats_year" name="revenue_stats_year" min="2010" max="2080"
+                           step="1" value="2022" required/>
+                    <button onclick="revenue_stats(2)" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -60,6 +60,11 @@ const Nav = () => {
       name:t('prescribing'),
       link: '/prescribing'
     },
+    {
+      id: 'waiting-room',
+      name: t('waitingRoom'),
+      link: '/waiting-room'
+    }
   ];
 
   //  Hooks useNav

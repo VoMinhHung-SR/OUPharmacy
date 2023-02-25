@@ -3,9 +3,26 @@ import { Avatar, Container, Grid, Stack } from '@mui/material';
 
 
 const Footer = () => {
+     {/* <div className="footer__flex">
+                        <div className="col10 ft-mobile ft-mobile__top">
+                            <ul className="social-media">
+                                <li>
+                                    <a href="https://www.youtube.com/channel/UClCe0jTV9_Ti9m8kvU0NNIA" className="fab fa-youtube"></a>
+                                    <a href="https://www.facebook.com/Shiray.h/" className="fab fa-facebook-f"></a>
+                                    <a href="https://twitter.com/ShiRay76094313"  className="fab fa-twitter"></a>
+                                    <a href="https://www.instagram.com/shiray_h/"  className="fab fa-instagram"></a>
+                                    <a href="https://www.linkedin.com/in/shiray/"  className="fab fa-linkedin-in"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        
+                    </div> */}
     return(
         <>
-            <div style={{"backgroundColor":"#084468", "color":"white","padding":"50px"}}>
+            
+        <footer id="contact">
+            <div className='ou-bg-blue-700' style={{"color":"white","padding":"50px"}}>
                 <Container> 
                     <Grid container spacing={2} columns={12}>
                         <Grid item xs={4}>
@@ -14,7 +31,7 @@ const Footer = () => {
                         </Grid>
                         <Grid item xs={6}>
                             <Stack direction="row" spacing={2}>
-                                <div className='ou-text-left'>
+                                <div classNameName='ou-text-left'>
                                     <h4>Thông tin liên hệ</h4>
                                     <Stack direction="row" spacing={2} style={{"flexDirection":"column"}}>
                                         <div>Địa chỉ: 371 Nguyễn Kiệm, phường 3, quận Gò Vấp, Tp.Hồ Chí Minh</div>
@@ -50,7 +67,7 @@ const Footer = () => {
                             </Stack>
                         </Grid>
                         <Grid item xs={2}>
-                            <div className='ou-text-left'>
+                            <div classNameName='ou-text-left'>
                                 <h4>Các điều khoản</h4>
                                 <Stack direction="row" spacing={2} style={{ "flexDirection":"column"}}>
                                     <div style={{"textDecoration":"none","color":"#4ec85b","marginLeft":"0px","cursor":"pointer"}}>Bảo mật</div>
@@ -58,7 +75,7 @@ const Footer = () => {
                                     <div style={{"textDecoration":"none","color":"#4ec85b","marginLeft":"0px","cursor":"pointer"}}>Trợ giúp</div>
                                 </Stack> 
                             </div>
-                            <div className='ou-text-left ou-pt-5'>
+                            <div classNameName='ou-text-left ou-pt-5'>
                                 <h4>Về Chúng Tôi</h4>
                                 <Stack direction="row" spacing={2} style={{ "flexDirection":"column"}}>
                                     <div style={{"textDecoration":"none","color":"#4ec85b","marginLeft":"0px","cursor":"pointer"}}>Giới thiệu</div>
@@ -68,28 +85,15 @@ const Footer = () => {
                             </div>
                         </Grid>
                     </Grid>
-                    {/* <div class="footer__flex">
-                        <div class="col10 ft-mobile ft-mobile__top">
-                            <ul class="social-media">
-                                <li>
-                                    <a href="https://www.youtube.com/channel/UClCe0jTV9_Ti9m8kvU0NNIA" class="fab fa-youtube"></a>
-                                    <a href="https://www.facebook.com/Shiray.h/" class="fab fa-facebook-f"></a>
-                                    <a href="https://twitter.com/ShiRay76094313"  class="fab fa-twitter"></a>
-                                    <a href="https://www.instagram.com/shiray_h/"  class="fab fa-instagram"></a>
-                                    <a href="https://www.linkedin.com/in/shiray/"  class="fab fa-linkedin-in"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        
-                    </div> */}
+                  
                 </Container>
                 
             </div>
 
-            
+        </footer>            
                 
         </>
+         
     )
 }
 export default Footer

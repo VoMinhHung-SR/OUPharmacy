@@ -24,6 +24,7 @@ import { ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
 import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
 import Forbidden from './modules/common/layout/components/403-forbidden'
 import NotFound from './modules/common/layout/components/404-not_found'
+import WaitingRoom from './pages/waiting-room'
 
 
 export const userContext = createContext()
@@ -40,7 +41,7 @@ function App() {
               <Routes>
                 <Route path='/' element={<Layout />}>
                   <Route path='/' element={<Home />}/>
-
+                  <Route path='/waiting-room' element={<WaitingRoom/>}/>
                    {/* Accepted when user authorized */}
                   <Route element={<ProtectedUserRoute/>}>
                     
