@@ -1,0 +1,152 @@
+from django.contrib import admin
+from . import cloud_context
+from django.urls import path
+from django.utils.safestring import mark_safe
+from .models import *
+from django.template.response import TemplateResponse
+from django.db.models import Count, Sum
+from django.db.models.functions import TruncMonth
+from datetime import date
+
+
+# Register your models here.
+
+
+# class MainAppAdminSite(admin.AdminSite):
+#     site_header = 'OUPharmacy'
+#
+#
+# admin_site = MainAppAdminSite(name='myAdmin')
+class MainAppAdminSite(admin.AdminSite):
+
+    def get_urls(self):
+        return [
+                   path('stats/', self.stats_view)
+               ] + super().get_urls()
+
+    def stats_view(self, request):
+        patients = Patient.objects.filter(active=True).count()
+        medicine_units = MedicineUnit.objects.filter(active=True).count()
+        users = User.objects.filter(is_active=True).count()
+        data_examination = []
+        data_revenue = []
+        data_medicine_quantity = []
+        data_medicine_labels = []
+        medicine_in_use = 0
+        examinations = Examination.objects.filter(created_date__year=date.today().year) \
+            .annotate(month=TruncMonth('created_date')).values('month') \
+            .annotate(c=Count('pk')).values('month', 'c')
+        bills = Bill.objects.filter(created_date__year=date.today().year) \
+            .annotate(month=TruncMonth('created_date')).values('month') \
+            .annotate(total=Sum("amount"), count=Count("id")).values('month', 'total', 'count')
+
+        medicines = PrescriptionDetail.objects.filter(active=True).values('medicine_unit__medicine__name').annotate(count=Count('medicine_unit')).values('medicine_unit__medicine__name', 'count')
+
+        for i in range(12):
+            flag = False
+            for rs in examinations:
+                if i + 1 == rs['month'].month:
+                    data_examination.append(rs['c'])
+                    flag = True
+                    break
+            if not flag:
+                data_examination.append(0)
+        for i in range(12):
+            flag = False
+            for rs in bills:
+                if i + 1 == rs['month'].month:
+                    data_revenue.append(rs['total'])
+                    flag = True
+                    break
+            if not flag:
+                data_revenue.append(0)
+        for m in medicines:
+            for key, value in m.items():
+                if key == 'medicine_unit__medicine__name':
+                    data_medicine_labels.append(value)
+                if key == 'count':
+                    data_medicine_quantity.append(value)
+
+        print(data_medicine_labels)
+        print(data_medicine_quantity)
+        return TemplateResponse(request,
+                                'admin/stats.html', {
+                                    "patients": patients,
+                                    "users": users,
+                                    "data_examination": data_examination,
+                                    "data_revenue": data_revenue,
+                                    "medicineUnits": medicine_units,
+                                    "current_year": date.today().year,
+                                    'data_medicine_labels': data_medicine_labels,
+                                    'data_medicine_quantity': data_medicine_quantity
+                                })
+
+
+admin_site = MainAppAdminSite(name='OUPharmacy')
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['id', 'first_name', 'last_name', 'email', 'address', 'role']
+    list_filter = ['email']
+    search_fields = ['email']
+    readonly_fields = ['avatar_view']
+
+    def avatar_view(self, user):
+        if user.avatar:
+            return mark_safe(
+                "<img src='{cloud_context}{url}' alt='avatar' width='200' />".format(cloud_context=cloud_context,
+                                                                                     url=user.avatar)
+            )
+
+
+class PatientAdmin(admin.ModelAdmin):
+    list_display = ['id', 'first_name', 'last_name', 'phone_number', 'email', 'gender']
+    list_filter = ['last_name']
+
+
+class UserRoleAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'active']
+
+
+class ExaminationAdmin(admin.ModelAdmin):
+    list_display = ['description', 'created_date', 'patient']
+    list_filter = ['patient']
+
+
+class MedicineAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'effect', 'contraindications', 'created_date']
+    list_filter = ['name']
+
+
+class MedicineUnitAdmin(admin.ModelAdmin):
+    list_display = ['id', 'price', 'in_stock', 'created_date', 'medicine', 'category']
+    list_filter = ['medicine']
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+    list_filter = ['name']
+
+
+class DiagnosisAdmin(admin.ModelAdmin):
+    list_display = ['id', 'sign', 'diagnosed', 'examination', 'user']
+
+
+class BillAdmin(admin.ModelAdmin):
+    list_display = ['id', 'amount', 'prescribing']
+
+
+class PrescriptionDetailAdmin(admin.ModelAdmin):
+    list_display = ['id', 'quantity', 'uses', 'prescribing', 'medicine_unit']
+
+
+admin_site.register(Bill, BillAdmin)
+admin_site.register(Category, CategoryAdmin)
+admin_site.register(Medicine, MedicineAdmin)
+admin_site.register(MedicineUnit, MedicineUnitAdmin)
+admin_site.register(Examination, ExaminationAdmin)
+admin_site.register(Diagnosis, DiagnosisAdmin)
+admin_site.register(PrescriptionDetail, PrescriptionDetailAdmin)
+admin_site.register(Patient, PatientAdmin)
+admin_site.register(User, UserAdmin)
+admin_site.register(UserRole, UserRoleAdmin)
