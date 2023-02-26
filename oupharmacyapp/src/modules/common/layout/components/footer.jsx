@@ -31,7 +31,7 @@ const Footer = () => {
                         </Grid>
                         <Grid item xs={6}>
                             <Stack direction="row" spacing={2}>
-                                <div classNameName='ou-text-left'>
+                                <div className='ou-text-left'>
                                     <h4>Thông tin liên hệ</h4>
                                     <Stack direction="row" spacing={2} style={{"flexDirection":"column"}}>
                                         <div>Địa chỉ: 371 Nguyễn Kiệm, phường 3, quận Gò Vấp, Tp.Hồ Chí Minh</div>
@@ -67,7 +67,7 @@ const Footer = () => {
                             </Stack>
                         </Grid>
                         <Grid item xs={2}>
-                            <div classNameName='ou-text-left'>
+                            <div className='ou-text-left'>
                                 <h4>Các điều khoản</h4>
                                 <Stack direction="row" spacing={2} style={{ "flexDirection":"column"}}>
                                     <div style={{"textDecoration":"none","color":"#4ec85b","marginLeft":"0px","cursor":"pointer"}}>Bảo mật</div>
@@ -75,7 +75,7 @@ const Footer = () => {
                                     <div style={{"textDecoration":"none","color":"#4ec85b","marginLeft":"0px","cursor":"pointer"}}>Trợ giúp</div>
                                 </Stack> 
                             </div>
-                            <div classNameName='ou-text-left ou-pt-5'>
+                            <div className='ou-text-left ou-pt-5'>
                                 <h4>Về Chúng Tôi</h4>
                                 <Stack direction="row" spacing={2} style={{ "flexDirection":"column"}}>
                                     <div style={{"textDecoration":"none","color":"#4ec85b","marginLeft":"0px","cursor":"pointer"}}>Giới thiệu</div>
