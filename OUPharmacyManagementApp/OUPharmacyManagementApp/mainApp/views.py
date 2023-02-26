@@ -5,6 +5,9 @@ import json
 import urllib.request
 import urllib
 import uuid
+from collections import deque
+from crypt import methods
+
 import requests
 import hmac
 import hashlib
@@ -112,7 +115,7 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                 if created_date:
                     e.created_date = created_date
                 e.save()
-                return Response(ExaminationSerializer(e, context={'request': request}).data,
+                return Response(ExaminationSerializer(e, context={'request': request}, many=True).data,
                                 status=status.HTTP_201_CREATED)
             else:
                 return Response(data={"errMgs": "Patient doesn't exist"},
@@ -193,6 +196,17 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                             status=status.HTTP_200_OK)
         return Response(data={"errMgs": "prescription not found"},
                         status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['get'], detail=False, url_path='get-total-exam-today')
+    def get_total_exam_today(self, request):
+        try:
+            total = Examination.objects.filter(created_date=datetime.datetime.today().date(), mail_status=True).count()
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"errMgs": "Can't get Examinations"})
+        # if total:
+        return Response(data={"total": total},
+                        status=status.HTTP_200_OK)
 
 
 class PatientViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
