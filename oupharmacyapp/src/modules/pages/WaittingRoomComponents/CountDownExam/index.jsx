@@ -1,15 +1,23 @@
 
-import moment from "moment";
-import { CURRENT_DATE } from "../../../../lib/constants";
-import useCountDownExam from "../hooks/useCountDownExam"
+import { Box } from "@mui/material";
 
-const CountDownExam = () => {
-    
-    const {total} = useCountDownExam();
-    return(
-        <>
-            <h1>He thong hien tai co: {total} phieu kham trong ngay {moment(CURRENT_DATE).format('DD-MM-yyyy')}</h1>
-        </>
-    )
+const CountDownExam = (props) => {
+  
+        return(
+            <>
+                <Box className="ou-min-w-[300px] ou-max-w-[350px] ou-p-5 ou-border-[1.5px] ou-border-black ou-border-solid ou-rounded-[8px]">
+                    {props.currentID ? <>
+                        <h1>
+                            Phiếu hiện tại {"(mã phiếu)"}: {props.currentID}
+                        </h1>
+                    </> : <>
+                        <h1>
+                            Phiếu tiếp theo {"(mã phiếu)"}: {props.nextID}
+                        </h1>
+                    </>
+                    } 
+                </Box>
+            </>
+        )
 }
 export default CountDownExam

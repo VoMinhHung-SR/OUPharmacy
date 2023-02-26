@@ -113,6 +113,7 @@ OAUTH2_INFO = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+TIME_ZONE = 'Asia/Saigon'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
