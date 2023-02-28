@@ -25,6 +25,7 @@ import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
 import Forbidden from './modules/common/layout/components/403-forbidden'
 import NotFound from './modules/common/layout/components/404-not_found'
 import WaitingRoom from './pages/waiting-room'
+import { QueueStateProvider } from './lib/context/QueueStateContext'
 
 
 export const userContext = createContext()
@@ -38,46 +39,49 @@ function App() {
         <BrowserRouter>
           {/* <CookiesProvider> */}
             <userContext.Provider value={[user, dispatch]}>
-              <Routes>
-                <Route path='/' element={<Layout />}>
-                  <Route path='/' element={<Home />}/>
-                  <Route path='/waiting-room' element={<WaitingRoom/>}/>
-                   {/* Accepted when user authorized */}
-                  <Route element={<ProtectedUserRoute/>}>
+              <QueueStateProvider>
+                <Routes>
+                  <Route path='/' element={<Layout />}>
+                    <Route path='/' element={<Home />}/>
                     
-                    <Route path='/booking' element={<Booking/>}/>
-                    <Route path='/users/examinations' element={<ExaminationList />} />
+                    <Route path='/waiting-room' element={<WaitingRoom/>}/>
+                    {/* Accepted when user authorized */}
+                    <Route element={<ProtectedUserRoute/>}>
+                      
+                      <Route path='/booking' element={<Booking/>}/>
+                      <Route path='/users/examinations' element={<ExaminationList />} />
 
 
-                    {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
-                    <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
-                      <Route path='/examinations' element={<Examinations/>}/> 
+                      {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
+                      <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
+                        <Route path='/examinations' element={<Examinations/>}/> 
+                      </Route>
+
+                      {/* Accepted user.role = ROLE_DOCTOR */}
+                      <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
+                        <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                        <Route path='/prescribing' element={<PrescriptionList/>} />
+                        <Route path='/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                      </Route>
+
+                      {/* Accepted user.role = ROLE_NURSE */}
+                      <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
+                        <Route path='/examinations/:examinationId/payments' element={<Payments />} />
+                      </Route>
+
+                      <Route path='/conversations'  element={<ConversationList/>} >
+                        <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                      </Route>
+
                     </Route>
-
-                    {/* Accepted user.role = ROLE_DOCTOR */}
-                    <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
-                      <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                      <Route path='/prescribing' element={<PrescriptionList/>} />
-                      <Route path='/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
-                    </Route>
-
-                    {/* Accepted user.role = ROLE_NURSE */}
-                    <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
-                      <Route path='/examinations/:examinationId/payments' element={<Payments />} />
-                    </Route>
-
-                    <Route path='/conversations'  element={<ConversationList/>} >
-                      <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
-                    </Route>
-
+                    <Route path="/forbidden" element={<Forbidden />} />
+                    <Route path="*" element={<NotFound/>} />
                   </Route>
-                  <Route path="/forbidden" element={<Forbidden />} />
-                  <Route path="*" element={<NotFound/>} />
-                </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-              </Routes>
-              </userContext.Provider>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </Routes>
+              </QueueStateProvider>
+            </userContext.Provider>
           {/* </CookiesProvider> */}
         </BrowserRouter>
       </I18nextProvider>

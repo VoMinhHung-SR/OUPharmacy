@@ -212,6 +212,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
     @action(methods=['get'], detail=False, url_path='get-list-exam-today')
     def get_list_exam_today(self, request):
         try:
+            print(datetime.datetime.today().date())
             examinations = Examination.objects.filter(updated_date__date=datetime.datetime.today().date(),
                                                       mail_status=True).all().order_by('updated_date')
         except:
@@ -220,7 +221,9 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         if examinations:
             return Response(data=ExaminationsPairSerializer(examinations, context={'request': request}, many=True).data,
                             status=status.HTTP_200_OK)
-        return Response(data={"errMgs": "Today doesn't have any examinations sheet"})
+        return Response(data={"errMgs": "Today doesn't have any examinations sheet"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class PatientViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
                      generics.RetrieveAPIView, generics.UpdateAPIView):
