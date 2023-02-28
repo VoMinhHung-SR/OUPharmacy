@@ -1,3 +1,4 @@
+import pytz
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
@@ -84,6 +85,9 @@ class Patient(BaseModel):
     date_of_birth = models.DateTimeField(null=True)
     address = models.CharField(max_length=255, null=True)
 
+    def __str__(self):
+        return self.first_name + ' ' +self.last_name
+
 
 class Examination(BaseModel):
 
@@ -96,6 +100,9 @@ class Examination(BaseModel):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=False)
 
+    # exam_choices = [(new, 'New'), (processing, 'Processing'),
+    # (partialCompleted, 'PartialCompleted'), (completed, 'Completed')]
+    # exam_status = models.PositiveIntegerField(choices=exam_choices, default=new)
     def __str__(self):
         return self.description
 
