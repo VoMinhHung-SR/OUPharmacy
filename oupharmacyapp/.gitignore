@@ -12,17 +12,6 @@ dist
 dist-ssr
 *.local
 
-# Django
-*.pot
-*.pyc
-__pycache__/
-local_settings.py
-db.sqlite3
-media
-.venv
-venv/
-venv.bak/
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
