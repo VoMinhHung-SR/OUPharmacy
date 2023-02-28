@@ -98,6 +98,15 @@ class ExaminationSerializer(ModelSerializer):
         exclude = []
 
 
+class ExaminationsPairSerializer(ModelSerializer):
+    class Meta:
+        model = Examination
+        field = ['id']
+        exclude = ['created_date', 'updated_date', 'user', 'patient',
+                   'wage', 'description', 'mail_status']
+#         Adding status after
+
+
 class DiagnosisSerializer(ModelSerializer):
     examination = ExaminationSerializer()
 

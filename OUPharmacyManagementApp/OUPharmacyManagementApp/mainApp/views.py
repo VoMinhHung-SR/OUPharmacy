@@ -200,13 +200,29 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
     @action(methods=['get'], detail=False, url_path='get-total-exam-today')
     def get_total_exam_today(self, request):
         try:
-            total = Examination.objects.filter(created_date=datetime.datetime.today().date(), mail_status=True).count()
+            total = Examination.objects.filter(updated_date__date=datetime.datetime.today().date(),
+                                               mail_status=True).count()
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"errMgs": "Can't get Examinations"})
         # if total:
         return Response(data={"total": total},
                         status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=False, url_path='get-list-exam-today')
+    def get_list_exam_today(self, request):
+        try:
+            print(datetime.datetime.today().date())
+            examinations = Examination.objects.filter(updated_date__date=datetime.datetime.today().date(),
+                                                      mail_status=True).all().order_by('updated_date')
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"errMgs": "Can't get Examinations"})
+        if examinations:
+            return Response(data=ExaminationsPairSerializer(examinations, context={'request': request}, many=True).data,
+                            status=status.HTTP_200_OK)
+        return Response(data={"errMgs": "Today doesn't have any examinations sheet"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class PatientViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
