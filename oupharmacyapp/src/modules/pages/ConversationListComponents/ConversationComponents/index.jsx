@@ -20,12 +20,12 @@ const ConversationDetail = (props) => {
             >
                 <ListItemAvatar>
                     <Avatar
-                        alt={docs?.docs[0]?.data().username ? docs?.docs[0].data().username : "kHÔNG RÕ"}
+                        alt={docs?.docs[0]?.data().email ? docs?.docs[0].data().email : "undefined"}
                         src={docs?.docs[0]?.data().avatar ? docs?.docs[0].data().avatar : "https://mui.com/static/images/avatar/1.jpg"}
                     />
                 </ListItemAvatar>
                 <ListItemText
-                    primary={docs?.docs[0]?.data().username}
+                    primary={docs?.docs[0]?.data().email}
                     secondary={"Xin chao ban"}
                 />
             </ListItem>

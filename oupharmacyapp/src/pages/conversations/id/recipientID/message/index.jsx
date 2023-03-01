@@ -31,7 +31,7 @@ const ChatWindow = () => {
 
     return (<>
         <Grid item className>
-            <Box square style={{ "backgroundColor": "#333" }} height={"60px"}>
+            <Box square className="ou-h-[60px] ou-bg-blue-600">
                 <ListItem key={""}>
                     {recipient !== null ?
                         (
@@ -42,7 +42,7 @@ const ChatWindow = () => {
                                         src={recipient.avatar_path ? recipient.avatar_path : "https://mui.com/static/images/avatar/1.jpg"}
                                     />
                                 </ListItemAvatar>
-                                <ListItemText primary={recipient.username ? recipient.username :
+                                <ListItemText primary={recipient.email ? recipient.email :
                                     "........"} style={{ "color": "white" }} />
                             </>
 

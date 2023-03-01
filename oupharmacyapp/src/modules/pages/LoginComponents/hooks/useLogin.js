@@ -51,7 +51,7 @@ const useLogin = () => {
             'type': 'login',
             'payload': user.data
         })
-        if (user != null) {
+        if (user !== null) {
             nav("/")
         }
     }

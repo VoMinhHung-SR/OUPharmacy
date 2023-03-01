@@ -12,7 +12,7 @@ const useConversationList = () => {
                 await setDoc(doc(db,"users", user.id.toString()),{
                     "id": user.id,
                     "email": user.email,
-                    "username": user.username,
+                    "fullName": user.first_name +" "+ user.last_name,
                     "avatar": user.avatar_path,
                     "lastSeen" : serverTimestamp() 
                 },{merge:true})
