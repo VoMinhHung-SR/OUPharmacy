@@ -4,15 +4,17 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useState } from "react";
 import MapGL from "../modules/pages/HomeComponents/Mapbox";
 import { useNavigate } from "react-router";
+import useConversationList from "../modules/pages/ConversationListComponents/hooks/useConversationList";
 const Home = () => {
     const { t } = useTranslation(['common'])
+    const {user} =  useConversationList();
     const router = useNavigate();
     const [viewport, setViewport] = useState({
         latitude: 10.816800580111298,
         longitude: 106.67855666909755,
         zoom: 16,
     })
-
+    console.log(user)
     return (
         <>
             <Box sx={{ minHeight: "600px"}} className="ou-flex ou-container ou-m-auto max-[600px]:ou-block" >

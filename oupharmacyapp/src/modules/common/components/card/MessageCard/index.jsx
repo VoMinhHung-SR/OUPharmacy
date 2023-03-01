@@ -9,9 +9,9 @@ const MessageCard = ({message}) => {
         return (<>
             {message.user === user.id ?
                 (<>
-                    <List className="!ou-bg-blue-700" style={{
+                    <List className="!ou-bg-blue-600" style={{
                         width: '100%', maxWidth: "60%", bgcolor: '#084468',
-                        marginLeft: "auto", color: "white"
+                        borderRadius:'5px', marginLeft: "auto", color: "white"
                     }} key={message.id} id={message.id}>
                         <ListItem alignItems="flex-start">
                             <ListItemText
@@ -22,6 +22,7 @@ const MessageCard = ({message}) => {
                                             component="span"
                                             variant="body2"
                                             color="white"
+                                            className="ou-relative"
                                         >
                                             {message.text ? message.text : ""} -- {' '}
                                             <em>
@@ -39,7 +40,7 @@ const MessageCard = ({message}) => {
                 </>)
                 : (<>
                     <List sx={{
-                        width: '100%', maxWidth: "60%", bgcolor: 'background.paper'
+                        width: '100%', maxWidth: "60%", bgcolor: 'background.paper', borderRadius:'5px'
                     }}
                         key={message.id} id={message.id}>
                         <ListItem alignItems="flex-start">
@@ -55,10 +56,10 @@ const MessageCard = ({message}) => {
                                             variant="body2"
                                             color="text.primary"
                                         >
-                                            {message.text ? message.text : ""} --
+                                            {message.text ? message.text : ""} -- {' '}
                                             <em>
-                                                <span> 
-                                                    {moment(message.sent_at).format('DD/MM/YYYY')}
+                                                <span > 
+                                                    {message.sent_at}
                                                     {/* <Moment fromNow>{message.send_at ? message.send_at : ""}</Moment> */}
                                                 </span>
                                             </em>
