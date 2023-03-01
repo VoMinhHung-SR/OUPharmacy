@@ -5,7 +5,11 @@ import useSidebarInbox from "./hooks/useSidebarInbox";
 import ConversationDetail from "../ConversationComponents";
 
 const SidebarInbox = (props) => {
-    const {isLoadingRecipients, recipients, conversationsSnapshot, createNewConversation} = useSidebarInbox(props.user)
+    const {isLoadingRecipients, recipients, conversationsSnapshot, 
+        createNewConversation} = useSidebarInbox(props.user)
+    // if(!props.user){
+    //     return <></>
+    // }
     return (
         <>
             {isLoadingRecipients ?
@@ -51,12 +55,12 @@ const SidebarInbox = (props) => {
                             }}>
                                 <ListItemAvatar>
                                     <Avatar
-                                        alt={u.username ? u.username : "kHÔNG RÕ"}
+                                        alt={u.email ? u.email : "kHÔNG RÕ"}
                                         src={u.avatar_path ? u.avatar_path : "https://mui.com/static/images/avatar/1.jpg"}
                                     />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={u.username}
+                                    primary={u.email}
                                     secondary={"Xin chao ban"}
                                 />
                             </ListItem>)
