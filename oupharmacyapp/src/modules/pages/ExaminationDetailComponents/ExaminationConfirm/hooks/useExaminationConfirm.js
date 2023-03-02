@@ -1,8 +1,11 @@
+import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { useContext, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useSearchParams } from "react-router-dom"
 import { userContext } from "../../../../../App"
+import { db } from "../../../../../config/firebase"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../config/sweetAlert2"
+import { STATUS_BOOKING_CONFIRMED } from "../../../../../lib/constants"
 import { fetchExaminationListConfirm, fetchSendEmailConfirmExamination } from "../services"
 
 const useExaminationConfirm = () =>{
@@ -51,12 +54,13 @@ const useExaminationConfirm = () =>{
             loadExamination()
     }, [user, flag])
 
-    const handleSendEmailConfirm = (examinationID)=>{
+    const handleSendEmailConfirm = (userID, examinationID)=>{
         const sendEmail = async ()=>{
             const res = await fetchSendEmailConfirmExamination(examinationID)
             if (res.status === 200){
-                setFlag(!flag)
+                createNotificationRealtime(userID, examinationID)
                 SuccessfulAlert(t('sendMailSuccessed'), t('modal:oke'))
+                setFlag(!flag)
             }else 
                 if (res.status === 400){
                     setFlag(!flag)
@@ -70,6 +74,20 @@ const useExaminationConfirm = () =>{
                 setIsLoadingButton(true)
                 sendEmail()
         },()=>{return;})
+    }
+    const createNotificationRealtime  = async (userID, examinationID) => {
+        try{
+            await setDoc(doc(db,"notifications", examinationID.toString()),{
+                "is_commit": false,
+                "booking_id": examinationID,
+                'content': STATUS_BOOKING_CONFIRMED,
+                "recipient_id": userID,
+                "sent_at" : serverTimestamp() 
+            },{merge:true})
+        }catch(err){
+            console.log(err)
+            ErrorAlert("Đã có lỗi xảy ra","Vui lòng quay lại sau", "OK")
+        }
     }
     return{
         user,

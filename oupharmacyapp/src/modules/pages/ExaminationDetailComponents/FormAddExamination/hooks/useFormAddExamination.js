@@ -81,12 +81,16 @@ const useFormAddExamination = () => {
             }
             else{
                 setOpenBackdrop(false)
-                ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+                return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+            }
+            if(resExamination.status === 500){
+                setOpenBackdrop(false)
+                return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
             }
         }
         else{
             setOpenBackdrop(false)
-            ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+            return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
         }
         setOpenBackdrop(false)
     }

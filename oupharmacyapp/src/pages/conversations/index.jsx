@@ -37,7 +37,7 @@ const ConversationList = () => {
                             {(conversationId && recipientId) ? 
                                 <Outlet /> :  
                                 <Grid item sx={{ backgroundColor: "lightGray" }} height={"600px"}>
-                                    <Box square style={{ "backgroundColor": "#333" }}>
+                                    <Box square  className="ou-bg-blue-600">
                                         <ListItem>
                                             <ListItemText primary={"Chọn người dùng thực hiện chat"} style={{ "color": "white" }} />
                                         </ListItem>
