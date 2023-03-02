@@ -25,14 +25,14 @@ const Examinations = () =>{
             </Box>
     </Box>
 
-    const renderButton = (examinationID) =>{
+    const renderButton = (userID, examinationID) =>{
         if (isLoadingButton)
             return(
                 <Loading/>
         )
         return (
             <Button onClick={() => {
-                    handleSendEmailConfirm(examinationID)
+                    handleSendEmailConfirm(userID, examinationID)
                 }} variant="contained" endIcon={<SendIcon />}>
                     {t("common:send")}
             </Button>
@@ -135,6 +135,7 @@ const Examinations = () =>{
                                                     )
                                                     : (
                                                         <>
+                                                            {/* Render button for DOCTORS */}
                                                             {user && user.role === ROLE_DOCTOR ?
                                                                 (<>
                                                                 <Typography className='text-danger'>
@@ -142,8 +143,9 @@ const Examinations = () =>{
                                                                 </Typography>
                                                                 </>)
                                                                 : <></>}
+                                                            {/* Render button for NURSES */}
                                                             {user && user.role === ROLE_NURSE ? 
-                                                                renderButton(e.id) 
+                                                                renderButton(e.user.id,e.id) 
                                                                 : <></>
                                                             }
                                                         </>)
