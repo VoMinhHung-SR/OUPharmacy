@@ -115,7 +115,7 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                 if created_date:
                     e.created_date = created_date
                 e.save()
-                return Response(ExaminationSerializer(e, context={'request': request}, many=True).data,
+                return Response(ExaminationSerializer(e, context={'request': request}).data,
                                 status=status.HTTP_201_CREATED)
             else:
                 return Response(data={"errMgs": "Patient doesn't exist"},

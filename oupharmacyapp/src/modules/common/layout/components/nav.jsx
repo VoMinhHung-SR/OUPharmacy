@@ -16,12 +16,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import FlagUK from "../../../../../public/flagUK";
 import FlagVN from "../../../../../public/flagVN";
 import { ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
+import useNotification from "../../../../lib/hooks/useNotification";
 
 
 const Nav = () => {
   
   const { t, i18n } = useTranslation('common');
   // State trigger menu open
+  const {isLoading, notifyListContent} = useNotification();
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -66,7 +68,7 @@ const Nav = () => {
       link: '/waiting-room'
     }
   ];
-
+  console.log(isLoading, notifyListContent)
   //  Hooks useNav
   const {user, handleLogout} = useNav();
   let btn = <>
@@ -143,7 +145,7 @@ const Nav = () => {
           <MenuItem style={{ "padding": "0px" }}>
               <IconButton size="small" color="inherit">
                   <Badge 
-                  badgeContent={4} 
+                
                   color="error">
                       <Link to="/conversations">
                           <MailOutlineIcon color="#f3f3f3"  />
@@ -153,12 +155,10 @@ const Nav = () => {
               </IconButton>
           </MenuItem>
           
-            <IconButton onClick={handleClick} size="small" color="inherit" sx={{ ml: 1 }}
-              aria-controls={open ? 'account-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}>
+            <IconButton  size="small" color="inherit" sx={{ ml: 1 }}
+            >
                   <Badge 
-                    badgeContent={4} 
+                    badgeContent={notifyListContent.length} 
                     color="error">
                     <NotificationsIcon color="#f3f3f3"/>
                   </Badge>
