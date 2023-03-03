@@ -21,6 +21,7 @@
     "logout": "Logout",
     "bookingList": "Booking list",
     "openSettings": "Open settings",
-
+    "notifications": "Notifications",
+    "nonNotifications": "There is no notification messages",
     "changeLanguage": "Change to Vietnamese"
 }

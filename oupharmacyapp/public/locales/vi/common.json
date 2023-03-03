@@ -21,6 +21,8 @@
     "logout": "Đăng xuất",
     "bookingList": "Danh sách đặt lịch",
     "openSettings": "Mở cài đặt",
+    "notifications": "Thông báo",
+    "nonNotifications": "Hiện tại không có thông báo",
 
     "changeLanguage": "Đổi sang tiếng Anh"
 }

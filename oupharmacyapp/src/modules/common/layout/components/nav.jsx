@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Badge, Box, Button, Container, Divider, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
+import { AppBar, Avatar, Badge, Box, Button, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,37 +12,17 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { changeLanguage } from "i18next";
-import NotificationsIcon from '@mui/icons-material/Notifications';
+
 import FlagUK from "../../../../../public/flagUK";
 import FlagVN from "../../../../../public/flagVN";
 import { ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
 import useNotification from "../../../../lib/hooks/useNotification";
 
-
+import NotificationButton from "../../components/button/Notification";
 const Nav = () => {
   
   const { t, i18n } = useTranslation('common');
-  // State trigger menu open
-  const {isLoading, notifyListContent} = useNotification();
-  const [anchorElNav, setAnchorElNav] = useState(null);
-
-  const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
-  };
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-      setAnchorEl(null);
-  };
-
+   // Page nav 
   const pages = [
     {
       // Accept all user
@@ -68,6 +48,27 @@ const Nav = () => {
       link: '/waiting-room'
     }
   ];
+  // State trigger menu open
+  const {isLoading, notifyListContent} = useNotification();
+  const [anchorElNav, setAnchorElNav] = useState(null);
+
+  const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+      setAnchorEl(null);
+  };
+ 
   console.log(isLoading, notifyListContent)
   //  Hooks useNav
   const {user, handleLogout} = useNav();
@@ -141,28 +142,18 @@ const Nav = () => {
         </Menu>
         
         {/* Show nav menu */}
-        <ul className="ou-flex">
-          <MenuItem style={{ "padding": "0px" }}>
-              <IconButton size="small" color="inherit">
-                  <Badge 
-                
-                  color="error">
-                      <Link to="/conversations">
-                          <MailOutlineIcon color="#f3f3f3"  />
-                          {/* <FlagUK width={24} height={24}/> */}
-                      </Link>
-                  </Badge>
-              </IconButton>
-          </MenuItem>
-          
-            <IconButton  size="small" color="inherit" sx={{ ml: 1 }}
-            >
-                  <Badge 
-                    badgeContent={notifyListContent.length} 
-                    color="error">
-                    <NotificationsIcon color="#f3f3f3"/>
-                  </Badge>
-            </IconButton>
+        <ul className="ou-flex ou-justify-center ou-items-center">
+          <Tooltip title={t('openSettings')}>
+              <Link to="/conversations" className="ou-pr-3">
+                <Box>
+                  <MailOutlineIcon color="#f3f3f3" sx={{fontSize:"24px"}} />    
+                </Box>
+              </Link>
+          </Tooltip>
+       
+            <Box className="hover:ou-cursor-pointer">
+              <NotificationButton length={notifyListContent.length} isLoading={isLoading} items={notifyListContent}/>    
+            </Box>
        
           <Tooltip title={t('openSettings')}>
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}
