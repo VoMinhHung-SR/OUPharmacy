@@ -51,7 +51,7 @@ const Nav = () => {
   // State trigger menu open
   const {isLoading, notifyListContent} = useNotification();
   const [anchorElNav, setAnchorElNav] = useState(null);
-
+  console.log(isLoading, notifyListContent)
   const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
   };
@@ -69,7 +69,7 @@ const Nav = () => {
       setAnchorEl(null);
   };
  
-  console.log(isLoading, notifyListContent)
+  // console.log(isLoading, notifyListContent)
   //  Hooks useNav
   const {user, handleLogout} = useNav();
   let btn = <>

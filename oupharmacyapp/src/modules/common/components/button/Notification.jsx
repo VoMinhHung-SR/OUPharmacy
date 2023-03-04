@@ -11,7 +11,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Badge } from '@mui/material';
 import NotifyMessage from '../../../pages/NotificationComponents/NotifyMessage';
 import Loading from '../Loading';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 
 export default function NotificationButton(props) {
@@ -41,7 +41,7 @@ export default function NotificationButton(props) {
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <AssignmentIcon/>
+                <CloseIcon/>
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -59,7 +59,7 @@ export default function NotificationButton(props) {
                 <ListItemText primary={t('common:nonNotifications')} />
               </ListItemButton>
         </> :<>
-            {props.items.map((content) =>(
+            {props.items?.map((content) =>(
               <NotifyMessage key={content.id} 
                 content={content.content}
                 recipientId={content.recipient_id}
