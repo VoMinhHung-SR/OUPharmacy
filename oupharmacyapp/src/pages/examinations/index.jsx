@@ -25,14 +25,14 @@ const Examinations = () =>{
             </Box>
     </Box>
 
-    const renderButton = (userID, examinationID) =>{
+    const renderButton = (userID, examinationID, avatar) =>{
         if (isLoadingButton)
             return(
                 <Loading/>
         )
         return (
             <Button onClick={() => {
-                    handleSendEmailConfirm(userID, examinationID)
+                    handleSendEmailConfirm(userID, examinationID,avatar)
                 }} variant="contained" endIcon={<SendIcon />}>
                     {t("common:send")}
             </Button>
@@ -145,7 +145,7 @@ const Examinations = () =>{
                                                                 : <></>}
                                                             {/* Render button for NURSES */}
                                                             {user && user.role === ROLE_NURSE ? 
-                                                                renderButton(e.user.id,e.id) 
+                                                                renderButton(e.user.id,e.id, user.avatar_path) 
                                                                 : <></>
                                                             }
                                                         </>)

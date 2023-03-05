@@ -54,11 +54,11 @@ const useExaminationConfirm = () =>{
             loadExamination()
     }, [user, flag])
 
-    const handleSendEmailConfirm = (userID, examinationID)=>{
+    const handleSendEmailConfirm = (userID, examinationID, avatar)=>{
         const sendEmail = async ()=>{
             const res = await fetchSendEmailConfirmExamination(examinationID)
             if (res.status === 200){
-                createNotificationRealtime(userID, examinationID)
+                createNotificationRealtime(userID, examinationID, avatar)
                 SuccessfulAlert(t('sendMailSuccessed'), t('modal:oke'))
                 setFlag(!flag)
             }else 
@@ -75,14 +75,15 @@ const useExaminationConfirm = () =>{
                 sendEmail()
         },()=>{return;})
     }
-    const createNotificationRealtime  = async (userID, examinationID) => {
+    const createNotificationRealtime  = async (userID, examinationID, avatar) => {
         try{
             await setDoc(doc(db,"notifications", examinationID.toString()),{
                 "is_commit": false,
                 "booking_id": examinationID,
                 'content': STATUS_BOOKING_CONFIRMED,
                 "recipient_id": userID,
-                "sent_at" : serverTimestamp() 
+                "avatar": avatar,
+                "sent_at" : serverTimestamp()
             },{merge:true})
         }catch(err){
             console.log(err)
