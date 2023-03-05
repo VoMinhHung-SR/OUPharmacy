@@ -65,6 +65,7 @@ export default function NotificationButton(props) {
                 recipientId={content.recipient_id}
                 examinationId={content.booking_id}
                 sentAt={content.sent_at}
+                avatar={content.avatar}
               />
             )
             )}
