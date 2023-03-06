@@ -23,5 +23,6 @@
     "openSettings": "Open settings",
     "notifications": "Notifications",
     "nonNotifications": "There is no notification messages",
+    "notifyExaminationConfirm": "Your application has been approved, please check your email to see your detailed exam location and time.",
     "changeLanguage": "Change to Vietnamese"
 }
