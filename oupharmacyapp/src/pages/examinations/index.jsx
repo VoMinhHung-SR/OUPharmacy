@@ -156,7 +156,7 @@ const Examinations = () =>{
                                 </TableBody>
                             </Table>
                         </TableContainer>
-
+                        {console.log(pagination)}
                         {pagination.sizeNumber >= 2 && (
                             <Box sx={{ pt: 5, pb: 2 }}>
                                 <Stack>
