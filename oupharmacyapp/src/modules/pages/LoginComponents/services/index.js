@@ -30,6 +30,7 @@ export const fetchAccessToken = async (username, password) =>{
             // setOpenBackdop(false)
             console.info(res.data)
             cookies.save('token', res.data.access_token)
+            cookies.save('refresh_token', res.data.refresh_token)
             // info current user
             getInfoCurrentUser();
         }

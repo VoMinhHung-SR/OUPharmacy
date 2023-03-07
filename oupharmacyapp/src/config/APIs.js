@@ -53,12 +53,42 @@ export let endpoints = {
     'zaloPayUrl':'/bills/zalo-payments/',
 }
 export const authApi = () => {
-    return axios.create({
-        baseURL: "http://127.0.0.1:8000",
+    const instance = axios.create({
+        baseURL: 'http://127.0.0.1:8000',
         headers: {
-            'Authorization': `Bearer ${cookies.load('token')}`
+          'Authorization': `Bearer ${cookies.load('token')}`
         }
-    })
+      });
+    
+      instance.interceptors.response.use(
+        response => response,
+        async error => {
+          const originalRequest = error.config;
+          if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+    
+            // call refresh token API to get new access token
+            const refreshToken =  cookies.load('refresh_token');
+            const res = await axios.post('http://127.0.0.1:8000/refresh-token', {
+              refreshToken
+            });
+    
+            if (res.status === 200) {
+              // update access token in cookies
+              console.log("refresh ne")
+              cookies.save('token', res.data.accessToken)
+            //   Cookies.set('token', res.data.accessToken);
+    
+              // set authorization header with new token and retry the original request
+              instance.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
+              return instance(originalRequest);
+            }
+          }
+          return Promise.reject(error);
+        }
+      );
+    
+      return instance;
 }
 
 export const authMediaApi = () => {
@@ -73,3 +103,4 @@ export const authMediaApi = () => {
 export default axios.create({
     baseURL: "http://127.0.0.1:8000",
 })
+

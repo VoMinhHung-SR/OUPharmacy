@@ -14,16 +14,20 @@ const useExaminationConfirm = () =>{
     const [q] = useSearchParams();
 
     // ====== Pagination ======
+    const [isLoadingExamination, setIsLoadingExamination] = useState(true)
+
     const [pagination, setPagination] = useState({ count: 0, sizeNumber: 0 });
     const [page, setPage] = useState(1);
+    
     const handleChangePage = (event, value) => {
+        setIsLoadingExamination(true);
+        setExaminationList([]);
         setPage(value);
     };
 
 
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)
-    const [isLoadingExamination, setIsLoadingExamination] = useState(true)
     const [isLoadingButton, setIsLoadingButton] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 
@@ -52,7 +56,7 @@ const useExaminationConfirm = () =>{
         }
         if(user)
             loadExamination()
-    }, [user, flag])
+    }, [user, flag, page])
 
     const handleSendEmailConfirm = (userID, examinationID, avatar)=>{
         const sendEmail = async ()=>{
