@@ -106,11 +106,6 @@ DATABASES = {
     }
 }
 
-OAUTH2_INFO = {
-    "client_id": "ynFBpu3oh7wJEWh1u74xrjUIFK2JswGQSidmegoH",
-    "client_secret": "KzWfvl5U9B40IRATHNJXXO5S26RUQOXpec5o3jtam1SWB5gVfjTFDexVqeZQTlMv9hBsTeLp7xUrqv6n7iAanDVziwDvBKfUxlfJKwuoBOWDhjDD5NB6QQFyDyOnnxqq"
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -152,9 +147,17 @@ INTERNAL_IPS = [
     '127.0.0.1'
 ]
 CORS_ALLOW_ALL_ORIGINS = True
+
+OAUTH2_INFO = {
+    "client_id": "ynFBpu3oh7wJEWh1u74xrjUIFK2JswGQSidmegoH",
+    "client_secret": "KzWfvl5U9B40IRATHNJXXO5S26RUQOXpec5o3jtam1SWB5gVfjTFDexVqeZQTlMv9hBsTeLp7xUrqv6n7iAanDVziwDvBKfUxlfJKwuoBOWDhjDD5NB6QQFyDyOnnxqq"
+}
+
 OAUTH2_PROVIDER = {
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 60,
+    # TOKEN wws expired IN 30 days,
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 2592000,
+
 }
 
 
