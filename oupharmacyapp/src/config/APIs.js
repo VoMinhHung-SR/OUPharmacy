@@ -52,9 +52,13 @@ export let endpoints = {
     'momoPayUrl':'/bills/momo-payments/',
     'zaloPayUrl':'/bills/zalo-payments/',
 }
+
+const baseURL = 'http://127.0.0.1:8000';
+
+
 export const authApi = () => {
     const instance = axios.create({
-        baseURL: 'http://127.0.0.1:8000',
+        baseURL: baseURL,
         headers: {
           'Authorization': `Bearer ${cookies.load('token')}`
         }
@@ -69,20 +73,29 @@ export const authApi = () => {
     
             // call refresh token API to get new access token
             const refreshToken =  cookies.load('refresh_token');
-            const res = await axios.post('http://127.0.0.1:8000/refresh-token', {
-              refreshToken
-            });
-    
-            if (res.status === 200) {
-              // update access token in cookies
-              console.log("refresh ne")
-              cookies.save('token', res.data.accessToken)
-            //   Cookies.set('token', res.data.accessToken);
-    
-              // set authorization header with new token and retry the original request
-              instance.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
-              return instance(originalRequest);
+            const clientApp = await axios.get(`${baseURL}/oauth2-info/`)
+            if(clientApp.status === 200){
+                const data = {
+                    grant_type: 'refresh_token',
+                    refresh_token: refreshToken,
+                    client_id: clientApp.data.client_id,
+                    client_secret: clientApp.data.client_secret
+                }
+
+                const res = await axios.post(`${baseURL}/o/token/`, data);
+                if (res.status === 200) {
+                    // update access token in cookies 
+                    cookies.save('refresh_token', res.data.refresh_token)
+                    cookies.save('token', res.data.access_token)
+                    // Cookies.set('token', res.data.accessToken);
+          
+                    // console.log(`Bearer ${res.data.access_token}`)
+                    // set authorization header with new token and retry the original request
+                    instance.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
+                    return instance(originalRequest);
+                  }
             }
+           
           }
           return Promise.reject(error);
         }
@@ -93,7 +106,7 @@ export const authApi = () => {
 
 export const authMediaApi = () => {
     return axios.create({
-        baseURL: "http://127.0.0.1:8000",
+        baseURL: baseURL,
         headers: {
             'Content-Type' : 'multipart/form-data',
         }
@@ -101,6 +114,6 @@ export const authMediaApi = () => {
 }
 
 export default axios.create({
-    baseURL: "http://127.0.0.1:8000",
+    baseURL: baseURL,
 })
 

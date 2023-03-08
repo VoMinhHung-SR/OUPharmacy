@@ -8,6 +8,7 @@ const useNav = () =>{
     const handleLogout = () =>{
         cookies.remove('token')
         cookies.remove('user')
+        cookies.remove('refresh_token')
         if (user !== null)
             dispatch({
                 "type": "logout",
