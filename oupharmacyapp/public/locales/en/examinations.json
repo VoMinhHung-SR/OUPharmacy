@@ -9,8 +9,10 @@
     "patientName": "Patient name",
     "function": "Feature",
 
+    "sendEmail": "Send email confirm",
+    "detail": "Detail",
     "diagnose":"Diagnose",
-    "pay": "Pay",
+    "pay": "Paid",
     "noReady": "No ready",
     "sent": "Sent",
     "noSent":"No",

@@ -1,12 +1,19 @@
 import { Avatar, Box, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from "@mui/material"
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import i18n from "../../../../i18n";
 import { STATUS_BOOKING_CONFIRMED, STATUS_BOOKING_DONE } from "../../../../lib/constants";
 import { convertFirestoreTimestampToString } from "../../../../lib/utils/getMessagesInConversation";
 
 const NotifyMessage = ({content, recipientId, examinationId, sentAt, avatar}) => {
     const {t} = useTranslation(['common'])
-    console.log(convertFirestoreTimestampToString(sentAt))
+
+    const renderDayFromNow = (dateString, language) => {
+      moment.locale(language);
+      const date = moment(dateString);
+      return date.fromNow();
+    }
+    
     return (
         <ListItem disablePadding>
             <ListItemButton>
@@ -20,7 +27,7 @@ const NotifyMessage = ({content, recipientId, examinationId, sentAt, avatar}) =>
               </Typography>
               <Typography component="div" style={{ maxHeight: '70px'}}>
                 <span className="ou-text-[12px]" >
-                  {sentAt ? moment(convertFirestoreTimestampToString(sentAt)).fromNow()  : <></>}
+                  {sentAt ? renderDayFromNow(convertFirestoreTimestampToString(sentAt), i18n.language)  : <></>}
                 </span>
               </Typography>
               </ListItemText>

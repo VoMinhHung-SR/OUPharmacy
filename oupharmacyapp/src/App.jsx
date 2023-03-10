@@ -26,6 +26,7 @@ import Forbidden from './modules/common/layout/components/403-forbidden'
 import NotFound from './modules/common/layout/components/404-not_found'
 import WaitingRoom from './pages/waiting-room'
 import { QueueStateProvider } from './lib/context/QueueStateContext'
+import ExaminationDetail from './pages/examinations/id'
 
 
 export const userContext = createContext()
@@ -55,6 +56,7 @@ function App() {
                       {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
                       <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
                         <Route path='/examinations' element={<Examinations/>}/> 
+                        <Route path='/examinations/:examinationId' element={<ExaminationDetail/>}/> 
                       </Route>
 
                       {/* Accepted user.role = ROLE_DOCTOR */}

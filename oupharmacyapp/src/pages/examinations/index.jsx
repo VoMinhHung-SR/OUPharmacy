@@ -1,5 +1,5 @@
 import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody,
-     TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+     TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import Loading from "../../modules/common/components/Loading";
 import useExaminationConfirm from "../../modules/pages/ExaminationDetailComponents/ExaminationConfirm/hooks/useExaminationConfirm"
 import SendIcon from '@mui/icons-material/Send';
@@ -9,6 +9,8 @@ import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { ROLE_DOCTOR, ROLE_NURSE } from "../../lib/constants";
+import PaidIcon from '@mui/icons-material/Paid';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 
 const Examinations = () =>{
     const {user, pagination,handleChangePage, examinationList, isLoadingButton,
@@ -31,11 +33,13 @@ const Examinations = () =>{
                 <Loading/>
         )
         return (
-            <Button onClick={() => {
+            <Tooltip title={t("sendEmail")}>
+                <Button onClick={() => {
                     handleSendEmailConfirm(userID, examinationID,avatar)
-                }} variant="contained" endIcon={<SendIcon />}>
-                    {t("common:send")}
-            </Button>
+                }} variant="contained" className="!ou-min-w-[68px] !ou-py-2">
+                    <SendIcon />
+                </Button>
+            </Tooltip>
         )
         
     }
@@ -108,27 +112,41 @@ const Examinations = () =>{
                                                     {e.user.email}
                                                 </Typography>
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell align="center" className="!ou-flex ou-content-center">
                                                 {e.mail_status === true ?
                                                     (<>
                                                         {user && user.role === ROLE_DOCTOR ?
-                                                            (<><Typography>
-                                                                <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/diagnosis`}>
-                                                                    <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
-                                                                        {t('diagnose')}
-                                                                    </Button>
-                                                                </Link>
-                                                            </Typography></>)
+                                                            (<>
+                                                            <Tooltip title={t('diagnose')}>
+                                                                <span>
+                                                                    <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/diagnosis`}>
+                                                                        <Button variant="contained" size="small" color="success"
+                                                                        // endIcon={<AssignmentIcon />}
+                                                                        className="!ou-min-w-[68px] !ou-min-h-[40px]"
+                                                                        >
+                                                                            <MedicalServicesIcon/>
+                                                                        </Button>
+                                                                    </Link>
+                                                                </span>
+                                                            </Tooltip>
+                                                            </>)
                                                             : <></>}
                                                         {user && user.role === ROLE_NURSE ?
                                                             (<>
-                                                                <Typography>
-                                                                    <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/payments`}>
-                                                                        <Button variant="contained" color="success" size="small" endIcon={<AssignmentIcon />}>
-                                                                            {t('pay')}
-                                                                        </Button>
-                                                                    </Link>
-                                                                </Typography>
+                                                                <Tooltip title={t('pay')}>
+                                                                    <Typography>
+                                                                        <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}/payments`}>
+                                                                            <Button variant="contained" color="success" size="small" 
+                                                                            className="!ou-min-w-[68px] !ou-py-2"
+                                                                            // endIcon={<PaidIcon />}
+                                                                            
+                                                                            >
+                                                                                <PaidIcon />
+                                                                                {/* {t('pay')} */}
+                                                                            </Button>
+                                                                        </Link>
+                                                                    </Typography>
+                                                                </Tooltip>
                                                             </>)
                                                             : <></>}
                                                     </>
@@ -150,6 +168,16 @@ const Examinations = () =>{
                                                             }
                                                         </>)
                                                 }
+                                                <Tooltip title={t('detail')}>
+                                                    <span>
+                                                        <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}`}>
+                                                            <Button variant="contained" className="ou-bg-blue-700 !ou-min-w-[68px] !ou-py-2 !ou-ml-2" size="small" 
+                                                            >
+                                                                <AssignmentIcon />
+                                                            </Button>
+                                                        </Link>
+                                                    </span>
+                                                </Tooltip>
                                             </TableCell>
                                         </TableRow>
                                     ))}
