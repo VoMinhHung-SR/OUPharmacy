@@ -9,9 +9,10 @@
     "patientName": "Tên bệnh nhân",
     "function": "Chức năng",
 
+    "sendEmail":"Gửi email xác nhận",
+    "detail": "Chi tiết",
     "diagnose": "Chẩn đoán",
     "pay": "Thanh toán",
-
     "noReady": "Chưa xác nhận",
     "sent":"Đã gửi",
     "noSent":"Chưa",
