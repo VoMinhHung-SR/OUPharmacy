@@ -1,19 +1,19 @@
 import { Box, Container, FormControl, IconButton, InputLabel, OutlinedInput } from "@mui/material"
 
-import useExamination from "../../modules/pages/ExaminationDetailComponents/hooks/useExamination"
 import SendIcon from '@mui/icons-material/Send';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import FormAddExamination from "../../modules/pages/ExaminationDetailComponents/FormAddExamination";
+import FormAddExamination from "../../modules/pages/BookingComponents/FormAddExamination";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import { useTranslation } from "react-i18next";
 import Loading from "../../modules/common/components/Loading";
+import useBooking from "../../modules/pages/BookingComponents/hooks/useBooking";
 
 const Booking = () => {
     const { t, ready } = useTranslation(['booking','common'])
 
     const {checkEmail, checkPatientExist, openBackdrop, checkPatientExistSchema,
-        patientID, formEmail, isFormEmailOpen, handleOpenFormEmail} = useExamination()
+        patientID, formEmail, isFormEmailOpen, handleOpenFormEmail} = useBooking()
 
     const methods = useForm({
         mode:"onSubmit",
