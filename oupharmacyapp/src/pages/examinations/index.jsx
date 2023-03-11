@@ -1,7 +1,7 @@
 import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody,
      TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import Loading from "../../modules/common/components/Loading";
-import useExaminationConfirm from "../../modules/pages/ExaminationDetailComponents/ExaminationConfirm/hooks/useExaminationConfirm"
+import useExaminationConfirm from "../../modules/pages/ExaminationListComponents/ExaminationConfirm/hooks/useExaminationConfirm"
 import SendIcon from '@mui/icons-material/Send';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -98,8 +98,8 @@ const Examinations = () =>{
                                                     {e.id}
                                                 </Typography>
                                             </TableCell>
-                                            <TableCell align="center">
-                                                <Typography>
+                                            <TableCell align="left">
+                                                <Typography className="ou-table-truncate-text-container">
                                                     {e.description}
                                                 </Typography>
                                             </TableCell>
@@ -112,7 +112,7 @@ const Examinations = () =>{
                                                     {e.user.email}
                                                 </Typography>
                                             </TableCell>
-                                            <TableCell align="center" className="!ou-flex ou-content-center">
+                                            <TableCell align="center" className="!ou-flex ou-justify-center ou-items-center">
                                                 {e.mail_status === true ?
                                                     (<>
                                                         {user && user.role === ROLE_DOCTOR ?

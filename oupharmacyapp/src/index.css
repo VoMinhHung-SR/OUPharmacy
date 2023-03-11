@@ -10,4 +10,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+    .ou-table-truncate-text-container {
+        text-align: left;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
   }

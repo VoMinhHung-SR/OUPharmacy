@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { fetchPatientExist } from "../services";
 import * as Yup from 'yup';
-import { REGEX_EMAIL } from "../../../../lib/constants";
 import { useTranslation } from "react-i18next";
+import { REGEX_EMAIL } from "../../../../lib/constants";
 
-const useExamination = () => {
+const useBooking = () => {
     const {t} = useTranslation('yup-validate')
 
     const [formEmail, setFormEmail] = useState('');
@@ -58,4 +58,4 @@ const useExamination = () => {
     }
 }
 
-export default useExamination
+export default useBooking
