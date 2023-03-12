@@ -1,4 +1,6 @@
 import pytz
+import datetime
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
@@ -32,6 +34,13 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        tz = pytz.timezone('Asia/Bangkok')  # specify the timezone as UTC+7
+        if not self.id:
+            self.created_date = datetime.datetime.now(tz)
+        self.updated_date = datetime.datetime.now(tz)
+        super(BaseModel, self).save(*args, **kwargs)
 
 
 class UserRole(models.Model):

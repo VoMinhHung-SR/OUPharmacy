@@ -131,8 +131,10 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 # TIMEZONE SETTING HERE
-TIME_ZONE = 'UTC'
-USE_TZ = True
+# READ DATA : UTC (-7H) ; WRITE DATA : UTC (OKE)
+
+USE_TZ = False
+TIME_ZONE = 'Asia/Bangkok'
 USE_I18N = True
 
 # Static files (CSS, JavaScript, Images)

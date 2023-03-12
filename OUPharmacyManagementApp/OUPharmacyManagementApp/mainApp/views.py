@@ -7,6 +7,7 @@ import urllib
 import uuid
 from collections import deque
 from crypt import methods
+from datetime import timedelta
 
 import requests
 import hmac
@@ -174,6 +175,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                 error_msg = 'Email was sent already!!!'
         if not error_msg:
             examination.mail_status = True
+            examination.updated_date = datetime.datetime.today()
             examination.save()
             return Response(data={
                 'status': 'Send mail successfully',
@@ -197,25 +199,16 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         return Response(data={"errMgs": "prescription not found"},
                         status=status.HTTP_400_BAD_REQUEST)
 
-    @action(methods=['get'], detail=False, url_path='get-total-exam-today')
-    def get_total_exam_today(self, request):
-        try:
-            total = Examination.objects.filter(updated_date__date=datetime.datetime.today().date(),
-                                               mail_status=True).count()
-        except:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"errMgs": "Can't get Examinations"})
-        # if total:
-        return Response(data={"total": total},
-                        status=status.HTTP_200_OK)
-
     @action(methods=['get'], detail=False, url_path='get-list-exam-today')
     def get_list_exam_today(self, request):
         try:
-            print(datetime.datetime.today().date())
-            examinations = Examination.objects.filter(updated_date__date=datetime.datetime.today().date(),
-                                                      mail_status=True).all().order_by('updated_date')
-        except:
+            now = datetime.datetime.now()
+            today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            tomorrow = (now + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+            examinations = Examination.objects.filter(updated_date__range=(today,
+                                                                           tomorrow)).order_by('updated_date').all()
+        except Exception as error:
+            print(error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"errMgs": "Can't get Examinations"})
         if examinations:
