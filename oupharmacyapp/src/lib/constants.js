@@ -32,3 +32,8 @@ export const CURRENT_DATE = new Date();
 export const SERVER = import.meta.env.VITE_SERVER
 export const MAPGL_TOKEN = import.meta.env.VITE_MAPGL_ACCESSTOKEN
 export const MAX_EXAM_PER_DAY = 40
+
+// Toast constant
+export const TOAST_SUCCESS = "success"
+export const TOAST_ERROR = "error"
+export const TOAST_WARNING = "warning"

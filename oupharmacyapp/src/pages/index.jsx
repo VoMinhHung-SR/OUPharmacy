@@ -7,8 +7,8 @@ import { useNavigate } from "react-router";
 import useConversationList from "../modules/pages/ConversationListComponents/hooks/useConversationList";
 import useCustomModal from "../lib/hooks/useCustomModal";
 import CustomModal from "../modules/common/components/Modal";
-import  ToastMessage from "../modules/common/components/ToastMessage";
-import { toast } from "react-toastify";
+import createToastMessage from "../lib/utils/createToastMessage";
+import { TOAST_ERROR, TOAST_SUCCESS, TOAST_WARNING } from "../lib/constants";
 const Home = () => {
   const { t } = useTranslation(["common"]);
   const { user } = useConversationList();
@@ -20,16 +20,13 @@ const Home = () => {
     longitude: 106.67855666909755,
     zoom: 16,
   });
-  const showToastMessage = () => {
-      handleCloseModal();
-    //   console.log("showtoast")
-      return <SuccessToast message="OKE"/>
 
-  }
+
   const notify = () =>{
-    // toast.success('oke')
-    return <ToastMessage type="error" message="OKE"/>
+    handleCloseModal();
+    return createToastMessage({message:"oke", type:TOAST_SUCCESS});
   } 
+
   return (
     <>
       <Box
