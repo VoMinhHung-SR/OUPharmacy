@@ -1,6 +1,8 @@
 import { Outlet } from "react-router"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = () =>(
     <>
@@ -9,7 +11,11 @@ const Layout = () =>(
             <Outlet/>
         </main>
         <Footer />
+        <ToastContainer position="bottom-right" autoClose={1500} 
+            pauseOnFocusLoss draggable pauseOnHover
+            newestOnTop rtl={false}
+        />
     </>
 )
 
-export default Layout
+export default Layout   
