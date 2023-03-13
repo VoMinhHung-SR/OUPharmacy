@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 
-const ToastMessage = ({ type, message }) => {
+const createToastMessage = ({ type, message }) => {
     const toastConfig = {
-      position: 'top-center',
-      autoClose: 5000,
+      position: 'bottom-right',
+      autoClose: 1500,
       hideProgressBar: false,
       newestOnTop: true,
       closeOnClick: true,
@@ -16,13 +16,16 @@ const ToastMessage = ({ type, message }) => {
     const showToast = () => {
       switch (type) {
         case 'error':
-          return toast.error(message, toastConfig);
+           toast.error(message, toastConfig);
+           break;
         case 'warning':
-          return toast.warning(message, toastConfig);
+           toast.warning(message, toastConfig);
+           break;
         case 'success':
-          return toast.success(message, toastConfig);
+           toast.success(message, toastConfig);
+           break;
         default:
-          return toast(message, toastConfig);
+           toast(message, toastConfig);
       }
     };
   
@@ -31,4 +34,4 @@ const ToastMessage = ({ type, message }) => {
     return null;
   };
   
-  export default ToastMessage;
+  export default createToastMessage;
