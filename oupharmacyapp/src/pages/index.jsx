@@ -1,7 +1,7 @@
 import { Box, Button, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import MapGL from "../modules/pages/HomeComponents/Mapbox";
 import { useNavigate } from "react-router";
 import useConversationList from "../modules/pages/ConversationListComponents/hooks/useConversationList";
@@ -9,6 +9,7 @@ import useCustomModal from "../lib/hooks/useCustomModal";
 import CustomModal from "../modules/common/components/Modal";
 import createToastMessage from "../lib/utils/createToastMessage";
 import { TOAST_ERROR, TOAST_SUCCESS, TOAST_WARNING } from "../lib/constants";
+import { QueueStateContext } from "../lib/context/QueueStateContext";
 const Home = () => {
   const { t } = useTranslation(["common"]);
   const { user } = useConversationList();
@@ -21,7 +22,8 @@ const Home = () => {
     zoom: 16,
   });
 
-
+  const queue = useContext(QueueStateContext)
+  {console.log(queue.items)}
   const notify = () =>{
     handleCloseModal();
     return createToastMessage({message:"oke", type:TOAST_SUCCESS});
@@ -55,6 +57,9 @@ const Home = () => {
       </Box>
       <Button variant="contained" color="primary" onClick={handleOpenModal}>
         Open Modal
+      </Button>
+      <Button variant="contained" color="primary" onClick={()=> queue.dequeue()}>
+        Dequeue
       </Button>
       <CustomModal
         open={isOpen}

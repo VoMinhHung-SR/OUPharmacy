@@ -214,7 +214,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         if examinations:
             return Response(data=ExaminationsPairSerializer(examinations, context={'request': request}, many=True).data,
                             status=status.HTTP_200_OK)
-        return Response(data={"errMgs": "Today doesn't have any examinations sheet"},
+        return Response(data=[],
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -282,27 +282,6 @@ class DiagnosisViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrieve
     parser_classes = [JSONParser, MultiPartParser]
 
     def create(self, request, *args, **kwargs):
-        # user = request.user
-        # if user:
-        #     try:
-        #         examination = Examination.objects.get(id=request.data.examination)
-        #         print(request.data.examination)
-        #         sign = request.data.get('sign')
-        #         diagnosed = request.data.get('diagnosed')
-        #     except:
-        #         return Response(data={"errMgs": "Thông tin sai"},
-        #                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        #     if examination:
-        #         prescription = Prescription.objects.create(sign=sign, diagnosed=diagnosed,
-        #                                                    examination=examination,
-        #                                                    user=user)
-        #         return Response(PrescriptionCRUDSerializer(prescription,
-        #                                                context={'request': request}).data,
-        #                         status=status.HTTP_201_CREATED)
-        #     return Response(data={"errMgs": "Examination not found"},
-        #                     status=status.HTTP_400_BAD_REQUEST)
-        # return Response(data={"errMgs": "User not found"},
-        #                 status=status.HTTP_400_BAD_REQUEST)
         serializer = DiagnosisCRUDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

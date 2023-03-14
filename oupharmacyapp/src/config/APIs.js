@@ -27,7 +27,7 @@ export let endpoints = {
     
     // Examination
     'examination':'/examinations/',
-    'get-total-exam-today':'/examinations/get-total-exam-today/',
+    'get-list-exam-today':'/examinations/get-list-exam-today/',
     'examination-detail': (examinationId) => `/examinations/${examinationId}/`,
     'send-mail': (examinationId) => `/examinations/${examinationId}/send_mail/`,
     'get-diagnosis': (examinationId) => `/examinations/${examinationId}/get-diagnosis/`,

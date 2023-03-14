@@ -7,8 +7,7 @@ import CountDownExam from "../../modules/pages/WaittingRoomComponents/CountDownE
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
-    // const {queue} = useQueueState([1,2])
-    if(queue.getLength === 0)
+    if(queue.getLength() === 0)
         return <Box className="ou-col-span-12 ou-mt-4 ou-mb-2">
         He thong hien tai co: {queue.getLength()}/{MAX_EXAM_PER_DAY} phieu kham trong ngay {moment(CURRENT_DATE).format('DD-MM-yyyy')}
     </Box>
@@ -25,16 +24,16 @@ const WaitingRoom = () => {
                 <>
                     <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
                         <Box className="ou-my-2">Current</Box>
-                        <CountDownExam  currentID={queue.front()}/>
+                        <CountDownExam  currentID={queue?.front?.id}/>
                     </Box>
                     <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
                         <Box className="ou-my-2">Next</Box>
-                        <CountDownExam nextID={queue.items[1]}/>
+                        <CountDownExam nextID={queue.items[1].id}/>
                     </Box>
                 </> : queue.getLength() === 1 ?
                      <Box className="ou-py-4 ou-col-span-12 ou-m-auto">
                         <Box className="ou-my-2">Current</Box>
-                        <CountDownExam  currentID={queue.front()}/>
+                        <CountDownExam  currentID={queue?.front?.id}/>
                      </Box>
                     : <></>
                 }

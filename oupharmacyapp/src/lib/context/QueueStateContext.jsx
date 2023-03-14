@@ -1,14 +1,70 @@
-import { createContext, useState } from "react";
-import useQueueState from "../hooks/useQueueState";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
+import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomComponents/services";
 
 export const QueueStateContext = createContext({});
 
 export const QueueStateProvider = ({ children }) => {
-  // TODO fetch list examination here 
-  const { dequeue, front, enqueue, getLength, isEmpty, queue } = useQueueState([1, 2, 3,]);
+  // const [initialState, setInitialState] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  // const [data, setData] = useState(null);
+
+  const [queue, setQueue] = useState([]);
+  const initialQueueRef = useRef(queue);
+
+
+  const enqueue = (item) => {
+    setQueue([...queue, item]);
+  };
+
+  const dequeue = () => {
+    if (queue.length === 0) {
+      return undefined;
+    }
+
+    const item = queue[0];
+    setQueue(queue.slice(1));
+    return item;
+  };
+
+  useEffect(()=> {
+    const loadListExamToday = async () =>{
+      const res = await fetchListExaminationToday();
+      try{
+            if(res.status === 200){
+                setIsLoading(false)
+                setQueue(res.data)
+            }
+        }catch(err){
+            const res = err.response
+            if(res.status === 500){
+              setIsLoading(false)   
+              setQueue([])
+            }
+          }
+    }
+    loadListExamToday()
+  }, [])
+
+  useEffect(() => {
+    if (JSON.stringify(queue) !== JSON.stringify(initialQueueRef.current)) {
+      initialQueueRef.current = queue;
+    }
+  }, [queue]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+ 
   return (
     <QueueStateContext.Provider
-      value={{ front, getLength, isEmpty, dequeue, enqueue, items:queue }}
+      value={{ 
+        front: queue[0], 
+        getLength: () => queue.length, 
+        isEmpty: () => queue.length === 0, 
+        dequeue, 
+        enqueue, 
+        items: queue
+      }}
     >
       {children}
     </QueueStateContext.Provider>
