@@ -1,5 +1,6 @@
 
 import { Box } from "@mui/material";
+import CountDownTimer from "../CountDownTimer";
 
 const CountDownExam = (props) => {
   
@@ -9,6 +10,7 @@ const CountDownExam = (props) => {
                     {props.currentID ? <>
                         <h1>
                             Phiếu hiện tại {"(mã phiếu)"}: {props.currentID}
+                            <CountDownTimer/>
                         </h1>
                     </> : <>
                         <h1>

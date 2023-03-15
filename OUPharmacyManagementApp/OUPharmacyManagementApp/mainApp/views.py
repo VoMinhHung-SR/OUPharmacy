@@ -215,7 +215,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             return Response(data=ExaminationsPairSerializer(examinations, context={'request': request}, many=True).data,
                             status=status.HTTP_200_OK)
         return Response(data=[],
-                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                        status=status.HTTP_200_OK)
 
 
 class PatientViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,

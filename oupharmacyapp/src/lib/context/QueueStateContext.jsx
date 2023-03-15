@@ -5,12 +5,11 @@ export const QueueStateContext = createContext({});
 
 export const QueueStateProvider = ({ children }) => {
   // const [initialState, setInitialState] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   // const [data, setData] = useState(null);
 
   const [queue, setQueue] = useState([]);
   const initialQueueRef = useRef(queue);
-
 
   const enqueue = (item) => {
     setQueue([...queue, item]);
@@ -26,24 +25,25 @@ export const QueueStateProvider = ({ children }) => {
     return item;
   };
 
-  useEffect(()=> {
-    const loadListExamToday = async () =>{
+  useEffect(() => {
+    const loadListExamToday = async () => {
       const res = await fetchListExaminationToday();
-      try{
-            if(res.status === 200){
-                setIsLoading(false)
-                setQueue(res.data)
-            }
-        }catch(err){
-            const res = err.response
-            if(res.status === 500){
-              setIsLoading(false)   
-              setQueue([])
-            }
-          }
-    }
-    loadListExamToday()
-  }, [])
+      try {
+        if (res.status === 200) {
+          setQueue(res.data);
+        }
+      } catch (err) {
+        const res = err.response;
+        if (res.status === 500) {
+          setQueue([]);
+        }
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadListExamToday();
+  }, []);
 
   useEffect(() => {
     if (JSON.stringify(queue) !== JSON.stringify(initialQueueRef.current)) {
@@ -51,19 +51,19 @@ export const QueueStateProvider = ({ children }) => {
     }
   }, [queue]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
- 
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
+
   return (
     <QueueStateContext.Provider
-      value={{ 
-        front: queue[0], 
-        getLength: () => queue.length, 
-        isEmpty: () => queue.length === 0, 
-        dequeue, 
-        enqueue, 
-        items: queue
+      value={{
+        front: queue[0],
+        getLength: () => queue.length,
+        isEmpty: () => queue.length === 0,
+        dequeue,
+        enqueue,
+        items: queue,
       }}
     >
       {children}
