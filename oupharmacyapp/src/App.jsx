@@ -27,6 +27,7 @@ import NotFound from './modules/common/layout/components/404-not_found'
 import WaitingRoom from './pages/waiting-room'
 import { QueueStateProvider } from './lib/context/QueueStateContext'
 import ExaminationDetail from './pages/examinations/id'
+import Demo from './pages/demo'
 
 
 export const userContext = createContext()
@@ -43,7 +44,7 @@ function App() {
                   <Routes>
                     <Route path='/' element={<Layout />}>
                       <Route path='/' element={<Home />}/>
-                      
+                      <Route path='/demo' element={<Demo />}/>
                       <Route path='/waiting-room' element={<WaitingRoom/>}/>
                       {/* Accepted when user authorized */}
                       <Route element={<ProtectedUserRoute/>}>
