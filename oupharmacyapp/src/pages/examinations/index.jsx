@@ -16,18 +16,9 @@ import {
 } from "@mui/material";
 import Loading from "../../modules/common/components/Loading";
 import useExaminationConfirm from "../../modules/pages/ExaminationListComponents/ExaminationConfirm/hooks/useExaminationConfirm";
-import moment from "moment";
-import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ROLE_DOCTOR, ROLE_NURSE } from "../../lib/constants";
-import PaidIcon from "@mui/icons-material/Paid";
-import SendIcon from "@mui/icons-material/Send";
-import ErrorIcon from "@mui/icons-material/Error";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-import useCustomModal from "../../lib/hooks/useCustomModal";
-import CustomModal from "../../modules/common/components/Modal";
 import ExaminationCard from "../../modules/common/components/card/ExaminationCard";
+import { useNavigate } from "react-router";
 
 const Examinations = () => {
   const {
@@ -35,16 +26,13 @@ const Examinations = () => {
     pagination,
     handleChangePage,
     examinationList,
-    isLoadingButton,
     isLoadingExamination,
     page,
-    handleSendEmailConfirm,
+    handleChangeFlag,
   } = useExaminationConfirm();
   const router = useNavigate();
 
   const { t, ready } = useTranslation(["examinations", "common", "modal"]);
-
-  const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
 
   //TODO: add skeletons here
   if (!ready)
@@ -55,47 +43,6 @@ const Examinations = () => {
         </Box>
       </Box>
     );
-
-  const renderButton = (userID, examinationID, avatar) => {
-    if (isLoadingButton) return <Loading />;
-    return (
-      <Tooltip title={t("sendEmail")}>
-        <Button
-          onClick={() => {
-            handleSendEmailConfirm(userID, examinationID, avatar);
-          }}
-          variant="contained"
-          className="!ou-min-w-[68px] !ou-py-2"
-        >
-          <SendIcon />
-        </Button>
-      </Tooltip>
-    );
-  };
-  const renderMailStatus = (mailStatus) => {
-    if (mailStatus) return <TableCell align="center"> {t("sent")}</TableCell>;
-
-    return <TableCell align="center"> {t("noSent")}</TableCell>;
-  };
-  const renderModal = (exmainationObj) => {
-    if (exmainationObj) {
-      <CustomModal
-        open={isOpen}
-        onClose={handleCloseModal}
-        title={<Box>XIN CHAO {exmainationObj}</Box>}
-        content={
-          <Box>
-            <div>Day la content 1</div> <div>Day la content 2</div>
-          </Box>
-        }
-        actions={[
-          <Button key="cancel" onClick={handleCloseModal}>
-            Cancel
-          </Button>,
-        ]}
-      />;
-    }
-  };
 
   return (
     <>
@@ -148,125 +95,11 @@ const Examinations = () => {
                 <TableBody>
                   {examinationList.map((e) => (
                     <>
-                      {/* <ExaminationCard examination={e}/> */}
-                      <TableRow
-                        key={e.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          <Typography>{e.id}</Typography>
-                        </TableCell>
-                        <TableCell align="left">
-                          <Typography className="ou-table-truncate-text-container">
-                            {e.description}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="center">
-                          <Typography>
-                            {moment(e.created_date).format("DD/MM/YYYY")}
-                          </Typography>
-                        </TableCell>
-                        {renderMailStatus(e.mail_status)}
-                        <TableCell align="center">
-                          <Typography>{e.user.email}</Typography>
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          className="!ou-flex ou-justify-center ou-items-center"
-                        >
-                          {e.mail_status === true ? (
-                            <>
-                              {user && user.role === ROLE_DOCTOR ? (
-                                <>
-                                  <Tooltip title={t("diagnose")}>
-                                    <span>
-                                      <Link
-                                        style={{ textDecoration: "none" }}
-                                        to={`/examinations/${e.id}/diagnosis`}
-                                      >
-                                        <Button
-                                          variant="contained"
-                                          size="small"
-                                          color="success"
-                                          className="!ou-min-w-[68px] !ou-min-h-[40px]"
-                                        >
-                                          <MedicalServicesIcon />
-                                        </Button>
-                                      </Link>
-                                    </span>
-                                  </Tooltip>
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                              {user && user.role === ROLE_NURSE ? (
-                                <>
-                                  <Tooltip title={t("pay")}>
-                                    <Typography>
-                                      <Link
-                                        style={{ textDecoration: "none" }}
-                                        to={`/examinations/${e.id}/payments`}
-                                      >
-                                        <Button
-                                          variant="contained"
-                                          color="success"
-                                          size="small"
-                                          className="!ou-min-w-[68px] !ou-py-2"
-                                        >
-                                          <PaidIcon />
-                                        </Button>
-                                      </Link>
-                                    </Typography>
-                                  </Tooltip>
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              {/* Render button for DOCTORS */}
-                              {user && user.role === ROLE_DOCTOR ? (
-                                <>
-                                  <Typography className="text-danger">
-                                    {t("noReady")} <ErrorIcon />
-                                  </Typography>
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                              {/* Render button for NURSES */}
-                              {user && user.role === ROLE_NURSE ? (
-                                renderButton(e.user.id, e.id, user.avatar_path)
-                              ) : (
-                                <></>
-                              )}
-                            </>
-                          )}
-                          <Tooltip title={t("detail")}>
-                            <span>
-                              {/* <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}`}> */}
-                              <Button
-                                variant="contained"
-                                className="ou-bg-blue-700 !ou-min-w-[68px] !ou-py-2 !ou-ml-2"
-                                size="small"
-                                onClick={() => {
-                                  handleOpenModal();
-                                  // renderModal(e.id)
-                                }}
-                              >
-                                <AssignmentIcon />
-                              </Button>
-                              {/* </Link> */}
-                            </span>
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                      {renderModal(e.id)}
+                      <ExaminationCard id={e.id} description={e.description} user={user}
+                      authorID={e.user.id} handleChangeFlag={handleChangeFlag}
+                      createdDate={e.created_date} mailStatus={e.mail_status} email={e.user.email}/>
                     </>
-                  ))}
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -285,21 +118,7 @@ const Examinations = () => {
               </Box>
             )}
           </Box>
-          <CustomModal
-            open={isOpen}
-            onClose={handleCloseModal}
-            title={<Box>XIN CHAO</Box>}
-            content={
-              <Box>
-                <div>Day la content 1</div> <div>Day la content 2</div>
-              </Box>
-            }
-            actions={[
-              <Button key="cancel" onClick={handleCloseModal}>
-                Cancel
-              </Button>,
-            ]}
-          />
+       
         </>
       )}
     </>

@@ -31,6 +31,10 @@ const useExaminationConfirm = () =>{
     const [isLoadingButton, setIsLoadingButton] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 
+    const handleChangeFlag = () => {
+        setFlag(!flag)
+    }
+
     useEffect(()=>{
         const loadExamination = async () => {
             try{
@@ -92,7 +96,7 @@ const useExaminationConfirm = () =>{
         }catch(err){
             console.log(err)
             ErrorAlert("Đã có lỗi xảy ra","Vui lòng quay lại sau", "OK")
-        }
+        }H
     }
     return{
         user,
@@ -102,6 +106,7 @@ const useExaminationConfirm = () =>{
         pagination,
         examinationList,
         handleChangePage,
+        handleChangeFlag,
         handleSendEmailConfirm
     }
 }
