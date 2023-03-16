@@ -16,7 +16,7 @@ const ExaminationDetail = () => {
       </Box>
     );
   return (
-    <Box className="ou-my-5 ou-mb-8 ou-w-[80%] ou-m-auto ou-max-w-[1536px]">
+    <Box className="ou-my-5 ou-mb-8 ou-w-[80%] ou-m-auto ou-max-w-[1280px]">
       <Box>
         <Box>
           <Box className="ou-my-4" component={Paper} elevation={4}>
@@ -25,7 +25,7 @@ const ExaminationDetail = () => {
             </h5>
             <Box className="ou-p-4">
               <Grid container>
-                <Grid item xs={4}>
+                <Grid item xs={4} className="ou-pr-2">
                   <Typography
                     variant="subtitle1"
                     gutterBottom
@@ -35,7 +35,7 @@ const ExaminationDetail = () => {
                     {t("examinationId")}: {examinationData.id}
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} className="ou-pr-2">
                   <Typography
                     variant="subtitle1"
                     gutterBottom
@@ -47,7 +47,7 @@ const ExaminationDetail = () => {
                     {examinationData.patient.last_name}
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} className="ou-pr-2">
                   <Typography
                     variant="subtitle1"
                     gutterBottom
@@ -103,6 +103,24 @@ const ExaminationDetail = () => {
           </Box>
         </Box>
       </Box>
+      <CustomModal
+        open={isOpen}
+        onClose={handleCloseModal}
+        title={<Box>XIN CHAO </Box>}
+        content={<Box><div>Day la content 1</div> <div>Day la content 2</div></Box>}
+        actions={[
+          <Button key="cancel" onClick={handleCloseModal}>
+            Cancel
+          </Button>,
+          <Button
+            key="save"
+            variant="contained"
+            color="primary"
+            onClick={notify}
+          >
+            Save
+          </Button>,
+        ]} />
     </Box>
   );
 };
