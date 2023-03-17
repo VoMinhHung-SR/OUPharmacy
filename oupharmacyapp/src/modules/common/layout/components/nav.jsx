@@ -170,14 +170,14 @@ const Nav = () => {
     </>
   }
 
-  const renderElementNav = (pageID, pageLink, pageName, isMobile = false) => {
+  const renderElementNav = (pageID, pageLink, pageName, isMobile = false, keyPage) => {
     // Render for doctor
       if(pageID === 'pescribings'|| pageID === 'pescribings-mb')
         if(user && user.role === ROLE_DOCTOR)
           return(
-            <Link to={pageLink}>
+            <Link to={pageLink} key={keyPage}>
               <Button 
-                key={pageID}
+                
                 onClick={handleCloseNavMenu}
                 className={clsx('',{
                   '!ou-text-black': isMobile,
@@ -215,9 +215,8 @@ const Nav = () => {
       if(pageID === 'examinations' || pageID === 'examinations-mb')
         if(user && (user.role === ROLE_DOCTOR || user.role === ROLE_NURSE))
           return(
-            <Link to={pageLink}>
+            <Link to={pageLink} key={keyPage}>
               <Button 
-                key={pageID}
                 onClick={handleCloseNavMenu}
                 sx={{ mx: 1, my: 1, display: 'block' }}
                 className={clsx('',{
@@ -232,9 +231,8 @@ const Nav = () => {
         else return
       // Render Default
       return (
-        <Link to={pageLink}>
+        <Link to={pageLink}  key={keyPage}>
           <Button 
-            key={pageID}
             onClick={handleCloseNavMenu}
             sx={{  mx: 1, my: 1, display: 'block' }}
             className={clsx('',{
@@ -299,7 +297,7 @@ const Nav = () => {
                 display: { xs: 'block', md: 'none'},
               }}
             >
-                {pages.map((page) => renderElementNav(page.id+"-mb", page.link, page.name, true))}
+                {pages.map((page) => renderElementNav(page.id+"-mb", page.link, page.name, true, page.id+"-mb"))}
             </Menu>
           </Box>
           <Link to="/"  >
@@ -329,7 +327,7 @@ const Nav = () => {
             OUPHARMACY
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => renderElementNav(page.id, page.link, page.name))}
+            {pages.map((page) => renderElementNav(page.id, page.link, page.name, false, page.id+"-dek"))}
           </Box>
                 
           <Box sx={{ flexGrow: 0 }} className="ou-flex">
