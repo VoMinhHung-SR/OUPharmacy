@@ -94,11 +94,7 @@ const Examinations = () => {
                 </TableHead>
                 <TableBody>
                   {examinationList.map((e) => (
-                    <>
-                      <ExaminationCard id={e.id} description={e.description} user={user}
-                      authorID={e.user.id} handleChangeFlag={handleChangeFlag}
-                      createdDate={e.created_date} mailStatus={e.mail_status} email={e.user.email}/>
-                    </>
+                      <ExaminationCard key={`e-${e.id}`} examinationData={e} user={user} callback={handleChangeFlag}/>       
                     ))}
                 </TableBody>
               </Table>

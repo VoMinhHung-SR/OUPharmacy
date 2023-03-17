@@ -19,20 +19,12 @@ import useExaminationCard from "./hooks/useExaminationCard";
 import Loading from "../../Loading";
 import CustomModal from "../../Modal";
 import useCustomModal from "../../../../../lib/hooks/useCustomModal";
+import ExaminationDetailCard from "../ExaminationDetailCard";
 
-const ExaminationCard = (props) => {
-  const { t } = useTranslation(["examinations", "common", "modal"]);
-  const {
-    id,
-    description,
-    mailStatus,
-    createdDate,
-    user,
-    email,
-    authorID,
-    handleChangeFlag,
-  } = props;
-  
+const ExaminationCard = ({examinationData, user, callback}) => {
+  const { t } = useTranslation(["examinations", "common", "modal", "examination-detail"]);
+
+  const {id, description, created_date, mail_status} = examinationData
   const { isLoadingButton, handleSendEmailConfirm } = useExaminationCard();
   const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
  
@@ -52,7 +44,7 @@ const ExaminationCard = (props) => {
               userID,
               examinationID,
               avatar,
-              handleChangeFlag
+              callback
             );
           }}
           variant="contained"
@@ -79,22 +71,22 @@ const ExaminationCard = (props) => {
           </Typography>
         </TableCell>
         <TableCell align="center">
-          <Typography>{moment(createdDate).format("DD/MM/YYYY")}</Typography>
+          <Typography>{moment(created_date).format("DD/MM/YYYY")}</Typography>
         </TableCell>
-        {mailStatus ? (
+        {mail_status ? (
           <TableCell align="center" className="!ou-text-green-700 !ou-font-bold"> {t("sent")}</TableCell>
         ) : (
           <TableCell align="center" className="!ou-text-red-700 !ou-font-bold"> {t("noSent")}</TableCell>
         )}
         <TableCell align="center">
-          <Typography>{email}</Typography>
+          <Typography>{examinationData?.user?.email ? examinationData.user.email : "undefined"}</Typography>
         </TableCell>
         <TableCell
           align="center"
           className="!ou-flex ou-justify-center ou-items-center"
         >
           <Typography>
-            {mailStatus === true ? (
+            {mail_status === true ? (
               <>
                 {user && user.role === ROLE_DOCTOR ? (
                   <>
@@ -162,7 +154,7 @@ const ExaminationCard = (props) => {
                 )}
                 {/* Render button for NURSES */}
                 {user && user.role === ROLE_NURSE ? (
-                  renderButton(authorID, id, user.avatar_path)
+                  renderButton(examinationData?.user?.id, id, examinationData?.user?.avatar_path)
                 ) : (
                   <></>
                 )}
@@ -190,20 +182,16 @@ const ExaminationCard = (props) => {
       <CustomModal
         open={isOpen}
         onClose={handleCloseModal}
-        title={<Box>XIN CHAO {id} </Box>}
-        content={<Box><div>Day la content 1</div> <div>Day la content 2</div></Box>}
+        // title={<Box>XIN CHAO {id} </Box>}
+        content={<Box>
+          <div>
+            <ExaminationDetailCard examinationData={examinationData} />
+          </div> 
+        </Box>}
         actions={[
           <Button key="cancel" onClick={handleCloseModal}>
-            Cancel
-          </Button>,
-          <Button
-            key="save"
-            variant="contained"
-            color="primary"
-            // onClick={notify}
-          >
-            Save
-          </Button>,
+            {t('modal:cancel')}
+          </Button>
         ]}
         />
     
