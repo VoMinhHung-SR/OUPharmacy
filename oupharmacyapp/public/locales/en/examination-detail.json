@@ -7,5 +7,9 @@
     "description": "Description",
     "mailStatus": "Mail status",
     "sent": "Sent",
-    "noSend": "Not send yet"
+    "noSend": "Not send yet",
+    "moreInfomation": "More information",
+    "diagnose":"Diagnose",
+    "prescribing": "Prescribing",
+    "bill":"Bill"
 }

@@ -162,8 +162,6 @@ const ExaminationCard = ({examinationData, user, callback}) => {
             )}
           </Typography>
           <Tooltip title={t("detail")}>
-            <span>
-              {/* <Link style={{ "textDecoration": "none" }} to={`/examinations/${e.id}`}> */}
               <Button
                 variant="contained"
                 className="ou-bg-blue-700 !ou-min-w-[68px] !ou-py-2 !ou-ml-2"
@@ -172,8 +170,6 @@ const ExaminationCard = ({examinationData, user, callback}) => {
               >
                 <AssignmentIcon />
               </Button>
-              {/* </Link> */}
-            </span>
           </Tooltip>
         </TableCell>
       </TableRow>

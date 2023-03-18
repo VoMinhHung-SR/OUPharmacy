@@ -1,15 +1,16 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Collapse, Grid, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography } from "@mui/material";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import useExaminationDetail from "../../../../pages/ExaminationDetailComponents/hooks/useExaminationDetail";
+import CustomCollapseListItemButton from "../../collapse/ListItemButton";
+// import useExaminationDetail from "../../../../pages/ExaminationDetailComponents/hooks/useExaminationDetail";
 import Loading from "../../Loading";
+import useExaminationDetailCard from "./hooks/useExaminationDetailCard";
 
 
 const ExaminationDetailCard = ({examinationData}) => {
     const { t, tReady } = useTranslation(["examination-detail"]);
-    // const { examinationData, isLoadingExaminationDetail } =
-    //   useExaminationDetail();
-    // console.log(examinationData);
+    const { diagnosis, isLoading, bill, prescbring} = useExaminationDetailCard(examinationData?.id)
+    console.log(examinationData);
     if (tReady)
       return (
         <Box>
@@ -114,6 +115,18 @@ const ExaminationDetailCard = ({examinationData}) => {
                     </Typography>
                   </Grid>
                 </Grid>
+
+                <h5 className=" ou-text-lg ou-mb-3 ou-pt-3">
+                     {t('moreInfomation')}:
+                </h5>
+                {console.log(isLoading,  "doagnosis", diagnosis)}
+                {console.log(isLoading, "prescribing", prescbring)}
+                {console.log(isLoading, "bill", bill)}
+                <CustomCollapseListItemButton title={t("diagnose")} 
+                  content={<Box>Hello</Box>}
+                />
+                <CustomCollapseListItemButton title={t("prescribing")}/>
+                <CustomCollapseListItemButton title={t("bill")}/>
               </Box>
             </Box>
           </Box>

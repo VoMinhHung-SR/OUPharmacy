@@ -189,15 +189,14 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
     @action(methods=['get'], detail=True, url_path='get-diagnosis')
     def get_diagnosis(self, request, pk):
         try:
-            diagnosis = Diagnosis.objects.get(examination=pk)
+            diagnosis = Diagnosis.objects.get(examination_id=pk)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"errMgs": "prescription not found"})
         if diagnosis:
             return Response(DiagnosisSerializer(diagnosis, context={'request': request}).data,
                             status=status.HTTP_200_OK)
-        return Response(data={"errMgs": "prescription not found"},
-                        status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=[], status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=False, url_path='get-list-exam-today')
     def get_list_exam_today(self, request):

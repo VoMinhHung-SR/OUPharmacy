@@ -7,5 +7,10 @@
     "description":"Mô tả",
     "mailStatus": "Tình trạng mail",
     "sent": "Đã gửi",
-    "noSend": "Chưa gửi"
+    "noSend": "Chưa gửi",
+    "moreInfomation": "Thông tin khác",
+    "diagnose":"Phiếu chẩn đoán",
+    "prescribing": "Phiếu kê toa",
+    "bill": "Phiếu thanh toán"
+
 }
