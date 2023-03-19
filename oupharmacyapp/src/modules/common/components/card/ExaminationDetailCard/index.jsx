@@ -4,19 +4,21 @@ import { useTranslation } from "react-i18next";
 import CustomCollapseListItemButton from "../../collapse/ListItemButton";
 // import useExaminationDetail from "../../../../pages/ExaminationDetailComponents/hooks/useExaminationDetail";
 import Loading from "../../Loading";
+import DiagnosisCard from "../DiagnosisCard";
 import useExaminationDetailCard from "./hooks/useExaminationDetailCard";
 
 
 const ExaminationDetailCard = ({examinationData}) => {
     const { t, tReady } = useTranslation(["examination-detail"]);
     const { diagnosis, isLoading, bill, prescbring} = useExaminationDetailCard(examinationData?.id)
-    console.log(examinationData);
+    console.log(isLoading);
     if (tReady)
       return (
         <Box>
           <Loading />
         </Box>
       );
+
     return (
       <Box className="ou-my-5 ou-mb-8 ou-w-[90%] ou-m-auto">
         <Box>
@@ -119,11 +121,8 @@ const ExaminationDetailCard = ({examinationData}) => {
                 <h5 className=" ou-text-lg ou-mb-3 ou-pt-3">
                      {t('moreInfomation')}:
                 </h5>
-                {console.log(isLoading,  "doagnosis", diagnosis)}
-                {console.log(isLoading, "prescribing", prescbring)}
-                {console.log(isLoading, "bill", bill)}
-                <CustomCollapseListItemButton title={t("diagnose")} 
-                  content={<Box>Hello</Box>}
+                <CustomCollapseListItemButton title={t("diagnose")} loading={isLoading}
+                  content={<DiagnosisCard sign={diagnosis?.sign} key={diagnosis?.id} diagnosed={diagnosis?.diagnosed}/>}
                 />
                 <CustomCollapseListItemButton title={t("prescribing")}/>
                 <CustomCollapseListItemButton title={t("bill")}/>

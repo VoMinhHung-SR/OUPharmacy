@@ -2,8 +2,8 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import DiagnosisCard from "../../../../modules/common/components/card/DiagnosisCard"
 import Loading from "../../../../modules/common/components/Loading"
+import DiagnosisForm from "../../../../modules/pages/DiagnosisComponents/DiagnosisForm"
 import useDiagnosis from "../../../../modules/pages/DiagnosisComponents/hooks/useDiagnosis"
 
 const Diagnosis = () => {
@@ -70,7 +70,7 @@ const Diagnosis = () => {
 
                             <Box className='ou-mt-5'>
                                 <Box style={{ "margin": "auto" }}>
-                                    {user && <DiagnosisCard
+                                    {user && <DiagnosisForm
                                         id={prescriptionId}
                                         examinationId={examinationId}
                                         diagnosed={diagnosis.diagnosed}

@@ -11,6 +11,6 @@
     "prescribing": "Prescribing",
     "submit": "Submit",
     "wait": "Wait...",
-    
+    "errNullDiagnosis":"The medical record has not been diagnosed by a doctor",
     "confirmCreateDiagnosis":"Confirm to create this diagnosis form"
 }
