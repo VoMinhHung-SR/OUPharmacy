@@ -14,19 +14,8 @@ const useExaminationDetailCard = (examinationID) => {
             const res = await fetchDiagnosisByExaminationID(examinationID)
             if(res.status === 200){
                 setDiagnosis(res.data)
-
                 // Load Prescribing
-                const res2 = loadPrescribing(res.data.id)
-                if(res2.status === 200){
-                    setPrescribing(res2.data)
-
-                    // Load Bill
-                    const res3 = res2.data.map(prescbring => loadBill(prescbring.id))
-                    if(res3.status === 200){
-                        console.log(OKE)
-                    }
-                }
-
+                loadPrescribing(res.data.id)
             }
         }catch(err){
             const res = err.response
@@ -40,6 +29,10 @@ const useExaminationDetailCard = (examinationID) => {
             const res = await fetchPrescribingByDiagnosis(diagnosedID)
             if(res.status === 200){
                 setPrescribing(res.data)
+                if(res.data.length !== 0){
+                    // Load Bill
+                    res.data.map(p => loadBill(p.id))
+                }
             }
         }catch(err){
             const res = err.response
@@ -52,7 +45,7 @@ const useExaminationDetailCard = (examinationID) => {
         try{
             const res = await fetchPrescrriptionDetailBillCard(prescbringID)
             if(res.status === 200){
-                setBill(prevState => [...prevState, res.data])
+                setBill(res.data)
             }
         }catch(err){
             const res = err.response

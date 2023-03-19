@@ -1,10 +1,11 @@
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import useCollapse from "../hooks/useCollapse";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
+import Loading from "../../Loading";
 
-const CustomCollapseListItemButton = ({title, content}) => {
+const CustomCollapseListItemButton = ({title, content, loading}) => {
     const {open, handleSetOpen} = useCollapse()
     return(
         <>
@@ -14,14 +15,15 @@ const CustomCollapseListItemButton = ({title, content}) => {
             </ListItemButton>
 
             <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                        <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={content? content : "Content"} />
-                    </ListItemButton>
-                    </List>
+                {loading ? <Box><Loading/></Box> 
+                : <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemText primary={content? content : "Content"} />
+                </ListItemButton>
+                </List>
+                
+            }
+                   
             </Collapse>
         </>
     )
