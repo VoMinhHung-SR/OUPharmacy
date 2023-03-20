@@ -11,6 +11,6 @@
     "moreInfomation": "Thông tin khác",
     "diagnose":"Phiếu chẩn đoán",
     "prescribing": "Phiếu kê toa",
-    "bill": "Phiếu thanh toán"
-
+    "bill": "Phiếu thanh toán",
+    "diagnosisExist":"Danh sách mã phiếu chẩn đoán của phiếu khám này là"
 }

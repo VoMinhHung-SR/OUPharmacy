@@ -1,4 +1,4 @@
-import { Box, Collapse, Grid, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography } from "@mui/material";
+import { Box, Collapse, Grid, List, ListItemIcon, ListItemText, Paper, Typography } from "@mui/material";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import CustomCollapseListItemButton from "../../collapse/ListItemButton";
@@ -6,6 +6,9 @@ import CustomCollapseListItemButton from "../../collapse/ListItemButton";
 import Loading from "../../Loading";
 import DiagnosisCard from "../DiagnosisCard";
 import useExaminationDetailCard from "./hooks/useExaminationDetailCard";
+import ListItemButton from "./ListItemButton";
+import MiniDiagnosisCard from "./MiniDiagnosisCard";
+import MiniPrescribingCard from "./MiniPrescribingCard";
 
 
 const ExaminationDetailCard = ({examinationData}) => {
@@ -122,9 +125,15 @@ const ExaminationDetailCard = ({examinationData}) => {
                      {t('moreInfomation')}:
                 </h5>
                 <CustomCollapseListItemButton title={t("diagnose")} loading={isLoading}
-                  content={<DiagnosisCard sign={diagnosis?.sign} key={diagnosis?.id} diagnosed={diagnosis?.diagnosed}/>}
+                  content={
+                    <MiniDiagnosisCard diagnosis={diagnosis} isLoaing={isLoading}/>
+                  }
                 />
-                <CustomCollapseListItemButton title={t("prescribing")}/>
+                <CustomCollapseListItemButton title={t("prescribing")}
+                   content={
+                    <MiniPrescribingCard prescribing={prescbring} isLoaing={isLoading}/>
+                  }
+                />
                 <CustomCollapseListItemButton title={t("bill")}/>
               </Box>
             </Box>
