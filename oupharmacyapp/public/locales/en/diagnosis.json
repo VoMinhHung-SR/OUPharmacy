@@ -11,6 +11,7 @@
     "prescribing": "Prescribing",
     "submit": "Submit",
     "wait": "Wait...",
+    "diagnosisExist":"The list diagnosis ID of this exam sheet",
     "errNullDiagnosis":"The medical record has not been diagnosed by a doctor",
     "confirmCreateDiagnosis":"Confirm to create this diagnosis form"
 }

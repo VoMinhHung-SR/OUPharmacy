@@ -11,5 +11,6 @@
     "moreInfomation": "More information",
     "diagnose":"Diagnose",
     "prescribing": "Prescribing",
-    "bill":"Bill"
+    "bill":"Receipt",
+    "diagnosisExist":"The list diagnosis ID of this exam sheet"
 }

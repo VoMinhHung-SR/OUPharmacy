@@ -1,4 +1,5 @@
 {
+    "prescribingExist":"The list prescribing ID of this exam sheet",
     "errNullPrescription":"There is no prescription exist",
     "basicInformation": "Basic infomation",
     "patientFullName": "Patient full name",
