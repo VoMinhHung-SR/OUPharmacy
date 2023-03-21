@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Fade } from "@mui/material"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import Loading from "../../../Loading"
@@ -17,14 +17,14 @@ const MiniDiagnosisCard = ({diagnosis,isLoaing}) => {
             <Loading/>
         </Box>
     </Box>
-
+    
     if(!id)
         return   <Box className="ou-text-red-700">{t("errNullDiagnosis")}</Box>
 
     return (
         <>
-            <ListItemButton callback={handleIsOpen} arrayContent={diagnosis ? [diagnosis] : []}  title={t('diagnosisExist')}/>
-            { isOpen ?  <DiagnosisCard id={id} diagnosed={diagnosed} sign={sign}/> : <></>}
+            <ListItemButton callback={()=>{handleIsOpen();}} arrayContent={diagnosis ? [diagnosis] : []}  title={t('diagnosisExist')}/>
+            { isOpen ? <DiagnosisCard id={id} diagnosed={diagnosed} sign={sign}/>: <></>}
         </>
     )
 }

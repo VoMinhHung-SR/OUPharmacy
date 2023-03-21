@@ -1,5 +1,6 @@
 {
     "prescribingExist":"Danh sách mã phiếu kê toa của phiếu khám này là",
+    "errNullPrescribing":"Phiếu khám chưa được kê toa",
     "errNullPrescription":"Phiếu khám chưa được chẩn đoán",
     "basicInformation": "Thông tin cơ bản",
     "patientFullName": "Họ tên bệnh nhân",
