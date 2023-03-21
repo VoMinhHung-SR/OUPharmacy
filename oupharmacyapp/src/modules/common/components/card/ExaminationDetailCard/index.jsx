@@ -131,7 +131,7 @@ const ExaminationDetailCard = ({examinationData}) => {
                 />
                 <CustomCollapseListItemButton title={t("prescribing")}
                    content={
-                    <MiniPrescribingCard prescribing={prescbring} isLoaing={isLoading}/>
+                    <MiniPrescribingCard prescribing={prescbring} isLoaing={isLoading} receipt={bill}/>
                   }
                 />
                 <CustomCollapseListItemButton title={t("bill")}/>
