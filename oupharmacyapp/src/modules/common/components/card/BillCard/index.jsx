@@ -132,7 +132,7 @@ const BillCard = (props) =>{
                                     <h4 className="p-2">{t('amount')}: {calculateAmount(prescriptionDetail, props.wage)} VND</h4>
                                     {receipt ? 
                                     (<>
-                                        <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">{t('success')} <CheckCircleOutlineIcon /></h3>
+                                        <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">{t('done')} <CheckCircleOutlineIcon /></h3>
                                     </>)
                                         : renderLoadingButton()}
 

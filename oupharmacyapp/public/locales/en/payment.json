@@ -23,7 +23,11 @@
     "pay": "Pay",
     "momoPayment": "Momo payment",
     "zalopayPayment": "ZaloPay payment",
+
+    "paymentStatus": "Payment status",
     "success": "Completed",
+    "done":"Done",
+    "unDone": "Undone",
     "payCompleled":"Successed",
     "payFailed":"Failed",
     "confirmCreateBill": "Confirm to create this bill"
