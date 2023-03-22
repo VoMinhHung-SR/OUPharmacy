@@ -14,39 +14,33 @@ const PrescribingCard = ({prescribing}) => {
     const [receiptStatus, setReceiptStatus] = useState(false)
     const [p , setP]  = useState([])
     useEffect(()=> {
-        const loadPrescription = async (prescribingId) => {
+
+        if(!prescribing) return;
+      
+        const loadData = async () => {
+            setIsLoading(true)
+
+            // Load Prescribing Data
             try{
-                const res = await fetchPrescrriptionDetailBillCard(prescribingId)
-                if(res.status === 200){
-                    setP(res.data)
-                }
-                loadReceipt(prescribingId)
+                const {data} = await fetchPrescrriptionDetailBillCard(prescribing)
+                setP(data);
             }catch(err){
                 console.log(err)
-            }finally{
-                setIsLoading(false)
             }
+
+            // Load Receipt Data
+            try{
+                const {status} = await fetchReciept(prescribing)
+                setReceiptStatus(status === 200) // will be true if status === 200 else is false
+            }catch(err){
+                console.log(err)
+                setReceiptStatus(false);
+            }
+            setIsLoading(false);
         }
 
-        const loadReceipt = async (prescribingID) => {
-            try {
-                const res = await fetchReciept(prescribingID)
-                if (res.status === 200) {
-                    setReceiptStatus(true)
-                }
-            } catch (err) {
-                if(err.status === 500){
-                    setReceiptStatus(false)
-                }
-            }
-        }
-
-        if(prescribing)
-        {
-            loadPrescription(prescribing)
-            loadReceipt(prescribing)
-           
-        }
+        loadData()
+        
     }, [prescribing])
 
     if(isLoading || !prescribing || tReady) 
@@ -56,20 +50,20 @@ const PrescribingCard = ({prescribing}) => {
         <Box>
 
         <Box component={Paper} elevation={4}>
-            <h1 className="ou-text-center ou-mt-8 ou-mb-4 ou-pt-4 ou-text-xl">{t('prescriptionDetail')}</h1>
+            <h1 className="ou-text-center ou-mt-5 ou-mb-4 ou-pt-4 ou-text-xl">{t('prescriptionDetail')}</h1>
             <Box className="ou-p-3">
-                <TableContainer component={Paper}>
+                <TableContainer >
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell colSpan={1} align="center">{t('prescriptionDetailId')}</TableCell>
-                                <TableCell colSpan={5} align="center">{t('medicineName')}</TableCell>
+                                <TableCell colSpan={3} align="center">{t('medicineName')}</TableCell>
                                 <TableCell colSpan={1} align="center">{t('uses')}</TableCell>
                                 <TableCell colSpan={1} align="center">{t('quantity')}</TableCell>
-                                <TableCell colSpan={1} align="center">{t('unitPrice')}</TableCell>
+                                <TableCell colSpan={2} align="center">{t('unitPrice')}</TableCell>
                                 <TableCell colSpan={2} align="center">{t('total')} (VND)</TableCell>
                             </TableRow>
-                        </TableHead>
+                        </TableHead>    
                         <TableBody>
                             {p.map((p) => (
                                 <TableRow
@@ -82,7 +76,7 @@ const PrescribingCard = ({prescribing}) => {
                                         </Typography>
                                     </TableCell >
 
-                                    <TableCell colSpan={5} align="left" className="ou-truncate" >
+                                    <TableCell colSpan={3} align="left" className="ou-truncate" >
                                         <Typography>
                                             {p.medicine_unit.medicine.name}
                                         </Typography>
@@ -93,15 +87,19 @@ const PrescribingCard = ({prescribing}) => {
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {p.quantity}
+                                        <Typography>
+                                            {p.quantity}
+                                        </Typography>
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell colSpan={2} className="ou-text-sm" align="center">
                                         <Typography>
                                             {p.medicine_unit.price}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell align="center">
-                                        {p.medicine_unit.price * p.quantity}
+                                    <TableCell colSpan={2} align="center">
+                                        <Typography>
+                                            {p.medicine_unit.price * p.quantity}
+                                        </Typography>
                                     </TableCell>
                                 </TableRow>
                             ))}

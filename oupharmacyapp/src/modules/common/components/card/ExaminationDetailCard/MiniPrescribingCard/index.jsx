@@ -8,11 +8,8 @@ import PrescribingCard from "./PrescribingCard"
 
 const MiniPrescribingCard = ({prescribing, isLoading, receipt}) => {
     const {t, tReady} = useTranslation("prescription-detail")
-    const { selectedId,handleSelectId, isOpen } = useListItemButton()
+    const { selectedId,handleSelectId, isOpen, loading } = useListItemButton()
    
-    
-
-    console.log(receipt)
     if(!tReady && isLoading)
         return <Box sx={{ height: "300px" }}>
         <Box className='ou-p-5'>
@@ -29,8 +26,8 @@ const MiniPrescribingCard = ({prescribing, isLoading, receipt}) => {
                 arrayContent={prescribing ? prescribing : []} 
                 callback={(id) => {
                     handleSelectId(id)
-                    console.log("Button clicked with ID:", id);
                 }}
+                isLoading={isLoading}
             />
              {(isOpen && selectedId) ? <>
 

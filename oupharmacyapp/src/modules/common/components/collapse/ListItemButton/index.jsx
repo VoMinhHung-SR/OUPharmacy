@@ -17,9 +17,9 @@ const CustomCollapseListItemButton = ({title, content, loading}) => {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 {loading ? <Box><Loading/></Box> 
                 : <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText sx={{ pl: 4 }}>
                     <ListItemText primary={content? content : "Content"} />
-                </ListItemButton>
+                </ListItemText>
                 </List>
                 
             }
