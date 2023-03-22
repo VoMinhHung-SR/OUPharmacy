@@ -1,4 +1,4 @@
-import { Box, Button, Grid, InputLabel, TextField, Typography } from "@mui/material"
+import { Box, Button, Grid, InputLabel, Paper, TextField, Typography } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import Loading from "../../Loading"
 
@@ -17,9 +17,9 @@ const DiagnosisCard = ({id, sign, diagnosed, isLoading}) => {
         return   <Box className="ou-text-red-700">{t("errNullDiagnosis")}</Box>
 
     return <>
-         <Box className="ou-mt-3" >
-                <form  style={{ "width": "80%", "margin": "auto", "padding": "20px 20px", "border": "1px solid black", "borderRadius": "4px" }}>
-                    <h1 className="ou-text-center ou-text-lg">
+         <Box className="ou-mt-5" component={Paper} elevation={4}>
+                <form className="ou-pt-4" >
+                    <h1 className="ou-text-center ou-text-lg ">
                         {t('prescriptionInfomation')}
                         </h1>
                     <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
