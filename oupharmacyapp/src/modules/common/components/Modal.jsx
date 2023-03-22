@@ -7,7 +7,7 @@ const CustomModal = (props) => {
         <Dialog maxWidth={"md"}
           open={open} 
           onClose={onClose}>
-            <DialogTitle className={clsx('ou-min-w-[300px] ou-max-w-[720px]',className)}>{title}</DialogTitle>
+            <DialogTitle className={clsx('ou-min-w-[300px]',className)}>{title}</DialogTitle>
             <DialogContent>{content}</DialogContent>
             <DialogActions>{actions}</DialogActions>
         </Dialog>

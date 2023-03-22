@@ -176,6 +176,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
       
 
       <CustomModal
+        className="ou-w-[900px]"
         open={isOpen}
         onClose={handleCloseModal}
         // title={<Box>XIN CHAO {id} </Box>}
