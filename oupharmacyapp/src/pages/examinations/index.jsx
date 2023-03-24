@@ -79,7 +79,7 @@ const Examinations = () => {
         </Box>
       ) : (
         <>
-          <Box className="ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]">
+          <Box className="ou-py-5 ou-m-auto ou-max-w-[1536px]">
             <TableContainer component={Paper} elevation={4}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

@@ -45,7 +45,7 @@ const PrescriptionList = () => {
                  </Box>)
                     : (
                         <>
-                            <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
+                            <Box className='ou-py-5 ou-m-auto ou-max-w-[1536px]'>
                                 {/* <form className="d-flex mb-3 "
                                     // onSubmit={search} 
                                     style={{ "marginLeft": "auto", "maxWidth": "300px" }}>

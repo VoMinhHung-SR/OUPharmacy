@@ -27,7 +27,7 @@ const ConversationList = () => {
     return (
         <>
             <div>
-                <Container style={{ "padding": "30px 0px" }} >
+                <Box style={{ "padding": "30px 0px" }} >
                     <Box sx={{ bgcolor: "background.paper", width: "100%", boxShadow: 3, display: "flex" }} minHeight={"600px"}>
                         <Box xs={4} md={4} sm={12} width={"30%"} >
                             <SidebarInbox user={user}/>
@@ -46,7 +46,7 @@ const ConversationList = () => {
                             }
                         </Box>
                     </Box>
-                </Container>
+                </Box>
             </div>
 
         </>

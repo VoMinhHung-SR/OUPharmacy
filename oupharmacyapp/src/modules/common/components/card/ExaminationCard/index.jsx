@@ -90,23 +90,24 @@ const ExaminationCard = ({examinationData, user, callback}) => {
               <>
                 {user && user.role === ROLE_DOCTOR ? (
                   <>
-                    <Tooltip title={t("diagnose")}>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={`/examinations/${id}/diagnosis`}
+                    >
+                    <Tooltip title={t("diagnose")} className="hover:ou-cursor-pointer">
                       <span>
-                        <Link
-                          style={{ textDecoration: "none" }}
-                          to={`/examinations/${id}/diagnosis`}
-                        >
                           <Button
                             variant="contained"
-                            size="small"
+                          
                             color="success"
-                            className="!ou-min-w-[68px] !ou-min-h-[40px]"
+                            className="!ou-min-w-[68px] !ou-min-h-[40px] !ou-p-2  hover:ou-cursor-pointer"
                           >
-                            <MedicalServicesIcon />
+                              <MedicalServicesIcon />
                           </Button>
-                        </Link>
                       </span>
-                    </Tooltip>
+                        
+                      </Tooltip>
+                    </Link>
                   </>
                 ) : (
                   <></>
@@ -114,7 +115,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                 {user && user.role === ROLE_NURSE ? (
                   <>
                     <Tooltip title={t("pay")}>
-                      <Typography>
+                      <span>
                         <Link
                           style={{ textDecoration: "none" }}
                           to={`/examinations/${id}/payments`}
@@ -128,7 +129,8 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                             <PaidIcon />
                           </Button>
                         </Link>
-                      </Typography>
+                      
+                      </span>
                     </Tooltip>
                   </>
                 ) : (
@@ -142,11 +144,15 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                   <>
                     <Tooltip title={t("noReady")}>
                         <Button
-                            variant="contained"
-                            className="!ou-bg-red-700 !ou-min-w-[68px] !ou-py-2 "
-                        >
-                            <ErrorIcon />
-                        </Button>
+                              size="small"
+                              variant="contained"
+                              className="!ou-bg-red-700 !ou-min-w-[68px]"
+                              >
+                            <span>
+                              <ErrorIcon />
+                           </span>
+                          </Button>
+                        
                     </Tooltip>
                   </>
                 ) : (
@@ -161,16 +167,20 @@ const ExaminationCard = ({examinationData, user, callback}) => {
               </>
             )}
           </Typography>
-          <Tooltip title={t("detail")}>
-              <Button
-                variant="contained"
-                className="ou-bg-blue-700 !ou-min-w-[68px] !ou-py-2 !ou-ml-2"
-                size="small"
-                 onClick={()=>handleOpenModal()}
-              >
-                <AssignmentIcon />
-              </Button>
-          </Tooltip>
+          <Typography>
+            <Tooltip title={t("detail")} >
+              <span>
+                <Button
+                    variant="contained"
+                    className="ou-bg-blue-700 !ou-min-w-[68px] !ou-py-2 !ou-mx-2"
+                    size="small"
+                    onClick={()=>handleOpenModal()}
+                  >
+                    <AssignmentIcon />
+                  </Button>
+              </span>
+            </Tooltip>
+          </Typography>
         </TableCell>
       </TableRow>
       
@@ -179,7 +189,6 @@ const ExaminationCard = ({examinationData, user, callback}) => {
         className="ou-w-[900px]"
         open={isOpen}
         onClose={handleCloseModal}
-        // title={<Box>XIN CHAO {id} </Box>}
         content={<Box>
           <div>
             <ExaminationDetailCard examinationData={examinationData} />

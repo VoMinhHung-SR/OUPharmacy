@@ -38,7 +38,7 @@ const SidebarInbox = (props) => {
                                 variant="standard" />
                         </Box>
                         <Divider />
-                        <List sx={{ height: "450px", overflowY: "auto" }}>
+                        <List sx={{ height: "550px" }}>
                             <Typography className="ou-text-center ou-p-2">Hộp thoại tin nhắn</Typography>
                             {conversationsSnapshot?.docs.map((c)=>(
                                 <ConversationDetail 
@@ -49,9 +49,8 @@ const SidebarInbox = (props) => {
                             ))}
                             <Typography className="ou-text-center ou-p-2">Người dùng tìm kiếm</Typography>
                             {recipients.filter((obj)=> obj.id !== props.user.id).map((u) => (
-                            <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300" key={u.id} id={u.id} onClick={()=>{
+                            <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300 " key={u.id} id={u.id} onClick={()=>{
                                 createNewConversation(u.id);
-                                // loadUserConversation(u.id)
                             }}>
                                 <ListItemAvatar>
                                     <Avatar
@@ -60,7 +59,7 @@ const SidebarInbox = (props) => {
                                     />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={u.email}
+                                    primary={<Box className="ou-truncate">{u.email}</Box>}
                                     secondary={"Xin chao ban"}
                                 />
                             </ListItem>)

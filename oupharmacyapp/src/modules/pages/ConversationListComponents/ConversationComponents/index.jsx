@@ -1,4 +1,4 @@
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
+import { Avatar, Box, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
 import { useNavigate } from "react-router"
 import Loading from "../../../common/components/Loading"
 import useConversationDetail from "../hooks/useConvesationDetail"
@@ -25,7 +25,7 @@ const ConversationDetail = (props) => {
                     />
                 </ListItemAvatar>
                 <ListItemText
-                    primary={docs?.docs[0]?.data().email}
+                    primary={<Box className="ou-truncate">{docs?.docs[0]?.data().email}</Box>}
                     secondary={"Xin chao ban"}
                 />
             </ListItem>
