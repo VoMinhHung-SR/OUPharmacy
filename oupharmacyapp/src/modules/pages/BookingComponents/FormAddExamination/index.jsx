@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box, Button, Container, FormControl, Grid, InputAdornment, InputLabel, MenuItem, 
-    OutlinedInput, Select, TextField, Typography } from "@mui/material"
+    OutlinedInput, Paper, Select, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import BackdropLoading from "../../../common/components/BackdropLoading";
@@ -36,16 +36,16 @@ const FormAddExamination = (props) => {
     return (
         <>
             {openBackdrop ?
-                (<BackdropLoading></BackdropLoading>)
+                (<Loading></Loading>)
                 : <></>
             }
-            <div className="ou-w-[100%] ou-m-auto ou-my-8">
-                <Container>
-                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(props.patientID, data, props.handleOpenFormEmail))} 
-                    style={{ "width": "70%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
-                        <h3 className="ou-text-center ou-text-2xl ou-font-medium">{t('booking')}</h3>
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={11} >
+            <div className="ou-w-[80%] ou-m-auto ou-my-8">
+                <Box component={Paper} elevation={6}>
+                <form onSubmit={methods.handleSubmit((data)=> onSubmit(props.patientID, data, props.handleOpenFormEmail))} 
+                    className="ou-m-auto ou-py-6 ou-px-10">
+                        <h3 className="ou-text-center ou-text-2xl">{t('booking')}</h3>
+                        <Grid container justifyContent="flex">
+                            <Grid item xs={12} className="!ou-mt-6" >
                                 <FormControl fullWidth >
                                     <InputLabel htmlFor="description">{t('description')}</InputLabel>
                                     <OutlinedInput
@@ -66,7 +66,7 @@ const FormAddExamination = (props) => {
                                 </FormControl>
                             </Grid>
 
-                            <Grid item xs={11}>
+                            <Grid item xs={12} className="!ou-mt-6" >
 
                                 <TextField
                                     fullWidth
@@ -85,9 +85,9 @@ const FormAddExamination = (props) => {
                             </Grid>
                         </Grid>
 
-                        <h5 className="ou-text-center ou-mt-5 ou-font-medium ou-text-2xl">{t('patientInfo')}</h5>
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3} id={props.id}>
-                            <Grid item xs={5} >
+                        <h5 className="ou-text-center ou-mt-8 ou-text-2xl">{t('patientInfo')}</h5>
+                        <Grid container justifyContent="flex"  id={props.id}>
+                            <Grid item xs={6}  className="!ou-mt-6 ou-pr-2" >
 
                                 <TextField
                                     fullWidth
@@ -106,7 +106,7 @@ const FormAddExamination = (props) => {
                                 />
                             </Grid>
 
-                            <Grid item xs={6} >
+                            <Grid item xs={6} className="!ou-mt-6 ou-pl-2" >
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -125,9 +125,8 @@ const FormAddExamination = (props) => {
                             </Grid>
                         </Grid>
 
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={6}>
-
+                        <Grid container justifyContent="flex" >
+                            <Grid item xs={7} className="!ou-mt-6 ou-pr-2">
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -146,7 +145,7 @@ const FormAddExamination = (props) => {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={5}>
+                            <Grid item xs={5} className="!ou-mt-6 ou-pl-2">
 
                                 <TextField
                                     fullWidth
@@ -165,9 +164,8 @@ const FormAddExamination = (props) => {
                             </Grid>
                         </Grid>
 
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={11}>
-
+                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} >
+                            <Grid item xs={12} className="!ou-mt-6">
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -188,8 +186,8 @@ const FormAddExamination = (props) => {
 
                         </Grid>
 
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={11}>
+                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }}>
+                            <Grid item xs={12} className="!ou-mt-6">
                                 <FormControl>
                                     <TextField
                                         id="dateOfBirth"
@@ -235,8 +233,6 @@ const FormAddExamination = (props) => {
                                     style={{ textDecoration: "inherit", margin:"40px auto 0px auto" }}
                                     color="grey.700"
                                 >
-                                    
-                                    
                                     <Button variant="contained" 
                                         onClick={props.handleOpenFormEmail}
                                         color="primary" 
@@ -268,7 +264,9 @@ const FormAddExamination = (props) => {
                             </Grid>
                         </Grid>
                     </form>
-                </Container>
+             
+                </Box>
+                  
 
             </div>
         </>

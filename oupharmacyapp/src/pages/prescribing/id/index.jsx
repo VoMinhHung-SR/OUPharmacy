@@ -43,7 +43,7 @@ const PrescriptionDetail = () => {
                     </Box>)
                     : (
                         <>
-                            <Box className='ou-py-5 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
+                            <Box className='ou-py-5 ou-m-auto ou-max-w-[1536px]'>
                                 <Box style={{ "margin": "auto" }}>
                                     <h1 className="ou-text-center ou-text-xl">{t('basicInformation')}</h1>
                                     <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={2}>

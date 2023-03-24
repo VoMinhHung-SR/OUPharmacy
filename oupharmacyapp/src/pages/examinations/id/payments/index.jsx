@@ -43,7 +43,7 @@ const Payments = () => {
                 </Box>)
                 : (
                     <>
-                        <Box className='ou-my-5 ou-mb-8 ou-w-[75%] ou-m-auto ou-max-w-[1536px]'>
+                        <Box className='ou-my-5 ou-mb-8 ou-m-auto ou-max-w-[1536px]'>
                             <Box>        
                                 <Box >
                                     <Box className="ou-my-4" component={Paper} elevation={4}>
