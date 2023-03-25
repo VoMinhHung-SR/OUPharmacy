@@ -37,3 +37,4 @@ uritemplate==4.1.1
 urllib3==1.26.9
 wrapt==1.14.0
 cloudinary~=1.29.0
+APScheduler~=3.10.1
