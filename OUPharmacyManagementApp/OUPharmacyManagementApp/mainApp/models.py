@@ -105,6 +105,7 @@ class Examination(BaseModel):
         ordering = ["-id"]
     wage = models.FloatField(null=False, default=20000)
     mail_status = models.BooleanField(null=True, default=False)
+    reminder_email = models.BooleanField(null=True, default=False)
     description = models.CharField(max_length=254, null=False, blank=False)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=False)
@@ -171,4 +172,27 @@ class Bill(BaseModel):
 
     amount = models.FloatField(null=False)
     prescribing = models.ForeignKey(Prescribing, on_delete=models.SET_NULL, null=True)
+
+
+class CommonCity(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=50, null=False)
+
+
+class CommonDistrict(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=50, null=False)
+    city = models.ForeignKey(CommonCity, on_delete=models.CASCADE)
+
+
+class CommonLocation(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    address = models.CharField(max_length=255, null=False)
+    lat = models.FloatField(null=False)
+    lng = models.FloatField(null=False)
+    city = models.ForeignKey(CommonCity, on_delete=models.SET_NULL, null=True)
+    district = models.ForeignKey(CommonDistrict, on_delete=models.SET_NULL, null=True)
 
