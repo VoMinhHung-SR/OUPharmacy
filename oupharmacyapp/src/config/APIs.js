@@ -51,6 +51,9 @@ export let endpoints = {
     'receipt':'/bills/get-bill-by-pres/',
     'momoPayUrl':'/bills/momo-payments/',
     'zaloPayUrl':'/bills/zalo-payments/',
+
+    // Common Config:
+    'common-configs': '/common-configs/'
 }
 
 const baseURL = 'http://127.0.0.1:8000';

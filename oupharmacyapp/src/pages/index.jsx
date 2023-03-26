@@ -10,6 +10,8 @@ import CustomModal from "../modules/common/components/Modal";
 import createToastMessage from "../lib/utils/createToastMessage";
 import { TOAST_ERROR, TOAST_SUCCESS, TOAST_WARNING } from "../lib/constants";
 import { QueueStateContext } from "../lib/context/QueueStateContext";
+import { useSelector } from 'react-redux'; 
+
 const Home = () => {
   const { t } = useTranslation(["common"]);
   const { user } = useConversationList();
@@ -28,6 +30,9 @@ const Home = () => {
     handleCloseModal();
     return createToastMessage({message:"oke", type:TOAST_SUCCESS});
   } 
+
+  const { allConfig } = useSelector((state) => state.config);
+  console.log(allConfig)
 
   return (
     <>

@@ -20,5 +20,6 @@ urlpatterns = [
     path('oauth2-info/', views.AuthInfo.as_view()),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('admin/', admin_site.urls),
-    path('stats/', views.StatsView.as_view())
+    path('stats/', views.StatsView.as_view()),
+    path('common-configs/', views.get_all_config)
 ]
