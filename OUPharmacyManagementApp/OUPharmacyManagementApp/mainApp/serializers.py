@@ -147,8 +147,3 @@ class BillSerializer(ModelSerializer):
     class Meta:
         model = Bill
         fields = ["id", "amount", "prescribing"]
-
-
-
-
-

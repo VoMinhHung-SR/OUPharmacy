@@ -44,7 +44,7 @@ def send_reexam_reminder_email(examination):
     patient = examination.patient
 
     # Calculate the date for the re-examination
-    reexam_date = examination.created_date + datetime.timedelta(days=30)
+    reexam_date = examination.created_date + datetime.timedelta(senconds=60)
     reexam_date_str = reexam_date.strftime('%d-%m-%Y')
 
     # Modify the email content and send the reminder email to the user
@@ -200,8 +200,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                             send_email = EmailMessage(subject, content, to=[to_user])
                             send_email.send()
                             send_reexam_reminder_email(examination)
-                            message = "Bạn vừa có một thư xác nhận từ hệ thống. " \
-                                      "Vui lòng kiểm tra ở email!"
                         else:
                             error_msg = "Send mail failed !!!"
                     except:
@@ -602,3 +600,19 @@ class PrescribingViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrie
         return Response(data=PrescriptionDetailSerializer(prescription_detail, many=True,
                                                           context={'request': request}).data,
                         status=status.HTTP_200_OK)
+
+
+@api_view(http_method_names=["GET"])
+def get_all_config(request):
+    try:
+        # database
+        cities = CommonCity.objects.values("id", "name")
+
+        res_data = {
+            "cityOptions": cities,
+        }
+
+    except Exception as ex:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs": "City error"})
+    else:
+        return Response(data=res_data, status=status.HTTP_200_OK)
