@@ -147,3 +147,17 @@ class BillSerializer(ModelSerializer):
     class Meta:
         model = Bill
         fields = ["id", "amount", "prescribing"]
+
+
+class CommonCitySerializer(ModelSerializer):
+    class Meta:
+        model = CommonCity
+        fields = ["id", "name"]
+
+
+class CommonDistrictSerializer(ModelSerializer):
+    city = CommonCitySerializer()
+
+    class Meta:
+        model = CommonDistrict
+        fields = ["id", "name", "city"]

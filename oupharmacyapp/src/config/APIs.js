@@ -14,7 +14,8 @@ export let endpoints = {
 
     // Role
     'roles': "/roles/",
-
+    // Commmon District 
+    'districts-by-city': '/common-districts/get-by-city/',
     // User
     'users':'/users/',
     'user-detail':(userId) => `/users/${userId}/`,

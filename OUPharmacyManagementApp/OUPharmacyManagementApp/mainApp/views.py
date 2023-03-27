@@ -84,6 +84,20 @@ class AuthInfo(APIView):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
 
 
+class CommonDistrictViewSet(viewsets.ViewSet):
+    serializers = CommonDistrictSerializer
+
+    @action(methods=['post'], detail=False, url_path='get-by-city')
+    def get_by_city(self, request):
+        try:
+            districts = CommonDistrict.objects.filter(city_id=request.data.get('city')).all()
+        except Exception as ex:
+            print(ex)
+            return Response(data={"errMgs": "District have some errors"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(data=CommonDistrictSerializer(districts, many=True).data,
+                        status=status.HTTP_200_OK)
+
+
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPIView,
                   generics.UpdateAPIView, generics.ListAPIView):
     queryset = User.objects.filter(is_active=True)
@@ -607,11 +621,11 @@ def get_all_config(request):
     try:
         # database
         cities = CommonCity.objects.values("id", "name")
-
+        roles = UserRole.objects.values("id", "name")
         res_data = {
             "cityOptions": cities,
+            "roles": roles,
         }
-
     except Exception as ex:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs": "City error"})
     else:
