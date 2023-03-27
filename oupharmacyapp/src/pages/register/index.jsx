@@ -1,15 +1,16 @@
-import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Autocomplete, Box, Button, Container, createFilterOptions, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import useRegister, { registerSchema } from "../../modules/pages/RegisterComponents/hooks/useRegister";
 import {yupResolver} from "@hookform/resolvers/yup"
 import { useEffect } from "react";
 import Loading from "../../modules/common/components/Loading";
+import { useSelector } from 'react-redux'; 
 
 const Register = () => {
-    const {imageUrl, setImageUrl, openBackdrop, dob, setDOB, isLoadingUserRole,
-        selectedImage, setSelectedImage, userRoleID, gender, setGender ,onSubmit
+    const {imageUrl, setImageUrl, openBackdrop, dob, setDOB, isLoadingUserRole, districts,
+        setCityId, selectedImage, setSelectedImage, userRoleID, gender, setGender ,onSubmit
     } = useRegister();
     const methods = useForm({
         mode:"onSubmit", 
@@ -26,12 +27,20 @@ const Register = () => {
             phoneNumber: ""
         }
     })
-    console.log(userRoleID)
     useEffect(() => {
         if (selectedImage) {
             setImageUrl(URL.createObjectURL(selectedImage));
         }
     }, [selectedImage]);
+
+    const { allConfig } = useSelector((state) => state.config);
+
+    console.log(allConfig)
+
+    const filterOptions = createFilterOptions({
+        matchFrom: 'start',
+        stringify: (option) => option.name,
+    });
 
     if (isLoadingUserRole)
         return <Box sx={{ minHeight: "300px" }}>
@@ -50,10 +59,12 @@ const Register = () => {
             <div style={{ "width": "100%"
             }}>
                 <Container style={{ "padding": "50px" }}>
-                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(data, methods.setError))} style={{ "width": "80%", "margin": "auto", "padding": "20px 20px", "border": "2px solid black", "borderRadius": "5px" }}>
+                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(data, methods.setError))} 
+                    className="ou-m-auto ou-px-8 ou-py-4 ou-w-[80%]"
+                    style={{ "border": "2px solid black", "borderRadius": "5px" }}>
                         <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>Đăng ký người dùng</h1>
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} >
-                            <Grid item xs={6} >
+                        <Grid container justifyContent="flex" className="ou-mt-6" >
+                            <Grid item xs={4} className="ou-pr-2" >
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -67,7 +78,7 @@ const Register = () => {
                                     {...methods.register("firstName")}
                                 />
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={4} className="ou-pr-2">
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -80,7 +91,7 @@ const Register = () => {
                                     helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
                                     {...methods.register("lastName")} />
                             </Grid>
-                            {/* <Grid item xs={3}>
+                            <Grid item xs={4} className="ou-pr-2">
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -92,11 +103,11 @@ const Register = () => {
                                     error={methods.formState.errors.phoneNumber}
                                     helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
                                     {...methods.register("phoneNumber")} />
-                            </Grid> */}
+                            </Grid>
                         </Grid>
 
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={6}>
+                        <Grid container justifyContent="flex"  className="ou-mt-4  ou-items-center">
+                            <Grid item xs={6} className="ou-pr-1">
                                 <TextField
                                         fullWidth
                                         autoComplete="given-name"
@@ -121,73 +132,7 @@ const Register = () => {
                                     {...methods.register("username")}
                                 /> */}
                             </Grid>
-                            <Grid item xs={5}>
-                                <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    label="Mật khẩu"
-                                    error={methods.formState.errors.password}
-                                    helperText={methods.formState.errors.password ? methods.formState.errors.password.message : ""}
-                                    {...methods.register("password")}
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={6}>
-                                <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                      
-                                    id="phoneNumber"
-                                    name="phoneNumber"
-                                    type="text"
-                                    label="SĐT"
-                                    error={methods.formState.errors.phoneNumber}
-                                    helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
-                                    {...methods.register("phoneNumber")} />
-                            </Grid>
-                            <Grid item xs={5}>
-                                <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                                  
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    type="password"
-                                    label="Xác nhận mật khẩu"
-                                    error={methods.formState.errors.confirmPassword}
-                                    helperText={
-                                        methods.formState.errors.confirmPassword
-                                            ? methods.formState.errors.confirmPassword.message
-                                            : ""
-                                    }
-                                    {...methods.register("confirmPassword")}
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={11}>
-                                <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                                    id="address"
-                                    name="address"
-                                    type="text"
-                                    label="Địa chỉ"
-                                    error={methods.formState.errors.address}
-                                    helperText={methods.formState.errors.address ? methods.formState.errors.address.message : ""}
-                                    {...methods.register("address")} />
-                            </Grid>
-
-                        </Grid>
-
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={3}>
-                            <Grid item xs={11}>
+                            < Grid item xs={6} className="ou-flex">
                                 <TextField
                                     id="date"
                                     label="Ngày sinh"
@@ -218,12 +163,92 @@ const Register = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-
+                           
                         </Grid>
 
+                        <Grid container justifyContent="flex" className="ou-mt-4 ou-items-center">
+                        <Grid item xs={6} className="ou-pr-1">
+                                <TextField
+                                    fullWidth
+                                    autoComplete="given-name"
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    label="Mật khẩu"
+                                    error={methods.formState.errors.password}
+                                    helperText={methods.formState.errors.password ? methods.formState.errors.password.message : ""}
+                                    {...methods.register("password")}
+                                />
+                            </Grid>
+                            <Grid item xs={6} className="ou-pl-1">
+                                <TextField
+                                    fullWidth
+                                    autoComplete="given-name"
+                                  
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type="password"
+                                    label="Xác nhận mật khẩu"
+                                    error={methods.formState.errors.confirmPassword}
+                                    helperText={
+                                        methods.formState.errors.confirmPassword
+                                            ? methods.formState.errors.confirmPassword.message
+                                            : ""
+                                    }
+                                    {...methods.register("confirmPassword")}
+                                />
+                            </Grid>
+                        </Grid>
 
+                        <h1 className="ou-text-center ou-text-2xl ou-mt-6" style={{ color: "#084468", fontWeight:"bold" }}>Thong tin dia chi</h1>
+                        <Grid container justifyContent="flex">
+                            
+                            <Grid item xs={4} className="ou-pr-2 !ou-mt-4" >
+                                <FormControl fullWidth >
+                                    <Autocomplete
+                                        id="city"
+                                        options={allConfig.cityOptions}
+                                        getOptionLabel={(option) => option.name}
+                                        filterOptions={filterOptions}
+                                        isOptionEqualToValue={(option, value) => option.id === value.id}
+                                        name="city"
+                                        onChange={(event, value) => {
+                                            setCityId(value.id)
+                                        }}
+                                        renderInput={(params) => <TextField {...params} label={"City"} />}
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={8} className="!ou-mt-4 ou-pl-2" >
+                                <FormControl fullWidth >
+                                    <Autocomplete
+                                        id="city"
+                                        options={districts}
+                                        getOptionLabel={(option) => option.name}
+                                        filterOptions={filterOptions}
+                                        isOptionEqualToValue={(option, value) => option.id === value.id}
+                                        name="districs"
+                                      
+                                        renderInput={(params) => <TextField {...params} label={"districs"} />}
+                                    />
+                                </FormControl>
+                            </Grid>
+                        {/* address */}
+                        <Grid item xs={12} className="!ou-mt-4">
+                                <TextField
+                                    fullWidth
+                                    autoComplete="given-name"
+                                    id="address"
+                                    name="address"
+                                    type="text"
+                                    label="Địa chỉ"
+                                    error={methods.formState.errors.address}
+                                    helperText={methods.formState.errors.address ? methods.formState.errors.address.message : ""}
+                                    {...methods.register("address")} />
+                            </Grid>
+                        </Grid>
 
-                        <Grid container justifyContent="flex" style={{ "margin": "0 auto" }}  spacing={3}>
+                        <Grid container justifyContent="flex" className="ou-my-3">
                             <Grid item xs={11}>
                                     <Box style={{ "margin": "5px" }} >
                                         <input accept="image/*" type="file" id="select-image" style={{ display: 'none' }}

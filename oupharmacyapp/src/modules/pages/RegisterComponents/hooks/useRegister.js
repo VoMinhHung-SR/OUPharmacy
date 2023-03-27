@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { ROLE_USER } from '../../../../lib/constants';
-import { fetchCreateUser, fetchUserRoles } from '../services';
+import { fetchCreateUser, fetchDistrictsByCity, fetchUserRoles } from '../services';
 
 
 const useRegister = () => {
@@ -12,13 +13,17 @@ const useRegister = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [userRoleID, setUserRoleID] = useState('');
+
+
+    const [cityId, setCityId] = useState(null)
+    const [districts, setDistricts] = useState([])
+    const { allConfig } = useSelector((state) => state.config);
     useEffect(()=> {
         const loadUserRoles = async () => {
             const res = await fetchUserRoles();
             if(res.status === 200){
                 if(res.data){
                     const userRole = res.data.filter(role => role.name === ROLE_USER)
-                    console.log(userRole)
                     if(userRole.length !== 0){
                         setUserRoleID(userRole[0].id)
                         setIsLoadingUserRole(false);
@@ -35,8 +40,23 @@ const useRegister = () => {
                 setIsLoadingUserRole(false)
             }
         }
+
+        const loadDistricts = async (cityId) => {
+            const res = await fetchDistrictsByCity(cityId)
+            if(res.status === 200){
+                console.log(res.data)
+                setDistricts(res.data)
+            }
+            else{
+                setDistricts([])
+            }
+        }
+
         loadUserRoles()
-    },[])
+
+        if(cityId)
+            loadDistricts(cityId)
+    },[cityId])
 
     // Sample data    
     // data{
@@ -113,7 +133,9 @@ const useRegister = () => {
         openBackdrop,
         selectedImage,
         imageUrl,
+        districts,
         onSubmit,
+        setCityId,
         setDOB,
         setGender,
         setImageUrl,

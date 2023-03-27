@@ -14,3 +14,13 @@ export const fetchCreateUser = async (userData) => {
     const res = await authMediaApi().post(endpoints["users"], userData);
     return res;
 }
+
+export const fetchDistrictsByCity = async (cityId) => {
+    const res = await APIs.post(endpoints['districts-by-city'], {city: cityId})
+    return res;
+}
+
+export const fetchCreateUserRole = async () => {
+    const res = await APIs.post(endpoints['roles'], {name: ROLE_USER})
+    return res;
+}
