@@ -2,7 +2,7 @@ import { Box, Button, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useContext, useState } from "react";
-import MapGL from "../modules/pages/HomeComponents/Mapbox";
+import MapGL from "../modules/common/components/Mapbox";
 import { useNavigate } from "react-router";
 import useConversationList from "../modules/pages/ConversationListComponents/hooks/useConversationList";
 import useCustomModal from "../lib/hooks/useCustomModal";
@@ -46,7 +46,7 @@ const Home = () => {
                 ou-m-5 ou-border-solid  ou-border-2 ou-border-black ou-min-w-[354px]"
         >
           <Box>Map ow day ne</Box>
-          {/* <MapGL longitude={viewport.longitude} latitude={viewport.latitude} zoom={viewport.zoom}/> */}
+          <MapGL longitude={viewport.longitude} latitude={viewport.latitude} zoom={viewport.zoom}/>
         </Box>
         <Box
           className="ou-w-[50%] ou-items-center ou-justify-center 

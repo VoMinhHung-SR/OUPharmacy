@@ -1,0 +1,22 @@
+{
+    "firstName": "Họ",
+    "lastName": "Tên",
+    "phoneNumber": "SĐT",
+    "email": "Email",
+    "dateOfBirth":"Ngày sinh",
+    "gender": "Giới tính",
+    "password":"Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "city": "Tỉnh/Thành phố",
+    "district": "Quận/Huyện",
+    "address": "Địa chỉ",
+    "uploadAvatar": "Ảnh đại diện",
+    "submit": "Đăng ký",
+    "registerUser": "Đăng ký người dùng",
+    "addressInfo": "Thông tin địa chỉ",
+    "male": "Nam",
+    "female": "Nữ",
+    "secret": "Bí mật",
+    "noCityFound": "Không tìm tấy tỉnh/thành phố",
+    "noDistrictFound": "Không tìm tấy quận/huyện"
+}

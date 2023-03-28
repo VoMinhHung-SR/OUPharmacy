@@ -45,7 +45,7 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "password",
-                  "email", "phone_number", "address", "date_of_birth",
+                  "email", "phone_number", "date_of_birth",
                   "date_joined", "gender", "avatar_path", "avatar", "is_admin", "role"]
         extra_kwargs = {
             'password': {'write_only': 'true'},
@@ -161,3 +161,9 @@ class CommonDistrictSerializer(ModelSerializer):
     class Meta:
         model = CommonDistrict
         fields = ["id", "name", "city"]
+
+
+class CommonLocationSerializer(ModelSerializer):
+    class Meta:
+        model = CommonLocation
+        fields = ["id", "address", "lat", "lng", "city", "district"]

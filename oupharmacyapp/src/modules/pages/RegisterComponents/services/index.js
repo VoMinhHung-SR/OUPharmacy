@@ -1,4 +1,5 @@
 import APIs, { authMediaApi, endpoints } from "../../../../config/APIs"
+import { ROLE_USER } from "../../../../lib/constants";
 
 
 // To get list object role info  
@@ -22,5 +23,10 @@ export const fetchDistrictsByCity = async (cityId) => {
 
 export const fetchCreateUserRole = async () => {
     const res = await APIs.post(endpoints['roles'], {name: ROLE_USER})
+    return res;
+}
+
+export const fetchCreateLocation = async (locationData) => {
+    const res = await APIs.post(endpoints['location'],locationData)
     return res;
 }

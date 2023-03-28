@@ -31,6 +31,7 @@ import { useDispatch } from 'react-redux';
 import { getAllConfig } from './lib/redux/configSlice'
 import Loading from './modules/common/components/Loading'
 import { Box } from '@mui/material'
+import Demo from './pages/demo'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -95,6 +96,7 @@ function App() {
                         </Route>
                         <Route path="/forbidden" element={<Forbidden />} />
                         <Route path="*" element={<NotFound/>} />
+                        <Route path='/demo' element={<Demo/>}/>
                       </Route>
                       <Route path="/login" element={<Login />} />
                       <Route path="/register" element={<Register />} />

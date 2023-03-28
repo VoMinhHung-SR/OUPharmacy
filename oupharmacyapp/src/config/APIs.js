@@ -16,6 +16,8 @@ export let endpoints = {
     'roles': "/roles/",
     // Commmon District 
     'districts-by-city': '/common-districts/get-by-city/',
+    // Common Location
+    'location':'/common-locations/', 
     // User
     'users':'/users/',
     'user-detail':(userId) => `/users/${userId}/`,
@@ -58,7 +60,15 @@ export let endpoints = {
 }
 
 const baseURL = 'http://127.0.0.1:8000';
+const mapBaseURL = "https://rsapi.goong.io"  
 
+export const mapApi = () => {
+  return axios.create({
+    baseURL: mapBaseURL,
+    headers: {
+        'Authorization' : 'application/json',
+    }})
+}
 
 export const authApi = () => {
     const instance = axios.create({

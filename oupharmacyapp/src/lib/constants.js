@@ -31,6 +31,8 @@ export const FIREBASE_MEASUREMENTID = import.meta.env.VITE_MEASUREMENTID
 export const CURRENT_DATE = new Date();
 export const SERVER = import.meta.env.VITE_SERVER
 export const MAPGL_TOKEN = import.meta.env.VITE_MAPGL_ACCESSTOKEN
+export const GOONGMAP_APITOKEN = import.meta.env.VITE_GOONGMAP_APIKEY
+export const GOONGMAP_MAPTOKEN = import.meta.env.VITE_GOONGMAP_MAYKEY
 export const MAX_EXAM_PER_DAY = 40
 
 // Toast constant

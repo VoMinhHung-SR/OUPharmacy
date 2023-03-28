@@ -9,6 +9,45 @@ from cloudinary.models import CloudinaryField
 ADMIN_ROLE = "ADMIN"
 
 
+class BaseModel(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        tz = pytz.timezone('Asia/Bangkok')  # specify the timezone as UTC+7
+        if not self.id:
+            self.created_date = datetime.datetime.now(tz)
+        self.updated_date = datetime.datetime.now(tz)
+        super(BaseModel, self).save(*args, **kwargs)
+
+
+class CommonCity(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=50, null=False)
+
+
+class CommonDistrict(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=50, null=False)
+    city = models.ForeignKey(CommonCity, on_delete=models.CASCADE)
+
+
+class CommonLocation(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    address = models.CharField(max_length=255, null=False)
+    lat = models.FloatField(null=False)
+    lng = models.FloatField(null=False)
+    city = models.ForeignKey(CommonCity, on_delete=models.SET_NULL, null=True)
+    district = models.ForeignKey(CommonDistrict, on_delete=models.SET_NULL, null=True)
+
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
@@ -25,22 +64,6 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
-
-
-class BaseModel(models.Model):
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=True)
-
-    class Meta:
-        abstract = True
-
-    def save(self, *args, **kwargs):
-        tz = pytz.timezone('Asia/Bangkok')  # specify the timezone as UTC+7
-        if not self.id:
-            self.created_date = datetime.datetime.now(tz)
-        self.updated_date = datetime.datetime.now(tz)
-        super(BaseModel, self).save(*args, **kwargs)
 
 
 class UserRole(models.Model):
@@ -62,12 +85,12 @@ class User(AbstractUser):
 
     avatar = CloudinaryField('avatar', default='', blank=True, null=True)
     phone_number = models.CharField(max_length=20, null=False, blank=True)
-    address = models.CharField(max_length=254, null=True)
     date_of_birth = models.DateTimeField(null=True)
     gender = models.PositiveIntegerField(choices=genders, default=male)
     # Keep follow this format (UPPERCASE-ALL + PREFIX:ROLE_")
     # ex: (1:ROLE_USER; 2:ROLE_DOCTOR; 3:ROLE_NURSE)
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True)
+    location = models.ForeignKey(CommonLocation, on_delete=models.SET_NULL, null=True)
     objects = UserManager()
 
     is_admin = models.BooleanField(default=False)
@@ -174,25 +197,4 @@ class Bill(BaseModel):
     prescribing = models.ForeignKey(Prescribing, on_delete=models.SET_NULL, null=True)
 
 
-class CommonCity(models.Model):
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    name = models.CharField(max_length=50, null=False)
-
-
-class CommonDistrict(models.Model):
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    name = models.CharField(max_length=50, null=False)
-    city = models.ForeignKey(CommonCity, on_delete=models.CASCADE)
-
-
-class CommonLocation(models.Model):
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    address = models.CharField(max_length=255, null=False)
-    lat = models.FloatField(null=False)
-    lng = models.FloatField(null=False)
-    city = models.ForeignKey(CommonCity, on_delete=models.SET_NULL, null=True)
-    district = models.ForeignKey(CommonDistrict, on_delete=models.SET_NULL, null=True)
 

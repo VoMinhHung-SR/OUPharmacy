@@ -19,6 +19,7 @@
     "login": "Login",
     "register":"Register",
     "logout": "Logout",
+    "haveAnCount": "Do you have an account? Login here.",
     "bookingList": "Booking list",
     "openSettings": "Open settings",
     "notifications": "Notifications",

@@ -16,6 +16,7 @@ router.register("medicines", views.MedicineViewSet, basename="medicine")
 router.register("medicine-units", views.MedicineUnitViewSet, basename="medicine-unit")
 router.register("bills", views.BillViewSet, basename="bill")
 router.register("common-districts", views.CommonDistrictViewSet, basename="common-districts")
+router.register("common-locations", views.CommonLocationViewSet, basename="common-location")
 urlpatterns = [
     path('', include(router.urls)),
     path('oauth2-info/', views.AuthInfo.as_view()),
