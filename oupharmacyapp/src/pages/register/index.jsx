@@ -2,53 +2,62 @@ import { Autocomplete, Box, Button, Container, createFilterOptions, FormControl,
 import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
-import useRegister, { registerSchema } from "../../modules/pages/RegisterComponents/hooks/useRegister";
+import useRegister from "../../modules/pages/RegisterComponents/hooks/useRegister";
 import {yupResolver} from "@hookform/resolvers/yup"
 import { useEffect } from "react";
 import Loading from "../../modules/common/components/Loading";
 import { useSelector } from 'react-redux'; 
+import { useTranslation } from "react-i18next";
+import clsx from "clsx";
+import useAddressInfo from "../../modules/pages/RegisterComponents/hooks/useAddressInfo";
 
 const Register = () => {
-    const {imageUrl, setImageUrl, openBackdrop, dob, setDOB, isLoadingUserRole, districts,
-        setCityId, selectedImage, setSelectedImage, userRoleID, gender, setGender ,onSubmit
+    const {t, tReady} = useTranslation(['register', 'common']) 
+    const {imageUrl, setImageUrl, openBackdrop, dob, setDOB, isLoadingUserRole, registerSchema,
+        selectedImage, setSelectedImage, userRoleID, gender, setGender ,onSubmit
     } = useRegister();
+    const {districts, setAddressInput, setCityId, loading, listPlace} = useAddressInfo()
     const methods = useForm({
         mode:"onSubmit", 
         resolver: yupResolver(registerSchema),
         defaultValues:{
             firstName: "",
             lastName: "",
-            // username: "",
             email: "",
             password: "",
             confirmPassword: "",
             address: "",
             dob:"",
-            phoneNumber: ""
+            phoneNumber: "",
+            city:"",
+            district:""
         }
     })
     useEffect(() => {
         if (selectedImage) {
             setImageUrl(URL.createObjectURL(selectedImage));
         }
+
     }, [selectedImage]);
 
     const { allConfig } = useSelector((state) => state.config);
-
-    console.log(allConfig)
 
     const filterOptions = createFilterOptions({
         matchFrom: 'start',
         stringify: (option) => option.name,
     });
 
-    if (isLoadingUserRole)
+    const filterAddressOptions = createFilterOptions({
+        matchFrom: 'start',
+        stringify: (option) => option ? option.description : "",
+    })
+
+    if (tReady && isLoadingUserRole)
         return <Box sx={{ minHeight: "300px" }}>
         <Box className='ou-p-5'>
             <Loading></Loading>
         </Box>
     </Box>
-    
     return (
         <>
             {openBackdrop === true ?
@@ -59,10 +68,13 @@ const Register = () => {
             <div style={{ "width": "100%"
             }}>
                 <Container style={{ "padding": "50px" }}>
-                    <form onSubmit={methods.handleSubmit((data)=> onSubmit(data, methods.setError))} 
+                    <form onSubmit={methods.handleSubmit((data)=> {
+                       
+                        onSubmit(data, methods.setError);
+                    })} 
                     className="ou-m-auto ou-px-8 ou-py-4 ou-w-[80%]"
                     style={{ "border": "2px solid black", "borderRadius": "5px" }}>
-                        <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>Đăng ký người dùng</h1>
+                        <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>{t('registerUser')}</h1>
                         <Grid container justifyContent="flex" className="ou-mt-6" >
                             <Grid item xs={4} className="ou-pr-2" >
                                 <TextField
@@ -72,7 +84,7 @@ const Register = () => {
                                     id="firstName"
                                     name="firstName"
                                     type="text"
-                                    label="Họ"
+                                    label={t('firstName')}
                                     error={methods.formState.errors.firstName}
                                     helperText={methods.formState.errors.firstName ? methods.formState.errors.firstName.message : ""}
                                     {...methods.register("firstName")}
@@ -82,11 +94,10 @@ const Register = () => {
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                         
                                     id="lastName"
                                     name="lastName"
                                     type="text"
-                                    label="Tên"
+                                    label={t('lastName')}
                                     error={methods.formState.errors.lastName}
                                     helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
                                     {...methods.register("lastName")} />
@@ -95,11 +106,10 @@ const Register = () => {
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                      
                                     id="phoneNumber"
                                     name="phoneNumber"
                                     type="text"
-                                    label="SĐT"
+                                    label={t('phoneNumber')}
                                     error={methods.formState.errors.phoneNumber}
                                     helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
                                     {...methods.register("phoneNumber")} />
@@ -114,28 +124,16 @@ const Register = () => {
                                         id="email"
                                         name="email"
                                         type="text"
-                                        label="Email"
+                                        label={t('email')}
                                         error={methods.formState.errors.email}
                                         helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
                                         {...methods.register("email")}
                                     />
-                                {/* <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                                
-                                    id="username"
-                                    name="username"
-                                    type="text"
-                                    label="Tên người dùng"
-                                    error={methods.formState.errors.username}
-                                    helperText={methods.formState.errors.username ? methods.formState.errors.username.message : ""}
-                                    {...methods.register("username")}
-                                /> */}
                             </Grid>
                             < Grid item xs={6} className="ou-flex">
                                 <TextField
                                     id="date"
-                                    label="Ngày sinh"
+                                    label={t('dateOfBirth')}
                                     type="date"
                                     name="dob"
                                     {...methods.register('dob')}
@@ -148,18 +146,18 @@ const Register = () => {
                                 />
 
                                 <FormControl sx={{ width: 220 }} style={{ "margin": "5px" }}>
-                                    <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+                                    <InputLabel id="demo-simple-select-label">{t('gender')}</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={gender}
-                                        label="Giới tính"
+                                        label={t('gender')}
                                         onChange={(evt) => setGender(evt.target.value)}
                                         defaultValue={0}
                                     >
-                                        <MenuItem value={0}>Nam</MenuItem>
-                                        <MenuItem value={1}>Nữ</MenuItem>
-                                        <MenuItem value={2}>Bí Mật</MenuItem>
+                                        <MenuItem value={0}>{t('male')}</MenuItem>
+                                        <MenuItem value={1}>{t('female')}</MenuItem>
+                                        <MenuItem value={2}>{t('secret')}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -174,7 +172,7 @@ const Register = () => {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    label="Mật khẩu"
+                                    label={t('password')}
                                     error={methods.formState.errors.password}
                                     helperText={methods.formState.errors.password ? methods.formState.errors.password.message : ""}
                                     {...methods.register("password")}
@@ -184,11 +182,10 @@ const Register = () => {
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
-                                  
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
-                                    label="Xác nhận mật khẩu"
+                                    label={t('confirmPassword')}
                                     error={methods.formState.errors.confirmPassword}
                                     helperText={
                                         methods.formState.errors.confirmPassword
@@ -200,10 +197,10 @@ const Register = () => {
                             </Grid>
                         </Grid>
 
-                        <h1 className="ou-text-center ou-text-2xl ou-mt-6" style={{ color: "#084468", fontWeight:"bold" }}>Thong tin dia chi</h1>
+                        <h1 className="ou-text-center ou-text-2xl ou-mt-6" style={{ color: "#084468", fontWeight:"bold" }}>{t('addressInfo')}</h1>
                         <Grid container justifyContent="flex">
                             
-                            <Grid item xs={4} className="ou-pr-2 !ou-mt-4" >
+                            <Grid item xs={4} className={clsx('ou-pr-2 !ou-mt-4')} >
                                 <FormControl fullWidth >
                                     <Autocomplete
                                         id="city"
@@ -211,58 +208,90 @@ const Register = () => {
                                         getOptionLabel={(option) => option.name}
                                         filterOptions={filterOptions}
                                         isOptionEqualToValue={(option, value) => option.id === value.id}
-                                        name="city"
+                                   
+                                        noOptionsText={t('noCityFound')}
                                         onChange={(event, value) => {
+                                            methods.setValue('district', ' ')
                                             setCityId(value.id)
+                                            methods.setValue("city",value.id)
+                                            methods.clearErrors('city')
                                         }}
-                                        renderInput={(params) => <TextField {...params} label={"City"} />}
+                                        renderInput={(params) => <TextField {...params} label={t('city')} 
+            
+                                            error={methods.formState.errors.city}
+                                            name="city"
+                                            />}
                                     />
+                                       {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.city?.message}</p>) : <></>}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={8} className="!ou-mt-4 ou-pl-2" >
                                 <FormControl fullWidth >
                                     <Autocomplete
-                                        id="city"
+                                        id="district"
                                         options={districts}
                                         getOptionLabel={(option) => option.name}
                                         filterOptions={filterOptions}
                                         isOptionEqualToValue={(option, value) => option.id === value.id}
-                                        name="districs"
-                                      
-                                        renderInput={(params) => <TextField {...params} label={"districs"} />}
+                                       
+                                        noOptionsText={t('noDistrictFound')}
+                                        onChange={(event, value) => {
+                                            
+                                            methods.setValue("district",value.id)
+                                            methods.clearErrors('district')
+                                        }}
+                                        renderInput={(params) => <TextField {...params} label={t('district')}
+                                            error={methods.formState.errors.district ? true: false}
+                                            name="district"
+                                        />}
                                     />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.district?.message}</p>) : <></>}
+                                   
                                 </FormControl>
                             </Grid>
                         {/* address */}
                         <Grid item xs={12} className="!ou-mt-4">
-                                <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                                    id="address"
-                                    name="address"
-                                    type="text"
-                                    label="Địa chỉ"
+                        <FormControl fullWidth >
+                            <Autocomplete
+                                freeSolo
+                                id="address"
+                                options={listPlace ? listPlace : []}
+                                getOptionLabel={(option) => option ? option.description : ""}
+                                filterOptions={filterAddressOptions}
+                                isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                                noOptionsText={"No Option"}
+                                onInputChange={(event, value) => {
+                                    setAddressInput(value)
+                                }}
+
+                                renderInput={(params) => <TextField {...params} label={t('address')}
                                     error={methods.formState.errors.address}
-                                    helperText={methods.formState.errors.address ? methods.formState.errors.address.message : ""}
-                                    {...methods.register("address")} />
+                                    name="address"
+
+                                {...methods.register("address")}
+                                />}
+                            />
+                            {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.address?.message}</p>) : <></>}
+                                
+                        </FormControl>
                             </Grid>
                         </Grid>
 
                         <Grid container justifyContent="flex" className="ou-my-3">
-                            <Grid item xs={11}>
+                            <Grid item xs={12}>
                                     <Box style={{ "margin": "5px" }} >
                                         <input accept="image/*" type="file" id="select-image" style={{ display: 'none' }}
                                             onChange={(e) => {
                                                 setSelectedImage(e.target.files[0]);
                                             }}
                                         />
-                                        <Tooltip title="Ảnh đại diện">
+                      
                                         <label htmlFor="select-image">
                                             <Button variant="contained" color="primary" component="span">
-                                                Upload Avatar
+                                                {t('uploadAvatar')}
                                             </Button>
                                         </label>
-                                        </Tooltip>
+                        
                                         {imageUrl && selectedImage && (
                                             <Box className="ou-my-4 ou-border-solid" textAlign="center">
                                                 <img src={imageUrl} alt={selectedImage.name} height="250px" width={250} className="ou-mx-auto"/>
@@ -277,7 +306,7 @@ const Register = () => {
                                     
                                 ): (
                                     <Box sx={{textAlign:"right"}}>
-                                        <Button variant="contained" color="success" type="submit" >Đăng ký</Button>
+                                        <Button variant="contained" color="success" type="submit" >{t('submit')}</Button>
                                     </Box>
                                 )}
                                 
@@ -298,7 +327,7 @@ const Register = () => {
                             style={{ textDecoration: "inherit" }}
                             color="grey.700"
                         >
-                            Quay về trang chủ
+                            {t('common:backToHomepage')}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -308,7 +337,7 @@ const Register = () => {
                             to="/login/"
                             style={{ textDecoration: "inherit", color: "#1976d2" }}
                         >
-                            Bạn đã có tài khoản? Đăng nhập
+                           {t('common:haveAnCount')}
                         </Link>
                     </Grid>
                 </Grid>

@@ -84,6 +84,13 @@ class AuthInfo(APIView):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
 
 
+class CommonLocationViewSet(viewsets.ViewSet, generics.RetrieveAPIView,generics.ListAPIView,
+                            generics.CreateAPIView, generics.DestroyAPIView):
+    queryset = CommonLocation.objects.all()
+    serializer_class = CommonLocationSerializer
+    parser_classes = [JSONParser, MultiPartParser]
+
+
 class CommonDistrictViewSet(viewsets.ViewSet):
     serializers = CommonDistrictSerializer
 
@@ -630,3 +637,4 @@ def get_all_config(request):
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs": "City error"})
     else:
         return Response(data=res_data, status=status.HTTP_200_OK)
+
