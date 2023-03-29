@@ -18,5 +18,6 @@
     "female": "Nữ",
     "secret": "Bí mật",
     "noCityFound": "Không tìm tấy tỉnh/thành phố",
-    "noDistrictFound": "Không tìm tấy quận/huyện"
+    "noDistrictFound": "Không tìm tấy quận/huyện",
+    "correctAddress": "Vui lòng chọn chính xác địa chỉ, vì thông tin này là cần thiết và quan trọng"
 }

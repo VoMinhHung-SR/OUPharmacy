@@ -23,11 +23,7 @@ const Login = () =>{
             (<BackdropLoading></BackdropLoading>)
             : <></>
         }
-        <div style={{ "position": "relative", "width": "100%" }}>
-            <div style={{
-                // "backgroundColor": "#f3f3f3",
-                "position": "fixed", "width": "100%", "height": "100%"
-            }}>
+ 
                 <Box style={{
                     "width": "100%", 
                     // "backgroundColor": "#f3f3f3",
@@ -121,10 +117,7 @@ const Login = () =>{
                         </form>
                     </Container>
                 </Box>
-            </div>
-
-
-        </div>
+ 
 
 
 

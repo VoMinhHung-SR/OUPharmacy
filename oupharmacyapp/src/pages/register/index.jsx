@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Container, createFilterOptions, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Container, createFilterOptions, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
@@ -12,11 +12,15 @@ import clsx from "clsx";
 import useAddressInfo from "../../modules/pages/RegisterComponents/hooks/useAddressInfo";
 
 const Register = () => {
-    const {t, tReady} = useTranslation(['register', 'common']) 
+    const {t, tReady} = useTranslation(['register', 'common', "yup-validate"]) 
+
     const {imageUrl, setImageUrl, openBackdrop, dob, setDOB, isLoadingUserRole, registerSchema,
         selectedImage, setSelectedImage, userRoleID, gender, setGender ,onSubmit
     } = useRegister();
-    const {districts, setAddressInput, setCityId, loading, listPlace} = useAddressInfo()
+
+    const {districts, setAddressInput, setCityId, handleGetPlaceByID, handleSetLocation,
+        listPlace, setSelectedOption, locationGeo} = useAddressInfo()
+        
     const methods = useForm({
         mode:"onSubmit", 
         resolver: yupResolver(registerSchema),
@@ -26,13 +30,17 @@ const Register = () => {
             email: "",
             password: "",
             confirmPassword: "",
-            address: "",
             dob:"",
             phoneNumber: "",
-            city:"",
-            district:""
+            location:{
+                address: "",
+                city:-1,
+                district:-1
+            }
+            
         }
     })
+    
     useEffect(() => {
         if (selectedImage) {
             setImageUrl(URL.createObjectURL(selectedImage));
@@ -70,7 +78,7 @@ const Register = () => {
                 <Container style={{ "padding": "50px" }}>
                     <form onSubmit={methods.handleSubmit((data)=> {
                        
-                        onSubmit(data, methods.setError);
+                        onSubmit(data, methods.setError, locationGeo);
                     })} 
                     className="ou-m-auto ou-px-8 ou-py-4 ou-w-[80%]"
                     style={{ "border": "2px solid black", "borderRadius": "5px" }}>
@@ -102,7 +110,7 @@ const Register = () => {
                                     helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
                                     {...methods.register("lastName")} />
                             </Grid>
-                            <Grid item xs={4} className="ou-pr-2">
+                            <Grid item xs={4}>
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -116,8 +124,8 @@ const Register = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid container justifyContent="flex"  className="ou-mt-4  ou-items-center">
-                            <Grid item xs={6} className="ou-pr-1">
+                        <Grid container justifyContent="flex"  className="ou-mt-4 ou-items-center">
+                            <Grid item xs={6} className="ou-pr-2">
                                 <TextField
                                         fullWidth
                                         autoComplete="given-name"
@@ -126,26 +134,33 @@ const Register = () => {
                                         type="text"
                                         label={t('email')}
                                         error={methods.formState.errors.email}
-                                        helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
                                         {...methods.register("email")}
                                     />
-                            </Grid>
-                            < Grid item xs={6} className="ou-flex">
-                                <TextField
-                                    id="date"
-                                    label={t('dateOfBirth')}
-                                    type="date"
-                                    name="dob"
-                                    {...methods.register('dob')}
-                                    onChange={(evt) => setDOB(evt.target.value)}
-                                    sx={{ width: 220 }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    style={{ "margin": "5px" }}
-                                />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.email?.message}</p>) : <></>}
 
-                                <FormControl sx={{ width: 220 }} style={{ "margin": "5px" }}>
+
+                            </Grid>
+                            < Grid item xs={6} className="ou-flex ou-flex-1 ou-w-full">
+                                <Box className="!ou-pr-2 ou-min-w-[70%]" >
+                                    <TextField
+                                        id="date"
+                                        className="!ou-w-full"
+                                        label={t('dateOfBirth')}
+                                        type="date"
+                                        name="dob"
+                                        error={methods.formState.errors.dob}
+                                        onChange={(evt) => setDOB(evt.target.value)}
+                                        sx={{ width: 220 }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        {...methods.register("dob")}
+                                    />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.dob?.message}</p>) : <></>}
+
+                                </Box>
+
+                                <FormControl className="!ou-min-w-[30%]">
                                     <InputLabel id="demo-simple-select-label">{t('gender')}</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
@@ -198,6 +213,7 @@ const Register = () => {
                         </Grid>
 
                         <h1 className="ou-text-center ou-text-2xl ou-mt-6" style={{ color: "#084468", fontWeight:"bold" }}>{t('addressInfo')}</h1>
+                        <Typography className="ou-text-center  !ou-text-sm">({t('correctAddress')})</Typography>
                         <Grid container justifyContent="flex">
                             
                             <Grid item xs={4} className={clsx('ou-pr-2 !ou-mt-4')} >
@@ -211,18 +227,18 @@ const Register = () => {
                                    
                                         noOptionsText={t('noCityFound')}
                                         onChange={(event, value) => {
-                                            methods.setValue('district', ' ')
+                                            methods.setValue('location.district', ' ')
                                             setCityId(value.id)
-                                            methods.setValue("city",value.id)
-                                            methods.clearErrors('city')
+                                            methods.setValue("location.city",value.id)
+                                            methods.clearErrors('location.city')
                                         }}
                                         renderInput={(params) => <TextField {...params} label={t('city')} 
             
-                                            error={methods.formState.errors.city}
-                                            name="city"
+                                            error={methods.formState.errors.location?.city}
+                                            name="location.city"
                                             />}
                                     />
-                                       {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.city?.message}</p>) : <></>}
+                                       {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.location?.city?.message}</p>) : <></>}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={8} className="!ou-mt-4 ou-pl-2" >
@@ -237,41 +253,59 @@ const Register = () => {
                                         noOptionsText={t('noDistrictFound')}
                                         onChange={(event, value) => {
                                             
-                                            methods.setValue("district",value.id)
-                                            methods.clearErrors('district')
+                                            methods.setValue("location.district",value.id)
+                                            methods.clearErrors('location.district')
                                         }}
-                                        renderInput={(params) => <TextField {...params} label={t('district')}
-                                            error={methods.formState.errors.district ? true: false}
-                                            name="district"
+                                        renderInput={(params) => <TextField {...params} 
+                                            label={t('district')}
+                                            error={methods.formState.errors.location?.district}
+                                            name="location.district"
                                         />}
                                     />
-                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.district?.message}</p>) : <></>}
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.location?.district?.message}</p>) : <></>}
                                    
                                 </FormControl>
                             </Grid>
                         {/* address */}
                         <Grid item xs={12} className="!ou-mt-4">
                         <FormControl fullWidth >
-                            <Autocomplete
-                                freeSolo
-                                id="address"
-                                options={listPlace ? listPlace : []}
-                                getOptionLabel={(option) => option ? option.description : ""}
-                                filterOptions={filterAddressOptions}
-                                isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                                noOptionsText={"No Option"}
-                                onInputChange={(event, value) => {
-                                    setAddressInput(value)
-                                }}
-
-                                renderInput={(params) => <TextField {...params} label={t('address')}
-                                    error={methods.formState.errors.address}
-                                    name="address"
-
-                                {...methods.register("address")}
-                                />}
+                        <Autocomplete
+                            freeSolo
+                            id="location.address"
+                            options={listPlace ? listPlace : []}
+                            getOptionLabel={(option) => option ? option.description : ""}
+                            filterOptions={filterAddressOptions}
+                            isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                            noOptionsText={"No Option"}
+                            onInputChange={(event, value) => {
+                                setAddressInput(value);
+                                setSelectedOption(null); // reset selected option when user types a new value
+                            }}
+                            onChange={(event, value) => {
+                                if (value) {
+                                    handleGetPlaceByID(value.place_id)
+                                    setSelectedOption(value);
+                                } else {
+                                    setSelectedOption(null);
+                                    handleSetLocation();
+                                }
+                            }}
+                            getOptionSelected={(option, value) => option?.id === value?.id}
+                            renderInput={(params) => (
+                                <>
+                                    <TextField
+                                    {...params}
+                                    label={t('address')}
+                                    error={methods.formState.errors.location?.address}
+                                    name="location.address"
+                                    {...methods.register('location.address')}
+                                    />                 
+                                </>
+                                )}
                             />
-                            {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.address?.message}</p>) : <></>}
+
+        
+                            {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.location?.address?.message}</p>) : <></>}
                                 
                         </FormControl>
                             </Grid>
@@ -300,8 +334,8 @@ const Register = () => {
                                     </Box>
                                 {userRoleID === -1 ? (
                                     <Box className="ou-p-5 ou-text-center">
-                                        <div className="ou-text-red-700 ou-text-xl">Hệ thống hiện tại không thể tạo người dùng mới </div>
-                                        <div>vui lòng liên hệ quản trị viên để kiểm tra tình trạng người dùng</div>
+                                        <div className="ou-text-red-700 ou-text-xl">{t("common:refresh")}</div>
+                                        <div></div>
                                     </Box>
                                     
                                 ): (

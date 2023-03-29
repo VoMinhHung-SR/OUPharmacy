@@ -1,14 +1,18 @@
-import { Box, TextField } from "@mui/material"
+import { Box, Button, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
 import useDebounce from "../lib/hooks/useDebounce"
 import Loading from "../modules/common/components/Loading"
-import { fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
+import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
 
 const Demo = () => {
     const [input, setInput] = useState('')
     const debounceValue = useDebounce(input, 500)
     const [listPlace, setListPlace] = useState([])
     const [loading, setLoading] = useState(false)
+    const [location, setLocation] = useState({
+        lat: "",
+        lng: ""
+    })
     useEffect(()=> {
         const loadMapInput = async () => {
             try{
@@ -28,6 +32,16 @@ const Demo = () => {
         if(debounceValue)
             loadMapInput()
     }, [debounceValue])
+    
+    const handleGetPlaceByID = async (placeId) =>{
+        const res = await fetchPlaceById(placeId)
+        if(res.status === 200){
+            console.log(res.data.result.geometry)
+            setLocation({lat: res.data.result.geometry.location.lat,
+            lng:  res.data.result.geometry.location.lng})
+        }
+    }
+    console.log(location)
     return (
         <>
             <h1>Day la trang demo</h1>
@@ -37,7 +51,7 @@ const Demo = () => {
             {loading ? <Loading/> : 
                 listPlace && listPlace.length !== 0 ?
                  <Box>
-                    {listPlace.map((place)=> <Box>{place.description}</Box>)}
+                    {listPlace.map((place)=> <Box>{place.description} <Button onClick={()=> handleGetPlaceByID(place.place_id)}>CLICK ME</Button></Box>)}
                 </Box> 
                 : <h1>KO co phan tu</h1> }
         </>
