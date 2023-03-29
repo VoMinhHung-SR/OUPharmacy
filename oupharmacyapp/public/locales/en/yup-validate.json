@@ -2,6 +2,14 @@
     "yupEmailRequired":"Email was required",
     "yupEmailMaxLenght":"Email exceeds the allowed length",
     "yupEmailInvalid": "Invalid email",
+    "yupEmailExist": "Email already exist",
+
+    "yupPasswordRequired":"Password was required",
+    "yupPasswordMaxLength": "Password exceeds the allowed length",
+
+    "yupConfirmPasswordRequire":"Confirm password was required",
+    "yupConfirmPasswordMactch":"Confirm password didn't match with password",
+
 
     "yupFirstNameRequired":"First name was required",
     "yupFirstNameMaxLenght":"First name exceeds the allowed length",
@@ -13,6 +21,7 @@
     
     "yupPhoneNumberRequired":"Phone number was required",
     "yupPhoneNumberInvalid":"Invalid phone number",
+    "yupPhoneNumberExist":"Phone number already exist",
 
     "yupAddressRequired":"Address was required",
     "yupAddressInvalid":"Invalid address",
@@ -42,5 +51,13 @@
     "yupQuantityNumber": "Quantity must be a number",
     "yupQuantityRequired": "Quantity was required",
     "yupQuantityMax": "Quantity does not accept",
-    "yupQuantityInvalid":"Invalid quantity"
+    "yupQuantityInvalid":"Invalid quantity",
+
+    "yupCityRequired": "City was required",
+    "yupCityNumber": "City must be selected",
+
+    "yupDistrictRequired": "District was required",
+    "yupDistrictNumber": "District must be selected",
+
+    "yupAddressMustBeSelected": "You must choose one option address"
 }

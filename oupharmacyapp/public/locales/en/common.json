@@ -11,7 +11,7 @@
     "send": "Send",
     "delete": "Delete",
     "undefined": "Undefined",
-
+    "refresh" : "Please refresh page to get new versions",
     "waitingRoom":"Waiting Room",
     "booking": "Booking",
     "examination": "Examinations",

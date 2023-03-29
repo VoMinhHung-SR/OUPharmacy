@@ -95,11 +95,13 @@ function App() {
 
                         </Route>
                         <Route path="/forbidden" element={<Forbidden />} />
+                       
                         <Route path="*" element={<NotFound/>} />
                         <Route path='/demo' element={<Demo/>}/>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                     
                       </Route>
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
                     </Routes>
                 </QueueStateProvider>
               </userContext.Provider>

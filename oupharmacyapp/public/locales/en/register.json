@@ -18,5 +18,6 @@
     "female": "Female",
     "secret": "Secret",
     "noCityFound": "No city found",
-    "noDistrictFound": "No district found"
+    "noDistrictFound": "No district found",
+    "correctAddress": "Please choose a correct location cause this is place the system's service send notify"
 }

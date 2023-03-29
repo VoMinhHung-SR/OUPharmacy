@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import SuccessfulAlert, { ErrorAlert } from '../../../../config/sweetAlert2';
-import { ROLE_USER } from '../../../../lib/constants';
-import { fetchCreateLocation, fetchCreateUser, fetchDistrictsByCity, fetchUserRoles } from '../services';
+import { REGEX_EMAIL, REGEX_NAME, REGEX_PHONE_NUMBER, ROLE_USER, TOAST_ERROR } from '../../../../lib/constants';
+import createToastMessage from '../../../../lib/utils/createToastMessage';
+import { fetchCreateLocation, fetchCreateUser, fetchDistrictsByCity,fetchCreateUserRole } from '../services';
 
 
 const useRegister = () => {
+    const {t} = useTranslation(['yup-validate','modal'])
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [isLoadingUserRole, setIsLoadingUserRole] = useState(true);
     const [dob, setDOB] = useState()
@@ -15,30 +19,24 @@ const useRegister = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const [userRoleID, setUserRoleID] = useState('');
 
-    
     const [cityId, setCityId] = useState(null)
     const [districts, setDistricts] = useState([])
     const { allConfig } = useSelector((state) => state.config);
+
+    const router = useNavigate('');
+
+    
     useEffect(()=> {
-        const loadUserRoles = async () => {
-            const res = await fetchUserRoles();
-            if(res.status === 200){
-                if(res.data){
-                    const userRole = res.data.filter(role => role.name === ROLE_USER)
-                    if(userRole.length !== 0){
-                        setUserRoleID(userRole[0].id)
-                        setIsLoadingUserRole(false);
-                    }
-                    else{
-                        setUserRoleID(-1);
-                        setIsLoadingUserRole(false)
-                    }
-                }
-                else{
-                    setIsLoadingUserRole(false)
-                }
-            }else {
-                setIsLoadingUserRole(false)
+        const createUserRole = async () => {
+            try{
+                const res = await fetchCreateUserRole()
+                if(res.status === 201)
+                    setUserRoleID(res.id)
+                    return;
+            }catch(err){
+                setUserRoleID(-1)
+            }finally{
+                setIsLoadingUserRole(false);
             }
         }
 
@@ -52,59 +50,72 @@ const useRegister = () => {
                 setDistricts([])
             }
         }
-
-        loadUserRoles()
-
+        
+        if(allConfig.roles.length !== 0){
+            const userRole = allConfig.roles.filter(role => role.name === ROLE_USER)
+            if(userRole.length !== 0){
+                setUserRoleID(userRole[0].id)
+                setIsLoadingUserRole(false);
+            }else{
+                createUserRole();
+            }
+        }
         if(cityId)
             loadDistricts(cityId)
-    },[cityId])
+    },[userRoleID, cityId])
+
+ 
 
     const registerSchema = Yup.object().shape({
-        firstName: Yup.string()
-            .required("Họ không được để trống")
-            .max(254, "Họ vượt quá độ dài cho phép"),
-        lastName: Yup.string()
-            .required("Tên không được để trống")
-            .max(254, "Tên vượt quá độ dài cho phép"),
-        email: Yup.string()
-            .required("Email không được để trống")
-            .max(254, "Email vượt quá độ dài cho phép")
-            .email("Phải là một email hợp lệ"),
-        password: Yup.string()
-            .required("Mật khẩu không được phép để trống")
-            .max(128, "Mật khẩu vượt quá độ dài cho phép"),
-        confirmPassword: Yup.string()
-            .required("Mật khẩu xác nhận không được để trống")
-            .oneOf([Yup.ref("password")], "Mật khẩu xác nhận không đúng"),
-        phoneNumber: Yup.string()
-            .required("SĐT không được để trống"),
-        address: Yup.string()
-            .required("Địa chỉ không được để trống"),
-        city: Yup.number("").required("Tỉnh/thành phố không được để trống"),
-        district: Yup.number("").required("Quận/Huyện không được để trống"),
+        firstName: Yup.string().trim()
+            .required(t('yupFirstNameRequired'))
+            .max(254, t('yupFirstNameMaxLenght'))
+            .matches(REGEX_NAME, t('yupFirstNameInvalid')),
+        lastName: Yup.string().trim()
+            .required((t('yupLastNameRequired')))
+            .max(254,  t('yupLastNameMaxLenght'))
+            .matches(REGEX_NAME, t('yupLastNameInvalid')),
+        email: Yup.string().trim()
+            .required(t('yupEmailRequired'))
+            .max(254, t('yupEmailMaxLenght'))
+            .matches(REGEX_EMAIL, t('yupEmailInvalid')),
+        dob:  Yup.string().trim()
+        .required(t('yupDOBRequired')), 
+        password: Yup.string().trim()
+            .required(t('yupPasswordRequired'))
+            .max(128, t('yupPasswordMaxLength')),
+        confirmPassword: Yup.string().trim()
+            .required(t('yupConfirmPasswordRequire'))
+            .oneOf([Yup.ref("password")], t('yupConfirmPasswordMactch')),
+        phoneNumber: Yup.string().trim()
+            .required(t('yupPhoneNumberRequired'))
+            .matches(REGEX_PHONE_NUMBER, t('yupPhoneNumberInvalid')),
+        location: Yup.object().shape({
+            address: Yup.string().trim()
+                .required(t('yupAddressRequired')),
+            city: Yup
+                .number().moreThan(0, t('yupCityNumber'))
+                .required(t('yupCityRequired')),
+            district: Yup
+            .number().moreThan(0, t('yupDistrictNumber'))
+            .required(t('yupDistrictRequired')),
+        })
+        
     });
-    // Sample data    
-    // data{
-    //   first_name: data.firstName,
-    //   last_name: data.lastName,
-    //   username: data.username,
-    //   password: data.password,
-    //   email: data.email,
-    //   phone_number: data.phoneNumber,
-    //   gender: data.gender,
-    //   date_of_birth: date,
-    //   address: data.address,
-    //   avatar: selectedImage,
-    // };
+    
+    const onSubmit = (data, setError, locationGeo) => {
+        if(locationGeo.lat === '' || locationGeo.lng === ''){
+            setError('location.address',{
+                type: "custom",
+                message:t('yupAddressMustBeSelected')
+            })
+            return;
+        }
 
-    // if(roles.length !== 0){
-    //     const a = roles.filter(role => role.name === 'XUZ')
-    //     console.log(a)
-    // }
-
-    const onSubmit = (data, setError) => {
         let date 
+
         setOpenBackdrop(true)
+
         if (data.dob !== undefined)
             date = new Date(data.dob).toISOString()
 
@@ -130,42 +141,50 @@ const useRegister = () => {
 
                 if (res.status === 201) {
                     setOpenBackdrop(false)
-                    SuccessfulAlert("Đăng ký thành công", "Ok", () => alert("DK THANH CONG"))
+                    SuccessfulAlert(t("modal:createSuccessed"),t('modal:ok'), ()=> {router('/login')})
                 }
             } catch (err) {
                 if (err) {
-                    let data = err.response;
+                    const data = err.response.data;
                     setOpenBackdrop(false)
                     if (data.email)
-                    setError("email", {
-                        type: "custom",
-                        message: data.email.join(", "),
-                    });
+                        setError("email", {
+                            type: "custom",
+                            message: t('yupEmailExist'),
+                        });
                     if (data.phone_number)
-                    setError("phoneNumber", {
-                        type: "custom",
-                        message: "Số điện thoại đã tồn tại"
-                    });
-
+                        setError("phoneNumber", {
+                            type: "custom",
+                            message: t('yupPhoneNumberExist')
+                        });
+                    
+                    createToastMessage({type:TOAST_ERROR, message:t("modal:createFailed")})
                 }
+                
             }
         };
         const addLocation = async () => {
-            // TODO: fetch location add lat && lng real
-            const locationData = {
-                lat:10.793500150986223,
-                lng:106.67777364026149,
-                city: data.city,
-                district: data.district,
-                address: '105 Trần Huy Liệu, Phú Nhuận, Thành phố Hồ Chí Minh, Việt Nam',
-            }
-            const res = await fetchCreateLocation(locationData)
-            if(res.status===201)
-                register(res.data.id);
-            else{
+            try{
+                const locationData = {
+                    lat:locationGeo.lat,
+                    lng:locationGeo.lng,
+                    city: data.location.city,
+                    district: data.location.district,
+                    address: data.location.address,
+                }
+                const res = await fetchCreateLocation(locationData)
+                if(res.status===201)
+                    register(res.data.id);
+                else{
+                    setOpenBackdrop(false)
+                    ErrorAlert(t('modal:createFailed'),t('modal:pleaseDoubleCheck'),t('modal:ok'))
+                }
+            }catch(err) {
+                ErrorAlert(t('modal:createFailed'),t('modal:pleaseDoubleCheck'),t('modal:ok'))
+            }finally{
                 setOpenBackdrop(false)
-                ErrorAlert('St error','double check please','OKE')
             }
+           
         }
         addLocation()
     }

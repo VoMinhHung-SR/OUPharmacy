@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import useDebounce from '../../../../lib/hooks/useDebounce';
-import { fetchPlaceByInput } from '../../../common/components/Mapbox/services';
+import { fetchPlaceById, fetchPlaceByInput } from '../../../common/components/Mapbox/services';
 import { fetchDistrictsByCity } from '../services';
 
 
@@ -11,7 +11,19 @@ const useAddressInfo = () => {
     const [addressInput, setAddressInput] = useState('')
     const [listPlace, setListPlace] = useState([])
     const [loading, setLoading] = useState(false)
+    const [location, setLocation] = useState({
+        lat: "",
+        lng: ""
+    })
     const debouncedValue = useDebounce(addressInput,500)
+    const handleSetLocation = () => 
+        setLocation({
+            lat: "",
+            lng: ""
+        })
+    
+    const [selectedOption, setSelectedOption] = useState(null);
+
     useEffect(()=> {
 
         const loadDistricts = async (cityId) => {
@@ -28,8 +40,6 @@ const useAddressInfo = () => {
         if(cityId)
             loadDistricts(cityId)
     },[cityId])
-
-    console.log(debouncedValue)
 
     useEffect(()=> {
         const loadMapInput = async () => {
@@ -51,9 +61,18 @@ const useAddressInfo = () => {
             loadMapInput()
     }, [debouncedValue])
 
+    const handleGetPlaceByID = async (placeId) =>{
+        const res = await fetchPlaceById(placeId)
+        if(res.status === 200){
+            console.log(res.data.result.geometry)
+            setLocation({lat: res.data.result.geometry.location.lat,
+            lng:  res.data.result.geometry.location.lng})
+        }
+    }
+
     return {
-        setCityId, addressInput,loading, listPlace,
-        setAddressInput, districts
+        setCityId, addressInput,loading, listPlace, handleGetPlaceByID, handleSetLocation,
+        setAddressInput, districts, setSelectedOption, selectedOption, locationGeo: location
     }
 }
 
