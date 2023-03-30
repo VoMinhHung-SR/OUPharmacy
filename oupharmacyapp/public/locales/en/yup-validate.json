@@ -8,7 +8,7 @@
     "yupPasswordMaxLength": "Password exceeds the allowed length",
 
     "yupConfirmPasswordRequire":"Confirm password was required",
-    "yupConfirmPasswordMactch":"Confirm password didn't match with password",
+    "yupConfirmPasswordMatch":"Confirm password didn't match with password",
 
 
     "yupFirstNameRequired":"First name was required",

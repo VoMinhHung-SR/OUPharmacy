@@ -3,11 +3,14 @@ import { Box } from "@mui/system";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
-import useLogin, { loginSchema } from "../../modules/pages/LoginComponents/hooks/useLogin";
+import useLogin from "../../modules/pages/LoginComponents/hooks/useLogin";
 import { useForm } from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup"
+import { useTranslation } from "react-i18next";
+import Loading from "../../modules/common/components/Loading";
 const Login = () =>{
-    const {onSubmit, openError, openBackdrop, setOpenError} = useLogin();
+    const {t, tReady} = useTranslation(['login', 'yup-validate'])
+    const {onSubmit, openError, openBackdrop, setOpenError, loginSchema} = useLogin();
     
     const methods = useForm({
         mode:"onSubmit", 
@@ -15,8 +18,12 @@ const Login = () =>{
         defaultValues:{
             username:"",
             password:"",
-        }
+        } 
     })
+    if(tReady)
+        return <Box className="ou-mt-3">
+            <Loading/>
+        </Box>
     return (
         <>
         {openBackdrop === true ?
@@ -26,7 +33,6 @@ const Login = () =>{
  
                 <Box style={{
                     "width": "100%", 
-                    // "backgroundColor": "#f3f3f3",
                     "top": "50%", "left": "50%", "position": "absolute",
                     "transform": "translate(-50%, -50%)"
                 }}>
@@ -58,7 +64,7 @@ const Login = () =>{
                                         sx={{ mb: 2 }}
                                         severity="error"
                                     >
-                                        Thông tin đăng nhập không hợp lệ!
+                                        {t('incorrectInfo')}
                                     </Alert>
                                 </Collapse>
                             </Grid>
@@ -70,7 +76,7 @@ const Login = () =>{
                                     id="username"
                                     name="username"
                                     type="text"
-                                    label="Tên người dùng"
+                                    label= {t('username')}
                                     error={methods.formState.errors.username}
                                     helperText={methods.formState.errors.username ? methods.formState.errors.username.message : ""}
                                     {...methods.register("username")}
@@ -83,7 +89,7 @@ const Login = () =>{
                                     id="password"
                                     name="password"
                                     type="password"
-                                    label="Mật khẩu"
+                                    label={t('password')}
                                     error={methods.formState.errors.password}
                                     helperText={methods.formState.errors.password ? methods.formState.errors.password.message : ""}
                                     {...methods.register("password")}
@@ -95,7 +101,7 @@ const Login = () =>{
                                     fullWidth
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Đăng nhập
+                                    {t('login')}
                                 </Button>
                                 <Grid container justifyContent="flex-end" style={{ "margin": "20px 0 0 0" }}>
                                     <Grid item>
@@ -103,13 +109,13 @@ const Login = () =>{
                                             to="/register/"
                                             style={{ textDecoration: "inherit", color: "black", margin: "10px 5px" }}
                                         >
-                                            <Button variant="default" type="submit" >Đăng Ký</Button>
+                                            <Button variant="default" type="submit" >{t('register')}</Button>
                                         </Link>
                                         <Link
                                             to="/"
                                             style={{ textDecoration: "inherit", color: "black", margin: "10px 5px" }}
                                         >
-                                            <Button style={{backgroundColor:"#084468"}} type="submit" >Trang Chủ</Button>
+                                            <Button className="!ou-bg-blue-600 !ou-text-white " type="submit" >{t('homePage')}</Button>
                                         </Link>
                                     </Grid>
                                 </Grid>

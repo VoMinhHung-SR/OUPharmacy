@@ -1,21 +1,20 @@
 import APIs, { authApi, endpoints } from "../../../../config/APIs"
-import cookies from "react-cookies"
-import { useNavigate } from "react-router"
+import Cookies from "js-cookie"
 export const fetchAccessToken = async (username, password) =>{
-    const getInfoCurrentUser = async () => {
-        const nav = useNavigate()
-        const user = await authApi().get(endpoints['current-user'])
-        cookies.save('user', user.data)
     
-        console.info(user.data)
-        dispatch({
-            'type': 'login',
-            'payload': user.data
-        })
-        if (user != null) {
-            nav("/")
+    const getInfoCurrentUser = async () => {
+        try{
+            const user = await authApi().get(endpoints['current-user'])
+            if(user.status === 200){
+             console.log(user.data)
+                Cookies.set('user', JSON.stringify(user.data))
+             }
+        }catch(err){
+            console.log(err)
         }
+        
     }
+
     const response = await APIs.get(endpoints["auth-info"])
     if(response.status === 200){
         const res = await authApi().post(endpoints['login'], {
@@ -26,11 +25,9 @@ export const fetchAccessToken = async (username, password) =>{
             'grant_type': 'password'
         })
         if (res.status === 200) {
-            // luu trong cookies
-            // setOpenBackdop(false)
-            console.info(res.data)
-            cookies.save('token', res.data.access_token)
-            cookies.save('refresh_token', res.data.refresh_token)
+            Cookies.set('token', res.data.access_token)
+            Cookies.set('refresh_token', res.data.refresh_token)
+
             // info current user
             getInfoCurrentUser();
         }

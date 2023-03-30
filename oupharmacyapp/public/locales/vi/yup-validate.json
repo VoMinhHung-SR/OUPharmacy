@@ -8,7 +8,7 @@
     "yupPasswordMaxLength": "Mât khẩu vượt quá độ dài cho phép",
 
     "yupConfirmPasswordRequire":"Xác nhận mật khẩu không được để trống",
-    "yupConfirmPasswordMactch":"Xác nhận mật khẩu không khớp",
+    "yupConfirmPasswordMatch":"Xác nhận mật khẩu không khớp",
 
     "yupFirstNameRequired":"Họ không được để trống",
     "yupFirstNameMaxLenght":"Họ vượt quá độ dài cho phép",

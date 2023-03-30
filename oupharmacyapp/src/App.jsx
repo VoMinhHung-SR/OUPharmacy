@@ -7,7 +7,6 @@ import Login from './pages/login'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Home from './pages'
 import Register from './pages/register'
-import cookies from "react-cookies";
 import ExaminationList from './pages/users/examinations'
 import Diagnosis from './pages/examinations/id/diagnosis'
 import PrescriptionList from './pages/prescribing'
@@ -32,6 +31,7 @@ import { getAllConfig } from './lib/redux/configSlice'
 import Loading from './modules/common/components/Loading'
 import { Box } from '@mui/material'
 import Demo from './pages/demo'
+import { getCookieValue } from './lib/utils/getCookieValue'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -39,7 +39,7 @@ function App() {
 
   const configDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true)
-  const [user, dispatch] = useReducer(userReducer, cookies.load('user'))
+  const [user, dispatch] = useReducer(userReducer, getCookieValue('user'))
   
   useEffect(()=> {
     Promise.all([
