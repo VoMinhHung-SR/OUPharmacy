@@ -86,7 +86,7 @@ const useRegister = () => {
             .max(128, t('yupPasswordMaxLength')),
         confirmPassword: Yup.string().trim()
             .required(t('yupConfirmPasswordRequire'))
-            .oneOf([Yup.ref("password")], t('yupConfirmPasswordMactch')),
+            .oneOf([Yup.ref("password")], t('yupConfirmPasswordMatch')),
         phoneNumber: Yup.string().trim()
             .required(t('yupPhoneNumberRequired'))
             .matches(REGEX_PHONE_NUMBER, t('yupPhoneNumberInvalid')),

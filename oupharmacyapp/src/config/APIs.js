@@ -1,5 +1,5 @@
 import axios from 'axios'
-import cookies from 'react-cookies'
+import Cookies from 'js-cookie';
 axios.defaults.withCredentials = false;
 
 
@@ -74,7 +74,7 @@ export const authApi = () => {
     const instance = axios.create({
         baseURL: baseURL,
         headers: {
-          'Authorization': `Bearer ${cookies.load('token')}`
+          'Authorization': `Bearer ${Cookies.get('token')}`
         }
       });
     
@@ -86,7 +86,7 @@ export const authApi = () => {
             originalRequest._retry = true;
     
             // call refresh token API to get new access token
-            const refreshToken =  cookies.load('refresh_token');
+            const refreshToken =  Cookies.get('refresh_token');
             const clientApp = await axios.get(`${baseURL}/oauth2-info/`)
             if(clientApp.status === 200){
                 const data = {
@@ -99,9 +99,8 @@ export const authApi = () => {
                 const res = await axios.post(`${baseURL}/o/token/`, data);
                 if (res.status === 200) {
                     // update access token in cookies 
-                    cookies.save('refresh_token', res.data.refresh_token)
-                    cookies.save('token', res.data.access_token)
-                    // Cookies.set('token', res.data.accessToken);
+                    Cookies.set('refresh_token', res.data.refresh_token)
+                    Cookies.set('token', res.data.access_token)
           
                     // console.log(`Bearer ${res.data.access_token}`)
                     // set authorization header with new token and retry the original request

@@ -4,22 +4,15 @@ import * as Yup from 'yup';
 import { fetchAccessToken } from '../services';
 import { authApi, endpoints } from '../../../../config/APIs';
 import { useNavigate } from 'react-router';
-import cookies from "react-cookies"
 import { userContext } from '../../../../App';
-
-export const loginSchema = Yup.object().shape({
-    username: Yup.string()
-    .required("Tên người dùng không được để trống")
-    .max(150, "Tên người dùng vượt quá độ dài cho phép"),
-    password: Yup.string()
-    .required("Mật khẩu không được phép để trống")
-    .max(128, "Mật khẩu vượt quá độ dài cho phép"),
-});
+import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
 
 const useLogin = () => {
+    const {t} = useTranslation(['yup-validate'])
     const [user, dispatch] = useContext(userContext);
     const [openError, setOpenError] = useState(false);
-    const [openBackdrop, setOpenBackdop] = useState(false);
+    const [openBackdrop, setOpenBackdrop] = useState(false);
     const nav = useNavigate();
     
     const mutation = useMutation((data) =>
@@ -27,8 +20,7 @@ const useLogin = () => {
     );
 
     const onSubmit = async (data) => {
-        console.log(data);
-        setOpenBackdop(true)
+        setOpenBackdrop(true)
         // fetch access token 
         // require 2 params username and password
         const res = await mutation.mutateAsync((data), {
@@ -37,16 +29,17 @@ const useLogin = () => {
                getInfoCurrentUser();
             },onError:(err) =>{
                 setOpenError(true);
-                setOpenBackdop(false);
+                setOpenBackdrop(false);
                 console.log(err);
             }
         });
 
-        setOpenBackdop(false);
+        setOpenBackdrop(false);
     };
+
     const getInfoCurrentUser = async () => {
         const user = await authApi().get(endpoints['current-user'])
-        cookies.save('user', user.data)
+        Cookies.set('user', JSON.stringify(user.data))
         dispatch({
             'type': 'login',
             'payload': user.data
@@ -55,8 +48,17 @@ const useLogin = () => {
             nav("/")
         }
     }
+    const loginSchema = Yup.object().shape({
+        username: Yup.string()
+        .required(t('yupEmailRequired'))
+        .max(150, t('yupEmailMaxLenght')),
+        password: Yup.string()
+        .required(t('yupPasswordRequired'))
+        .max(128,   t('yupPasswordMaxLength')),
+    })
+
     return {
-        openBackdrop,
+        openBackdrop,loginSchema,
         openError,
         onSubmit,
         setOpenError

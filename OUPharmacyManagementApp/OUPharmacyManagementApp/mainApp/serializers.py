@@ -10,9 +10,30 @@ class UserRoleSerializer(ModelSerializer):
         exclude = ['active']
 
 
+class CommonCitySerializer(ModelSerializer):
+    class Meta:
+        model = CommonCity
+        fields = ["id", "name"]
+
+
+class CommonDistrictSerializer(ModelSerializer):
+    city = CommonCitySerializer()
+
+    class Meta:
+        model = CommonDistrict
+        fields = ["id", "name", "city"]
+
+
+class CommonLocationSerializer(ModelSerializer):
+    class Meta:
+        model = CommonLocation
+        fields = ["id", "address", "lat", "lng", "city", "district"]
+
+
 class UserSerializer(ModelSerializer):
     # role = UserRoleSerializer()
-    # role { id:int ; name:string }
+    # location = CommonLocationSerializer()
+
     def create(self, validated_data):
         user = User(**validated_data)
         print(validated_data.get('role'))
@@ -28,6 +49,15 @@ class UserSerializer(ModelSerializer):
         except:
             data['role'] = None
         return data
+
+    locationGeo = serializers.SerializerMethodField(source="location")
+
+    def get_locationGeo(self, obj):
+        location = obj.location
+        if location:
+            return {'lat': location.lat, 'lng': location.lng}
+        else:
+            return {}
 
     avatar_path = serializers.SerializerMethodField(source='avatar')
 
@@ -45,12 +75,14 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "password",
-                  "email", "phone_number", "date_of_birth",
-                  "date_joined", "gender", "avatar_path", "avatar", "is_admin", "role"]
+                  "email", "phone_number", "date_of_birth", "locationGeo",
+                  "date_joined", "gender", "avatar_path", "avatar", "is_admin", "role", "location"]
         extra_kwargs = {
             'password': {'write_only': 'true'},
             'avatar_path': {'read_only': 'true'},
-            'avatar': {'write_only': 'true'}
+            'locationGeo': {'read_only': 'true'},
+            'avatar': {'write_only': 'true'},
+            'location': {'write_only': 'true'}
         }
 
 
@@ -149,21 +181,5 @@ class BillSerializer(ModelSerializer):
         fields = ["id", "amount", "prescribing"]
 
 
-class CommonCitySerializer(ModelSerializer):
-    class Meta:
-        model = CommonCity
-        fields = ["id", "name"]
 
 
-class CommonDistrictSerializer(ModelSerializer):
-    city = CommonCitySerializer()
-
-    class Meta:
-        model = CommonDistrict
-        fields = ["id", "name", "city"]
-
-
-class CommonLocationSerializer(ModelSerializer):
-    class Meta:
-        model = CommonLocation
-        fields = ["id", "address", "lat", "lng", "city", "district"]

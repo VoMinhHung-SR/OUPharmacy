@@ -1,11 +1,14 @@
 import { Box, Button, TextField } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { userContext } from "../App"
 import useDebounce from "../lib/hooks/useDebounce"
 import Loading from "../modules/common/components/Loading"
 import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
 
 const Demo = () => {
     const [input, setInput] = useState('')
+    const [user]  = useContext(userContext)
+    console.log(user)
     const debounceValue = useDebounce(input, 500)
     const [listPlace, setListPlace] = useState([])
     const [loading, setLoading] = useState(false)
