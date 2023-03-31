@@ -79,7 +79,7 @@ const ExaminationDetailCard = ({examinationData}) => {
                     >
                       {t("mailStatus")}:{" "}
                       <span>
-                        {examinationData.mail_status ? t("sent") : t("nosend")}
+                        {examinationData.mail_status ? t("sent") : t("noSend")}
                       </span>
                     </Typography>
                   </Grid>
@@ -103,9 +103,9 @@ const ExaminationDetailCard = ({examinationData}) => {
                       style={{ textDecoration: "inherit" }}
                       color="grey.700"
                     >
-                      {t("mailStatus")}:{" "}
+                      {t("remindEmail")}:{" "}
                       <span>
-                        {examinationData.mail_status ? t("sent") : t("nosend")}
+                        {examinationData.mail_status ? t("sent") : t("noSend")}
                       </span>
                     </Typography>
                   </Grid>
@@ -122,7 +122,7 @@ const ExaminationDetailCard = ({examinationData}) => {
                 </Grid>
 
                 <h5 className=" ou-text-lg ou-mb-3 ou-pt-3">
-                     {t('moreInfomation')}:
+                     {t('moreInformation')}:
                 </h5>
                 <CustomCollapseListItemButton title={t("diagnose")} loading={isLoading}
                   content={

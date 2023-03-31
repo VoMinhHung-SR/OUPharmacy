@@ -73,17 +73,17 @@ const Nav = () => {
   //  Hooks useNav
   const {user, handleLogout} = useNav();
   let btn = <>
-      <ul className="ou-flex ou-text-white">
-          <MenuItem style={{ "color": "inherit" }} >
-              <Link to="/login" className="nav-link">
+      <ul className="ou-flex ou-text-white ou-items-center">
+          <Link to="/login">
+            <MenuItem style={{ "color": "inherit" }} >
                   <LoginIcon style={{ "marginRight": "5px" }} />{t('login')}
-              </Link>
-          </MenuItem>
-          <MenuItem style={{ "color": "inherit" }}>
-              <Link to="/register" className="nav-link">
-                  <HowToRegIcon style={{ "marginRight": "5px" }} />{t('register')}
-              </Link>
-          </MenuItem>
+            </MenuItem>
+          </Link>
+          <Link to="/register">
+            <MenuItem style={{ "color": "inherit" }}>
+                    <HowToRegIcon style={{ "marginRight": "5px" }} />{t('register')}
+            </MenuItem>
+          </Link>
       </ul>
   </>
 
@@ -160,7 +160,9 @@ const Nav = () => {
               aria-controls={open ? 'account-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}>
-                <Avatar sx={{ width: 32, height: 32 }} src={user.avatar_path}/>
+                {user.avatar_path ? <Avatar sx={{ width: 32, height: 32 }} src={user.avatar_path} alt={user.first_name + " " + user.last_name}/> 
+                : <Avatar sx={{ width: 32, height: 32 }} alt={user.first_name + " " + user.last_name} src="/broken-image.jpg"/> }
+  
             </IconButton>
           </Tooltip>
          
