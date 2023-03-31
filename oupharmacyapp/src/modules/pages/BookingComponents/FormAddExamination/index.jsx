@@ -9,7 +9,7 @@ import useFormAddExamination from "./hooks/useFormAddExamination"
 
 const FormAddExamination = (props) => {
 
-    const {t , ready} = useTranslation(['booking', 'yup-validate', 'modal'])
+    const {t , tReady} = useTranslation(['booking', 'yup-validate', 'modal'])
     const {onSubmit, openBackdrop, formAddExaminationSchema} = useFormAddExamination();
     const methods = useForm({
         mode:"onSubmit", 
@@ -27,7 +27,7 @@ const FormAddExamination = (props) => {
         }
     })
     // TODO: adding skeletons here
-    if (!ready)
+    if (tReady)
         return <Box sx={{ minHeight: "300px" }}>
         <Box className='ou-p-5'>
             <Loading></Loading>
@@ -88,7 +88,6 @@ const FormAddExamination = (props) => {
                         <h5 className="ou-text-center ou-mt-8 ou-text-2xl">{t('patientInfo')}</h5>
                         <Grid container justifyContent="flex"  id={props.id}>
                             <Grid item xs={6}  className="!ou-mt-6 ou-pr-2" >
-
                                 <TextField
                                     fullWidth
                                     autoComplete="given-name"
@@ -96,13 +95,9 @@ const FormAddExamination = (props) => {
                                     name="firstName"
                                     type="text"
                                     label={t('firstName')}
-                                    // value={props.firstName === "" ? "": props.firstName}
                                     error={methods.formState.errors.firstName}
                                     helperText={methods.formState.errors.firstName ? methods.formState.errors.firstName.message : ""}
                                     {...methods.register("firstName")}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"></InputAdornment>,
-                                    }}
                                 />
                             </Grid>
 
@@ -114,13 +109,9 @@ const FormAddExamination = (props) => {
                                     name="lastName"
                                     type="text"
                                     label={t('lastName')}
-                                    // value={props.lastName === ""? "" : props.lastName}
                                     error={methods.formState.errors.lastName}
                                     helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
                                     {...methods.register("lastName")}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"></InputAdornment>,
-                                    }}
                                 />
                             </Grid>
                         </Grid>
@@ -140,7 +131,6 @@ const FormAddExamination = (props) => {
                                     {...methods.register("email")}
                                     InputProps={{
                                         readOnly: true,
-                                        // disabled:true,
                                         startAdornment: <InputAdornment position="start"></InputAdornment>,
                                     }}
                                 />
@@ -158,9 +148,7 @@ const FormAddExamination = (props) => {
                                     error={methods.formState.errors.phoneNumber}
                                     helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
                                     {...methods.register("phoneNumber")}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"></InputAdornment>,
-                                    }} />
+                                    />
                             </Grid>
                         </Grid>
 
@@ -177,9 +165,7 @@ const FormAddExamination = (props) => {
                                     error={methods.formState.errors.address}
                                     helperText={methods.formState.errors.address ? methods.formState.errors.address.message : ""}
                                     {...methods.register("address")} 
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"></InputAdornment>,
-                                    }}
+                            
                                     />
                                     
                             </Grid>

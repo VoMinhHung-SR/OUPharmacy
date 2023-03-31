@@ -38,47 +38,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 wageBooking = 20000
 
 
-def send_reexam_reminder_email(examination):
-    # Get the user and patient associated with the examination
-    user = examination.user
-    patient = examination.patient
-
-    # Calculate the date for the re-examination
-    reexam_date = examination.created_date + datetime.timedelta(senconds=60)
-    reexam_date_str = reexam_date.strftime('%d-%m-%Y')
-
-    # Modify the email content and send the reminder email to the user
-    current_date = datetime.date.today().strftime('%d-%m-%Y')
-    subject = "Nhắc nhở tái khám"
-    to_user = user.email
-    content = f"""Xin chào {user.username},
-
-Đây là một email nhắc nhở về lịch tái khám của bạn tại OUPharmacy vào ngày {reexam_date_str}.
-
-Chi tiết lịch tái khám của {user.username}:
-(+)  Mã đặt lịch: {examination.pk}
-(+)  Họ tên bệnh nhân: {patient.first_name} {patient.last_name}
-(+)  Mô tả: {examination.description}
-(+)  Ngày tái khám: {reexam_date_str}
-=====================
-(-)  Phí khám của bạn là: {examination.wage:,.0f} VND
-
-Địa điểm: 371 Nguyễn Kiệm, Phường 3, Gò Vấp, Thành phố Hồ Chí Minh
-
-Vui lòng đến tái khám đúng giờ và chuẩn bị sẵn các giấy tờ cần thiết.
-
-OUPharmacy xin chúc bạn sức khỏe và một buổi tái khám tốt lành, xin chân thành cả́m ơn."""
-
-    try:
-        if content and subject and to_user:
-            send_email = EmailMessage(subject, content, to=[to_user])
-            send_email.send()
-            examination.reminder_email = True
-            examination.save()
-    except Exception as e:
-        print(f"Error sending email: {str(e)}")
-
-
 class AuthInfo(APIView):
     def get(self, request):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
@@ -210,7 +169,7 @@ Chi tiết lịch đặt khám của {0}:
     
                                 
 Vui lòng xem kỹ lại thông tin thời gian và địa diểm, để hoàn tất thủ tục khám.
-OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức khỏe, xin chân thành cả́m ơn.""".format(user.username,
+OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức khỏe, xin chân thành cả́m ơn.""".format(user.first_name + " " + user.last_name,
                                                                                                      examination.pk,
                                                                                                      patient.first_name + " " + patient.last_name,
                                                                                                      examination.description,
@@ -220,7 +179,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                         if content and subject and to_user:
                             send_email = EmailMessage(subject, content, to=[to_user])
                             send_email.send()
-                            send_reexam_reminder_email(examination)
                         else:
                             error_msg = "Send mail failed !!!"
                     except:

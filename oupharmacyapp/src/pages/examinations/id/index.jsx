@@ -84,7 +84,7 @@ const ExaminationDetail = () => {
                   >
                     {t("mailStatus")}:{" "}
                     <span>
-                      {examinationData.mail_status ? t("sent") : t("nosend")}
+                      {examinationData.mail_status ? t("sent") : t("noSend")}
                     </span>
                   </Typography>
                 </Grid>
