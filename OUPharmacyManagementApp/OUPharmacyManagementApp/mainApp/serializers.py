@@ -130,13 +130,31 @@ class ExaminationSerializer(ModelSerializer):
         exclude = []
 
 
+class UserNormalSerializer(ModelSerializer):
+    locationGeo = serializers.SerializerMethodField(source="location")
+
+    def get_locationGeo(self, obj):
+        location = obj.location
+        if location:
+            return {'lat': location.lat, 'lng': location.lng}
+        else:
+            return {}
+
+    class Meta:
+        model = User
+        fields = ['id', "email", "location", "locationGeo"]
+        extra_kwargs = {
+            'locationGeo': {'read_only': 'true'},
+            'location': {'write_only': 'true'}
+        }
+
+
 class ExaminationsPairSerializer(ModelSerializer):
+    user = UserNormalSerializer()
+
     class Meta:
         model = Examination
-        field = ['id']
-        exclude = ['created_date', 'updated_date', 'user', 'patient',
-                   'wage', 'description', 'mail_status']
-#         Adding status after
+        fields = ['id', 'user', 'patient', 'description']
 
 
 class DiagnosisSerializer(ModelSerializer):

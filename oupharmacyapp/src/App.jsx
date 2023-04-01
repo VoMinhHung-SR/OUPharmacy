@@ -19,7 +19,7 @@ import i18n from './i18n'
 import Booking from './pages/booking'
 import Examinations from './pages/examinations'
 import ProtectedUserRoute from './modules/common/layout/userRoute'
-import { ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
+import { BACKEND_BASEURL, ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
 import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
 import Forbidden from './modules/common/layout/components/403-forbidden'
 import NotFound from './modules/common/layout/components/404-not_found'
@@ -32,6 +32,8 @@ import Loading from './modules/common/components/Loading'
 import { Box } from '@mui/material'
 import Demo from './pages/demo'
 import { getCookieValue } from './lib/utils/getCookieValue'
+import { fetchOncePerDay } from './lib/utils/fetchOnePerDay'
+import { endpoints } from './config/APIs'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -44,13 +46,17 @@ function App() {
   useEffect(()=> {
     Promise.all([
       configDispatch(getAllConfig()).unwrap(),
+      fetchOncePerDay(BACKEND_BASEURL + endpoints['get-list-exam-today'], (data) => {
+        console.log(data);
+      })
     ])
       .then((res) => console.log('Mới vào app: ', res))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   },[])
 
- 
+
+  
 
     return isLoading ? <Box><Loading/></Box> :
       <QueryClientProvider client={queryClient}>
