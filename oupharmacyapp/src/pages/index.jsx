@@ -32,7 +32,6 @@ const Home = () => {
   } 
 
   const { allConfig } = useSelector((state) => state.config);
-  console.log(allConfig)
 
   return (
     <>

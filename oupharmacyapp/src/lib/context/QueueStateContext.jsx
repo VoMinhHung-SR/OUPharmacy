@@ -51,10 +51,6 @@ export const QueueStateProvider = ({ children }) => {
     }
   }, [queue]);
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
   return (
     <QueueStateContext.Provider
       value={{
