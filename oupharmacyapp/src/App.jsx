@@ -34,6 +34,7 @@ import Demo from './pages/demo'
 import { getCookieValue } from './lib/utils/getCookieValue'
 import { fetchOncePerDay } from './lib/utils/fetchOnePerDay'
 import { endpoints } from './config/APIs'
+import { setListExamToday } from './lib/utils/helper'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -47,7 +48,7 @@ function App() {
     Promise.all([
       configDispatch(getAllConfig()).unwrap(),
       fetchOncePerDay(BACKEND_BASEURL + endpoints['get-list-exam-today'], (data) => {
-        console.log(data);
+        setListExamToday(data)
       })
     ])
       .then((res) => console.log('Mới vào app: ', res))

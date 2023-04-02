@@ -7,7 +7,7 @@ import { db } from "../../config/firebase"
 import { generateQueryGetNotification } from "../utils/getRecipientNotification"
 
 const useNotification = () => {
-    const [user, userReady ]=useContext(userContext)
+    const [user, userReady] = useContext(userContext)
     const [isLoading, setIsLoading] = useState(true)
     const queryGetNotification = generateQueryGetNotification(user?.id)
     const [notificationsSnapshot, notificationsLoading, __error] = useCollection(queryGetNotification)
