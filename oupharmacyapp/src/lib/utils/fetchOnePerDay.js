@@ -1,3 +1,5 @@
+import { getListExamToday } from "./helper";
+
 export function fetchOncePerDay(url, onDataLoaded) {
     return new Promise((resolve, reject) => {
       // Get the current date
@@ -27,11 +29,15 @@ export function fetchOncePerDay(url, onDataLoaded) {
         // Get the data from localStorage
         const data = JSON.parse(localStorage.getItem("data"));
 
+  
         // Call the callback function with the fetched data
-        onDataLoaded(data);
+        getListExamToday();
+        // onDataLoaded(data);
         
         // Resolve the promise with the fetched data
         resolve(data);
+
+        getListExamToday(today)
       }
     });
   }
