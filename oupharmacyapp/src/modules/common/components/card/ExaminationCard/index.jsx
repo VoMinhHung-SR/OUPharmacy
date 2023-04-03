@@ -20,12 +20,13 @@ import Loading from "../../Loading";
 import CustomModal from "../../Modal";
 import useCustomModal from "../../../../../lib/hooks/useCustomModal";
 import ExaminationDetailCard from "../ExaminationDetailCard";
+import BackdropLoading from "../../BackdropLoading";
 
 const ExaminationCard = ({examinationData, user, callback}) => {
   const { t } = useTranslation(["examinations", "common", "modal", "examination-detail"]);
 
   const {id, description, created_date, mail_status} = examinationData
-  const { isLoadingButton, handleSendEmailConfirm } = useExaminationCard();
+  const { isLoadingButton, handleSendEmailConfirm, isBackdropLoading } = useExaminationCard();
   const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
  
  
@@ -58,6 +59,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
 
   return (
     <>
+      {isBackdropLoading && <Box><BackdropLoading/></Box>}
       <TableRow
         key={id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

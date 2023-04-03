@@ -4,6 +4,8 @@ import { userContext } from "../App"
 import useDebounce from "../lib/hooks/useDebounce"
 import Loading from "../modules/common/components/Loading"
 import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
+import { getDirections } from "../lib/utils/getDirections"
+import { duration } from "moment"
 
 const Demo = () => {
     const [input, setInput] = useState('')
@@ -16,6 +18,11 @@ const Demo = () => {
         lat: "",
         lng: ""
     })
+    const [distance, setDistance] = useState({
+        duration: "",
+        distance: ""
+    })
+
     useEffect(()=> {
         const loadMapInput = async () => {
             try{
@@ -36,6 +43,25 @@ const Demo = () => {
             loadMapInput()
     }, [debounceValue])
     
+    useEffect(()=> {
+        const loadDistanceFromUser = async (lat, lng) => {
+            try{
+                const res = await getDirections(lat, lng)
+                if(res.status === 200)
+                    setDistance({distance: res.data.routes[0].legs[0].distance.text, duration: res.data.routes[0].legs[0].duration.text})
+                console.log(res.data)
+                
+            }catch(err)
+            {
+                console.log(err)
+            }
+           
+        }
+        if(user?.locationGeo)
+            loadDistanceFromUser(user.locationGeo.lat, user.locationGeo.lng)
+
+    }, [user])
+
     const handleGetPlaceByID = async (placeId) =>{
         const res = await fetchPlaceById(placeId)
         if(res.status === 200){
@@ -57,6 +83,10 @@ const Demo = () => {
                     {listPlace.map((place)=> <Box>{place.description} <Button onClick={()=> handleGetPlaceByID(place.place_id)}>CLICK ME</Button></Box>)}
                 </Box> 
                 : <h1>KO co phan tu</h1> }
+
+            {duration && <Box>
+                    duration: {distance.duration} : distance: {distance.distance}
+                </Box> }
         </>
     )
 }
