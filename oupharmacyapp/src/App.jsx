@@ -32,9 +32,10 @@ import Loading from './modules/common/components/Loading'
 import { Box } from '@mui/material'
 import Demo from './pages/demo'
 import { getCookieValue } from './lib/utils/getCookieValue'
-import { fetchOncePerDay } from './lib/utils/fetchOnePerDay'
+import { fetchListExamOncePerDay } from './lib/utils/fetchListExamOncePerDay'
 import { endpoints } from './config/APIs'
-import { setListExamToday } from './lib/utils/helper'
+import { getTotalListExamPerDay, setListExamToday } from './lib/utils/helper'
+import { fetchListExaminationToday } from './modules/pages/WaittingRoomComponents/services'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -45,15 +46,26 @@ function App() {
   const [user, dispatch] = useReducer(userReducer, getCookieValue('user'))
   
   useEffect(()=> {
-    Promise.all([
-      configDispatch(getAllConfig()).unwrap(),
-      fetchOncePerDay(BACKEND_BASEURL + endpoints['get-list-exam-today'], (data) => {
-        setListExamToday(data)
-      })
-    ])
-      .then((res) => console.log('Mới vào app: ', res))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
+    const getTotalListExamPerDay = async () => {
+      try {
+        const res = await fetchListExaminationToday();
+        if (res.status === 200) return res.data.length;
+      } catch (err) {
+        return -1;
+      }
+    };
+
+    getTotalListExamPerDay().then((totalListExam) => {
+      Promise.all([
+        configDispatch(getAllConfig()).unwrap(),
+        fetchListExamOncePerDay(BACKEND_BASEURL + endpoints['get-list-exam-today'], (data) => {
+          setListExamToday(data);
+        }, totalListExam)
+      ])
+        .then((res) => console.log('Mới vào app: ', res))
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoading(false));
+    });
   },[])
 
 

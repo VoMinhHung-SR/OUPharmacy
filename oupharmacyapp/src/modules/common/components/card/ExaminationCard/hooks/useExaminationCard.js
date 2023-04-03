@@ -3,8 +3,9 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { db } from "../../../../../../config/firebase"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
-import { STATUS_BOOKING_CONFIRMED } from "../../../../../../lib/constants"
+import { STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../../../lib/constants"
 import { fetchSendEmailConfirmExamination } from "../services"
+import createToastMessage from "../../../../../../lib/utils/createToastMessage"
 
 const useExaminationCard = () =>{
     const {t} = useTranslation(['examinations','modal'])
@@ -12,7 +13,7 @@ const useExaminationCard = () =>{
 
     // const [flag, setFlag] = useState(false)
     const [isLoadingButton, setIsLoadingButton] = useState(false)
-
+    const [isBackdropLoading, setIsBackDropLoading] = useState(false)
     const handleSendEmailConfirm = (userID, examinationID, avatar, callback)=>{
         const sendEmail = async ()=>{
             console.log(userID)
@@ -20,18 +21,20 @@ const useExaminationCard = () =>{
             if (res.status === 200){
                 callback()
                 createNotificationRealtime(userID, examinationID, avatar)
-                SuccessfulAlert(t('sendMailSuccessed'), t('modal:oke'))
+                createToastMessage({message:t('sendMailSuccessed'),type:TOAST_SUCCESS})
             }else 
                 if (res.status === 400){ 
                     callback()
                     ErrorAlert(t('modal:errSomethingWentWrong'),t('modal:pleaseTryAgain'), t('modal:ok'))
                 } 
             setIsLoadingButton(false)
+            setIsBackDropLoading(false)
         }
         return ConfirmAlert(t('confirmSendEmail'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
             // this is callback function when user confirmed "Yes"
             ()=>{
                 setIsLoadingButton(true)
+                setIsBackDropLoading(true)
                 sendEmail()
         },()=>{return;})
     }
@@ -52,7 +55,7 @@ const useExaminationCard = () =>{
         }
     }
     return{
-        isLoadingButton,
+        isLoadingButton, isBackdropLoading,
         handleSendEmailConfirm
     }
 }

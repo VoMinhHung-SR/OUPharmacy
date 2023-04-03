@@ -1,32 +1,45 @@
 import { FieldPath, collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore"
 import { db } from "../../config/firebase"
+import moment from "moment";
+import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomComponents/services";
 
 // it will return a user Id (recipient message in room chat) not current user
 export const getRecipientId = (member ,currentUserId) => member.find(userId => userId !== currentUserId)
 
+export const getTotalListExamPerDay = async () => {
+  try{
+    const res = await fetchListExaminationToday() 
+    if(res.status === 200)
+      return res.data.length()
+  }catch(err){
+    return -1;
+  }
+  
+}
 
 export const getListExamToday = async () => {
-    const today = new Date().toISOString().slice(0, 10);
+    const todayStr = new Date().toLocaleDateString()
+    const today = moment(todayStr).format('YYYY-MM-DD')
     const waitingRoomRef = doc(db, 'waiting-room', today);
   
     try {
       const docSnapshot = await getDoc(waitingRoomRef);
       if (docSnapshot.exists()) {
         const examsArray = docSnapshot.data().exams;
-        console.log(examsArray);
         return examsArray;
       } else {
         console.log('No matching documents found.');
-        return -1;
+        return [];
       }
     } catch (error) {
       console.log('Error getting documents: ', error);
-      return -1;
+      return [];
     }
   };
-  
+
 export const setListExamToday = async (examData) => {
-    const today = new Date().toISOString().slice(0, 10);
+    const todayStr = new Date().toLocaleDateString()
+    const today = moment(todayStr).format('YYYY-MM-DD')
     // Create a reference to the document with ID set to today's date
     const waitingRoomRef = doc(db, 'waiting-room', today);
     let examList = [];

@@ -1,23 +1,25 @@
+import moment from "moment";
 import { getListExamToday } from "./helper";
 
-export function fetchOncePerDay(url, onDataLoaded) {
+export function fetchListExamOncePerDay(url, onDataLoaded, onChangedParams) {
     return new Promise((resolve, reject) => {
       // Get the current date
-      const today = new Date().toISOString().slice(0, 10);
-  
+      const today = new Date().toLocaleDateString()
+      const todayStr = moment(today).format('YYYY-MM-DD')
       // Check if the last fetch was executed before today
+      console.log(onChangedParams)
       const lastFetchDate = localStorage.getItem("lastFetchDate");
-      if (!lastFetchDate || lastFetchDate < today) {
+      const lastTotalListExam = localStorage.getItem("lastTotalListExam")
+      if (!lastFetchDate || lastFetchDate < todayStr || onChangedParams && lastTotalListExam !== onChangedParams.toString() || !lastTotalListExam) {
         // Execute the fetch API
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
-            // Save the fetched data
-            localStorage.setItem("data", JSON.stringify(data));
   
             // Update the last fetch date
-            localStorage.setItem("lastFetchDate", today);
-            
+            localStorage.setItem("lastFetchDate", todayStr);
+            localStorage.setItem("lastTotalListExam", onChangedParams.toString());
+
             // Call the callback function with the fetched data
             onDataLoaded(data);
 
@@ -26,18 +28,12 @@ export function fetchOncePerDay(url, onDataLoaded) {
           })
           .catch((error) => reject(error));
       } else {
-        // Get the data from localStorage
-        const data = JSON.parse(localStorage.getItem("data"));
-
-  
         // Call the callback function with the fetched data
-        getListExamToday();
+        const data = getListExamToday();
         // onDataLoaded(data);
         
         // Resolve the promise with the fetched data
         resolve(data);
-
-        getListExamToday(today)
       }
     });
   }
