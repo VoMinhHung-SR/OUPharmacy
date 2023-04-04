@@ -16,19 +16,23 @@ const useExaminationCard = () =>{
     const [isBackdropLoading, setIsBackDropLoading] = useState(false)
     const handleSendEmailConfirm = (userID, examinationID, avatar, callback)=>{
         const sendEmail = async ()=>{
-            console.log(userID)
-            const res = await fetchSendEmailConfirmExamination(examinationID)
-            if (res.status === 200){
-                callback()
-                createNotificationRealtime(userID, examinationID, avatar)
-                createToastMessage({message:t('sendMailSuccessed'),type:TOAST_SUCCESS})
-            }else 
-                if (res.status === 400){ 
+            try{
+                const res = await fetchSendEmailConfirmExamination(examinationID)
+                if (res.status === 200){
                     callback()
-                    ErrorAlert(t('modal:errSomethingWentWrong'),t('modal:pleaseTryAgain'), t('modal:ok'))
-                } 
-            setIsLoadingButton(false)
-            setIsBackDropLoading(false)
+                    createNotificationRealtime(userID, examinationID, avatar)
+                    createToastMessage({message:t('sendMailSuccessed'),type:TOAST_SUCCESS})
+                }else 
+                    if (res.status === 400){ 
+                        callback()
+                        ErrorAlert(t('modal:errSomethingWentWrong'),t('modal:pleaseTryAgain'), t('modal:ok'))
+                    } 
+            }catch(err){
+                console.log(err)
+            }finally{
+                setIsLoadingButton(false)
+                setIsBackDropLoading(false)
+            }
         }
         return ConfirmAlert(t('confirmSendEmail'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
             // this is callback function when user confirmed "Yes"
@@ -51,7 +55,6 @@ const useExaminationCard = () =>{
             },{merge:true})
         }catch(err){
             console.log(err)
-            ErrorAlert("Đã có lỗi xảy ra","Vui lòng quay lại sau", "OK")
         }
     }
     return{

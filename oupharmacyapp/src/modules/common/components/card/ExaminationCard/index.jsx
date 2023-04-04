@@ -126,7 +126,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                             variant="contained"
                             color="success"
                             size="small"
-                            className="!ou-min-w-[68px] !ou-py-2"
+                            className="!ou-min-w-[68px] !ou-py-2  !ou-min-h-[40px]"
                           >
                             <PaidIcon />
                           </Button>
@@ -146,10 +146,10 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                   <>
                     <Tooltip title={t("noReady")}>
                         <Button
-                              size="small"
-                              variant="contained"
-                              className="!ou-bg-red-700 !ou-min-w-[68px]"
-                              >
+                          size="small"
+                          variant="contained"
+                          className="!ou-bg-red-700 !ou-min-w-[68px]  !ou-min-h-[40px]"
+                        >
                             <span>
                               <ErrorIcon />
                            </span>
@@ -174,7 +174,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
               <span>
                 <Button
                     variant="contained"
-                    className="ou-bg-blue-700 !ou-min-w-[68px] !ou-py-2 !ou-mx-2"
+                    className="ou-bg-blue-700 !ou-min-w-[68px]  !ou-min-h-[40px] !ou-py-2 !ou-mx-2"
                     size="small"
                     onClick={()=>handleOpenModal()}
                   >

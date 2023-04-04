@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import BackdropLoading from "../../../common/components/BackdropLoading";
 import Loading from "../../../common/components/Loading";
 import useFormAddExamination from "./hooks/useFormAddExamination"
+import { CURRENT_DATE } from "../../../../lib/constants";
+import moment from "moment";
 
 const FormAddExamination = (props) => {
 
@@ -80,6 +82,9 @@ const FormAddExamination = (props) => {
                                     {...methods.register("createdDate")}
                                     InputLabelProps={{
                                         shrink: true,
+                                    }}
+                                    inputProps={{
+                                        min: moment(CURRENT_DATE).format('YYYY-MM-DD') ,
                                     }}
                                 />
                             </Grid>
