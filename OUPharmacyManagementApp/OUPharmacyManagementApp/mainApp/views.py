@@ -155,8 +155,8 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                         subject = "Thư xác nhận lịch đăng ký khám"
                         to_user = user.email
                         content = """Xin chào {0},
-Bạn có một lịch khám vơi OUPharmacy vào ngày {6}!!!
-                            
+Phiếu đặt lịch của bạn đã được xác nhận vào ngày {6}, bạn có một lịch hẹn khám vơi OUPharmacy vào ngày {4:%d-%m-%Y}!!!
+                
 Chi tiết lịch đặt khám của {0}:
 (+)  Mã đặt lịch: {1}
 (+)  Họ tên bệnh nhân: {2}
@@ -218,8 +218,9 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             now = datetime.datetime.now()
             today = now.replace(hour=0, minute=0, second=0, microsecond=0)
             tomorrow = (now + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-            examinations = Examination.objects.filter(updated_date__range=(today,
-                                                                           tomorrow)).order_by('updated_date').all()
+            end_of_today = datetime.datetime.combine(today, datetime.time.max)
+            examinations = Examination.objects.filter(created_date__range=(today,
+                                                                           end_of_today)).order_by('updated_date').all()
         except Exception as error:
             print(error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
