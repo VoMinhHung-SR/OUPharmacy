@@ -162,7 +162,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                 )}
                 {/* Render button for NURSES */}
                 {user && user.role === ROLE_NURSE ? (
-                  renderButton(examinationData?.user?.id, id, examinationData?.user?.avatar_path)
+                  renderButton(examinationData?.user?.id, id, user?.avatar_path)
                 ) : (
                   <></>
                 )}

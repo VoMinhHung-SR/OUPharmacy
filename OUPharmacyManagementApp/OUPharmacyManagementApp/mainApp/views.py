@@ -212,6 +212,22 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                             status=status.HTTP_200_OK)
         return Response(data={}, status=status.HTTP_200_OK)
 
+    @action(methods=['get'], detail=False, url_path='get-total-exams')
+    def get_total_exam_per_day(self, request):
+        date_str = request.data.get('date')
+        try:
+            if date_str:
+                date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+            else:
+                date = datetime.datetime.now().date()
+            start_of_day = datetime.datetime.combine(date, datetime.time.min)
+            end_of_day = datetime.datetime.combine(date, datetime.time.max)
+            examinations = Examination.objects.filter(created_date__range=(start_of_day, end_of_day)).all()
+        except Exception as error:
+            print(error)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMsg": "Can't get Examinations"})
+        return Response(data={"totalExams": len(examinations), "dateStr": date}, status=status.HTTP_200_OK)
+
     @action(methods=['get'], detail=False, url_path='get-list-exam-today')
     def get_list_exam_today(self, request):
         try:

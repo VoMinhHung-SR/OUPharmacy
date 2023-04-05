@@ -10,13 +10,11 @@
     "send":"Gửi",
     "refresh" : "Phiên bản hết hạn vui lòng làm mới trang",
     "delete": "Xóa",
-    "Undefined":"Chưa xác định",
-
+    "undefined":"Chưa xác định",
     "waitingRoom":"Phòng chờ",
     "booking": "Đặt lịch",
     "examination": "Phiếu khám",
     "prescribing": "Kê toa",
-
     "login": "Đăng nhập",
     "register":"Đăng ký",
     "logout": "Đăng xuất",
@@ -26,5 +24,9 @@
     "notifications": "Thông báo",
     "nonNotifications": "Hiện tại không có thông báo",
     "notifyExaminationConfirm": "Đơn đăng ký của bạn đã được phê duyệt, vui lòng kiểm tra email của bạn để xem địa điểm và thời gian khám chi tiết của bạn.",
-    "changeLanguage": "Đổi sang tiếng Anh"
+    "changeLanguage": "Đổi sang tiếng Anh",
+    "currentSystem":"Hệ thống hiện tại có",
+    "totalCheckUpsToday": "Tổng số phiếu khám hôm nay",
+    "totalExamsList": "Tổng số phiếu"
+    
 }
