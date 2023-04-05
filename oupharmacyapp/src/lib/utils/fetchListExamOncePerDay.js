@@ -7,7 +7,7 @@ export function fetchListExamOncePerDay(url, onDataLoaded, onChangedParams) {
       const today = new Date().toLocaleDateString()
       const todayStr = moment(today).format('YYYY-MM-DD')
       // Check if the last fetch was executed before today
-      console.log(onChangedParams)
+
       const lastFetchDate = localStorage.getItem("lastFetchDate");
       const lastTotalListExam = localStorage.getItem("lastTotalListExam")
       if (!lastFetchDate || lastFetchDate < todayStr || onChangedParams && lastTotalListExam !== onChangedParams.toString() || !lastTotalListExam) {

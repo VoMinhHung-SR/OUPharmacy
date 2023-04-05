@@ -10,7 +10,6 @@ import createToastMessage from "../../../../../../lib/utils/createToastMessage"
 const useExaminationCard = () =>{
     const {t} = useTranslation(['examinations','modal'])
     
-
     // const [flag, setFlag] = useState(false)
     const [isLoadingButton, setIsLoadingButton] = useState(false)
     const [isBackdropLoading, setIsBackDropLoading] = useState(false)

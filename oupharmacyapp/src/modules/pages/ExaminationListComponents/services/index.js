@@ -1,4 +1,4 @@
-import  { authApi, endpoints } from "../../../../config/APIs"
+import  APIs, { authApi, endpoints } from "../../../../config/APIs"
 
 // To get array list examination by userID
 // [ {examinationObj}, {...} ] 
@@ -12,3 +12,4 @@ export const fetchDeleteAnExamination = async (examinationID) =>{
     const res = await authApi().delete(endpoints['examination-detail'](examinationID));
     return res;
 }
+

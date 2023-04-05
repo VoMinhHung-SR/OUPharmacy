@@ -30,6 +30,7 @@ export let endpoints = {
     
     // Examination
     'examination':'/examinations/',
+    'get-total-exams': '/examinations/get-total-exams/', // Get total exams today or input "date"
     'get-list-exam-today':'/examinations/get-list-exam-today/',
     'examination-detail': (examinationId) => `/examinations/${examinationId}/`,
     'send-mail': (examinationId) => `/examinations/${examinationId}/send_mail/`,
@@ -38,7 +39,7 @@ export let endpoints = {
     'diagnosis':'/diagnosis/',
     'prescription':(diagnosisId) => `/diagnosis/${diagnosisId}/`,
     
-    // Prescripbing:
+    // Prescribing:
     'prescribing': '/prescribing/',
     'get-pres-by-diagnosis': '/prescribing/get-by-diagnosis/',
     'get-prescription-detail': (prescribingID) => `/prescribing/${prescribingID}/get-pres-detail/`,

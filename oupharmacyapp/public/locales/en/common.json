@@ -6,7 +6,6 @@
     "goToBooking": "Go to booking",
     "bookingNow":"Booking Now",
     "backToHomepage": "Back to homepage",
-
     "here": "Here",
     "send": "Send",
     "delete": "Delete",
@@ -25,5 +24,8 @@
     "notifications": "Notifications",
     "nonNotifications": "There is no notification messages",
     "notifyExaminationConfirm": "Your booking sheet has been approved, please check your email to see your detailed exam location and time.",
-    "changeLanguage": "Change to Vietnamese"
+    "changeLanguage": "Change to Vietnamese",
+    "currentSystem":"The current system has",
+    "totalCheckUpsToday": "Total number of check-ups today",
+    "totalExamsList": "Total examinations"
 }
