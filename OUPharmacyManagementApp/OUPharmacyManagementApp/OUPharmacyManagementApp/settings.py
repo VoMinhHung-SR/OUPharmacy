@@ -30,7 +30,7 @@ DEBUG = True
 
 # Application definition
 
-
+# 'debug_toolbar',
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -45,9 +45,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'oauth2_provider',
     'drf_yasg',
-    'debug_toolbar',
     'corsheaders',
-    'cloudinary'
+    'cloudinary',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -133,6 +133,7 @@ LANGUAGE_CODE = 'en-us'
 # TIMEZONE SETTING HERE
 # READ DATA : UTC (-7H) ; WRITE DATA : UTC (OKE)
 
+# ValueError at /admin/django_celery_beat/periodictask/ (USE_TZ=TRUE)
 USE_TZ = False
 TIME_ZONE = 'Asia/Bangkok'
 USE_I18N = True
@@ -180,6 +181,16 @@ EMAIL_HOST_PASSWORD = "hhmjfvssftxkqfvs"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+CELERY_BROKER_URL = f"redis://default:3Wl3ZSWPTeHricC8pcT0csn8gykMlvj7@redis-12263.c280.us-central1-2.gce.cloud.redislabs.com:12263/0"
+CELERY_RESULT_BACKEND = f"redis://default:3Wl3ZSWPTeHricC8pcT0csn8gykMlvj7@redis-12263.c280.us-central1-2.gce.cloud.redislabs.com:12263/0"
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+DJANGO_CELERY_BEAT_TZ_AWARE = False
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TIMEZONE = 'Asia/Bangkok'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
