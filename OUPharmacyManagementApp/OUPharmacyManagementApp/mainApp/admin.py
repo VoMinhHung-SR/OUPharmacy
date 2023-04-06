@@ -140,13 +140,13 @@ class PrescriptionDetailAdmin(admin.ModelAdmin):
     list_display = ['id', 'quantity', 'uses', 'prescribing', 'medicine_unit']
 
 
-admin_site.register(Bill, BillAdmin)
-admin_site.register(Category, CategoryAdmin)
-admin_site.register(Medicine, MedicineAdmin)
-admin_site.register(MedicineUnit, MedicineUnitAdmin)
-admin_site.register(Examination, ExaminationAdmin)
-admin_site.register(Diagnosis, DiagnosisAdmin)
-admin_site.register(PrescriptionDetail, PrescriptionDetailAdmin)
-admin_site.register(Patient, PatientAdmin)
-admin_site.register(User, UserAdmin)
-admin_site.register(UserRole, UserRoleAdmin)
+admin.site.register(Bill, BillAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Medicine, MedicineAdmin)
+admin.site.register(MedicineUnit, MedicineUnitAdmin)
+admin.site.register(Examination, ExaminationAdmin)
+admin.site.register(Diagnosis, DiagnosisAdmin)
+admin.site.register(PrescriptionDetail, PrescriptionDetailAdmin)
+admin.site.register(Patient, PatientAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(UserRole, UserRoleAdmin)

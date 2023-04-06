@@ -8,6 +8,7 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 ADMIN_ROLE = "ADMIN"
 
+from django_celery_beat.models import PeriodicTask, CrontabSchedule
 
 class BaseModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)

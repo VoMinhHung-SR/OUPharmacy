@@ -1,6 +1,7 @@
 amqp==5.1.1
 APScheduler==3.10.1
 asgiref==3.5.0
+async-timeout==4.0.2
 billiard==3.6.4.0
 celery==5.2.7
 certifi==2021.10.8
@@ -46,6 +47,7 @@ python-crontab==2.7.1
 python-dateutil==2.8.2
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
+redis==4.5.4
 requests==2.27.1
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.6

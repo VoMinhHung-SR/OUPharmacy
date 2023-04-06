@@ -17,6 +17,7 @@ export const getTotalListExamPerDay = async () => {
   
 }
 
+
 export const getListExamToday = async () => {
     const todayStr = new Date().toLocaleDateString()
     const today = moment(todayStr).format('YYYY-MM-DD')
@@ -67,5 +68,4 @@ export const setListExamToday = async (examData) => {
             console.error('Error saving document:', error);
         }
     }
-
 }
