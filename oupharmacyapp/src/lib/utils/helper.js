@@ -1,4 +1,4 @@
-import { FieldPath, collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore"
+import { FieldPath, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore"
 import { db } from "../../config/firebase"
 import moment from "moment";
 import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomComponents/services";
@@ -68,4 +68,28 @@ export const setListExamToday = async (examData) => {
             console.error('Error saving document:', error);
         }
     }
+}
+
+
+export const updateExamIsCommitted = async (examId) => {
+  const todayStr = new Date().toLocaleDateString();
+  const today = moment(todayStr).format('YYYY-MM-DD');
+
+  const waitingRoomRef = doc(db, 'waiting-room', today);
+  const waitingRoomDoc = await getDoc(waitingRoomRef);
+
+  if (waitingRoomDoc.exists()) {
+    const exams = waitingRoomDoc.data().exams;
+    const examToUpdate = exams.find(exam => exam.examID === examId);
+
+    if (examToUpdate) {
+      const examRef = doc(db, 'exams', examId);
+      await updateDoc(examRef, { isCommitted: true });
+
+      const updatedExam = { ...examToUpdate, isCommitted: true };
+      const updatedExams = exams.map(exam => exam.examID === examId ? updatedExam : exam);
+
+      await updateDoc(waitingRoomRef, { exams: updatedExams });
+    }
+  }
 }

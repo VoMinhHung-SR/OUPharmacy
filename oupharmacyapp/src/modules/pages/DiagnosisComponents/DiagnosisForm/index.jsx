@@ -120,9 +120,6 @@ const DiagnosisForm = (props) => {
                                 type="text"
                                 // disabled
                                 value={props.sign}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
                             />
                         </Grid>
 
@@ -135,9 +132,6 @@ const DiagnosisForm = (props) => {
                                 name="diagnosed"
                                 type="text"
                                 value={props.diagnosed}
-                                InputProps={{
-                                    readOnly: true,
-                                  }}
                             />
                         </Grid>
                     </Grid>
