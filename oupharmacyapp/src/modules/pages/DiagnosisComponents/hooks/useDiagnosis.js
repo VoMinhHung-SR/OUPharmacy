@@ -36,8 +36,16 @@ const useDiagnosis = () => {
         try {
             const res = await authApi().get(endpoints['get-diagnosis'](examinationId))
             if (res.status === 200) {
-                setPrescriptionId(res.data.id)
-                setDiagnosis(res.data)
+                if(res.data){
+                    setPrescriptionId(res.data.id)
+                    setDiagnosis(res.data)
+                }else{
+                    setPrescriptionId(-1)
+                    setDiagnosis({
+                        "sign":"",
+                        "diagnosed":"",
+                    })
+                }
             }
         } catch (err) {
             setPrescriptionId(-1)
