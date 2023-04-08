@@ -27,11 +27,10 @@ const DiagnosisForm = (props) => {
         </Box>
     </Box>
 
-
-    // This condition meant if the examination doen't have a diagnosis 
+    // This condition meant if the examination doesn't have a diagnosis 
     // Then create a new form
     // Else show the info of the diagnosis
-    if (props.id === -1)
+    if (props.id === -1 || !props.id)
         return (
             <>
                 <Box sx={{ minHeight: "300px" }} component={Paper} elevation={5} className="ou-py-5 ou-w-[100%] ou-m-auto ou-max-w-[1536px]">
@@ -120,6 +119,9 @@ const DiagnosisForm = (props) => {
                                 type="text"
                                 // disabled
                                 value={props.sign}
+                                InputProps={{
+                                    readOnly: true,
+                                  }}  
                             />
                         </Grid>
 
@@ -132,6 +134,9 @@ const DiagnosisForm = (props) => {
                                 name="diagnosed"
                                 type="text"
                                 value={props.diagnosed}
+                                InputProps={{
+                                    readOnly: true,
+                                  }}
                             />
                         </Grid>
                     </Grid>

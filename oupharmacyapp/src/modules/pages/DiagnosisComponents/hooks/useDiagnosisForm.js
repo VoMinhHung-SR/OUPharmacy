@@ -21,6 +21,7 @@ const useDiagnosisForm = () => {
     });
 
     const onSubmit = (data, examinationID, userID, callback) =>{
+        console.log(typeof(callback))
         const handleOnSubmit = async () => {
             try{
                 const prescriptionData = {

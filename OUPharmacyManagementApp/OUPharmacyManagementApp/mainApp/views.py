@@ -200,6 +200,51 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         return Response(data={'errMgs': error_msg},
                         status=status.HTTP_400_BAD_REQUEST)
 
+    @action(methods=['post'], detail=True, url_path='send_mail_remind1')
+    def send_email_remind1(self, request, pk):
+        examination = self.get_object()
+        if not examination:
+            return Response(data={'errMsg': 'Examination not found'},
+                            status=status.HTTP_404_NOT_FOUND)
+        user = examination.user
+        patient = examination.patient
+        if not user or not patient:
+            return Response(data={'errMsg': 'User or patient not found'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        current_date = datetime.date.today().strftime('%d-%m-%Y')
+        subject = "Nhắc nhở lịch hẹn khám"
+        to_user = user.email
+        content = f"""Xin chào {user.first_name} {user.last_name},
+Bệnh nhân {patient.first_name} {patient.last_name} của bạn có lịch khám với OUPharmacy vào ngày {examination.created_date:%d-%m-%Y}. Đây là lời nhắc nhở đến bạn trước khi lịch hẹn sắp đến.
+
+Chi tiết lịch đặt khám của {user.first_name}:
+(+)  Mã đặt lịch: {examination.pk}
+(+)  Họ tên bệnh nhân: {patient.first_name} {patient.last_name}
+(+)  Mô tả: {examination.description}
+(+)  Ngày đăng ký: {examination.created_date:%d-%m-%Y}
+=====================
+(-)  Phí khám của bạn là: {examination.wage:,.0f} VND
+
+Địa điểm: 371 Nguyễn Kiệm, Phường 3, Gò Vấp, Thành phố Hồ Chí Minh
+
+Vui lòng xem kỹ lại thông tin thời gian và địa điểm, để hoàn tất thủ tục khám.
+OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức khỏe, xin chân thành cả́m ơn."""
+        try:
+            send_email = EmailMessage(subject, content, to=[to_user])
+            send_email.send()
+        except:
+            return Response(data={'errMsg': 'Failed to send email'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        examination.mail_status = True
+        examination.updated_date = datetime.datetime.today()
+        examination.save()
+        return Response(data={
+            'status': 'Send mail successfully',
+            'to': to_user,
+            'subject': subject,
+            'content': content
+        }, status=status.HTTP_200_OK)
+
     @action(methods=['get'], detail=True, url_path='get-diagnosis')
     def get_diagnosis(self, request, pk):
         try:

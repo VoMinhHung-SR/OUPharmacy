@@ -17,6 +17,61 @@ export const getTotalListExamPerDay = async () => {
   
 }
 
+export const convertTimestampToDateTime = (timestamp) => {
+  // Create a new date object using the Unix timestamp multiplied by 1000 to convert it to milliseconds
+    const date = new Date(timestamp * 1000);
+    
+    // Get the year, month, day, hours, minutes, and seconds from the date object
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    
+    // Format the date and time as a string and return it
+    return ` ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// export const timeUntilExam = (startDateTime) => {
+//   const now = new Date();
+//   const start = new Date(startDateTime);
+//   const diff = Math.floor((start.getTime() - now.getTime()) / 1000);
+
+//   if (diff < 0) {
+//     return "The exam has already started";
+//   }
+
+//   const minutes = Math.floor(diff / 60);
+//   const seconds = diff % 60;
+
+//   return `The exam will start in ${minutes} minutes and ${seconds} seconds`;
+// }
+export const timeUntilExam = (startDateTime) => {
+  if (!startDateTime)
+    return;
+
+  const now = new Date();
+  const start = new Date(startDateTime);
+  const diffInSeconds = Math.floor((start.getTime() - now.getTime()) / 1000);
+  
+  if (diffInSeconds < 0) {
+    return {
+      hasStarted: true,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    };
+  }
+
+  const hours = Math.floor(diffInSeconds / 3600);
+  const minutes = Math.floor((diffInSeconds % 3600) / 60);
+  const seconds = diffInSeconds % 60;
+
+  return {
+    hasStarted: false,
+    hours,
+    minutes,
+    seconds
+  };
+}
 
 export const getListExamToday = async () => {
     const todayStr = new Date().toLocaleDateString()
@@ -54,6 +109,7 @@ export const setListExamToday = async (examData) => {
             const data = {
                 emailRemind: false,
                 isCommitted: false,
+                remindStatus: false,
                 examID: exam.id,
                 author: exam.user.email,
                 startedDate
@@ -71,7 +127,7 @@ export const setListExamToday = async (examData) => {
 }
 
 
-export const updateExamIsCommitted = async (examId) => {
+export const keyUpdateExam = async (examId, keyUpdate) => {
   const todayStr = new Date().toLocaleDateString();
   const today = moment(todayStr).format('YYYY-MM-DD');
 
@@ -83,10 +139,7 @@ export const updateExamIsCommitted = async (examId) => {
     const examToUpdate = exams.find(exam => exam.examID === examId);
 
     if (examToUpdate) {
-      const examRef = doc(db, 'exams', examId);
-      await updateDoc(examRef, { isCommitted: true });
-
-      const updatedExam = { ...examToUpdate, isCommitted: true };
+      const updatedExam = { ...examToUpdate, keyUpdate: true };
       const updatedExams = exams.map(exam => exam.examID === examId ? updatedExam : exam);
 
       await updateDoc(waitingRoomRef, { exams: updatedExams });

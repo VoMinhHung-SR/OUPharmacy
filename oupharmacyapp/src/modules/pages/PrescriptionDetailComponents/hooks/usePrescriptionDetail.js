@@ -16,7 +16,6 @@ const usePrescriptionDetail = () => {
                 if (res.status === 200) {
                     setPrescriptionDetail(res.data)
                     setIsLoadingPrescriptionDetail(false)
-                    console.log(res.data)
                 }
             } catch (err) {
                 setIsLoadingPrescriptionDetail(false)

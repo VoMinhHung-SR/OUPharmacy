@@ -107,7 +107,7 @@ const PrescriptionDetail = () => {
                                         </Grid>
                                     </Grid>
                                 </Box>
-                                <PrescriptionDetailCard />
+                                <PrescriptionDetailCard examID={prescriptionDetail.examination.id} />
                             </Box>
                         </>
                     )
