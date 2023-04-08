@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { fetchAddPrescriptionDetail, fetchCreatePrescribing, fetchMedicinesUnit } from "../services";
 import { useTranslation } from "react-i18next";
 import { REGEX_ADDRESS, REGEX_NUMBER999 } from "../../../../../../lib/constants";
+import { keyUpdateExam } from "../../../../../../lib/utils/helper";
 
 const usePrescriptionDetailCard = () => {
     const {t} = useTranslation(['yup-validate', 'modal', 'prescription-detail'])
@@ -13,7 +14,7 @@ const usePrescriptionDetailCard = () => {
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)
     const router = useNavigate();
-    const [openBackdrop, setOpenBackdop] = useState(false)
+    const [openBackdrop, setOpenBackdrop] = useState(false)
     const [medicine, setMedicine] = useState({
         "medicineName": '',
         "medicineUnitId": -1
@@ -22,7 +23,7 @@ const usePrescriptionDetailCard = () => {
     const [medicinesSubmit, setMedicineSubmit] = useState([])
 
 
-    const prescrtionDetailSchema = Yup.object().shape({
+    const prescriptionDetailSchema = Yup.object().shape({
         uses: Yup.string().trim()
             .required(t('yupUsesRequired'))
             .max(100, t('yupUsesMaxLenght'))
@@ -65,7 +66,8 @@ const usePrescriptionDetailCard = () => {
         }, () => { return; })
     }
 
-    const handleAddPrescriptionDetail = () => {
+    const handleAddPrescriptionDetail = (examID) => {
+        console.log(examID)
         const addPrescriptionDetail = async () => {
             if (medicinesSubmit.length !== 0) {
                 let prescribingData = {user:user.id, diagnosis: parseInt(prescribingId)}
@@ -82,20 +84,24 @@ const usePrescriptionDetailCard = () => {
                             await fetchAddPrescriptionDetail(formData)
         
                         } catch (err) {
-                            setOpenBackdop(false)
+                            setOpenBackdrop(false)
                             return ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
                         }
                     })
-                    setOpenBackdop(false)
+                    setOpenBackdrop(false)
+                    // Update commit of waiting-room 
+                    if(examID){
+                        await keyUpdateExam(examID, "isCommitted")
+                    }
                     return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
                 }
                    
                 else{
-                    setOpenBackdop(false)
+                    setOpenBackdrop(false)
                     return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'))
                 }
             } else {
-                setOpenBackdop(false)
+                setOpenBackdrop(false)
                 return ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
             }
 
@@ -103,7 +109,7 @@ const usePrescriptionDetailCard = () => {
         return ConfirmAlert(t('prescription-detail:confirmAddPrescription'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
         // this is callback function when user confirmed "Yes"
         ()=>{
-            setOpenBackdop(true)
+            setOpenBackdrop(true)
             addPrescriptionDetail()
         },() => { return; })
     }
@@ -168,7 +174,7 @@ const usePrescriptionDetailCard = () => {
         onSubmit,
         handleDeleteItem,
         handleAddPrescriptionDetail,
-        prescrtionDetailSchema
+        prescriptionDetailSchema
     }
 }
 export default usePrescriptionDetailCard

@@ -7,15 +7,15 @@ import BackdropLoading from "../../BackdropLoading";
 import { useTranslation } from "react-i18next";
 import Loading from "../../Loading";
 
-const PrescriptionDetailCard = () => {
+const PrescriptionDetailCard = ({examID}) => {
     const {onSubmit, medicinesSubmit, openBackdrop, handleAddPrescriptionDetail,
-        medicineUnits, setMedicine, handleDeleteItem, prescrtionDetailSchema} = usePrescriptionDetailCard()
+        medicineUnits, setMedicine, handleDeleteItem, prescriptionDetailSchema} = usePrescriptionDetailCard()
 
     const {t, ready} = useTranslation(['prescription-detail', 'yup-validate', 'modal'])
 
     const methods = useForm({
         mode:"onSubmit",
-        resolver: yupResolver(prescrtionDetailSchema),
+        resolver: yupResolver(prescriptionDetailSchema),
         default: {
             uses: "",
             quantity:""
@@ -163,8 +163,6 @@ const PrescriptionDetailCard = () => {
                                             InputProps={{
                                                 readOnly: true,
                                             }}
-
-                                            handleAddPrescriptionDetail
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -207,7 +205,7 @@ const PrescriptionDetailCard = () => {
                                     color="grey.700"
                                 >
                                     <Button className="!ou-mt-5 ou-w-[120px]" variant="contained" color="success"
-                                        onClick={handleAddPrescriptionDetail} 
+                                        onClick={() =>handleAddPrescriptionDetail(examID)} 
                                     >
                                         {t('prescribing')}
                                     </Button>

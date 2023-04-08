@@ -7,6 +7,9 @@ import { QueueStateContext } from "../../lib/context/QueueStateContext";
 import CountDownExam from "../../modules/pages/WaittingRoomComponents/CountDownExam"
 import useWaitingRoom from "../../modules/pages/WaittingRoomComponents/hooks/useWaitingRoom";
 import Loading from "../../modules/common/components/Loading";
+import { convertFirestoreTimestampToString } from "../../lib/utils/getMessagesInConversation";
+import { convertTimestampToDateTime } from "../../lib/utils/helper";
+
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
@@ -30,7 +33,7 @@ const WaitingRoom = () => {
 
         if(filteredExams.length === 0)
             return <Box className="ou-col-span-12 ou-mt-4 ou-mb-2 ou-text-center">
-                    He thong hien tai khong co phieu kham chua xu ly.
+            He thong hien tai khong co phieu kham chua xu ly.
         </Box>
    
         if (filteredExams.length > 1)
@@ -38,18 +41,21 @@ const WaitingRoom = () => {
                 <>
                     <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
                         <Box className="ou-my-2">Current</Box>
-                        <CountDownExam  currentID={filteredExams[0].examID}/>
+                        <CountDownExam  currentID={filteredExams[0].examID} 
+                        startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
                     </Box>
                     <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
                         <Box className="ou-my-2">Next</Box>
-                        <CountDownExam nextID={filteredExams[1].examID}/>
+                        <CountDownExam nextID={filteredExams[1].examID} 
+                       startedTime={convertFirestoreTimestampToString(filteredExams[1].startedDate)}/>
                     </Box>
                 </>
             )
         return (
-            <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
-                <Box className="ou-my-2">Current</Box>
-                <CountDownExam  currentID={filteredExams[0].examID}/>
+            <Box className="ou-py-4 ou-col-span-12 ou-m-auto ou-text-center">
+                <Box className="ou-my-2">Current </Box>
+                <CountDownExam  currentID={filteredExams[0].examID} 
+                startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
             </Box>
         )
         
@@ -65,23 +71,7 @@ const WaitingRoom = () => {
                   <Box className="ou-col-span-12 ou-mt-4 ou-mb-2">
                      He thong hien tai co: {queue.getLength()}/{MAX_EXAM_PER_DAY} phieu kham trong ngay {moment(CURRENT_DATE).format('DD-MM-yyyy')}
                  </Box>
-                  {queue.getLength() > 1 ? 
-                    <>
-                        <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
-                            <Box className="ou-my-2">Current</Box>
-                            <CountDownExam  currentID={queue?.front?.id}/>
-                        </Box>
-                        <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
-                            <Box className="ou-my-2">Next</Box>
-                            <CountDownExam nextID={queue.items[1].id}/>
-                        </Box>
-                    </> : queue.getLength() === 1 ?
-                         <Box className="ou-py-4 ou-col-span-12 ou-m-auto">
-                            <Box className="ou-my-2">Current</Box>
-                            <CountDownExam  currentID={queue?.front?.id}/>
-                         </Box>
-                        : <></>
-                    }
+                 {renderCurrentAndNextExam(exams)}
                 </div>
                 <Box></Box>
             <div>Geolocation is not enabled</div>

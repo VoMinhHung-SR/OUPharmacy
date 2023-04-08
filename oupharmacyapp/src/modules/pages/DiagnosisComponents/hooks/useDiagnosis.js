@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { userContext } from "../../../../App";
 import { authApi, endpoints } from "../../../../config/APIs";
+import { fetchDiagnosisByExamID } from "../services";
 
 const useDiagnosis = () => {
     const { examinationId } = useParams();
@@ -32,9 +33,9 @@ const useDiagnosis = () => {
                 }
             }
        }
-       const loadDiagnosis = async () => {
+       const loadDiagnosis = async (examinationId) => {
         try {
-            const res = await authApi().get(endpoints['get-diagnosis'](examinationId))
+            const res = await fetchDiagnosisByExamID(examinationId)
             if (res.status === 200) {
                 if(res.data){
                     setPrescriptionId(res.data.id)
@@ -57,8 +58,9 @@ const useDiagnosis = () => {
     }
        if(user){
             loadExaminationDetail()
-            loadDiagnosis()
        }
+       if(examinationId)
+            loadDiagnosis(examinationId)
     },[flag,user])
 
     return{

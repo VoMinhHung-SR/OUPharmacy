@@ -2,16 +2,25 @@ import { Box } from "@mui/material"
 import { useGeolocated } from "react-geolocated"
 import { getMinAndSecs } from "../../../../lib/utils/getMinAndSecs"
 import useCountDownTimer from "../hooks/useCountDownTimer"
+import { timeUntilExam } from "../../../../lib/utils/helper"
 
-const CountDownTimer = () => {
+const CountDownTimer = ({startedTime}) => {
     const {timerSeconds} = useCountDownTimer()
     const {min, secs} = getMinAndSecs(timerSeconds)
-   
-    return (
+    const {hasStarted, hours, minutes, seconds} = timeUntilExam(startedTime)
 
+    if(!hasStarted)
+        return <>
+            <Box>
+                The exam will start in {hours + " hours"} {minutes + " minutes"}  and {seconds} seconds
+            </Box>
+        </>
+    return (
+        <>
         <Box>
-            DAY LA DONG HO NE: {getMinAndSecs(timerSeconds)}
+           The exam has already started: {getMinAndSecs(timerSeconds)}
         </Box>
+        </>
      
     )
         
