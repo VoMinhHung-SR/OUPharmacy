@@ -2,6 +2,8 @@ import { FieldPath, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, 
 import { db } from "../../config/firebase"
 import moment from "moment";
 import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomComponents/services";
+import axios from "axios";
+import APIs, { endpoints } from "../../config/APIs";
 
 // it will return a user Id (recipient message in room chat) not current user
 export const getRecipientId = (member ,currentUserId) => member.find(userId => userId !== currentUserId)
@@ -146,3 +148,4 @@ export const keyUpdateExam = async (examId, keyUpdate) => {
     }
   }
 }
+
