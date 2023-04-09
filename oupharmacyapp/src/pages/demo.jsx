@@ -5,7 +5,9 @@ import useDebounce from "../lib/hooks/useDebounce"
 import Loading from "../modules/common/components/Loading"
 import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
 import { getDirections } from "../lib/utils/getDirections"
-import { duration } from "moment"
+import { CURRENT_DATE } from "../lib/constants"
+import moment from "moment"
+
 
 const Demo = () => {
     const [input, setInput] = useState('')
@@ -83,10 +85,7 @@ const Demo = () => {
                     {listPlace.map((place)=> <Box>{place.description} <Button onClick={()=> handleGetPlaceByID(place.place_id)}>CLICK ME</Button></Box>)}
                 </Box> 
                 : <h1>KO co phan tu</h1> }
-
-            {duration && <Box>
-                    duration: {distance.duration} : distance: {distance.distance}
-                </Box> }
+            {moment(CURRENT_DATE).format('YYYY-MM-DD')}
         </>
     )
 }
