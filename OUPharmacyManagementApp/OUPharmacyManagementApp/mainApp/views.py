@@ -1,5 +1,6 @@
 import datetime
 import http
+import math
 import uuid
 import json
 import urllib.request
@@ -200,7 +201,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         return Response(data={'errMgs': error_msg},
                         status=status.HTTP_400_BAD_REQUEST)
 
-    @action(methods=['post'], detail=True, url_path='send_mail_remind1')
+    @action(methods=['post'], detail=True, url_path='send_email_remind1')
     def send_email_remind1(self, request, pk):
         examination = self.get_object()
         if not examination:
@@ -212,12 +213,16 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             return Response(data={'errMsg': 'User or patient not found'},
                             status=status.HTTP_400_BAD_REQUEST)
         current_date = datetime.date.today().strftime('%d-%m-%Y')
-        subject = "Nhắc nhở lịch hẹn khám"
+        seconds = request.data.get('seconds')/60
+        minutes = math.ceil(int(seconds))
+        subject = "Thông báo: phiếu đăng ký khám của bạn sắp bắt đầu"
         to_user = user.email
         content = f"""Xin chào {user.first_name} {user.last_name},
-Bệnh nhân {patient.first_name} {patient.last_name} của bạn có lịch khám với OUPharmacy vào ngày {examination.created_date:%d-%m-%Y}. Đây là lời nhắc nhở đến bạn trước khi lịch hẹn sắp đến.
+Phiếu khám của bạn sẽ bắt đầu sau: {minutes} phút.
 
-Chi tiết lịch đặt khám của {user.first_name}:
+Bệnh nhân {patient.first_name} {patient.last_name} của bạn có lịch khám với chúng tôi vào ngày {examination.created_date:%d-%m-%Y}.
+
+Chi tiết lịch đặt khám của bạn:
 (+)  Mã đặt lịch: {examination.pk}
 (+)  Họ tên bệnh nhân: {patient.first_name} {patient.last_name}
 (+)  Mô tả: {examination.description}

@@ -6,8 +6,8 @@ import Loading from "../modules/common/components/Loading"
 import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
 import { getDirections } from "../lib/utils/getDirections"
 import { CURRENT_DATE } from "../lib/constants"
-import moment from "moment"
-
+import moment, { duration } from "moment"
+import { sendReminderEmail } from "../lib/services"
 
 const Demo = () => {
     const [input, setInput] = useState('')
@@ -24,6 +24,16 @@ const Demo = () => {
         duration: "",
         distance: ""
     })
+
+    const examFakeData = [{
+        examID: 26,
+        duration: 121,
+        author: "vominhhung1546@gmail.com",
+        distance: "1.09 km",
+        isCommitted: false,
+        remindStatus: false,
+        startedDate: 1652135700000
+      }];
 
     useEffect(()=> {
         const loadMapInput = async () => {
@@ -45,25 +55,43 @@ const Demo = () => {
             loadMapInput()
     }, [debounceValue])
     
-    useEffect(()=> {
-        const loadDistanceFromUser = async (lat, lng) => {
-            try{
-                const res = await getDirections(lat, lng)
-                if(res.status === 200)
-                    setDistance({distance: res.data.routes[0].legs[0].distance.text, duration: res.data.routes[0].legs[0].duration.text})
-                console.log(res.data)
+    // useEffect(()=> {
+    //     const loadDistanceFromUser = async (lat, lng) => {
+    //         try{
+    //             const res = await getDirections(lat, lng)
+    //             if(res.status === 200)
+    //                 setDistance({distance: res.data.routes[0].legs[0].distance.text, duration: res.data.routes[0].legs[0].duration.text})
+    //             console.log(res.data)
                 
-            }catch(err)
-            {
-                console.log(err)
-            }
+    //         }catch(err)
+    //         {
+    //             console.log(err)
+    //         }
            
-        }
-        if(user?.locationGeo)
-            loadDistanceFromUser(user.locationGeo.lat, user.locationGeo.lng)
+    //     }
+    //     if(user?.locationGeo)
+    //         loadDistanceFromUser(user.locationGeo.lat, user.locationGeo.lng)
 
-    }, [user])
+    // }, [user])
 
+
+    const handleSendRemindEmail = async () => {
+        const currentTime = new Date().getTime();
+
+        examFakeData.forEach(async (exam) => {
+            console.log(exam)
+            const examStartTime = new Date(exam.startedDate).getTime();
+            const examEndTime = examStartTime + exam.duration * 1000;
+            console.log("current:", currentTime)
+            console.log("start:", examStartTime)
+            console.log("end", examEndTime)
+            console.log(currentTime + 60 * 1000  >= examStartTime)
+          if (currentTime + 60 * 1000 >= examEndTime && !exam.reminderSent) {
+            await sendReminderEmail(exam.examID, exam.duration);
+          }
+        });
+      };
+    
     const handleGetPlaceByID = async (placeId) =>{
         const res = await fetchPlaceById(placeId)
         if(res.status === 200){
@@ -86,6 +114,8 @@ const Demo = () => {
                 </Box> 
                 : <h1>KO co phan tu</h1> }
             {moment(CURRENT_DATE).format('YYYY-MM-DD')}
+
+            <Button onClick={handleSendRemindEmail}>SEND EMAIL REMIND</Button>
         </>
     )
 }
