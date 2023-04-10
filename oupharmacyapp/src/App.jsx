@@ -34,8 +34,10 @@ import Demo from './pages/demo'
 import { getCookieValue } from './lib/utils/getCookieValue'
 import { fetchListExamOncePerDay } from './lib/utils/fetchListExamOncePerDay'
 import { endpoints } from './config/APIs'
-import { getTotalListExamPerDay, setListExamToday } from './lib/utils/helper'
+import { getListExamToday, getTotalListExamPerDay, setListExamToday } from './lib/utils/helper'
 import { fetchListExaminationToday } from './modules/pages/WaittingRoomComponents/services'
+import { jobMidnight } from './cron/job/at_midnight'
+import { jobEveryMinutes } from './cron/job/every_minutes'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -46,26 +48,24 @@ function App() {
   const [user, dispatch] = useReducer(userReducer, getCookieValue('user'))
   
   useEffect(()=> {
-    const getTotalListExamPerDay = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetchListExaminationToday();
-        if (res.status === 200) return res.data.length;
-      } catch (err) {
-        return -1;
+        // const totalListExam = await getTotalListExamPerDay();
+        const [configData, listExamTodayData] = await Promise.all([
+          configDispatch(getAllConfig()).unwrap(),
+          getListExamToday(),
+        ]);
+        console.log('Mới vào app: ', [configData, listExamTodayData]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    getTotalListExamPerDay().then((totalListExam) => {
-      Promise.all([
-        configDispatch(getAllConfig()).unwrap(),
-        fetchListExamOncePerDay(BACKEND_BASEURL + endpoints['get-list-exam-today'], (data) => {
-          setListExamToday(data);
-        }, totalListExam)
-      ])
-        .then((res) => console.log('Mới vào app: ', res))
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
-    });
+    fetchData()
+    jobMidnight()
+    jobEveryMinutes()
   },[])
 
 

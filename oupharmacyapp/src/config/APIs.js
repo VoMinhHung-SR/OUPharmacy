@@ -34,7 +34,7 @@ export let endpoints = {
     'get-list-exam-today':'/examinations/get-list-exam-today/',
     'examination-detail': (examinationId) => `/examinations/${examinationId}/`,
     'send-mail': (examinationId) => `/examinations/${examinationId}/send_mail/`,
-    'send-email-remind1': (examinationId) => `/examinations/${examinationId}/send_mail_remind1/`, // Email remind go to OUPharmacy
+    'send-email-remind1': (examinationId) => `/examinations/${examinationId}/send_email_remind1/`, // Email remind go to OUPharmacy
     'get-diagnosis': (examinationId) => `/examinations/${examinationId}/get-diagnosis/`,
     
     // Diagnosis

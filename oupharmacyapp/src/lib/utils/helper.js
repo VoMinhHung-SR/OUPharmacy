@@ -4,6 +4,7 @@ import moment from "moment";
 import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomComponents/services";
 import axios from "axios";
 import APIs, { endpoints } from "../../config/APIs";
+import { loadDistanceFromUser } from "../services";
 
 // it will return a user Id (recipient message in room chat) not current user
 export const getRecipientId = (member ,currentUserId) => member.find(userId => userId !== currentUserId)
@@ -102,34 +103,38 @@ export const setListExamToday = async (examData) => {
     const waitingRoomRef = doc(db, 'waiting-room', today);
     let examList = [];
     if(examData.length !== 0){
-        examData.map((exam, index) => {
+      for (let i = 0; i < examData.length; i++) {
+          const exam = examData[i];
+          const startedDate = new Date();
+          startedDate.setHours(7, 0, 0, 0); // Set to 7AM
+          startedDate.setMinutes(startedDate.getMinutes() + i * 20); // Add 20 minutes for each index
 
-            const startedDate = new Date();
-            startedDate.setHours(7, 0, 0, 0); // Set to 7AM
-            startedDate.setMinutes(startedDate.getMinutes() + index * 20); // Add 20 minutes for each index
+          const {distance, duration} = await loadDistanceFromUser(exam.user.locationGeo.lat, exam.user.locationGeo.lng);
 
-            const data = {
-                emailRemind: false,
-                isCommitted: false,
-                remindStatus: false,
-                examID: exam.id,
-                author: exam.user.email,
-                startedDate
-            }
+          const data = {
+              isCommitted: false,
+              remindStatus: false,
+              examID: exam.id,
+              author: exam.user.email,
+              startedDate,
+              distance,
+              duration
+          };
 
-            examList.push(data);
-        })
-        try {
-            await setDoc(waitingRoomRef, {exams: examList}, { merge: true });
-            console.log('Document saved successfully!');
-          } catch (error) {
-            console.error('Error saving document:', error);
-        }
-    }
+          examList.push(data);
+      }
+
+      try {
+          await setDoc(waitingRoomRef, {exams: examList}, { merge: true });
+          console.log('Document saved successfully!');
+      } catch (error) {
+          console.error('Error saving document:', error);
+      }
+  }
 }
 
 
-export const keyUpdateExam = async (examId, keyUpdate) => {
+export const keyUpdateExam = async (examId, keyUpdate, value) => {
   const todayStr = new Date().toLocaleDateString();
   const today = moment(todayStr).format('YYYY-MM-DD');
 
@@ -141,11 +146,10 @@ export const keyUpdateExam = async (examId, keyUpdate) => {
     const examToUpdate = exams.find(exam => exam.examID === examId);
 
     if (examToUpdate) {
-      const updatedExam = { ...examToUpdate, keyUpdate: true };
+      const updatedExam = { ...examToUpdate, [keyUpdate]: value };
       const updatedExams = exams.map(exam => exam.examID === examId ? updatedExam : exam);
 
       await updateDoc(waitingRoomRef, { exams: updatedExams });
     }
   }
 }
-
