@@ -6,7 +6,7 @@ import Loading from "../modules/common/components/Loading"
 import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
 import { getDirections } from "../lib/utils/getDirections"
 import { CURRENT_DATE } from "../lib/constants"
-import moment, { duration } from "moment"
+import moment from "moment"
 import { sendReminderEmail } from "../lib/services"
 
 const Demo = () => {
