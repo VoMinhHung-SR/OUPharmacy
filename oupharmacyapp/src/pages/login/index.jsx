@@ -37,7 +37,7 @@ const Login = () =>{
                     "transform": "translate(-50%, -50%)"
                 }}>
 
-                    <Container style={{ "padding": "20px", "width": "600px", "border": "2px solid black", "borderRadius": "5px" }}>
+                    <Container style={{ "padding": "20px", "width": "600px", "border": "1.5px solid black", "borderRadius": "5px" }}>
                         <Box style={{"margin":"12px auto"}}>
                             <Avatar sx={{ width: '200px', height: '50px', margin:"auto" }} variant="square"
                                 src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354515/OUPharmacy/Untitled-1_hdvtsk.png"></Avatar>
@@ -78,9 +78,9 @@ const Login = () =>{
                                     type="text"
                                     label= {t('username')}
                                     error={methods.formState.errors.username}
-                                    helperText={methods.formState.errors.username ? methods.formState.errors.username.message : ""}
                                     {...methods.register("username")}
                                 />
+                                {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.username?.message}</p>) : <></>}
                             </Grid>
                             <Grid item xs={12} style={{margin:"16px 0"}}>
                                 <TextField
@@ -91,14 +91,14 @@ const Login = () =>{
                                     type="password"
                                     label={t('password')}
                                     error={methods.formState.errors.password}
-                                    helperText={methods.formState.errors.password ? methods.formState.errors.password.message : ""}
                                     {...methods.register("password")}
                                 />
+                                 {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.password?.message}</p>) : <></>}
                             </Grid>
                             <div style={{ "margin": "0 auto", "textAlign": "center" }}>
                                 <Button
                                     type="submit"
-                                    fullWidth
+                                    className="!ou-bg-blue-600 !ou-text-white !ou-min-w-[80px] !ou-px-5"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
                                     {t('login')}
@@ -107,15 +107,15 @@ const Login = () =>{
                                     <Grid item>
                                         <Link
                                             to="/register/"
-                                            style={{ textDecoration: "inherit", color: "black", margin: "10px 5px" }}
+                                            sx={{ mt: 3, mb: 2 }}
                                         >
-                                            <Button variant="default" type="submit" >{t('register')}</Button>
+                                            <Button variant="default" >{t('register')} </Button>
                                         </Link>
                                         <Link
                                             to="/"
-                                            style={{ textDecoration: "inherit", color: "black", margin: "10px 5px" }}
+                                            style={{ textDecoration: "inherit", margin: "10px 5px" }}
                                         >
-                                            <Button className="!ou-bg-blue-600 !ou-text-white " type="submit" >{t('homePage')}</Button>
+                                            <Button >{t('homePage')}</Button>
                                         </Link>
                                     </Grid>
                                 </Grid>

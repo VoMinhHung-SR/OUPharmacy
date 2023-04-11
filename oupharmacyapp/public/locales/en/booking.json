@@ -2,7 +2,7 @@
     "enterEmail": "Enter your email",
 
     "booking": "Booking",
-    "patientInfo": "Patient infomation",
+    "patientInfo": "Patient information",
     "description": "Description",
     "createdDate": "Day of the examination",
     "firstName": "First name",
@@ -16,5 +16,7 @@
     "new": "Create new",
     "man": "Man",
     "woman": "Woman",
-    "secret": "Secret"
+    "secret": "Secret",
+
+    "confirmBooking": "Confirmation of booking form"
 }

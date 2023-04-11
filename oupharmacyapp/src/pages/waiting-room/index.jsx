@@ -13,7 +13,7 @@ import { convertTimestampToDateTime } from "../../lib/utils/helper";
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
-    const { exams, isLoading } = useWaitingRoom()
+    const { exams, isLoaded } = useWaitingRoom()
 
     const {isGeolocationAvailable, isGeolocationEnabled, coords, getPosition} = useGeolocated({
         positionOptions: {
@@ -22,7 +22,7 @@ const WaitingRoom = () => {
         userDecisionTimeout: 5000,
     })
    
-    if(isLoading){
+    if(!isLoaded){
         return <>
             <Box> <Loading/> </Box>
         </>
@@ -66,11 +66,7 @@ const WaitingRoom = () => {
         <div>Your browser does not support Geolocation</div>
     ) : !isGeolocationEnabled ? (
         <Container>
-             <Button onClick={()=> queue.dequeue()}>xoa</Button>
               <div className="ou-grid ou-grid-cols-12 ou-text-center">
-                  <Box className="ou-col-span-12 ou-mt-4 ou-mb-2">
-                     He thong hien tai co: {queue.getLength()}/{MAX_EXAM_PER_DAY} phieu kham trong ngay {moment(CURRENT_DATE).format('DD-MM-yyyy')}
-                 </Box>
                  {renderCurrentAndNextExam(exams)}
                 </div>
                 <Box></Box>
@@ -78,31 +74,9 @@ const WaitingRoom = () => {
         </Container>
     ) : coords ? (
         <Container>
-            <Button onClick={()=> queue.dequeue()}>xoa</Button>
               <div className="ou-grid ou-grid-cols-12 ou-text-center">
-                  <Box className="ou-col-span-12 ou-mt-4 ou-mb-2">
-                     He thong hien tai co: {queue.getLength()}/{MAX_EXAM_PER_DAY} phieu kham trong ngay {moment(CURRENT_DATE).format('DD-MM-yyyy')}
-                 </Box>
                     {renderCurrentAndNextExam(exams)}
                 </div>
-            <Box>
-            
-                <Button onClick={()=> console.log(getPosition)}>GET POSITION</Button>
-                
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>latitude</td>
-                            <td>{coords.latitude}</td>
-                        </tr>
-                        <tr>
-                            <td>longitude</td>
-                            <td>{coords.longitude}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </Box>
-     
             </Container>
         
     ) : (

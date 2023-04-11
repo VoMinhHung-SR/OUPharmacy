@@ -59,7 +59,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
 
   return (
     <>
-      {isBackdropLoading && <Box><BackdropLoading/></Box>}
+      {/* {isBackdropLoading && <Box><BackdropLoading/></Box>} */}
       <TableRow
         key={id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

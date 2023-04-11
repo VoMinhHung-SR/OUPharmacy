@@ -3,7 +3,6 @@ import { Box, Button, Container, FormControl, Grid, InputAdornment, InputLabel, 
     OutlinedInput, Paper, Select, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import BackdropLoading from "../../../common/components/BackdropLoading";
 import Loading from "../../../common/components/Loading";
 import useFormAddExamination from "./hooks/useFormAddExamination"
 import { CURRENT_DATE } from "../../../../lib/constants";
@@ -28,7 +27,7 @@ const FormAddExamination = (props) => {
             gender:0
         }
     })
-    // TODO: adding skeletons here
+
     if (tReady)
         return <Box sx={{ minHeight: "300px" }}>
         <Box className='ou-p-5'>
@@ -61,7 +60,6 @@ const FormAddExamination = (props) => {
                                         type="text"
                                         label={t('description')}
                                         error={methods.formState.errors.description}
-                                        helperText={methods.formState.errors.description ? methods.formState.errors.description.message : ""}
                                         {...methods.register("description")}
                                     />
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.description?.message}</p>) : <></>}
@@ -78,15 +76,15 @@ const FormAddExamination = (props) => {
                                     type="date"
                                     label={t('createdDate')}
                                     error={methods.formState.errors.createdDate}
-                                    helperText={methods.formState.errors.createdDate ? methods.formState.errors.createdDate.message : ""}
                                     {...methods.register("createdDate")}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
                                     inputProps={{
-                                        min: moment(CURRENT_DATE).format('YYYY-MM-DD') ,
+                                        min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD') ,
                                     }}
                                 />
+                                {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.createdDate?.message}</p>) : <></>}
                             </Grid>
                         </Grid>
 
@@ -101,10 +99,9 @@ const FormAddExamination = (props) => {
                                     type="text"
                                     label={t('firstName')}
                                     error={methods.formState.errors.firstName}
-                                    helperText={methods.formState.errors.firstName ? methods.formState.errors.firstName.message : ""}
                                     {...methods.register("firstName")}
                                 />
-                            </Grid>
+                                {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.firstName?.message}</p>) : <></>}                            </Grid>
 
                             <Grid item xs={6} className="!ou-mt-6 ou-pl-2" >
                                 <TextField
@@ -115,9 +112,9 @@ const FormAddExamination = (props) => {
                                     type="text"
                                     label={t('lastName')}
                                     error={methods.formState.errors.lastName}
-                                    helperText={methods.formState.errors.lastName ? methods.formState.errors.lastName.message : ""}
                                     {...methods.register("lastName")}
                                 />
+                                {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.lastName?.message}</p>) : <></>}
                             </Grid>
                         </Grid>
 
@@ -132,13 +129,13 @@ const FormAddExamination = (props) => {
                                     label={t('email')}
                                     value={props.email}
                                     error={methods.formState.errors.email}
-                                    helperText={methods.formState.errors.email ? methods.formState.errors.email.message : ""}
                                     {...methods.register("email")}
                                     InputProps={{
                                         readOnly: true,
                                         startAdornment: <InputAdornment position="start"></InputAdornment>,
                                     }}
                                 />
+                                {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.email?.message}</p>) : <></>}
                             </Grid>
                             <Grid item xs={5} className="!ou-mt-6 ou-pl-2">
 
@@ -149,11 +146,10 @@ const FormAddExamination = (props) => {
                                     name="phoneNumber"
                                     type="text"
                                     label={t('phoneNumber')}
-                                    // value={props.phoneNumber ===""? "": props.phoneNumber}
                                     error={methods.formState.errors.phoneNumber}
-                                    helperText={methods.formState.errors.phoneNumber ? methods.formState.errors.phoneNumber.message : ""}
                                     {...methods.register("phoneNumber")}
                                     />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.phoneNumber?.message}</p>) : <></>}
                             </Grid>
                         </Grid>
 
@@ -168,10 +164,9 @@ const FormAddExamination = (props) => {
                                     label={t('address')}
                                     value={props.address}
                                     error={methods.formState.errors.address}
-                                    helperText={methods.formState.errors.address ? methods.formState.errors.address.message : ""}
-                                    {...methods.register("address")} 
-                            
+                                    {...methods.register("address")}                             
                                     />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.address?.message}</p>) : <></>}
                                     
                             </Grid>
 
