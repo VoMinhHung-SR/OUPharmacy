@@ -15,7 +15,7 @@ import { changeLanguage } from "i18next";
 
 import FlagUK from "../../../../../public/flagUK";
 import FlagVN from "../../../../../public/flagVN";
-import { ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
+import { ERROR_CLOUDINARY, ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
 import useNotification from "../../../../lib/hooks/useNotification";
 
 import NotificationButton from "../../components/button/Notification";
@@ -158,9 +158,10 @@ const Nav = () => {
               aria-controls={open ? 'account-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}>
-                {user.avatar_path ? <Avatar sx={{ width: 32, height: 32 }} src={user.avatar_path} alt={user.first_name + " " + user.last_name}/> 
-                : <Avatar sx={{ width: 32, height: 32 }} alt={user.first_name + " " + user.last_name} src="/broken-image.jpg"/> }
-  
+              <Avatar sx={{ width: 32, height: 32 }} 
+              className="ou-bg-cyan-50"
+              src={(user.avatar_path && user.avatar_path != ERROR_CLOUDINARY) ? user.avatar_path : "https://res.cloudinary.com/dl6artkyb/image/upload/v1666353307/OUPharmacy/logo_oupharmacy_kz2yzd.png"} 
+              alt={user.first_name + " " + user.last_name}/> 
             </IconButton>
           </Tooltip>
          

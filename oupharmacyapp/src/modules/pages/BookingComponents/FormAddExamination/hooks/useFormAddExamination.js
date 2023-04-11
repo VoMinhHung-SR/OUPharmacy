@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import SuccessfulAlert, { ErrorAlert } from '../../../../../config/sweetAlert2';
+import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from '../../../../../config/sweetAlert2';
 import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER } from '../../../../../lib/constants';
 import { featchCreateExamination, fetchCreateOrUpdatePatient } from '../services';
 
 
 const useFormAddExamination = () => {
-    const {t} = useTranslation(['yup-validate','modal']);
+    const {t} = useTranslation(['yup-validate','modal', 'booking']);
 
     const [openBackdrop, setOpenBackdrop] = useState(false)
 
@@ -63,37 +63,45 @@ const useFormAddExamination = () => {
             address: data.address,
             gender: data.gender
         }
-
-        setOpenBackdrop(true)
-        const res = await fetchCreateOrUpdatePatient(patientID, patientData);
-        // Update done or created patient info
-        if(res.status === 200 || res.status === 201){
-            console.log(res)
-            const examinationData = {
-                patient: res.data.id,
-                description: data.description,
-                created_date: data.createdDate
-            }
-            const resExamination = await featchCreateExamination(examinationData);
-            if(resExamination.status === 201){
-                callback();
-                SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
+        const handleOnSubmit = async () => {
+            setOpenBackdrop(true)
+            const res = await fetchCreateOrUpdatePatient(patientID, patientData);
+            // Update done or created patient info
+            if(res.status === 200 || res.status === 201){
+                console.log(res)
+                const examinationData = {
+                    patient: res.data.id,
+                    description: data.description,
+                    created_date: data.createdDate
+                }
+                const resExamination = await featchCreateExamination(examinationData);
+                if(resExamination.status === 201){
+                    SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
+                    callback();
+                }
+                else{
+                    setOpenBackdrop(false)
+                    return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+                }
+                if(resExamination.status === 500){
+                    setOpenBackdrop(false)
+                    return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+                }
             }
             else{
                 setOpenBackdrop(false)
                 return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
             }
-            if(resExamination.status === 500){
-                setOpenBackdrop(false)
-                return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
-            }
-        }
-        else{
             setOpenBackdrop(false)
-            return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
         }
-        setOpenBackdrop(false)
+        
+        return ConfirmAlert(t('booking:confirmBooking'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
+        // this is callback function when user confirmed "Yes"
+        ()=>{
+            handleOnSubmit()
+        }, () => { return; })
     }
+
     return {
         openBackdrop,
         onSubmit,

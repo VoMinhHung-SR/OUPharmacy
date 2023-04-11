@@ -11,17 +11,6 @@ const useWaitingRoom = () => {
   const [exams, setExams] = useState([]);
   const todayStr = new Date().toLocaleDateString();
   const today = moment(todayStr).format('YYYY-MM-DD');
-  // const query = useMemo(() => generateQueryGetWaitingRoomListToday(today), [today]);
-  // const [waitingRoomSnapShot, waitingRoomLoading, error] = useCollection(query);
-
-  // useEffect(() => {
-  //   if (!waitingRoomLoading && waitingRoomSnapShot) {
-  //     const newExams = waitingRoomSnapShot.docs.map(doc => ({ id: doc.id, ...doc.data().exams }));
-  //     setExams(newExams);
-  //   } else {
-  //     setExams([]);
-  //   }
-  // }, [waitingRoomLoading, waitingRoomSnapShot]);
 
   useEffect(() => {
 
@@ -43,7 +32,7 @@ const useWaitingRoom = () => {
   }, [today]);
 
 
-  return { exams, isLoading: !exams.length };
+  return { exams, isLoaded: !exams.length };
 };
 
 export default useWaitingRoom;

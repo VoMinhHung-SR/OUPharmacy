@@ -38,6 +38,7 @@ import { getListExamToday, getTotalListExamPerDay, setListExamToday } from './li
 import { fetchListExaminationToday } from './modules/pages/WaittingRoomComponents/services'
 import { jobMidnight } from './cron/job/at_midnight'
 import { jobEveryMinutes } from './cron/job/every_minutes'
+import BackdropLoading from './modules/common/components/BackdropLoading'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -71,7 +72,7 @@ function App() {
 
   
 
-    return isLoading ? <Box><Loading/></Box> :
+    return isLoading ? <Box className='ou-h-[100vh] ou-flex ou-place-content-center'><Loading/></Box> :
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <BrowserRouter>
