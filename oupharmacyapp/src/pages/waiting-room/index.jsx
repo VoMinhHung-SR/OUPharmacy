@@ -21,8 +21,7 @@ const WaitingRoom = () => {
         },
         userDecisionTimeout: 5000,
     })
-   
-    if(!isLoaded){
+    if(isLoaded){
         return <>
             <Box> <Loading/> </Box>
         </>
