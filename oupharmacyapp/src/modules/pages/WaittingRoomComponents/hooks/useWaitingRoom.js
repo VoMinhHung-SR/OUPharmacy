@@ -11,7 +11,7 @@ const useWaitingRoom = () => {
   const [exams, setExams] = useState([]);
   const todayStr = new Date().toLocaleDateString();
   const today = moment(todayStr).format('YYYY-MM-DD');
-
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
 
     const unsubscribe = onSnapshot(doc(db, 'waiting-room', today), (docSnapshot) => {
@@ -22,8 +22,11 @@ const useWaitingRoom = () => {
         console.log('No matching documents found.');
         setExams([]);
       }
+
+      setIsLoading(false)
     }, (error) => {
       console.log('Error getting documents: ', error);
+      setIsLoading(false)
       setExams([]);
     });
 
@@ -32,7 +35,7 @@ const useWaitingRoom = () => {
   }, [today]);
 
 
-  return { exams, isLoaded: !exams.length };
+  return { exams, isLoading };
 };
 
 export default useWaitingRoom;

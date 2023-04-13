@@ -1,24 +1,38 @@
 import { useState } from "react";
-import ReactMapGL from '@goongmaps/goong-map-react';
-import { GOONGMAP_MAPTOKEN } from "../../../../lib/constants";
-// import { Map, Marker } from "react-map-gl"
-// import { MAPGL_TOKEN } from "../../../../lib/constants"
+import { Map, Marker } from "react-map-gl"
+import { MAPGL_TOKEN } from "../../../../lib/constants"
+// import ReactMapGL from '@goongmaps/goong-map-react';
+// import { GOONGMAP_MAPTOKEN } from "../../../../lib/constants";
+import { ORIGIN_LAT } from "../../../../lib/constants";
+import { ORIGIN_LNG } from "../../../../lib/constants";
 
 const MapGL = (props) => {
-    const [viewport, setViewport] = useState({
-        width: 400,
-        height: 400,
-        latitude: 10.793500150986223,
-        longitude: 106.67777364026149,
-        zoom: 16
-      });
-    
+
       return (
-        <ReactMapGL
-          {...viewport}
-          goongApiAccessToken={GOONGMAP_MAPTOKEN}
-          onViewportChange={nextViewport => setViewport(nextViewport)}
-        />
+        // <ReactMapGL
+        //   {...viewport}
+        //   goongApiAccessToken={GOONGMAP_MAPTOKEN}
+        //   onViewportChange={nextViewport => setViewport(nextViewport)}
+        // />   
+        <Map        
+          mapboxAccessToken={MAPGL_TOKEN}  
+          initialViewState={  
+              {
+                  longitude:props.longitude ? props.longitude : 90 ,
+                  latitude: props.latitude ? props.latitude : ORIGIN_LAT,
+                  zoom: props.zoom ? props.zoom : 15
+
+              }
+          }
+
+          style={{minWidth:350, minHeight:600}}
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+        >
+
+          <Marker latitude={props.latitude ? props.latitude :  ORIGIN_LAT} longitude={props.longitude ? props.longitude : 90}>
+          </Marker>
+
+        </Map>
       );
 }
 
