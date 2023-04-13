@@ -44,7 +44,6 @@ const Home = () => {
                 max-[600px]:ou-w-[354px] max-[600px]:ou-m-auto ou-rounded
                 ou-m-5 ou-border-solid  ou-border-2 ou-border-black ou-min-w-[354px]"
         >
-          <Box>Map ow day ne</Box>
           <MapGL longitude={viewport.longitude} latitude={viewport.latitude} zoom={viewport.zoom}/>
         </Box>
         <Box

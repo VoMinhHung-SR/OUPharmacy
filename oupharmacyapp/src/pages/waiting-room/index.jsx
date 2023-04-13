@@ -13,7 +13,7 @@ import { convertTimestampToDateTime } from "../../lib/utils/helper";
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
-    const { exams, isLoaded } = useWaitingRoom()
+    const { exams, isLoaded , isLoading} = useWaitingRoom()
 
     const {isGeolocationAvailable, isGeolocationEnabled, coords, getPosition} = useGeolocated({
         positionOptions: {
@@ -21,7 +21,7 @@ const WaitingRoom = () => {
         },
         userDecisionTimeout: 5000,
     })
-    if(isLoaded){
+    if(isLoading){
         return <>
             <Box> <Loading/> </Box>
         </>
