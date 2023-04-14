@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { userContext } from '../../../App';
 import useConversationList from '../../pages/ConversationListComponents/hooks/useConversationList';
 import Loading from '../components/Loading';
+import Icon401Unauthorized from '../../../lib/assets/icon401Unauthorized';
 
 const ProtectedUserRoute = () => {
     const {t, ready} = useTranslation(['common','modal']);
@@ -28,7 +29,8 @@ const ProtectedUserRoute = () => {
                     <Box className='ou-absolute ou-p-5 ou-text-center 
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                        <Container className="ou-text-center ou-mt-5">
+                        <Container className="ou-text-center">
+                            <Box className="ou-flex ou-items-center ou-justify-center"><Icon401Unauthorized /></Box>
                             <h4 className='ou-text-red-600 ou-text-xl'>{t('common:errNullUser')}</h4>
                             <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
                         </Container>
