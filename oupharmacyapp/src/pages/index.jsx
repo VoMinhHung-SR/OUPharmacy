@@ -58,31 +58,6 @@ const Home = () => {
           </Button>
         </Box>
       </Box>
-      <Button variant="contained" color="primary" onClick={handleOpenModal}>
-        Open Modal
-      </Button>
-      <Button variant="contained" color="primary" onClick={()=> queue.dequeue()}>
-        Dequeue
-      </Button>
-      <CustomModal
-        open={isOpen}
-        onClose={handleCloseModal}
-        title={<Box>XIN CHAO </Box>}
-        content={<Box><div>Day la content 1</div> <div>Day la content 2</div></Box>}
-        actions={[
-          <Button key="cancel" onClick={handleCloseModal}>
-            Cancel
-          </Button>,
-          <Button
-            key="save"
-            variant="contained"
-            color="primary"
-            onClick={notify}
-          >
-            Save
-          </Button>,
-        ]}
-        />
     </>
   );
 };

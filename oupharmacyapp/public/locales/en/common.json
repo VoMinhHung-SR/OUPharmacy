@@ -27,5 +27,34 @@
     "changeLanguage": "Change to Vietnamese",
     "currentSystem":"The current system has",
     "totalCheckUpsToday": "Total number of check-ups today",
-    "totalExamsList": "Total examinations"
+    "totalExamsList": "Total examinations",
+
+    "categories": "Categories",
+    "prescriptionDrugs": "Prescription drugs",
+    "otcDrugs": "Over-the-counter drugs",
+    "functionalFoods": "Functional foods",
+
+    "aboutUs": "About us",
+    "introduce": "Introduce",
+    "businessLicense": "Business license",
+    
+    "terms": "Terms",
+    "security": "Security",
+    "support": "Support",
+    "privacy": "Privacy",
+    
+    "pharmacySystem": "Pharmacy system",
+    "drugSystem": "Drug system",
+    "pharmacyRules": "Pharmacy rules",
+    "serviceQuality": "Service quality",
+    "returnPolicy": "Return policy",
+    "warrantyPolicy": "Warranty policy",
+
+    "contactUs": "Contact Us",
+    "hotline": "Hotline",
+
+    "operatingTime": "Operating time",
+    "examinationSchedule": "Examination schedule (2-7): 7AM-5PM",
+    "onlineConsultation": "Online consultation"
+
 }

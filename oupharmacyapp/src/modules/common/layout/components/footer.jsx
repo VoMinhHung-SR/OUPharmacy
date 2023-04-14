@@ -1,9 +1,15 @@
 import { Avatar, Container, Grid, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import { useTranslation } from 'react-i18next';
 
 
 const Footer = () => {
+    const {t, tReady} = useTranslation("common");
+
+    if(tReady)
+        return <Box></Box>
+
     return(
         <>
             
@@ -25,61 +31,62 @@ const Footer = () => {
                         </Grid>
                         <Grid item xs={3}>
                             <div className='ou-text-left'>
-                                <h4 className='ou-text-green-500 ou-uppercase'>Về Chúng Tôi</h4>
+                                <h4 className='ou-text-green-500 ou-uppercase'>{t('aboutUs')}</h4>
                                 <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
-                                    <Link className='ou-my-0.5' to="#">Giới thiệu</Link>
-                                    <Link className='ou-my-0.5' to='#'>Giấy phép kinh doanh</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('introduce')}</Link>
+                                    <Link className='ou-my-0.5' to='#'>{t('businessLicense')}</Link>
 
                                 </Stack> 
                             </div>
                             <div className='ou-text-left ou-mt-5'>
-                                <h4 className='ou-text-green-500 ou-uppercase '>Các điều khoản</h4>
-                                <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
-                                    <Link className='ou-my-0.5' to="#">Bảo mật</Link>
-                                    <Link className='ou-my-0.5' to="#">Trợ giúp</Link>
-                                    <Link className='ou-my-0.5' to="#">Quyền riêng tư</Link>
-                                </Stack> 
-                            </div>
+                                    <h4 className='ou-text-green-500 ou-uppercase '>{t('categories')}</h4>
+                                    <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
+                                        <Link className='ou-my-0.5' to="#">{t('prescriptionDrugs')}</Link>
+                                        <Link className='ou-my-0.5' to="#">{t('otcDrugs')}</Link>
+                                        <Link className='ou-my-0.5' to="#">{t('functionalFoods')}</Link>
+                                    </Stack> 
+                                </div>
                         </Grid>
                         <Grid item xs={3}>
                        
                             <div className='ou-text-left'>
-                                <h4 className='ou-text-green-500 ou-uppercase '>Hệ thống thuốc</h4>
+                                <h4 className='ou-text-green-500 ou-uppercase '>{t('pharmacySystem')}</h4>
                                 <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
-                                    <Link className='ou-my-0.5' to="#">Hệ thống nhà thuốc</Link>
-                                    <Link className='ou-my-0.5' to="#">Nội quy nhà thuốc</Link>
-                                    <Link className='ou-my-0.5' to="#">Chất lượng phục vụ</Link>
-                                    <Link className='ou-my-0.5' to="#">Chính sách đổi trả, bảo hành</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('drugSystem')}</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('pharmacyRules')}</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('serviceQuality')}</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('returnPolicy')}</Link>
+                                       <Link className='ou-my-0.5' to="#">{t('warrantyPolicy')}</Link>
                                     </Stack> 
                             </div>
                             
-                    
                             <div className='ou-text-left ou-mt-5'>
-                                    <h4 className='ou-text-green-500 ou-uppercase '>Doanh mục</h4>
-                                    <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
-                                        <Link className='ou-my-0.5' to="#">Thuốc kê toa</Link>
-                                        <Link className='ou-my-0.5' to="#">Thuốc không kê toa</Link>
-                                        <Link className='ou-my-0.5' to="#">Thực phẩm sức năng</Link>
-                                    </Stack> 
-                                </div>
+                                <h4 className='ou-text-green-500 ou-uppercase '>{t('terms')}</h4>
+                                <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
+                                    <Link className='ou-my-0.5' to="#">{t('security')}</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('support')}</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('privacy')}</Link>
+                                </Stack> 
+                            </div>
+                         
                         
 
                         </Grid>
                       
                         <Grid item xs={3}>
                             <div className='ou-text-left '>
-                                <h4 className='ou-text-green-500 ou-uppercase '>Kết nối với chúng tôi</h4>
+                                <h4 className='ou-text-green-500 ou-uppercase '>{t('contactUs')}</h4>
                                 <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
-                                    <Link className='ou-my-0.5' to="#">Liên hệ ngay: 0382590839</Link>
-                                    <Link className='ou-my-0.5' to="#">Trợ giúp</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('hotline')}: 0382590839</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('support')}</Link>
                                 </Stack> 
                             </div>
                                     
                             <div className='ou-text-left ou-mt-5'>
-                                <h4 className='ou-text-green-500 ou-uppercase '>Thời gian hoạt động:</h4>
+                                <h4 className='ou-text-green-500 ou-uppercase '>{t('operatingTime')}</h4>
                                 <Stack direction="row"  style={{ "flexDirection":"column"}} className='ou-mt-2'>
-                                    <Link className='ou-my-0.5' to="#">Lịch khám (2-7): 07:00 - 15:00</Link>
-                                    <Link className='ou-my-0.5' to="#">Tư vấn online: 24/24</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('examinationSchedule')}</Link>
+                                    <Link className='ou-my-0.5' to="#">{t('onlineConsultation')}: 24/24</Link>
                                 </Stack> 
                             </div>
                         </Grid>
