@@ -247,7 +247,7 @@ const Nav = () => {
       )
   }
   return (
-    <AppBar position="static" className="!ou-bg-blue-600" >
+    <AppBar position="fixed" className="!ou-bg-blue-600" >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}

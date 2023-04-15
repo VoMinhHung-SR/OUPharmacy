@@ -20,7 +20,7 @@ const Forbidden = () => {
                 ou-flex-col ou-flex ou-justify-center ou-items-center
                 ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                 <Container className="ou-text-center ou-mt-5">
-                    <Box className="ou-flex ou-items-center ou-justify-center"><Icon403Forbidden/></Box>
+                    <Box className="ou-flex ou-items-center ou-justify-center ou-max-w-[350px] ou-max-h-[350px] ou-m-auto "><Icon403Forbidden/></Box>
                     <h3 className="ou-text-red-600 ou-text-xl">{t('common:errForbidden')}</h3>
                     <div className="ou-text-sm">{t('common:loginValidUser')}</div>
                 </Container>
