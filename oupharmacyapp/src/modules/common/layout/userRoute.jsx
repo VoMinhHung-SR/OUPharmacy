@@ -30,7 +30,7 @@ const ProtectedUserRoute = () => {
                         ou-flex-col ou-flex ou-justify-center ou-items-center
                         ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
                         <Container className="ou-text-center">
-                            <Box className="ou-flex ou-items-center ou-justify-center"><Icon401Unauthorized /></Box>
+                            <Box className="ou-flex ou-items-center ou-justify-center ou-max-w-[400px] ou-max-h-[400px] ou-m-auto"><Icon401Unauthorized /></Box>
                             <h4 className='ou-text-red-600 ou-text-xl'>{t('common:errNullUser')}</h4>
                             <Button onClick={() => { router('/login') }}>{t('common:here')}!</Button>
                         </Container>

@@ -9,10 +9,10 @@ import LimitExamPerDay from "../../pages/HomeComponents/LimitExamPerDay";
 const Layout = () => (
     <>
         <Nav/>
-        <main className="ou-min-h-[550px] ou-relative ou-z-0">
-            <Container>
+        <main className="ou-min-h-[550px] ou-relative ou-z-0 ou-mt-[62px]">
+            {/* <Container> */}
                 <Outlet/>
-            </Container>
+            {/* </Container> */}
         </main>
         <LimitExamPerDay/>
         <Footer />
