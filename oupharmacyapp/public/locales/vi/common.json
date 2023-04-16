@@ -27,36 +27,6 @@
     "changeLanguage": "Đổi sang tiếng Anh",
     "currentSystem":"Hệ thống hiện tại có",
     "totalCheckUpsToday": "Tổng số phiếu khám hôm nay",
-    "totalExamsList": "Tổng số phiếu",
-
-    "categories": "Doanh mục",
-    "prescriptionDrugs": "Thuốc kê toa",
-    "otcDrugs": "Thuốc không kê toa",
-    "functionalFoods": "Thực phẩm sức năng",
-
-    "aboutUs": "Về chúng tôi",
-    "introduce": "Giới thiệu",
-    "businessLicense": "Giấy phép kinh doanh",
-    
-    "terms": "Các điều khoản",
-    "security": "Bảo mật",
-    "support": "Trợ giúp",
-    "privacy": "Quyền riêng tư",
-    
-    "pharmacySystem": "Hệ thống nhà thuốc",
-    "drugSystem": "Hệ thống thuốc",
-    "pharmacyRules": "Nội quy nhà thuốc",
-    "serviceQuality": "Chất lượng phục vụ",
-    "returnPolicy": "Chính sách đổi trả",
-    "warrantyPolicy": "Chính sách bảo hành",
-
-    "contactUs": "Kết nối với chúng tôi",
-    "hotline": "Liên hệ ngay",
-
-    "operatingTime": "Thời gian hoạt động",
-    "examinationSchedule": "Lịch khám (2-7): 07:00 - 17:00",
-    "onlineConsultation": "Tư vấn online"
-
-
-    
+    "totalExamsList": "Tổng số phiếu"
+ 
 }
