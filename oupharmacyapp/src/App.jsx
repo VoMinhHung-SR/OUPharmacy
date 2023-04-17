@@ -39,6 +39,7 @@ import { fetchListExaminationToday } from './modules/pages/WaittingRoomComponent
 import { jobMidnight } from './cron/job/at_midnight'
 import { jobEveryMinutes } from './cron/job/every_minutes'
 import BackdropLoading from './modules/common/components/BackdropLoading'
+import ScrollToTop from './modules/common/components/ScrollToTop'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -79,6 +80,7 @@ function App() {
             {/* <CookiesProvider> */}
               <userContext.Provider value={[user, dispatch]}>
                 <QueueStateProvider>
+                    <ScrollToTop />
                     <Routes>
                       <Route path='/' element={<Layout />}>
                         <Route path='/' element={<Home />}/>
