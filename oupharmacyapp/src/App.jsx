@@ -25,7 +25,6 @@ import Forbidden from './modules/common/layout/components/403-forbidden'
 import NotFound from './modules/common/layout/components/404-not_found'
 import WaitingRoom from './pages/waiting-room'
 import { QueueStateProvider } from './lib/context/QueueStateContext'
-// import ExaminationDetail from './pages/examinations/id'
 import { useDispatch } from 'react-redux';
 import { getAllConfig } from './lib/redux/configSlice'
 import Loading from './modules/common/components/Loading'
