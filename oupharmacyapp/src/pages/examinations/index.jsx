@@ -48,7 +48,7 @@ const Examinations = () => {
     <>
       {isLoadingExamination && examinationList.length === 0 ? (
         <Box sx={{ height: "300px" }}>
-          <Box className="p-5">
+          <Box className="p-5" >
             <Loading></Loading>
           </Box>
         </Box>
@@ -79,7 +79,7 @@ const Examinations = () => {
         </Box>
       ) : (
         <>
-          <Box className="ou-py-5 ou-m-auto ou-max-w-[1536px]">
+          <Box className="ou-py-8 ou-m-auto ou-max-w-[1536px]" >
             <TableContainer component={Paper} elevation={4}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

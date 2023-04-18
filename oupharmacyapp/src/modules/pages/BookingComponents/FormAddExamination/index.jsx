@@ -40,7 +40,7 @@ const FormAddExamination = (props) => {
                 (<Loading></Loading>)
                 : <></>
             }
-            <div className="ou-w-[80%] ou-m-auto ou-my-8">
+            <div className="ou-w-[80%] ou-m-auto ou-my-8 ou-py-8">
                 <Box component={Paper} elevation={6}>
                 <form onSubmit={methods.handleSubmit((data)=> onSubmit(props.patientID, data, props.handleOpenFormEmail))} 
                     className="ou-m-auto ou-py-6 ou-px-10">

@@ -42,7 +42,7 @@ const ExaminationList = () =>{
                 </Box>)
                 : (
                     <Container >
-                            <Box className='ou-pt-5 ou-pb-5' sx={{ minHeight: "300px" }}>
+                            <Box className='ou-py-8' sx={{ minHeight: "300px" }}>
                                 <TableContainer component={Paper} elevation={4}>
                                     <Table sx={{ minWidth: 800 }} aria-label="simple table">
                                         <TableHead>
