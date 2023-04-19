@@ -19,6 +19,8 @@ import useExaminationConfirm from "../../modules/pages/ExaminationListComponents
 import { useTranslation } from "react-i18next";
 import ExaminationCard from "../../modules/common/components/card/ExaminationCard";
 import { useNavigate } from "react-router";
+import ExpandCloseComponent from "../../modules/common/components/Expand";
+import ExaminationFilter from "../../modules/pages/ExaminationListComponents/ExaminationFilter";
 
 const Examinations = () => {
   const {
@@ -79,7 +81,15 @@ const Examinations = () => {
         </Box>
       ) : (
         <>
+         
+
           <Box className="ou-py-8 ou-m-auto ou-max-w-[1536px]" >
+            <Box className="ou-flex ou-justify-end ou-items-end">
+              <ExpandCloseComponent>
+                 <ExaminationFilter></ExaminationFilter>
+              </ExpandCloseComponent>
+            </Box>
+            
             <TableContainer component={Paper} elevation={4}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
