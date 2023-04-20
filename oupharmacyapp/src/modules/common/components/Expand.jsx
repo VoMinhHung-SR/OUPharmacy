@@ -2,24 +2,23 @@ import { Box, Button, Fade } from "@mui/material";
 import { useState } from "react";
 
 const ExpandCloseComponent = (props) => {
-    const [expanded, setExpanded] = useState(false);
+    // const [expanded, setExpanded] = useState(false);
 
-    const toggleExpanded = () => {
-        setExpanded(!expanded);
-      };
+    // const toggleExpanded = () => {
+    //     setExpanded(!expanded);
+    //   };
 
-    const content = expanded ? (
+    const content = props.expanded ? (
         <div>
-            <p className="!ou-text-right"> 
-                <Button onClick={toggleExpanded} >Close</Button>
-            </p>
+            <Box className="ou-flex ou-justify-center !ou-items-center">
                 {props.children}
+                {props.disableButtonOff ? <></> : <Button onClick={props.toggleExpanded} className="!ou-ml-3" >{props.closeIcon ? props.closeIcon : "Close"}</Button> }
+                
+            </Box>
 
         </div>
       ) : (
-        <Box className="!ou-text-right">
-            <Button onClick={toggleExpanded} >Expand</Button>
-        </Box>
+          <Button onClick={props.toggleExpanded} >{props.openIcon ? props.openIcon : "Open"}</Button>
       );
     return (
         <div>
