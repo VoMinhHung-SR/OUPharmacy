@@ -13,6 +13,13 @@ const useExaminationConfirm = () =>{
     // ====== QuerySet ======
     const [q] = useSearchParams();
 
+    const [paramsFilter, setParamsFilter] = useState({
+        id: 0,
+        mailStatus:0,
+        createdDate:0,
+        kw: ''
+    })
+
     // ====== Pagination ======
     const [isLoadingExamination, setIsLoadingExamination] = useState(true)
 
@@ -25,6 +32,10 @@ const useExaminationConfirm = () =>{
         setPage(value);
     };
 
+    const handleOnSubmitFilter = (value) => {
+        console.log("changes" + "page:", page, "data:", value)
+        setParamsFilter(value)
+    }
 
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)
@@ -70,6 +81,7 @@ const useExaminationConfirm = () =>{
         examinationList,
         handleChangePage,
         handleChangeFlag,
+        handleOnSubmitFilter
     }
 }
 export default useExaminationConfirm

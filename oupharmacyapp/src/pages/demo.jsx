@@ -8,6 +8,7 @@ import { getDirections } from "../lib/utils/getDirections"
 import { CURRENT_DATE } from "../lib/constants"
 import moment from "moment"
 import { sendReminderEmail } from "../lib/services"
+import MyDataTable from "../modules/common/components/MyDataTable"
 
 const Demo = () => {
     const [input, setInput] = useState('')
@@ -113,9 +114,12 @@ const Demo = () => {
                     {listPlace.map((place)=> <Box>{place.description} <Button onClick={()=> handleGetPlaceByID(place.place_id)}>CLICK ME</Button></Box>)}
                 </Box> 
                 : <h1>KO co phan tu</h1> }
-            {moment(CURRENT_DATE).format('YYYY-MM-DD')}
+
 
             <Button onClick={handleSendRemindEmail}>SEND EMAIL REMIND</Button>
+
+
+           
         </>
     )
 }

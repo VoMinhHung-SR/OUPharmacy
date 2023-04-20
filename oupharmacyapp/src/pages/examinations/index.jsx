@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Fade,
   Pagination,
   Paper,
   Stack,
@@ -21,7 +22,9 @@ import ExaminationCard from "../../modules/common/components/card/ExaminationCar
 import { useNavigate } from "react-router";
 import ExpandCloseComponent from "../../modules/common/components/Expand";
 import ExaminationFilter from "../../modules/pages/ExaminationListComponents/ExaminationFilter";
-
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import useExaminationFilter from "../../modules/pages/ExaminationListComponents/hooks/useExaminationFIlter";
 const Examinations = () => {
   const {
     user,
@@ -31,7 +34,10 @@ const Examinations = () => {
     isLoadingExamination,
     page,
     handleChangeFlag,
+    handleOnSubmitFilter
   } = useExaminationConfirm();
+
+  const {expanded, toggleExpanded} = useExaminationFilter();
   const router = useNavigate();
 
   const { t, ready } = useTranslation(["examinations", "common", "modal"]);
@@ -85,9 +91,21 @@ const Examinations = () => {
 
           <Box className="ou-py-8 ou-m-auto ou-max-w-[1536px]" >
             <Box className="ou-flex ou-justify-end ou-items-end">
-              <ExpandCloseComponent>
-                 <ExaminationFilter></ExaminationFilter>
-              </ExpandCloseComponent>
+              {expanded &&  
+              <Fade show={expanded}>
+                  <ExpandCloseComponent 
+                    expanded={expanded}
+                    disableButtonOff={true}
+                    toggleExpanded = {toggleExpanded}
+                    openIcon = { <FilterAltIcon/>}
+                    closeIcon = { <FilterAltOffIcon/>}
+                  >
+                  <ExaminationFilter onSubmit={handleOnSubmitFilter}></ExaminationFilter>
+                </ExpandCloseComponent>
+              </Fade>
+             
+            }
+             
             </Box>
             
             <TableContainer component={Paper} elevation={4}>
@@ -99,7 +117,11 @@ const Examinations = () => {
                     <TableCell align="center">{t("createdDate")}</TableCell>
                     <TableCell align="center">{t("mailStatus")}</TableCell>
                     <TableCell align="center">{t("userCreated")}</TableCell>
-                    <TableCell align="center">{t("function")}</TableCell>
+                    <TableCell className="!ou-flex !ou-justify-center !ou-items-center" align="center">{t("function")} 
+                      <Box className="!ou-text-right">
+                        <Button onClick={toggleExpanded}> {expanded ? <FilterAltOffIcon/> : <FilterAltIcon/>} </Button>
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
