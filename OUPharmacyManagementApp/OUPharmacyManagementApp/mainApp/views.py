@@ -19,6 +19,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 from django.http import HttpResponseRedirect
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -26,6 +27,10 @@ from rest_framework import status
 from rest_framework import viewsets, generics
 from rest_framework import permissions
 from rest_framework import views
+
+from rest_framework import filters
+
+from .filters import ExaminationFilter
 from .permissions import *
 from django.core.mail import send_mail, EmailMessage
 from rest_framework.decorators import action, api_view, permission_classes
@@ -115,6 +120,9 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
     queryset = Examination.objects.filter(active=True).order_by('-created_date')
     serializer_class = ExaminationSerializer
     pagination_class = ExaminationPaginator
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
+    ordering_fields = '__all__'
+    filterset_class = ExaminationFilter
     permissions = [permissions.AllowAny()]
 
     def create(self, request):

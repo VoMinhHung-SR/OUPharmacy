@@ -33,8 +33,11 @@ const useExaminationConfirm = () =>{
     };
 
     const handleOnSubmitFilter = (value) => {
-        console.log("changes" + "page:", page, "data:", value)
+        // console.log("changes" + "page:", page, "data:", value)
+        // setIsLoadingExamination(true);
+        // setExaminationList([]);
         setParamsFilter(value)
+        setFlag(!flag)
     }
 
     const [user] = useContext(userContext)
@@ -44,14 +47,21 @@ const useExaminationConfirm = () =>{
     const handleChangeFlag = () => {
         setFlag(!flag)
     }
-
+    console.log(paramsFilter)
     useEffect(()=>{
         const loadExamination = async () => {
             try{
                 let query = q.toString();
-                query === "" ? (query += `page=${page}`) : (query += `&page=${page}`);
-                const res = await fetchExaminationListConfirm(query);
+                
+                let querySample = query 
+                querySample === "" ? (querySample += `page=${page}&fId=${paramsFilter.id}&fCreatedDate=${paramsFilter.createdDate}&fMailStatus=${paramsFilter.mailStatus}&kw=${paramsFilter.kw}`) : 
 
+                (querySample += `&page=${page}&fId=${paramsFilter.id}&fCreatedDate=${paramsFilter.createdDate}&fMailStatus=${paramsFilter.mailStatus}&kw=${paramsFilter.kw}`);
+
+                console.log(querySample)
+                query === "" ? (query += `page=${page}`) : (query += `&page=${page}`);
+                // const res = await fetchExaminationListConfirm(query);
+                const res = await fetchExaminationListConfirm(querySample);
                 if (res.status === 200) {
                     const data = await res.data;
                     setExaminationList(data.results)
