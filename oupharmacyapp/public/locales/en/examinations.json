@@ -1,6 +1,6 @@
 {
     "errExaminationList": "Examination list was not found or just empty",
-    "errExamsNull": "",
+    "errExamsNull": "No examinations found",
     "id":"Id",
     "description":"Description",
     "createdDate":"Created date",

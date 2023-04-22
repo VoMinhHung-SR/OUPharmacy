@@ -119,7 +119,7 @@ const Examinations = () => {
               examinationList.length > 0 ? examinationList.map((e) => (
                 <ExaminationCard key={`e-${e.id}`} examinationData={e} user={user} callback={handleChangeFlag}/>       
             )) :  <TableCell colSpan={12} component="th" scope="row">
-            <Typography> <Box className="ou-text-center"> No Exam Found</Box></Typography>
+            <Typography> <Box className="ou-text-center ou-p-10 ou-text-red-700">{t('examinations:errExamsNull')}</Box></Typography>
           </TableCell>
             }
           </TableBody>

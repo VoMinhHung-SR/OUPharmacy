@@ -1,6 +1,6 @@
 {
     "errExaminationList": "Hệ thống không xác nhận được danh sách đặt lịch hoặc người dùng chưa tiến hành đặt lịch",
-
+    "errExamsNull": "Không tìm thấy phiếu khám",
     "id": "Mã phiếu",
     "description":"Mô tả",
     "createdDate":"Ngày đăng ký",
