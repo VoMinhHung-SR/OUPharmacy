@@ -1,6 +1,6 @@
 {
     "errExaminationList": "Examination list was not found or just empty",
-    
+    "errExamsNull": "",
     "id":"Id",
     "description":"Description",
     "createdDate":"Created date",
@@ -17,6 +17,12 @@
     "sent": "Sent",
     "noSent":"No",
 
+    "all": "All",
+    "descending":"Descending",
+    "ascending":"Ascending",
+    "search": "Search",
+
+    "filterUserLabel": "User email (optional)",
     "confirmDelete":"Confirm to delete this examination sheet",
     "confirmSendEmail": "Confirm to send an email",
     "sendMailSuccessed": "Send mail successed"

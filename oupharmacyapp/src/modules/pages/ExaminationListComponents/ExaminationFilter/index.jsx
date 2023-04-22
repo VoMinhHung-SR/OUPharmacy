@@ -8,76 +8,59 @@ import { REGEX_EMAIL, REGEX_NOTE } from '../../../../lib/constants';
 import { useTranslation } from 'react-i18next';
 
 const ExaminationFilter = (props) => {
-    const {t} = useTranslation(['yup-validate'])
+    const {t} = useTranslation(['yup-validate', 'examinations'])
 
-    const examinationFilterSchema = Yup.object().shape({
-        kw:  Yup.string().trim().notRequired().matches(REGEX_NOTE, t('yup')),
-    })
+ 
 
     const methods = useForm({
         mode:"onSubmit", 
-        resolver: yupResolver(examinationFilterSchema),
+ 
         defaultValues:{
-            id: 0,
-            mailStatus:0,
-            createdDate:0,
-            kw: '',
+   
+            mailStatus: props.mailStatus ? props.mailStatus : 0,
+            createdDate: props.createdDate ? props.createdDate : 0,
+            kw: props.kw ? props.kw : '',
         }
     })
     return (
     <>
         <form onSubmit={methods.handleSubmit((data) => props.onSubmit(data))} className='ou-flex ou-items-center ou-mt-5 ou-mb-3'>
             <FormControl className='!ou-min-w-[100px] !ou-mr-3'>
-                <InputLabel id="exam_filter_id">Id</InputLabel>
-                    <Select
-                        id="demo-simple-select"
-                        name="id"
-                        label="id"
-                        defaultValue={0}
-                        {...methods.register("id")} 
-                    >
-                        <MenuItem value={0}>All</MenuItem>
-                        <MenuItem value={-1}>Descending</MenuItem>
-                        <MenuItem value={1}>Ascending</MenuItem>
-                    </Select>
-            </FormControl>
-            <FormControl className='!ou-min-w-[100px] !ou-mr-3'>
-                <InputLabel id="exam_filter_email">Mail status</InputLabel>
+                <InputLabel id="exam_filter_email">{t('examinations:mailStatus')}</InputLabel>
                     <Select
 
                         id="exam_filter_email_label"      
                         name="mailStatus"
-                        label="Mail status"
-                        defaultValue={0}
+                        label={('examinations:mailStatus')}
+                        defaultValue={props.mailStatus ? props.mailStatus : 0}
                         {...methods.register("mailStatus")} 
                     >
-                        <MenuItem value={0}>All</MenuItem>
-                        <MenuItem value={-1}>True</MenuItem>
-                        <MenuItem value={1}>False</MenuItem>
+                        <MenuItem value={0}>{t('examinations:all')}</MenuItem>
+                        <MenuItem value={1}>{t('examinations:sent')}</MenuItem>
+                        <MenuItem value={-1}>{t('examinations:noSent')}</MenuItem>
                     </Select>
             </FormControl>
 
 
             <FormControl className='!ou-min-w-[100px] !ou-mr-3'>
-            <InputLabel id="exam_filter_createdDate">Created date</InputLabel>
+            <InputLabel id="exam_filter_createdDate">{t('examinations:createdDate')}</InputLabel>
                 <Select
 
                     id="exam_filter_created_date_label"      
                     name="createdDate"
-                    label="Created date"
-                    defaultValue={0}
+                    label={('examinations:createdDate')}
+                    defaultValue={props.createdDate ? props.createdDate : 0}
                     {...methods.register("createdDate")} 
                 >
-                        <MenuItem value={0}>All</MenuItem>
-                        <MenuItem value={-1}>Descending</MenuItem>
-                    <MenuItem value={1}>Ascending</MenuItem>
+                        <MenuItem value={0}>{t('examinations:descending')}</MenuItem>
+                    <MenuItem value={1}>{t('examinations:ascending')}</MenuItem>
                 </Select>
             </FormControl>
             <FormControl  className=' !ou-mr-3'>
                 <TextField
-                    placeholder='Default is all'
+                    required={false}
                     variant="outlined"
-                    label="user email (no quired)"
+                    label={t('examinations:filterUserLabel')}
                     {...methods.register("kw")} 
                 />
 
@@ -88,10 +71,9 @@ const ExaminationFilter = (props) => {
                 type="submit" 
 
                 size='small'
-                // className='!ou-h-full'
                 style={{"padding": "6px 40px"}}
                 >
-                    Search
+                   {t('examinations:search')}
                 {/* {t('submit')} */}
             </Button>
         </form>

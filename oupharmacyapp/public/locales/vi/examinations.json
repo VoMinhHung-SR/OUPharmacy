@@ -17,6 +17,12 @@
     "sent":"Đã gửi",
     "noSent":"Chưa",
 
+    "all": "Tất cả",
+    "descending":"Giảm dần",
+    "ascending":"Tăng dần",
+    "search": "Tìm kiếm",
+
+    "filterUserLabel": "Email người dùng",
     "confirmDelete":"Xác nhận xóa phiếu đặt lịch",
     "confirmSendEmail": "Xác nhận gửi thư xác nhận",
     "sendMailSuccessed": "Gửi email hoàn tất"
