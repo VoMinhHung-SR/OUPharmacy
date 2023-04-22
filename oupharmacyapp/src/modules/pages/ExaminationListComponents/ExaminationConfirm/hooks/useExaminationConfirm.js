@@ -12,16 +12,18 @@ const useExaminationConfirm = () =>{
     const {t} = useTranslation(['examinations','modal'])
     // ====== QuerySet ======
     const [q] = useSearchParams();
-
+    
+    const [filterCount, setFilterCount] = useState(0);
     const [paramsFilter, setParamsFilter] = useState({
-        id: 0,
+        // id: 0,
         mailStatus:0,
         createdDate:0,
         kw: ''
     })
-
+    
     // ====== Pagination ======
     const [isLoadingExamination, setIsLoadingExamination] = useState(true)
+    const [isRequestSuccessful, setIsRequestSuccessful] = useState(true);
 
     const [pagination, setPagination] = useState({ count: 0, sizeNumber: 0 });
     const [page, setPage] = useState(1);
@@ -33,10 +35,11 @@ const useExaminationConfirm = () =>{
     };
 
     const handleOnSubmitFilter = (value) => {
-        // console.log("changes" + "page:", page, "data:", value)
-        // setIsLoadingExamination(true);
+        setIsLoadingExamination(true);
         // setExaminationList([]);
         setParamsFilter(value)
+        setFilterCount(Object.values(value).filter(v => v !== 0 && v !== '').length);
+        setPage(1);
         setFlag(!flag)
     }
 
@@ -47,19 +50,19 @@ const useExaminationConfirm = () =>{
     const handleChangeFlag = () => {
         setFlag(!flag)
     }
-    console.log(paramsFilter)
+    console.log(filterCount, paramsFilter)
     useEffect(()=>{
         const loadExamination = async () => {
             try{
                 let query = q.toString();
                 
                 let querySample = query 
-                querySample === "" ? (querySample += `page=${page}&fId=${paramsFilter.id}&fCreatedDate=${paramsFilter.createdDate}&fMailStatus=${paramsFilter.mailStatus}&kw=${paramsFilter.kw}`) : 
+                querySample === "" ? (querySample += `page=${page}&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }&status=${paramsFilter.mailStatus === 1 ? 'true' : (paramsFilter.mailStatus === -1 ? "false" : "")}&ordering=${paramsFilter.createdDate === 0 ? "-created_date": "created_date"}`): 
 
-                (querySample += `&page=${page}&fId=${paramsFilter.id}&fCreatedDate=${paramsFilter.createdDate}&fMailStatus=${paramsFilter.mailStatus}&kw=${paramsFilter.kw}`);
+                (querySample += `&page=${page}&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }&status=${paramsFilter.mailStatus === 1 ? 'true' : paramsFilter.mailStatus === -1 ? "false" : ""}}&ordering=${paramsFilter.createdDate === 0 ? "created_date": "-created_date"}`);
 
                 console.log(querySample)
-                query === "" ? (query += `page=${page}`) : (query += `&page=${page}`);
+                // query === "" ? (query += `page=${page}`) : (query += `&page=${page}`);
                 // const res = await fetchExaminationListConfirm(query);
                 const res = await fetchExaminationListConfirm(querySample);
                 if (res.status === 200) {
@@ -71,10 +74,12 @@ const useExaminationConfirm = () =>{
                         // data show number: x = 30
                         sizeNumber: Math.ceil(data.count / 10),
                     });
-                    console.log(data.results)
+                    // console.log(data.results)
+                    setIsRequestSuccessful(true);
                 }
             }catch (err){
                 setIsLoadingExamination(false)
+                setIsRequestSuccessful(false);
                 setExaminationList([])
             }
         }
@@ -86,9 +91,12 @@ const useExaminationConfirm = () =>{
     return{
         user,
         page,
-        isLoadingExamination,
         pagination,
+        filterCount,
+        paramsFilter,
         examinationList,
+        isRequestSuccessful,
+        isLoadingExamination,
         handleChangePage,
         handleChangeFlag,
         handleOnSubmitFilter
