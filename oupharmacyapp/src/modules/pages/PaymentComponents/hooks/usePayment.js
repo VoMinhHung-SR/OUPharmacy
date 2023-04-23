@@ -16,15 +16,20 @@ const usePayment = () => {
             try {
                 const res = await fetchDiagnosisByExaminationID(examinationId)
                 if (res.status === 200) {
-                    setExaminationDetail(res.data)
-                    setIsloadingPrescriptionDetail(false)
-                    loadPrescribings(res.data.id)
-                    console.log(res.data)
+                    if(res.data === null){
+                        setExaminationDetail([])
+                    }else{
+                        console.log(res.data)
+                        setExaminationDetail(res.data)
+                        loadPrescribings(res.data.id)
+                    }
                 }
             } catch (err) {
-                setIsloadingPrescriptionDetail(false)
                 setExaminationDetail([])
                 console.log(err)
+            }finally {
+                setIsloadingPrescriptionDetail(false)
+                
             }
         }
         const loadPrescribings = async (diagnosisId) => {
