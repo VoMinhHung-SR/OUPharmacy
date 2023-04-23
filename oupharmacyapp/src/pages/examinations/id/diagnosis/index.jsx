@@ -44,7 +44,7 @@ const Diagnosis = () => {
                     </Box>)
                     : (
                         <Container>
-                            <Box className='ou-my-5  ou-m-auto'>
+                            <Box className='ou-py-5 ou-m-auto'>
                                 <Box style={{ "margin": "auto" }}>
                                     <h1 className="ou-text-center text-primary ou-text-xl">{t('examinationInformantion')}</h1>
                                     <Grid container justifyContent="flex" style={{ "margin": "10px auto" }} spacing={2}>

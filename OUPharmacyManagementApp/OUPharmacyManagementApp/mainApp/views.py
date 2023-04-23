@@ -450,7 +450,7 @@ class BillViewSet(viewsets.ViewSet, generics.CreateAPIView,
             try:
                 prescribing = request.data.get('prescribing')
             except:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             if prescribing:
                 try:
                     bill = Bill.objects.get(prescribing=prescribing)
@@ -636,14 +636,12 @@ class PrescribingViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrie
             try:
                 prescribing = Prescribing.objects.filter(diagnosis=request.data.get('diagnosis')).all()
             except:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             if prescribing:
                 return Response(data=PrescribingSerializer(prescribing, many=True,
                                 context={'request': request}).data,
                                 status=status.HTTP_200_OK)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs":
-                                                                                "Prescribing from diagnosis_id "
-                                                                                "not found"})
+            return Response(status=status.HTTP_200_OK, data=[])
         return Response(data={"errMgs": "User not found"},
                         status=status.HTTP_400_BAD_REQUEST)
 
