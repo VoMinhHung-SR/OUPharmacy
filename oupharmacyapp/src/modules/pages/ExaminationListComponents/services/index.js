@@ -2,8 +2,8 @@ import  APIs, { authApi, endpoints } from "../../../../config/APIs"
 
 // To get array list examination by userID
 // [ {examinationObj}, {...} ] 
-export const fetchExaminationList = async (userID) =>{
-    const res = await authApi().get(endpoints['booking-list'](userID));
+export const fetchExaminationList = async (userID, query) =>{
+    const res = await authApi().get(`${endpoints['booking-list'](userID)}?${query}`);
     return res;
 }
 

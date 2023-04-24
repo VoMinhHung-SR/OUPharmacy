@@ -1,4 +1,4 @@
-import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import Loading from "../../../modules/common/components/Loading";
 import useExaminationList from "../../../modules/pages/ExaminationListComponents/hooks/useExaminationList"
@@ -6,7 +6,8 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 
 const ExaminationList = () =>{
-    const { isLoading, examinationList, handleDeleteExamination} = useExaminationList();
+    const { isLoading, examinationList, handleDeleteExamination, 
+        handleChangePage, page,pagination} = useExaminationList();
     const router = useNavigate();
 
     const {t,ready} = useTranslation(['examinations','common'])   
@@ -79,7 +80,7 @@ const ExaminationList = () =>{
                                                     <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
                                                     <TableCell align="center">
                                                         <Typography>
-                                                            {e.patient.first_name +" "+ e.patient.last_name}
+                                                            {e.first_name +" "+ e.patient.last_name}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="center">
@@ -101,6 +102,19 @@ const ExaminationList = () =>{
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                            {pagination.sizeNumber >= 2 && (
+                                <Box sx={{ pt: 5, pb: 2 }}>
+                                <Stack>
+                                    <Pagination
+                                    count={pagination.sizeNumber}
+                                    variant="outlined"
+                                    sx={{ margin: "0 auto" }}
+                                    page={page}
+                                    onChange={handleChangePage}
+                                    />
+                                </Stack>
+                                </Box>
+                            )}
                             </Box>
                     </Container>
                 )

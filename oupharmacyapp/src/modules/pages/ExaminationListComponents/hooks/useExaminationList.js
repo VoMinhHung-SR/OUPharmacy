@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { userContext } from "../../../../App"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../config/sweetAlert2"
 import { fetchDeleteAnExamination, fetchExaminationList } from "../services"
-
+import { useSearchParams } from "react-router-dom"
 const useExaminationList = () => {
     const [user] = useContext(userContext)
     const [isLoading, setIsLoading] = useState(true)
@@ -11,27 +11,49 @@ const useExaminationList = () => {
     const [examinationList, setExaminationList] = useState([])
 
     const {t} = useTranslation(['examinations','modal'])
-   
+     // ====== QuerySet ======
+    const [q] = useSearchParams();
+
+    const [pagination, setPagination] = useState({ count: 0, sizeNumber: 0 });
+    const [page, setPage] = useState(1);
+
+    const handleChangePage = (event, value) => {
+        setIsLoading(true)
+        setPage(value)
+    };
 
     useEffect(()=> {
         const loadExaminations = async (userID) =>{
             try{
-                const res = await fetchExaminationList(userID)
+                let query = q.toString();
+                
+                let querySample = query 
+                querySample === "" ? (querySample += `page=${page}`): 
+
+                (querySample += `&page=${page}`);
+                const res = await fetchExaminationList(userID, querySample)
                 if (res.status === 200) {
-                    setExaminationList(res.data)
-                    setIsLoading(false)
+                    const data = await res.data;
+                    setExaminationList(data.results)
+                    setPagination({
+                        count: data.count,
+                        // data show number: x = 30
+                        sizeNumber: Math.ceil(data.count / 10),
+                    });
                     console.log(res.data)
                 }
             }catch (err) {
                 setIsLoading(false)
                 setExaminationList([])
+            }finally{
+                setIsLoading(false)
             }
             
         }
         if(user){
             loadExaminations(user.id)
         }
-    }, [user, flag])
+    }, [user, flag, page])
 
     const handleDeleteExamination = (examinationID) =>{
 
@@ -58,7 +80,7 @@ const useExaminationList = () => {
         isLoading,
         setExaminationList,
         handleDeleteExamination,
-        
+        handleChangePage, pagination, page
     }
 }
 

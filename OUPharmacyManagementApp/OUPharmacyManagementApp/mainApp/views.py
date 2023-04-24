@@ -105,13 +105,16 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    @action(methods=['get'], detail=True, url_path='booking-list')
+    @action(methods=['get'], detail=True, url_path='booking-list', pagination_class=ExaminationPaginator)
     def get_examinations(self, request, pk):
-
         examinations = Examination.objects.filter(user=pk).all()
-        if examinations:
-            return Response(ExaminationSerializer(examinations, context={'request': request}, many=True).data,
-                            status=status.HTTP_200_OK)
+        paginator = ExaminationPaginator()
+        page_size = request.query_params.get('page_size',
+                                             10)  # Set the default page size to 10 if not specified in the URL
+        paginator.page_size = page_size
+        result_page = paginator.paginate_queryset(examinations, request)
+        serializer = ExaminationSerializer(result_page, context={'request': request}, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 
 class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
