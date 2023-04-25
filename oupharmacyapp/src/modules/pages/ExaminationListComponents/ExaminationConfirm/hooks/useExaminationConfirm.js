@@ -62,8 +62,7 @@ const useExaminationConfirm = () =>{
                 (querySample += `&page=${page}&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }&status=${paramsFilter.mailStatus === 1 ? 'true' : paramsFilter.mailStatus === -1 ? "false" : ""}}&ordering=${paramsFilter.createdDate === 0 ? "created_date": "-created_date"}`);
 
                 console.log(querySample)
-                // query === "" ? (query += `page=${page}`) : (query += `&page=${page}`);
-                // const res = await fetchExaminationListConfirm(query);
+  
                 const res = await fetchExaminationListConfirm(querySample);
                 if (res.status === 200) {
                     const data = await res.data;
@@ -71,10 +70,8 @@ const useExaminationConfirm = () =>{
                     setIsLoadingExamination(false)
                     setPagination({
                         count: data.count,
-                        // data show number: x = 30
                         sizeNumber: Math.ceil(data.count / 10),
                     });
-                    // console.log(data.results)
                     setIsRequestSuccessful(true);
                 }
             }catch (err){

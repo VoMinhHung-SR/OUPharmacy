@@ -1,0 +1,6 @@
+{
+    "errNullExams":"There is no examinations sheet in process",
+    "currentExam": "The current exam",
+    "nextExam": "The next exam",
+    "startedTime": "Started time"
+}

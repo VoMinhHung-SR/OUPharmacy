@@ -9,11 +9,13 @@ import useWaitingRoom from "../../modules/pages/WaittingRoomComponents/hooks/use
 import Loading from "../../modules/common/components/Loading";
 import { convertFirestoreTimestampToString } from "../../lib/utils/getMessagesInConversation";
 import { convertTimestampToDateTime } from "../../lib/utils/helper";
+import { useTranslation } from "react-i18next";
 
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
     const { exams, isLoaded , isLoading} = useWaitingRoom()
+    const {t, tReady} = useTranslation(['waiting-room'])
 
     const {isGeolocationAvailable, isGeolocationEnabled, coords, getPosition} = useGeolocated({
         positionOptions: {
@@ -21,7 +23,7 @@ const WaitingRoom = () => {
         },
         userDecisionTimeout: 5000,
     })
-    if(isLoading){
+    if(isLoading || tReady){
         return <>
             <Box> <Loading/> </Box>
         </>
@@ -32,19 +34,19 @@ const WaitingRoom = () => {
 
         if(filteredExams.length === 0)
             return <Box className="ou-col-span-12 ou-mt-4 ou-mb-2 ou-text-center">
-            He thong hien tai khong co phieu kham chua xu ly.
+           {t('waiting-room:errNullExams')}
         </Box>
    
         if (filteredExams.length > 1)
             return (
                 <>
                     <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
-                        <Box className="ou-my-2">Current</Box>
+                        {/* <Box className="ou-my-2">Current</Box> */}
                         <CountDownExam  currentID={filteredExams[0].examID} 
                         startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
                     </Box>
                     <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
-                        <Box className="ou-my-2">Next</Box>
+                        {/* <Box className="ou-my-2">Next</Box> */}
                         <CountDownExam nextID={filteredExams[1].examID} 
                        startedTime={convertFirestoreTimestampToString(filteredExams[1].startedDate)}/>
                     </Box>
@@ -52,7 +54,7 @@ const WaitingRoom = () => {
             )
         return (
             <Box className="ou-py-4 ou-col-span-12 ou-m-auto ou-text-center">
-                <Box className="ou-my-2">Current </Box>
+                {/* <Box className="ou-my-2">Current </Box> */}
                 <CountDownExam  currentID={filteredExams[0].examID} 
                 startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
             </Box>
