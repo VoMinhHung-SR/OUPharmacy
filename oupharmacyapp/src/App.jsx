@@ -39,6 +39,7 @@ import { jobMidnight } from './cron/job/at_midnight'
 import { jobEveryMinutes } from './cron/job/every_minutes'
 import BackdropLoading from './modules/common/components/BackdropLoading'
 import ScrollToTop from './modules/common/components/ScrollToTop'
+import { OUPharmacyChatBot } from './chatbot'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -73,7 +74,9 @@ function App() {
   
 
     return isLoading ? <Box className='ou-h-[100vh] ou-flex ou-place-content-center'><Loading/></Box> :
-      <QueryClientProvider client={queryClient}>
+     
+    <>
+    <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
           <BrowserRouter>
             {/* <CookiesProvider> */}
@@ -129,9 +132,9 @@ function App() {
             {/* </CookiesProvider> */}
           </BrowserRouter>
         </I18nextProvider>
-      </QueryClientProvider>
-    
-  
+    </QueryClientProvider>
+      <OUPharmacyChatBot/>
+    </>  
 }
 
 export default App

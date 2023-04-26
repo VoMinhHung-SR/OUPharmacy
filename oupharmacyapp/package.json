@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.10.5",
     "@goongmaps/goong-map-react": "^1.1.2",
     "@hookform/resolvers": "^2.9.10",
+    "@kommunicate/kommunicate-chatbot-plugin": "^0.0.6",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@reduxjs/toolkit": "^1.9.3",

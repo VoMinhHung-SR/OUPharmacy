@@ -21,10 +21,10 @@ const LimitExamPerDay = () => {
         <>
             <Tooltip title={t('common:totalExamsList')}>
                 <span
-                    className="ou-right-[20px] ou-bottom-[20px] !ou-fixed "
+                    className="ou-right-[30px] ou-bottom-[100px] !ou-fixed "
                     onClick={handleOpenModal}
                 >
-                        <AssignmentTurnedInIcon className="ou-text-white hover:ou-cursor-pointer !ou-w-[40px] !ou-h-[40px] ou-p-2  !ou-bg-green-700 !ou-rounded-full !ou-z-999"/>
+                        <AssignmentTurnedInIcon className="ou-text-white hover:ou-cursor-pointer !ou-w-[60px] !ou-h-[60px] ou-p-2  !ou-bg-green-700 !ou-rounded-full !ou-z-999"/>
                 </span>
             </Tooltip>
             
