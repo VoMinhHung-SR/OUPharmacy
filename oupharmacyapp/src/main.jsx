@@ -7,7 +7,6 @@ import './index.css'
 import './i18n'
 import '@goongmaps/goong-js/dist/goong-js.css';
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
      <Provider store={store}>
