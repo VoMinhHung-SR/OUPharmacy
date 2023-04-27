@@ -3,12 +3,18 @@ import { useTranslation } from "react-i18next"
 import { Outlet, useNavigate, useParams } from "react-router"
 import useConversationList from "../../modules/pages/ConversationListComponents/hooks/useConversationList"
 import SidebarInbox from "../../modules/pages/ConversationListComponents/SidebarInbox"
+import Loading from "../../modules/common/components/Loading"
 
 const ConversationList = () => {
-    const {t} = useTranslation(['common','modal'])
+    const {t, tReady} = useTranslation(['common','modal', 'conversation'])
     const {user} = useConversationList()
     const router = useNavigate()
     const {conversationId, recipientId} = useParams()
+    if(tReady)
+        return <Box className="ou-p-3">
+            <Loading/>
+        </Box>
+
     if(!user)
         return (
             <>
@@ -39,7 +45,7 @@ const ConversationList = () => {
                                 <Grid item sx={{ backgroundColor: "lightGray" }} height={"600px"}>
                                     <Box square  className="ou-bg-blue-600">
                                         <ListItem>
-                                            <ListItemText primary={"Chọn người dùng thực hiện chat"} style={{ "color": "white" }} />
+                                            <ListItemText primary={t('conversation:selectUser')} style={{ "color": "white" }} />
                                         </ListItem>
                                     </Box>
                                 </Grid>

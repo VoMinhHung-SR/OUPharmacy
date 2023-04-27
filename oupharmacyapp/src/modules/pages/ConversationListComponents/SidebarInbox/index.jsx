@@ -3,8 +3,10 @@ import Loading from "../../../common/components/Loading";
 import SearchIcon from '@mui/icons-material/Search';
 import useSidebarInbox from "./hooks/useSidebarInbox";
 import ConversationDetail from "../ConversationComponents";
+import { useTranslation } from "react-i18next";
 
 const SidebarInbox = (props) => {
+    const {t} = useTranslation(['conversation'])
     const {isLoadingRecipients, recipients, conversationsSnapshot, 
         createNewConversation} = useSidebarInbox(props.user)
     // if(!props.user){
@@ -24,7 +26,7 @@ const SidebarInbox = (props) => {
                     <Grid item>
                         <Typography variant="subtitle1" gutterBottom component="div"
                             sx={{ paddingTop: 2, paddingLeft: 2, fontWeight: 'bold' }}>
-                            Trò chuyện
+                            {t('chat')}
                         </Typography>
                         <Box sx={{
                             margin: "5px 10px", padding: "0px 5px", display: 'flex',
@@ -32,14 +34,14 @@ const SidebarInbox = (props) => {
                         }}>
                             <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                             <TextField id="input-with-sx"
-                                placeholder="Nhập email người dùng..."
+                                placeholder={t('enterUserEmail')}
                                 // value={name}
                                 // onChange={(evt) => setName(evt.target.value)}
                                 variant="standard" />
                         </Box>
                         <Divider />
                         <List sx={{ height: "500px", overflowY:"auto" }}>
-                            <Typography className="ou-text-center ou-p-2">Hộp thoại tin nhắn</Typography>
+                            <Typography className="ou-text-center ou-p-2">{t('conversation')}</Typography>
                             {conversationsSnapshot?.docs.map((c)=>(
                                 <ConversationDetail 
                                     id={c.id}
@@ -47,14 +49,14 @@ const SidebarInbox = (props) => {
                                     members={c.data().members}
                                 />
                             ))}
-                            <Typography className="ou-text-center ou-p-2">Người dùng tìm kiếm</Typography>
+                            <Typography className="ou-text-center ou-p-2">{t('user')}</Typography>
                             {recipients.filter((obj)=> obj.id !== props.user.id).map((u) => (
                             <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300" key={u.id} id={u.id} onClick={()=>{
                                 createNewConversation(u.id);
                             }}>
                                 <ListItemAvatar>
                                     <Avatar
-                                        alt={u.email ? u.email : "kHÔNG RÕ"}
+                                        alt={u.email ? u.email : "unknown"}
                                         src={u.avatar_path ? u.avatar_path : "https://mui.com/static/images/avatar/1.jpg"}
                                     />
                                 </ListItemAvatar>
