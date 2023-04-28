@@ -1,4 +1,4 @@
-import { Button, Container, FormControl, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Button, Container, FormControl, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { Link, useNavigate } from "react-router-dom"
 import Loading from "../../modules/common/components/Loading"
@@ -9,7 +9,8 @@ import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { ROLE_DOCTOR } from "../../lib/constants"
 const PrescriptionList = () => {
-    const {user, prescriptionList, isLoadingPrescriptionList} = usePrescriptionList()
+    const {user, prescriptionList, isLoadingPrescriptionList,
+    pagination, page, handleChangePage} = usePrescriptionList()
     const router = useNavigate()
     const {t, ready} = useTranslation(['prescription', 'common'])
 
@@ -45,7 +46,7 @@ const PrescriptionList = () => {
                  </Box>)
                     : (
                         <>
-                            <Box className='ou-py-5 ou-m-auto ou-max-w-[1536px]'>
+                            <Box className='ou-py-8 ou-m-auto ou-max-w-[1536px]'>
                                 {/* <form className="d-flex mb-3 "
                                     // onSubmit={search} 
                                     style={{ "marginLeft": "auto", "maxWidth": "300px" }}>
@@ -122,6 +123,20 @@ const PrescriptionList = () => {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+
+                                {pagination.sizeNumber >= 2 && (
+                                <Box sx={{ pt: 5, pb: 2 }}>
+                                <Stack>
+                                    <Pagination
+                                    count={pagination.sizeNumber}
+                                    variant="outlined"
+                                    sx={{ margin: "0 auto" }}
+                                    page={page}
+                                    onChange={handleChangePage}
+                                    />
+                                </Stack>
+                                </Box>
+                            )}
                             </Box>
                         </>
                     )

@@ -631,7 +631,7 @@ class PrescribingViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrie
                          generics.UpdateAPIView, generics.CreateAPIView, generics.DestroyAPIView):
     queryset = Prescribing.objects.filter(active=True)
     serializer_class = PrescribingSerializer
-
+    pagination_class = ExaminationPaginator
     @action(methods=['POST'], detail=False, url_path='get-by-diagnosis')
     def get_by_diagnosis(self, request):
         user = request.user

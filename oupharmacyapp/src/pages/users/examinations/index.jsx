@@ -80,7 +80,7 @@ const ExaminationList = () =>{
                                                     <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
                                                     <TableCell align="center">
                                                         <Typography>
-                                                            {e.first_name +" "+ e.patient.last_name}
+                                                            {e.patient.first_name +" "+ e.patient.last_name}
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="center">

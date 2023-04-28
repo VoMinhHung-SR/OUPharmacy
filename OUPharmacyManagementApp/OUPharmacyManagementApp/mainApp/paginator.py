@@ -7,3 +7,9 @@ class BasePagination(PageNumberPagination):
 
 class ExaminationPaginator(PageNumberPagination):
     page_size = 10
+
+
+class PrescribingPaginator(PageNumberPagination):
+    page_size = 10  # Set the default page size to 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
