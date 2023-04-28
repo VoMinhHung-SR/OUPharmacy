@@ -40,7 +40,7 @@ const useExaminationList = () => {
                         // data show number: x = 30
                         sizeNumber: Math.ceil(data.count / 10),
                     });
-                    console.log(res.data)
+                  
                 }
             }catch (err) {
                 setIsLoading(false)

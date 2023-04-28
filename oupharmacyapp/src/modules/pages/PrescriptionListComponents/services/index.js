@@ -4,7 +4,7 @@ import { authApi, endpoints } from "../../../../config/APIs"
 // [{
 //    diagnosisObject: sign, diagnosed, examination{examinationInfo...}
 // }]
-export const fetchDiagnosisList = async () => {
-    const res = await authApi().get(endpoints['diagnosis'])
+export const fetchDiagnosisList = async (query) => {
+    const res = await authApi().get(`${endpoints['diagnosis']}?${query}`)
     return res;
  }
