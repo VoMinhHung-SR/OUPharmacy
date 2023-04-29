@@ -3,6 +3,6 @@
     "chat": "Chat",
     "enterUserEmail":"Enter user email",
     "conversation": "Conversation",
-    "user": "Search users"
-    
+    "user": "Search users",
+    "errNoRecipient": "No recipients found"
 }

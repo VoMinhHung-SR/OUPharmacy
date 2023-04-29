@@ -9,9 +9,7 @@ const SidebarInbox = (props) => {
     const {t} = useTranslation(['conversation'])
     const {isLoadingRecipients, recipients, conversationsSnapshot, 
         createNewConversation} = useSidebarInbox(props.user)
-    // if(!props.user){
-    //     return <></>
-    // }
+
     return (
         <>
             {isLoadingRecipients ?
@@ -41,7 +39,7 @@ const SidebarInbox = (props) => {
                         </Box>
                         <Divider />
                         <List sx={{ height: "500px", overflowY:"auto" }}>
-                            <Typography className="ou-text-center ou-p-2">{t('conversation')}</Typography>
+                            <Typography className="ou-py-2 ou-text-center ou-text-green-700">{t('conversation')}</Typography>
                             {conversationsSnapshot?.docs.map((c)=>(
                                 <ConversationDetail 
                                     id={c.id}
@@ -49,24 +47,27 @@ const SidebarInbox = (props) => {
                                     members={c.data().members}
                                 />
                             ))}
-                            <Typography className="ou-text-center ou-p-2">{t('user')}</Typography>
-                            {recipients.filter((obj)=> obj.id !== props.user.id).map((u) => (
-                            <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300" key={u.id} id={u.id} onClick={()=>{
-                                createNewConversation(u.id);
-                            }}>
-                                <ListItemAvatar>
-                                    <Avatar
-                                        alt={u.email ? u.email : "unknown"}
-                                        src={u.avatar_path ? u.avatar_path : "https://mui.com/static/images/avatar/1.jpg"}
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={<Box className="ou-truncate">{u.email}</Box>}
-                                    secondary={"Xin chao ban"}
-                                />
-                            </ListItem>)
+                            <Typography className="ou-text-center ou-py-2 ou-text-blue-700">{t('user')}</Typography>
 
-                            )}
+                            {recipients.length === 0 ? <Box className="ou-text-center ou-py-3 ou-text-gray-400">{t('errNoRecipient')}</Box> 
+                            
+                                : ( recipients.filter((obj)=> obj.id !== props.user.id).map((u) => (
+                                        <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300" key={u.id} id={u.id} onClick={()=>{
+                                            createNewConversation(u.id);
+                                        }}>
+                                            <ListItemAvatar>
+                                                <Avatar
+                                                    alt={u.email ? u.email : "unknown"}
+                                                    src={u.avatar_path ? u.avatar_path : "https://mui.com/static/images/avatar/1.jpg"}
+                                                />
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={<Box className="ou-truncate">{u.email}</Box>}
+                                                secondary={"Xin chao ban"}
+                                            />
+                                        </ListItem>))
+                                    )
+                            }
 
                         </List>
                     </Grid>
