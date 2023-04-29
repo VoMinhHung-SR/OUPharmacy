@@ -371,7 +371,8 @@ class DiagnosisViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrieve
     queryset = Diagnosis.objects.filter(active=True)
     serializer_class = DiagnosisSerializer
     parser_classes = [JSONParser, MultiPartParser]
-
+    pagination_class = ExaminationPaginator
+    
     def create(self, request, *args, **kwargs):
         serializer = DiagnosisCRUDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -1,7 +1,8 @@
 {
-    "selectUser":"Chọn người dùng thực hiện chat",
-    "chat": "Chat",
+    "selectUser":"Chọn người dùng thực hiện trò chuyện",
+    "chat": "Trò chuyện",
     "enterUserEmail":"Nhập email người dùng",
     "conversation": "Hộp thoại tin nhắn",
-    "user": "Người dùng tìm kiếm"
+    "user": "Người dùng tìm kiếm",
+    "errNoRecipient": "Không có kết quả tìm kiếm"
 }
