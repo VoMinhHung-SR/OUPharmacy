@@ -10,3 +10,11 @@ class ExaminationFilter(django_filters.FilterSet):
     class Meta:
         model = Examination
         fields = ('kw', 'status')
+
+
+class RecipientsFilter(django_filters.FilterSet):
+    email = django_filters.CharFilter(field_name="email")
+
+    class Meta:
+        model = User
+        fields = ('email', )

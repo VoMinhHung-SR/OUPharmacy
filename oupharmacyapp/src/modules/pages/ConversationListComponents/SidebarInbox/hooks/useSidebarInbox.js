@@ -5,9 +5,15 @@ import { db } from "../../../../../config/firebase";
 import SuccessfulAlert, { ErrorAlert } from "../../../../../config/sweetAlert2";
 import { fetchRecipients } from "../services";
 import { useCollection } from "react-firebase-hooks/firestore"
+import createToastMessage from "../../../../../lib/utils/createToastMessage";
+import { TOAST_ERROR } from "../../../../../lib/constants";
+import useDebounce from "../../../../../lib/hooks/useDebounce";
 const useSidebarInbox = (user) => {
     const [isLoadingRecipients, setIsLoadingRecipients] = useState(true)
+    const [recipientList, setRecipientList] = useState([])
+
     const [name, setName] = useState('')
+    const debouncedSearchValue = useDebounce(name, 500);
     // ====== QuerySet ======
     const [q] = useSearchParams();
     const [pagination, setPagination] = useState({ count: 0, sizeNumber: 0 });
@@ -20,7 +26,8 @@ const useSidebarInbox = (user) => {
             try {
                 let query = q.toString();
 
-                query === "" ? (query += `page=${page}&kw=${name}`) : (query += `&page=${page}&kw=${name}`);
+                query === "" ? (query += `email=${debouncedSearchValue}`) 
+                : (query += `&email=${debouncedSearchValue}`);
                 let res;
                 if (user) {
                     res = await fetchRecipients(query);
@@ -42,7 +49,7 @@ const useSidebarInbox = (user) => {
         };
         if(user)
             loadName()
-    }, [user, name])
+    }, [user, debouncedSearchValue])
 
     // check a conversation already exists
     const queryGetConversationsForCurrentUser = query(
@@ -67,14 +74,14 @@ const useSidebarInbox = (user) => {
             })
             SuccessfulAlert("Thêm cuộc trò chuyện thành công", "OK")
         } else {
-            ErrorAlert("Không thể tạo mới", "", "OK")
+            return createToastMessage({type: TOAST_ERROR, message: "Không thể tạo mới"})
         }
     }
 
     return {
         name,isLoadingRecipients, conversationsSnapshot,
-        recipients,pagination,
-        createNewConversation
+        recipients,pagination, 
+        createNewConversation, name, setName
     }
 }
 export default useSidebarInbox 
