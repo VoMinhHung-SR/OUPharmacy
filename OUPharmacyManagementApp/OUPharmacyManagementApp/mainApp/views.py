@@ -30,7 +30,7 @@ from rest_framework import views
 
 from rest_framework import filters
 
-from .filters import ExaminationFilter
+from .filters import ExaminationFilter,RecipientsFilter
 from .permissions import *
 from django.core.mail import send_mail, EmailMessage
 from rest_framework.decorators import action, api_view, permission_classes
@@ -75,6 +75,8 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     parser_classes = [JSONParser, MultiPartParser, ]
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
+    filterset_class = RecipientsFilter
 
     def get_permissions(self):
         if self.action in ['get_current_user']:

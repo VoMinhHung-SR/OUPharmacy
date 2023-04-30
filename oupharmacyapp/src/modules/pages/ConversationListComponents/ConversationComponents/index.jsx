@@ -2,6 +2,7 @@ import { Avatar, Box, ListItem, ListItemAvatar, ListItemText, Typography } from 
 import { useNavigate } from "react-router"
 import Loading from "../../../common/components/Loading"
 import useConversationDetail from "../hooks/useConvesationDetail"
+import { AVATAR_DEFAULT } from "../../../../lib/constants"
 
 const ConversationDetail = (props) => {
     const {docs, loading, error, recipientId} = useConversationDetail(props.members)
@@ -21,7 +22,7 @@ const ConversationDetail = (props) => {
                 <ListItemAvatar>
                     <Avatar
                         alt={docs?.docs[0]?.data().email ? docs?.docs[0].data().email : "undefined"}
-                        src={docs?.docs[0]?.data().avatar ? docs?.docs[0].data().avatar : "https://mui.com/static/images/avatar/1.jpg"}
+                        src={docs?.docs[0]?.data().avatar ? docs?.docs[0].data().avatar : AVATAR_DEFAULT}
                     />
                 </ListItemAvatar>
                 <ListItemText

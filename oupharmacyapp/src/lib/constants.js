@@ -36,6 +36,7 @@ export const GOONGMAP_MAPTOKEN = import.meta.env.VITE_GOONGMAP_MAYKEY
 export const MAX_EXAM_PER_DAY = 30
 export const BACKEND_BASEURL = 'http://127.0.0.1:8000'
 export const ERROR_CLOUDINARY = 'https://res.cloudinary.com/dl6artkyb/null'
+export const AVATAR_DEFAULT = 'https://res.cloudinary.com/dl6artkyb/image/upload/v1666353307/OUPharmacy/logo_oupharmacy_kz2yzd.png'
 export const ORIGIN_LAT = 10.816905962180005
 export const ORIGIN_LNG = 106.6786961439645
 // Toast constant
