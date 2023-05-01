@@ -4,5 +4,7 @@
     "enterUserEmail":"Enter user email",
     "conversation": "Conversation",
     "user": "Search users",
-    "errNoRecipient": "No recipients found"
+    "errNoRecipient": "No recipients found",
+    "errNoMessage": "Entering something to send new message",
+    "enterMessage": "Typing a new message..."
 }
