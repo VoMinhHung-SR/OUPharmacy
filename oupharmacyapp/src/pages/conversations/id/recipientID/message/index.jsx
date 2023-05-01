@@ -1,12 +1,15 @@
-import { Avatar, Box, FormControl, Grid, InputAdornment, ListItem, ListItemAvatar, ListItemText, OutlinedInput } from "@mui/material"
+import { Avatar, Box, FormControl, Grid, InputAdornment, ListItem, ListItemAvatar, ListItemText, OutlinedInput, Typography } from "@mui/material"
 import SendIcon from '@mui/icons-material/Send';
 import useChatWindow from "../../../../../modules/pages/ChatWindowComponents/hooks/useChatWindow";
 import MessageCard from "../../../../../modules/common/components/card/MessageCard";
 import { transformMessage } from "../../../../../lib/utils/getMessagesInConversation";
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import { useTranslation } from "react-i18next";
+import { AVATAR_DEFAULT } from "../../../../../lib/constants";
 const ChatWindow = () => {
     const {recipient, messagesLoading, newMessage, setNewMessage, refEndMessage,
         sendMessageOnClick, sendMessageOnEnter, messagesInCoversation, messagesSnapshot} = useChatWindow()
-
+    const {t} = useTranslation(['conversation'])
     const renderMessages = () => {
         if (messagesLoading) {
             return messagesInCoversation.map(message => (
@@ -19,7 +22,15 @@ const ChatWindow = () => {
         // If front-end has finished loading messages, so now we have messagesSnapshot
         if (messagesSnapshot) {
             if(messagesSnapshot.docs.length === 0)
-                return (<h1 className="ou-justify-center ou-items-center">Hay nhap gi do de nhan tin</h1>)
+                return (
+                <h3 className="ou-opacity-50 ou-text-center ou-h-full ou-m-auto ou-grid ou-place-content-center">
+                    <Box>
+                        <InsertCommentIcon sx={{width:50, height:50}}/> 
+                    </Box>
+                    <Box className="ou-pt-3">
+                        <Typography>{t('conversation:errNoMessage')}</Typography>
+                    </Box>
+                </h3>)
             return messagesSnapshot.docs.map(message => (
                 <Box sx={{ p: 1 }}>
                     <MessageCard key={message.id} id={message.id} message={transformMessage(message)} />
@@ -50,10 +61,10 @@ const ChatWindow = () => {
                             <ListItemAvatar>
                                 <Avatar
                                     alt="Profile Picture"
-                                    src={"https://mui.com/static/images/avatar/1.jpg"}
+                                    src={AVATAR_DEFAULT}
                                 />
                             </ListItemAvatar>
-                            <ListItemText primary={"Mã đoạn chat " + conversationId} style={{ "color": "white" }} />
+                            <ListItemText primary={" " + conversationId} style={{ "color": "white" }} />
                         </>}
                     
                 </ListItem>
@@ -69,7 +80,7 @@ const ChatWindow = () => {
                         id="adornment-amount"
                         className="m-2"
                         multiline
-                        placeholder="Nhập tin nhắn..."
+                        placeholder={t('conversation:enterMessage')}
                         value={newMessage}
                         onChange={event => setNewMessage(event.target.value)}
                         onKeyDown={sendMessageOnEnter}
