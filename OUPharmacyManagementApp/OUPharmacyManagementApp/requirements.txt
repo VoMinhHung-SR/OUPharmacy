@@ -46,6 +46,7 @@ pycparser==2.21
 pyparsing==3.0.7
 python-crontab==2.7.1
 python-dateutil==2.8.2
+python-dotenv==1.0.0
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
 redis==4.5.4
