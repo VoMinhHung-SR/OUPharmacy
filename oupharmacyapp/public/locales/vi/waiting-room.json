@@ -2,5 +2,10 @@
     "errNullExams":"Hệ thống hiện tại không còn phiếu khám chưa tiếp nhận",
     "currentExam": "Phiếu khám hiện tại",
     "nextExam":"Phiếu khám tiếp theo",
-    "startedTime": "Thời gian bắt đầu"
+    "startedTime": "Thời gian bắt đầu",
+    "examIn": "Phiếu khám hiện tại đã bắt dầu",
+    "examWaiting": "Phiếu khám sẽ bắt đầu trong",
+    "hours": "giờ",
+    "mins": "phút",
+    "secs": "giây"
 }
