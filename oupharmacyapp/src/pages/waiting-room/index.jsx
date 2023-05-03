@@ -40,15 +40,16 @@ const WaitingRoom = () => {
         if (filteredExams.length > 1)
             return (
                 <>
-                    <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
+                    <Box className="ou-py-4 ou-col-span-6 ou-m-auto ou-mt-8">
                         {/* <Box className="ou-my-2">Current</Box> */}
                         <CountDownExam  currentID={filteredExams[0].examID} 
                         startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
                     </Box>
-                    <Box className="ou-py-4 ou-col-span-6 ou-m-auto">
+                    <Box className="ou-py-4 ou-col-span-6 ou-m-auto ou-mt-8">
                         {/* <Box className="ou-my-2">Next</Box> */}
                         <CountDownExam nextID={filteredExams[1].examID} 
                        startedTime={convertFirestoreTimestampToString(filteredExams[1].startedDate)}/>
+                      
                     </Box>
                 </>
             )

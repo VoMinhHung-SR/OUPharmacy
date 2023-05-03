@@ -52,12 +52,10 @@ function App() {
   useEffect(()=> {
     const fetchData = async () => {
       try {
-        // const totalListExam = await getTotalListExamPerDay();
         const [configData, listExamTodayData] = await Promise.all([
           configDispatch(getAllConfig()).unwrap(),
           getListExamToday(),
         ]);
-        console.log('Mới vào app: ', [configData, listExamTodayData]);
       } catch (error) {
         console.log(error);
       } finally {
