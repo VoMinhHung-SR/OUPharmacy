@@ -8,6 +8,7 @@ import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import { useTranslation } from "react-i18next";
 import Loading from "../../modules/common/components/Loading";
 import useBooking from "../../modules/pages/BookingComponents/hooks/useBooking";
+import { Helmet } from "react-helmet";
 
 const Booking = () => {
     const { t, ready } = useTranslation(['booking','common'])
@@ -24,17 +25,21 @@ const Booking = () => {
     })
     // TODO: adding skeletons here
     if (!ready)
+    
         return <Box sx={{ minHeight: "300px" }}>
-        <Box className='ou-p-5'>
-            <Loading></Loading>
-        </Box>
+             <Helmet>
+                <title>Booking</title>
+            </Helmet>
+            <Box className='ou-p-5'>
+                <Loading></Loading>
+            </Box>
     </Box>;
 
     const renderIsOpenEmailForm = (isFormEmailOpen) => {
         if(isFormEmailOpen)
         return (
             <Container>
-
+                
                 <Box className="ou-w-[60%] ou-max-w-[600px] 
                 ou-absolute ou-top-[40%] ou-left-[50%] -ou-translate-y-1/2 -ou-translate-x-1/2 ou-m-auto" component={Paper}>        
                     <div>
@@ -67,6 +72,9 @@ const Booking = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Booking</title>
+            </Helmet>
             {openBackdrop === true ?
                 (<BackdropLoading />)
                 : <></>

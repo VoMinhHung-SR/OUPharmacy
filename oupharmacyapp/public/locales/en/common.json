@@ -27,5 +27,7 @@
     "changeLanguage": "Change to Vietnamese",
     "currentSystem":"The current system has",
     "totalCheckUpsToday": "Total number of check-ups today",
-    "totalExamsList": "Total examinations"
+    "totalExamsList": "Total examinations",
+
+    "titleHome": "OUPharmacy"
 }

@@ -4,6 +4,7 @@ import Loading from "../../../modules/common/components/Loading";
 import useExaminationList from "../../../modules/pages/ExaminationListComponents/hooks/useExaminationList"
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet";
 
 const ExaminationList = () =>{
     const { isLoading, examinationList, handleDeleteExamination, 
@@ -14,6 +15,9 @@ const ExaminationList = () =>{
     
     if(!ready)
         return <Box sx={{ minHeight: "300px" }}>
+        <Helmet>
+            <title>Booking list</title>
+        </Helmet>
         <Box className='ou-p-5'>
             <Loading></Loading>
         </Box>
@@ -21,6 +25,9 @@ const ExaminationList = () =>{
 
     return(
     <>
+        <Helmet>
+            <title>Booking list</title>
+        </Helmet>
         {isLoading && examinationList.length === 0 ?
             (<Box sx={{ minHeight: "300px" }}>
                 <Box className='ou-p-5'>

@@ -19,7 +19,6 @@ const usePayment = () => {
                     if(res.data === null){
                         setExaminationDetail([])
                     }else{
-                        console.log(res.data)
                         setExaminationDetail(res.data)
                         loadPrescribings(res.data.id)
                     }
@@ -37,7 +36,6 @@ const usePayment = () => {
                 const res = await fetchPrescribingByDiagnosis(diagnosisId)
                 if (res.status === 200) {
                     setPrecribing(res.data)
-                    console.log(res.data)
                 }
             } catch (err) {
                 if(err.status === 500)

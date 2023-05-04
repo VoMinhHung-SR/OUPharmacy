@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router";
 import Loading from "../../components/Loading";
 import Icon404PageNotFound from "../../../../lib/assets/icon404PageNotFound";
+import { Helmet } from "react-helmet";
 
 const NotFound = () => {
     const {t, ready} = useTranslation('common');
@@ -10,6 +11,7 @@ const NotFound = () => {
     if (!ready)
         return(
             <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
+                <Helmet><title>Not Found</title></Helmet>
                 <Container className="ou-text-center ou-mt-5">
                     <Loading />
                 </Container>
@@ -17,6 +19,7 @@ const NotFound = () => {
         )
     return (
         <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
+            <Helmet><title>Not Found</title></Helmet>
             <Box className='ou-absolute ou-p-5 ou-text-center 
                 ou-flex-col ou-flex ou-justify-center ou-items-center
                 ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>

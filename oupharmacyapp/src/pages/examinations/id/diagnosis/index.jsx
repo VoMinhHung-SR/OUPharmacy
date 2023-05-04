@@ -5,6 +5,7 @@ import { useNavigate } from "react-router"
 import Loading from "../../../../modules/common/components/Loading"
 import DiagnosisForm from "../../../../modules/pages/DiagnosisComponents/DiagnosisForm"
 import useDiagnosis from "../../../../modules/pages/DiagnosisComponents/hooks/useDiagnosis"
+import { Helmet } from "react-helmet"
 
 const Diagnosis = () => {
     const { examinationDetail, isLoadingExamination, diagnosis,
@@ -17,10 +18,16 @@ const Diagnosis = () => {
         <Box className='ou-p-5'>
             <Loading></Loading>
         </Box>
+        <Helmet>
+            <title>Diagnosis</title>
+        </Helmet>
     </Box>
 
     return (
         <>
+           <Helmet>
+                <title>Diagnosis</title>
+            </Helmet>
             {isLoadingExamination && examinationDetail.length === 0 ?
                 (<Box sx={{ height: "300px" }}>
                     <Box className='ou-p-5'>

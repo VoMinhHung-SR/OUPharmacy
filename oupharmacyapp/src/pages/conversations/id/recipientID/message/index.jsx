@@ -6,10 +6,12 @@ import { transformMessage } from "../../../../../lib/utils/getMessagesInConversa
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import { useTranslation } from "react-i18next";
 import { AVATAR_DEFAULT } from "../../../../../lib/constants";
+import { Helmet } from "react-helmet";
 const ChatWindow = () => {
     const {recipient, messagesLoading, newMessage, setNewMessage, refEndMessage,
         sendMessageOnClick, sendMessageOnEnter, messagesInCoversation, messagesSnapshot} = useChatWindow()
     const {t} = useTranslation(['conversation'])
+    
     const renderMessages = () => {
         if (messagesLoading) {
             return messagesInCoversation.map(message => (
@@ -41,6 +43,10 @@ const ChatWindow = () => {
     }
 
     return (<>
+        <Helmet>
+            <title>Conversations</title>
+        </Helmet>
+
         <Grid item className>
             <Box square className="ou-h-[60px] ou-bg-blue-600">
                 <ListItem key={""}>

@@ -14,7 +14,7 @@ import MiniPrescribingCard from "./MiniPrescribingCard";
 const ExaminationDetailCard = ({examinationData}) => {
     const { t, tReady } = useTranslation(["examination-detail"]);
     const { diagnosis, isLoading, bill, prescbring} = useExaminationDetailCard(examinationData?.id)
-    console.log(isLoading);
+
     if (tReady)
       return (
         <Box>

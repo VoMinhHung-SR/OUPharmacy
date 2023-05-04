@@ -26,6 +26,7 @@ import ExaminationFilter from "../../modules/pages/ExaminationListComponents/Exa
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import useExaminationFilter from "../../modules/pages/ExaminationListComponents/hooks/useExaminationFIlter";
+import { Helmet } from "react-helmet";
 const Examinations = () => {
   const {
     user,
@@ -50,6 +51,11 @@ const Examinations = () => {
   if (!ready)
     return (
       <Box sx={{ height: "300px" }}>
+
+        <Helmet>
+          <title>Examinations</title>
+        </Helmet>
+
         <Box className="ou-p-5"> 
           <Loading />
         </Box>
@@ -142,6 +148,11 @@ const Examinations = () => {
   
   return (
     <>
+      <Helmet>
+          <title>Examinations</title>
+      </Helmet>
+
+
       {isLoadingExamination && <Box sx={{ height: "300px" }}>
           <Box className="p-5" >
             <Loading></Loading>
