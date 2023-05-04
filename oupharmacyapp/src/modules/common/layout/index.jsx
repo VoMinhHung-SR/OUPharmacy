@@ -31,21 +31,6 @@ const Layout = () => {
     </>
 )
 }
-// export const DefaultLayout = ()  => (
-//     <>
-//         <Nav/>
-//         <main className="ou-min-h-[550px] ou-relative ou-z-0 ou-mt-[62px]">
-//             <Container>
-//                 <Outlet/>
-//             </Container>
-//         </main>
-//         <LimitExamPerDay/>
-//         <Footer />
-//         <ToastContainer position="bottom-right" autoClose={1500} 
-//             pauseOnFocusLoss draggable pauseOnHover
-//             newestOnTop rtl={false}
-//         />
-//     </>
-// )
+
 
 export default Layout   

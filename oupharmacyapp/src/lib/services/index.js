@@ -21,7 +21,6 @@ export const sendReminderEmail = async (examID, seconds) => {
 
 
 export const loadDistanceFromUser = async (lat, lng) => {
-    console.log("getDATA")
     try{
         const res = await getDirections(lat, lng)
         if(res.status === 200)

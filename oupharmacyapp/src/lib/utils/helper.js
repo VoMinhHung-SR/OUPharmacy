@@ -87,7 +87,6 @@ export const getListExamToday = async () => {
         const examsArray = docSnapshot.data().exams;
         return examsArray;
       } else {
-        console.log('No matching documents found.');
         return [];
       }
     } catch (error) {

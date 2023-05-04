@@ -6,6 +6,7 @@ import { userContext } from '../../../App';
 import useConversationList from '../../pages/ConversationListComponents/hooks/useConversationList';
 import Loading from '../components/Loading';
 import Icon401Unauthorized from '../../../lib/assets/icon401Unauthorized';
+import { Helmet } from 'react-helmet';
 
 const ProtectedUserRoute = () => {
     const {t, ready} = useTranslation(['common','modal']);
@@ -15,9 +16,12 @@ const ProtectedUserRoute = () => {
      //TODO: add skeletons here
      if(!ready)
      return <Box sx={{ height: "300px" }}>
+         <Helmet><title>Unauthorized</title></Helmet>
+
          <Box className='ou-p-5'>
              <Loading/>
          </Box>
+         
      </Box>
 
     if (user) {
@@ -25,6 +29,7 @@ const ProtectedUserRoute = () => {
     }else{
         return (
             <>
+                <Helmet><title>Unauthorized</title></Helmet>
                <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
                     <Box className='ou-absolute ou-p-5 ou-text-center 
                         ou-flex-col ou-flex ou-justify-center ou-items-center

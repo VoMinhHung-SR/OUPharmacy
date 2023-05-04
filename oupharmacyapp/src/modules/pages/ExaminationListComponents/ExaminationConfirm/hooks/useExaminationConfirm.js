@@ -50,7 +50,7 @@ const useExaminationConfirm = () =>{
     const handleChangeFlag = () => {
         setFlag(!flag)
     }
-    console.log(filterCount, paramsFilter)
+
     useEffect(()=>{
         const loadExamination = async () => {
             try{
@@ -61,7 +61,6 @@ const useExaminationConfirm = () =>{
 
                 (querySample += `&page=${page}&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }&status=${paramsFilter.mailStatus === 1 ? 'true' : paramsFilter.mailStatus === -1 ? "false" : ""}}&ordering=${paramsFilter.createdDate === 0 ? "created_date": "-created_date"}`);
 
-                console.log(querySample)
   
                 const res = await fetchExaminationListConfirm(querySample);
                 if (res.status === 200) {

@@ -18,6 +18,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import Loading from "../modules/common/components/Loading";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   const { t, tReady } = useTranslation(["home", "common"]);
@@ -33,10 +34,18 @@ const Home = () => {
   const { allConfig } = useSelector((state) => state.config);
 
   if(tReady)
-        return <Box><Loading/></Box>
+    return <Box>
+       <Helmet>
+        <title>OUPharmacy</title>
+      </Helmet>
+      <Loading/>
+  </Box>
 
   return (
     <>
+    <Helmet>
+      <title>OUPharmacy</title>
+    </Helmet>
     {/* Banner 1 section */}
     <section>
       <Box>

@@ -8,6 +8,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { ROLE_DOCTOR } from "../../lib/constants"
+import { Helmet } from "react-helmet"
 const PrescriptionList = () => {
     const {user, prescriptionList, isLoadingPrescriptionList,
     pagination, page, handleChangePage} = usePrescriptionList()
@@ -17,6 +18,10 @@ const PrescriptionList = () => {
     //TODO: add skeletons here
     if(!ready)
         return <Box sx={{ height: "300px" }}>
+            <Helmet>
+                <title>Prescribing</title>
+            </Helmet>
+
             <Box className='ou-p-5'>
                 <Loading/>
             </Box>
@@ -24,6 +29,10 @@ const PrescriptionList = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Prescribing</title>
+            </Helmet>
+
             {isLoadingPrescriptionList && prescriptionList.length === 0 ?
                 (<Box sx={{ height: "300px" }}>
                     <Box className='p-5'>

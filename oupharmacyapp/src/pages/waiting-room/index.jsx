@@ -10,6 +10,7 @@ import Loading from "../../modules/common/components/Loading";
 import { convertFirestoreTimestampToString } from "../../lib/utils/getMessagesInConversation";
 import { convertTimestampToDateTime } from "../../lib/utils/helper";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet";
 
 
 const WaitingRoom = () => {
@@ -25,7 +26,12 @@ const WaitingRoom = () => {
     })
     if(isLoading || tReady){
         return <>
-            <Box> <Loading/> </Box>
+            <Helmet>
+                <title>Waiting room</title>
+            </Helmet>
+            <Box> 
+                <Loading/> 
+            </Box>
         </>
     }
 
@@ -68,6 +74,9 @@ const WaitingRoom = () => {
         <div>Your browser does not support Geolocation</div>
     ) : !isGeolocationEnabled ? (
         <Container>
+            <Helmet>
+                <title>Waiting room</title>
+            </Helmet>
               <div className="ou-grid ou-grid-cols-12 ou-text-center">
                  {renderCurrentAndNextExam(exams)}
                 </div>
@@ -76,6 +85,9 @@ const WaitingRoom = () => {
         </Container>
     ) : coords ? (
         <Container>
+            <Helmet>
+                <title>Waiting room</title>
+            </Helmet>
               <div className="ou-grid ou-grid-cols-12 ou-text-center">
                     {renderCurrentAndNextExam(exams)}
                 </div>

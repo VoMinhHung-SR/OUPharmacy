@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import useAddressInfo from "../../modules/pages/RegisterComponents/hooks/useAddressInfo";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
     const {t, tReady} = useTranslation(['register', 'common', "yup-validate"]) 
@@ -62,12 +63,20 @@ const Register = () => {
 
     if (tReady && isLoadingUserRole)
         return <Box sx={{ minHeight: "300px" }}>
-        <Box className='ou-p-5'>
-            <Loading></Loading>
+            <Helmet>
+                <title>Register</title>
+            </Helmet>
+            <Box className='ou-p-5'>
+                <Loading></Loading>
+            </Box>
         </Box>
-    </Box>
+
     return (
         <>
+            <Helmet>
+                <title>Register</title>
+            </Helmet>
+
             {openBackdrop === true ?
                 (<BackdropLoading></BackdropLoading>)
                 : <></>

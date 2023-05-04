@@ -4,20 +4,30 @@ import { Outlet, useNavigate, useParams } from "react-router"
 import useConversationList from "../../modules/pages/ConversationListComponents/hooks/useConversationList"
 import SidebarInbox from "../../modules/pages/ConversationListComponents/SidebarInbox"
 import Loading from "../../modules/common/components/Loading"
+import { Helmet } from "react-helmet"
 
 const ConversationList = () => {
     const {t, tReady} = useTranslation(['common','modal', 'conversation'])
     const {user} = useConversationList()
     const router = useNavigate()
+
     const {conversationId, recipientId} = useParams()
+
     if(tReady)
         return <Box className="ou-p-3">
+            <Helmet>
+                <title>Conversations</title>
+            </Helmet>
             <Loading/>
-        </Box>
+    </Box>
 
     if(!user)
         return (
             <>
+             <Helmet>
+                <title>Conversations</title>
+            </Helmet>
+            
             <Box  className="ou-relative ou-items-center" sx={{ height: "550px" }}>
                     <Box className='ou-absolute ou-p-5 ou-text-center 
                         ou-flex-col ou-flex ou-justify-center ou-items-center
@@ -32,6 +42,9 @@ const ConversationList = () => {
         )
     return (
         <>
+            <Helmet>
+                <title>Conversations</title>
+            </Helmet>
             <div>
                 <Box style={{ "padding": "30px 0px" }} >
                     <Box sx={{ bgcolor: "background.paper", width: "100%", boxShadow: 3, display: "flex" }} minHeight={"600px"}>

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup"
 import { useTranslation } from "react-i18next";
 import Loading from "../../modules/common/components/Loading";
+import { Helmet } from "react-helmet";
 const Login = () =>{
     const {t, tReady} = useTranslation(['login', 'yup-validate'])
     const {onSubmit, openError, openBackdrop, setOpenError, loginSchema} = useLogin();
@@ -22,10 +23,18 @@ const Login = () =>{
     })
     if(tReady)
         return <Box className="ou-mt-3">
+            <Helmet>
+                <title>Login</title>
+            </Helmet>
+            
             <Loading/>
         </Box>
     return (
         <>
+         <Helmet>
+          <title>Login</title>
+        </Helmet>
+
         {openBackdrop === true ?
             (<BackdropLoading></BackdropLoading>)
             : <></>

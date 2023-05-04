@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import PrescriptionDetailCard from "../../../modules/common/components/card/PrescriptionDetailCard"
 import Loading from "../../../modules/common/components/Loading"
 import usePrescriptionDetail from "../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
+import { Helmet } from "react-helmet"
 
 const PrescriptionDetail = () => {
     const {isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()
@@ -14,6 +15,10 @@ const PrescriptionDetail = () => {
     //TODO: add skeletons here
     if(!ready)
         return <Box sx={{ height: "300px" }}>
+            <Helmet>
+                <title>Prescribing</title>
+            </Helmet>
+            
             <Box className='ou-p-5'>
                 <Loading/>
             </Box>
@@ -21,6 +26,10 @@ const PrescriptionDetail = () => {
         
     return (
         <>
+            <Helmet>
+                <title>Prescribing</title>
+            </Helmet>
+
             {isLoadingPrescriptionDetail && prescriptionDetail === null ?
                 (<Box sx={{ height: "300px" }}>
                     <Box className='p-5'>
@@ -45,17 +54,17 @@ const PrescriptionDetail = () => {
                         <>
                             <Box className='ou-py-5 ou-m-auto ou-max-w-[1536px]'>
                                 <Box style={{ "margin": "auto" }}>
-                                    <h1 className="ou-text-center ou-text-xl">{t('basicInformation')}</h1>
+                                    <h1 className="ou-text-center ou-text-2xl">{t('basicInformation')}</h1>
                                     <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={2}>
                                         <Grid item xs={4} >
                                             <Typography>
-                                                <span className="ou-font-bold">{t('patientFullName')}: </span>
+                                                <span >{t('patientFullName')}: </span>
                                                 {prescriptionDetail.examination.patient.first_name} {prescriptionDetail.examination.patient.last_name}
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={4} >
                                             <Typography>
-                                                <span className="ou-font-bold">{t('dateOfBirth')}: </span>
+                                                <span >{t('dateOfBirth')}: </span>
                                                 {prescriptionDetail.examination.patient.date_of_birth ?
                                                     <span >{moment(prescriptionDetail.examination.patient.date_of_birth).format('DD/MM/YYYY') }</span>
                                                     : t('common:undefined')}
@@ -63,45 +72,45 @@ const PrescriptionDetail = () => {
                                         </Grid>
                                         <Grid item xs={4} >
                                             <Typography>
-                                                <span className="ou-font-bold">{t('phoneNumber')}: </span>
+                                                <span >{t('phoneNumber')}: </span>
                                                 {prescriptionDetail.examination.patient.phone_number}
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={4} >
                                             <Typography>
-                                                <span className="ou-font-bold">{t('prescriptionId')}: </span>
+                                                <span >{t('prescriptionId')}: </span>
                                                 {prescriptionDetail.examination.id}
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <Typography>
-                                                <span className="ou-font-bold">{t('createdDate')}: </span>
+                                                <span >{t('createdDate')}: </span>
                                                 <span>{moment(prescriptionDetail.examination.created_date).format('DD/MM/YYYY')}</span>
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <Typography>
-                                                <span className="ou-font-bold">{t('diagnosisDate')}: </span>
+                                                <span >{t('diagnosisDate')}: </span>
                                                 <span >{moment(prescriptionDetail.created_date).format('DD/MM/YYYY')}</span>
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <Typography>
-                                                <span className="ou-font-bold">{t('doctorName')}: </span>
+                                                <span >{t('doctorName')}: </span>
                                                 {prescriptionDetail.examination.user.first_name} {prescriptionDetail.examination.user.last_name}
                                             </Typography>
                                         </Grid>
                                         
                                         <Grid item xs={4} >
                                             <Typography>
-                                                <span className="ou-font-bold">{t('sign')}: </span>
+                                                <span >{t('sign')}: </span>
                                                 {prescriptionDetail.sign}
                                             </Typography>
 
                                         </Grid>
                                         <Grid item xs={4} >
                                             <Typography>
-                                                <span className="ou-font-bold">{t('diagnosed')}: </span>
+                                                <span >{t('diagnosed')}: </span>
                                                 {prescriptionDetail.diagnosed}
                                             </Typography>
                                         </Grid>
