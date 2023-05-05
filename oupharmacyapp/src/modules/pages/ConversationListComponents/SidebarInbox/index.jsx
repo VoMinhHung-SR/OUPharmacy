@@ -50,6 +50,7 @@ const SidebarInbox = (props) => {
                                     members={c.data().members}
                                 />
                             ))}
+                            {conversationsSnapshot?.docs?.length == 0 &&  <Box className="ou-text-center ou-py-3 ou-text-gray-400">{t('errNoConversation')}</Box> }
                                <Divider />
                             <Typography className="ou-text-center ou-pt-4 ou-pb-2 ou-text-blue-700">{t('user')}</Typography>
 
