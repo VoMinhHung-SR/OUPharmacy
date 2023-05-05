@@ -4,6 +4,7 @@
     "enterUserEmail":"Nhập email người dùng",
     "conversation": "Hộp thoại tin nhắn",
     "user": "Người dùng tìm kiếm",
+    "errNoConversation": "Không tồn tại đoạn hội thoại",
     "errNoRecipient": "Không có kết quả tìm kiếm",
     "errNoMessage": "Nhập nội dung để gửi tin nhắn",
     "enterMessage": "Nhập tin nhắn mới..."
