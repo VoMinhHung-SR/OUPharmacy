@@ -8,7 +8,6 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 ADMIN_ROLE = "ADMIN"
 
-from django_celery_beat.models import PeriodicTask, CrontabSchedule
 
 class BaseModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
@@ -134,9 +133,6 @@ class Examination(BaseModel):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=False)
 
-    # exam_choices = [(new, 'New'), (processing, 'Processing'),
-    # (partialCompleted, 'PartialCompleted'), (completed, 'Completed')]
-    # exam_status = models.PositiveIntegerField(choices=exam_choices, default=new)
     def __str__(self):
         return self.description
 

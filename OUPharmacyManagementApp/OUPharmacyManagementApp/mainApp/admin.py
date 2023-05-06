@@ -9,14 +9,6 @@ from django.db.models.functions import TruncMonth
 from datetime import date
 
 
-# Register your models here.
-
-
-# class MainAppAdminSite(admin.AdminSite):
-#     site_header = 'OUPharmacy'
-#
-#
-# admin_site = MainAppAdminSite(name='myAdmin')
 class MainAppAdminSite(admin.AdminSite):
 
     def get_urls(self):
