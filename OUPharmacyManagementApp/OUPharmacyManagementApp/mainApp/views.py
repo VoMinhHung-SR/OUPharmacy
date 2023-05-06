@@ -64,7 +64,6 @@ class CommonDistrictViewSet(viewsets.ViewSet):
         try:
             districts = CommonDistrict.objects.filter(city_id=request.data.get('city')).all()
         except Exception as ex:
-            print(ex)
             return Response(data={"errMgs": "District have some errors"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(data=CommonDistrictSerializer(districts, many=True).data,
                         status=status.HTTP_200_OK)
@@ -287,7 +286,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             end_of_day = datetime.datetime.combine(date, datetime.time.max)
             examinations = Examination.objects.filter(created_date__range=(start_of_day, end_of_day)).all()
         except Exception as error:
-            print(error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMsg": "Can't get Examinations"})
         return Response(data={"totalExams": len(examinations), "dateStr": date}, status=status.HTTP_200_OK)
 
@@ -301,7 +299,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             examinations = Examination.objects.filter(created_date__range=(today,
                                                                            end_of_today)).order_by('updated_date').all()
         except Exception as error:
-            print(error)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"errMgs": "Can't get Examinations"})
         if examinations:
