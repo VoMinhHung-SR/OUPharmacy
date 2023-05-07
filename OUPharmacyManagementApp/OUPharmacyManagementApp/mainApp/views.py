@@ -403,8 +403,8 @@ class StatsView(views.APIView):
             year = int(year)
             stats = stats.filter(created_date__year=year)
 
-        stats = stats.values('diagnosis__examination__id', 'amount').annotate(
-            count=Count('diagnosis__examination__id'))
+        stats = stats.values('prescribing__diagnosis__examination__id', 'amount').annotate(
+            count=Count('prescribing__diagnosis__examination__id'))
         return Response(data=stats, status=status.HTTP_200_OK)
 
     def post(self, request):

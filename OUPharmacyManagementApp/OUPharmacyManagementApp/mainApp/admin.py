@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+
 from . import cloud_context
 from django.urls import path
 from django.utils.safestring import mark_safe
@@ -132,6 +134,16 @@ class PrescriptionDetailAdmin(admin.ModelAdmin):
     list_display = ['id', 'quantity', 'uses', 'prescribing', 'medicine_unit']
 
 
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ('name', 'custom_field')
+
+    def custom_field(self, obj):
+        return format_html('<span>{}</span>', obj.field_name)
+
+    custom_field.short_description = 'Custom Field'
+    custom_field.allow_tags = True
+
+
 admin.site.register(Bill, BillAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Medicine, MedicineAdmin)
@@ -142,3 +154,4 @@ admin.site.register(PrescriptionDetail, PrescriptionDetailAdmin)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserRole, UserRoleAdmin)
+admin.site.register(MyModelAdmin)

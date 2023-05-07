@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_celery_beat',
     'django_filters',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,11 @@ MIDDLEWARE = [
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+# Area for cron-job
+# CRONJOBS = [
+#     ('*/15 * * * *', 'myapp.cron.my_scheduled_job'),
+# ]
 
 ROOT_URLCONF = 'OUPharmacyManagementApp.urls'
 
