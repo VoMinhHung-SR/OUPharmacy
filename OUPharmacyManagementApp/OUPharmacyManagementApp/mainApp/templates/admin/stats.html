@@ -16,8 +16,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <h5 class="text-primary pt-3">Tổng số người dùng có trong hệ thống: <span style="color:red">{{users}} </span></h5>
-    <h5 class="text-primary">Tổng số bệnh nhân có trong hệ thống: <span style="color:red">{{patients}} </span></h5>
+    <div style="display: flex" class="pt-5">
+        <h5 class="py-3 bg-blue text-white text-center mr-2" style="width:50%; border-radius: 10px">Tổng số người dùng có trong hệ thống: <span style="color:yellow; font-weight: bold">{{users}} </span></h5>
+        <h5 class="py-3 bg-green text-white text-center  ml-2" style="width:50%; border-radius: 10px">Tổng số bệnh nhân có trong hệ thống: <span style="color:yellow;  font-weight: bold ">{{patients}} </span></h5>
+
+    </div>
     <!--    <h3 class="text-info"> Số lượng các đơn đặt tour trong năm {{current_year}}:<span style="color: red"> {{booking_total}}</span>-->
     <!--    </h3>-->
     <!--    <h3 class="text-info"> Số lượng các hóa đơn đã thanh toán trong năm {{current_year}}:<span style="color: red"> {{bill_paid_total}}</span>-->
@@ -198,14 +201,14 @@
             </script>
         </div>
         <div class="chars-stats">
-            <div style="">
+            <div class="pt-5">
                 <br/>
                 <h2>Thống kê doanh thu theo tháng</h2>
                 <br/>
                 <canvas style="margin: 0 auto" width="700px" height="400px" id="revenue_stats"></canvas>
             </div>
 
-            <div>
+            <div class="pt-5">
                 <br/>
                 <h2>Thống kê tần suất khám trong năm</h2>
                 <br/>
@@ -213,33 +216,13 @@
                 <br/>
                 <br/>
             </div>
-            <div>
+            <div class="pt-5">
                 <br/>
                 <h2>Thống kê tần suất sử dụng thuốc trong năm</h2>
                 <br/>
                 <canvas style="margin: 0 auto" id="medicines_type_stats" width="700px" height="400px"></canvas>
                 <br/>
                 <br/>
-            </div>
-            <div>
-                <div class="dropdown" style="position: inherit">
-                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split"
-                            data-toggle="dropdown">
-                        Thống Kê Doanh Thu
-                    </button>
-                    <div class="dropdown-menu" style="display:plex">
-                        <button data-toggle="modal" data-target="#by_month" class="dropdown-item">Theo Tháng</button>
-                        <button data-toggle="modal" data-target="#by_quarterly" class="dropdown-item">Theo Quý</button>
-                        <button data-toggle="modal" data-target="#by_year" class="dropdown-item">Theo Năm</button>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <br/>
-                <h1 id="title_stats" class="text-danger"></h1>
-                <h4 id="total_book_tour_stats" class="text-info"></h4>
-                <h4 id="total_bill_paid_stats" class="text-info"></h4>
-                <h4 id="total_revenue_stats" class="text-info"></h4>
             </div>
         </div>
     </div>

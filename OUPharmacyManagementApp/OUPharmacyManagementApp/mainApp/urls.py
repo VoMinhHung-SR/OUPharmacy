@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
 from rest_framework import routers
-from .admin import admin
+from .admin import admin, admin_site, MainAppAdminSite
 
 router = routers.DefaultRouter()
 router.register("users", views.UserViewSet, basename="user")
@@ -22,7 +22,7 @@ urlpatterns = [
     path('oauth2-info/', views.AuthInfo.as_view()),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('admin/', admin.site.urls),
-    # path('admin/', )
+    path('admin-stats/', admin_site.urls),
     path('stats/', views.StatsView.as_view()),
     path('common-configs/', views.get_all_config)
 ]

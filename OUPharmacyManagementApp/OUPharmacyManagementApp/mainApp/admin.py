@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-
+from django.shortcuts import render
 from . import cloud_context
 from django.urls import path
 from django.utils.safestring import mark_safe
@@ -9,13 +9,14 @@ from django.template.response import TemplateResponse
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
 from datetime import date
+from django.urls import reverse
 
 
 class MainAppAdminSite(admin.AdminSite):
 
     def get_urls(self):
         return [
-                   path('stats/', self.stats_view)
+                   path('', self.stats_view)
                ] + super().get_urls()
 
     def stats_view(self, request):
@@ -144,6 +145,19 @@ class MyModelAdmin(admin.ModelAdmin):
     custom_field.allow_tags = True
 
 
+def stats_view(request):
+    return render(request, 'admin/stats.html', {})
+
+
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'stats_link']
+
+    def stats_link(self, obj):
+        url = reverse('admin:stats_view')
+        return format_html('<a href="{}">Stats</a>', url)
+    stats_link.short_description = 'Stats'
+
+
 admin.site.register(Bill, BillAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Medicine, MedicineAdmin)
@@ -154,4 +168,3 @@ admin.site.register(PrescriptionDetail, PrescriptionDetailAdmin)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserRole, UserRoleAdmin)
-admin.site.register(MyModelAdmin)
