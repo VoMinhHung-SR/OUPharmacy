@@ -37,6 +37,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
           <Loading />
         </Box>
       );
+      
     return (
       <Tooltip title={t("sendEmail")}>
         <Button
