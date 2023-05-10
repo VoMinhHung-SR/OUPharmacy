@@ -4,9 +4,12 @@ import { useTranslation } from "react-i18next"
 import { useSearchParams } from "react-router-dom"
 import { userContext } from "../../../../../App"
 import { db } from "../../../../../config/firebase"
-import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../config/sweetAlert2"
-import { STATUS_BOOKING_CONFIRMED } from "../../../../../lib/constants"
+
+import { STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../../lib/constants"
+
 import { fetchExaminationListConfirm, fetchSendEmailConfirmExamination } from "../services"
+import createToastMessage from "../../../../../lib/utils/createToastMessage"
+import { ConfirmAlert, ErrorAlert } from "../../../../../config/sweetAlert2"
 
 const useExaminationConfirm = () =>{
     const {t} = useTranslation(['examinations','modal'])
@@ -42,6 +45,7 @@ const useExaminationConfirm = () =>{
         setPage(1);
         setFlag(!flag)
     }
+
 
     const [user] = useContext(userContext)
     const [flag, setFlag] = useState(false)
@@ -83,6 +87,63 @@ const useExaminationConfirm = () =>{
             loadExamination()
     }, [user, flag, page])
 
+
+    // Handle on children elements
+
+    const [loadingState, setLoadingState] = useState({});
+    const [disableOtherCards, setDisableOtherCards] = useState(false);
+
+    const withLoadingAndDisableCards = (userID, examinationID, avatar, callback) => {
+        return async () => {
+          setDisableOtherCards(true); // disable other cards
+          setLoadingState((prevState) => ({ ...prevState, [examinationID]: true })); // set loading state for this card
+          console.log("handle Send email confirm")
+          try {
+            const res = await fetchSendEmailConfirmExamination(examinationID);
+            if (res.status === 200) {
+              createNotificationRealtime(userID, examinationID, avatar);
+              createToastMessage({ message: t('sendMailSuccessed'), type: TOAST_SUCCESS });
+              setFlag(!flag)
+            } else if (res.status === 400) {
+              ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+            }
+          } catch (err) {
+            console.log(err);
+          } finally {
+            setLoadingState((prevState) => ({ ...prevState, [examinationID]: false })); // set loading state for this card
+            setDisableOtherCards(false); // enable other cards
+            // callback(); // call the original callback function
+          }
+        };
+      };
+
+      const handleSendEmailConfirm = (userID, examinationID, avatar, callback) => {
+        return ConfirmAlert(
+          t('confirmSendEmail'),
+          t('modal:noThrowBack'),
+          t('modal:yes'),
+          t('modal:cancel'),
+          withLoadingAndDisableCards(userID, examinationID, avatar, callback),
+          () => { return; }
+        );
+      };
+      
+
+      const createNotificationRealtime  = async (userID, examinationID, avatar) => {
+        console.log("create notification")
+        try{
+            await setDoc(doc(db,"notifications", examinationID.toString()),{
+                "is_commit": false,
+                "booking_id": examinationID,
+                'content': STATUS_BOOKING_CONFIRMED,
+                "recipient_id": userID,
+                "avatar": avatar,
+                "sent_at" : serverTimestamp()
+            },{merge:true})
+        }catch(err){
+            console.log(err)
+        }
+    }
    
     return{
         user,
@@ -93,9 +154,10 @@ const useExaminationConfirm = () =>{
         examinationList,
         isRequestSuccessful,
         isLoadingExamination,
+        loadingState, disableOtherCards,
         handleChangePage,
         handleChangeFlag,
-        handleOnSubmitFilter
+        handleOnSubmitFilter, handleSendEmailConfirm,
     }
 }
 export default useExaminationConfirm

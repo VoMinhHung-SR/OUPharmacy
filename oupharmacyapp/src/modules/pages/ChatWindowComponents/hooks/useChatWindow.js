@@ -19,8 +19,6 @@ const useChatWindow = () => {
     const queryGetMessages = generateQueryGetMessages(conversationId)
     const [messagesSnapshot, messagesLoading, __error] = useCollection(queryGetMessages)
 
-    const refEndMessage = useRef(null)
-
 
     useEffect(()=> {
         const loadRecipientInfo = async () => {
@@ -80,10 +78,6 @@ const useChatWindow = () => {
         // reset input field
         setNewMessage('')
     }
-
-    useEffect(()=>{
-        refEndMessage.current?.scrollIntoView({behavior:"smooth"})
-    },[messagesSnapshot])
     
     const sendMessageOnEnter = (event) => {
         if (event.key === 'Enter') {
@@ -102,7 +96,7 @@ const useChatWindow = () => {
     return {
         recipient,sendMessageOnEnter,sendMessageOnClick,
         newMessage, setNewMessage, messagesLoading,messagesSnapshot, 
-        messagesInCoversation, refEndMessage
+        messagesInCoversation, 
     }
 }
 export default useChatWindow

@@ -91,6 +91,9 @@ const WaitingRoom = () => {
               <div className="ou-grid ou-grid-cols-12 ou-text-center">
                     {renderCurrentAndNextExam(exams)}
                 </div>
+                <div className="ou-text-center">
+                    {t('listExamsToday')}
+                </div>
             </Container>
         
     ) : (

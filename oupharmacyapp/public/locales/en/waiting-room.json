@@ -7,5 +7,6 @@
     "examWaiting": "The exam will start in",
     "hours": "hours",
     "mins": "minutes",
-    "secs": "seconds"
+    "secs": "seconds",
+    "listExamsToday": "List examinations today"
 }
