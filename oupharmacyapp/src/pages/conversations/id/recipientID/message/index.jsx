@@ -7,20 +7,31 @@ import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import { useTranslation } from "react-i18next";
 import { AVATAR_DEFAULT } from "../../../../../lib/constants";
 import { Helmet } from "react-helmet";
+import { useEffect, useRef } from "react";
+
 const ChatWindow = () => {
-    const {recipient, messagesLoading, newMessage, setNewMessage, refEndMessage,
+    const {recipient, messagesLoading, newMessage, setNewMessage, 
+        // refEndMessage,
         sendMessageOnClick, sendMessageOnEnter, messagesInCoversation, messagesSnapshot} = useChatWindow()
     const {t} = useTranslation(['conversation'])
-    
-    const renderMessages = () => {
-        if (messagesLoading) {
-            return messagesInCoversation.map(message => (
-                <Box sx={{ p: 1 }}>
-                    <MessageCard key={message.id} id={message.id} message={message.text} />
-                </Box>
 
-            ))
+    const chatWindowRef = useRef(null);
+    useEffect(() => {
+        if (chatWindowRef.current) {
+          chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
         }
+      }, [messagesSnapshot]);
+
+
+    const renderMessages = () => {
+        // if (messagesLoading) {
+        //     return messagesInCoversation.map(message => (
+        //         <Box sx={{ p: 1 }} >
+        //             <MessageCard key={message.id} id={message.id} message={message.text} />
+        //         </Box>
+
+        //     ))
+        // }
         // If front-end has finished loading messages, so now we have messagesSnapshot
         if (messagesSnapshot) {
             if(messagesSnapshot.docs.length === 0)
@@ -33,9 +44,12 @@ const ChatWindow = () => {
                         <Typography>{t('conversation:errNoMessage')}</Typography>
                     </Box>
                 </h3>)
-            return messagesSnapshot.docs.map(message => (
-                <Box sx={{ p: 1 }}>
-                    <MessageCard key={message.id} id={message.id} message={transformMessage(message)} />
+            return messagesSnapshot.docs.map((message, index) => (
+                <Box sx={{ p: 1 }}   
+                 >
+                     <div >
+                        <MessageCard id={message.id} message={transformMessage(message)} />
+                    </div>
                 </Box>
             ))
         }
@@ -47,7 +61,7 @@ const ChatWindow = () => {
             <title>Conversations</title>
         </Helmet>
 
-        <Grid item className>
+        <Grid item >
             <Box square className="ou-h-[60px] ou-bg-blue-600">
                 <ListItem key={""}>
                     {recipient !== null ?
@@ -56,11 +70,10 @@ const ChatWindow = () => {
                                 <ListItemAvatar>
                                     <Avatar
                                         alt="Profile Picture"
-                                        src={recipient.avatar_path ? recipient.avatar_path : "https://mui.com/static/images/avatar/1.jpg"}
+                                        src={recipient.avatar_path ? recipient.avatar_path : AVATAR_DEFAULT}
                                     />
                                 </ListItemAvatar>
-                                <ListItemText primary={recipient.email ? recipient.email :
-                                    "........"} style={{ "color": "white" }} />
+                                <ListItemText primary={recipient.email ? recipient.email :" "} style={{ "color": "white" }} />
                             </>
 
                         ) : <>
@@ -75,10 +88,17 @@ const ChatWindow = () => {
                     
                 </ListItem>
             </Box>
-            <Box id="chat-window" sx={{ backgroundColor: "lightGray", overflowY: "auto" }} height={"460px"}>
+
+            
+            <Box id="chat-window" 
+                ref={chatWindowRef}
+                sx={{ backgroundColor: "lightGray", overflowY: "auto",   
+                    position: "relative", scrollBehavior:"smooth",
+                    top: 0,
+                    bottom: 0,}} height={"460px"}> 
                 {renderMessages()}
-                <div ref={refEndMessage}/>
-            </Box>
+            </Box> 
+           
             
             <Box height={"60px"}>
                 <FormControl fullWidth variant="filled">

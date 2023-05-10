@@ -31,6 +31,7 @@ const Home = () => {
     zoom: 16,
   });
 
+
   const { allConfig } = useSelector((state) => state.config);
 
   if(tReady)

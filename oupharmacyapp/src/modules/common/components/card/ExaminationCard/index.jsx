@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   TableCell,
   TableRow,
   Tooltip,
@@ -22,37 +23,44 @@ import useCustomModal from "../../../../../lib/hooks/useCustomModal";
 import ExaminationDetailCard from "../ExaminationDetailCard";
 import BackdropLoading from "../../BackdropLoading";
 
-const ExaminationCard = ({examinationData, user, callback}) => {
+const ExaminationCard = ({examinationData, user, callback, disableOtherCards, loading, sendEmailConfirm}) => {
   const { t } = useTranslation(["examinations", "common", "modal", "examination-detail"]);
 
   const {id, description, created_date, mail_status} = examinationData
-  const { isLoadingButton, handleSendEmailConfirm, isBackdropLoading } = useExaminationCard();
+  // const { isLoadingButton, isBackdropLoading } = useExaminationCard();
   const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
  
+  const handleSendEmailConfirm = async () => {
+    sendEmailConfirm();
+  };
+
  
-  const renderButton = (userID, examinationID, avatar) => {
-    if (isLoadingButton)
-      return (
-        <Box className="ou-min-w-[68px]">
-          <Loading />
-        </Box>
-      );
-      
+  const renderButton = () => {
+    // if (isLoadingButton)
+    //   return (
+    //     <Box className="ou-min-w-[68px]">
+    //       <Loading />
+    //     </Box>
+    //   );
+
     return (
       <Tooltip title={t("sendEmail")}>
         <Button
-          onClick={() => {
-            handleSendEmailConfirm(
-              userID,
-              examinationID,
-              avatar,
-              callback
-            );
-          }}
+          onClick={handleSendEmailConfirm}
+          disabled={disableOtherCards}
+          // onClick={() => {
+          //   handleSendEmailConfirm(
+          //     userID,
+          //     examinationID,
+          //     avatar,
+          //     callback
+          //   );
+          // }}
           variant="contained"
           className="!ou-min-w-[68px] !ou-py-2"
         >
-          <SendIcon />
+          {/* <SendIcon /> */}
+          {loading ? <CircularProgress size={24} /> : <SendIcon />}
         </Button>
       </Tooltip>
     );
@@ -60,7 +68,6 @@ const ExaminationCard = ({examinationData, user, callback}) => {
 
   return (
     <>
-      {/* {isBackdropLoading && <Box><BackdropLoading/></Box>} */}
       <TableRow
         key={id}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -101,7 +108,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                       <span>
                           <Button
                             variant="contained"
-                          
+                         
                             color="success"
                             className="!ou-min-w-[68px] !ou-min-h-[40px] !ou-p-2  hover:ou-cursor-pointer"
                           >
@@ -163,7 +170,7 @@ const ExaminationCard = ({examinationData, user, callback}) => {
                 )}
                 {/* Render button for NURSES */}
                 {user && user.role === ROLE_NURSE ? (
-                  renderButton(examinationData?.user?.id, id, user?.avatar_path)
+                  renderButton()
                 ) : (
                   <></>
                 )}

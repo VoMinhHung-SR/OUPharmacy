@@ -39,7 +39,8 @@ const Examinations = () => {
     paramsFilter,
     filterCount,
     handleChangeFlag,
-    handleOnSubmitFilter
+    handleOnSubmitFilter,
+    disableOtherCards, handleSendEmailConfirm, loadingState
   } = useExaminationConfirm();
 
   const {expanded, toggleExpanded} = useExaminationFilter();
@@ -123,7 +124,14 @@ const Examinations = () => {
           <TableBody>
             {
               examinationList.length > 0 ? examinationList.map((e) => (
-                <ExaminationCard key={`e-${e.id}`} examinationData={e} user={user} callback={handleChangeFlag}/>       
+                <ExaminationCard key={`e-${e.id}`} 
+                examinationData={e} user={user} 
+                callback={handleChangeFlag}
+
+                disableOtherCards={disableOtherCards}
+                loading={loadingState[e.id] || false} 
+                sendEmailConfirm={() => handleSendEmailConfirm(e.user.id, e.id, e.user.avatar_path)}
+                />       
             )) :  <TableCell colSpan={12} component="th" scope="row">
             <Typography> <Box className="ou-text-center ou-p-10 ou-text-red-700">{t('examinations:errExamsNull')}</Box></Typography>
           </TableCell>
