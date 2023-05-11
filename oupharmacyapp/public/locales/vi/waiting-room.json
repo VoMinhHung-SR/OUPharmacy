@@ -8,5 +8,21 @@
     "hours": "giờ",
     "mins": "phút",
     "secs": "giây",
-    "listExamsToday": "Danh sách phiếu đặt lịch"
+    "listExamsToday": "Danh sách phiếu đặt lịch",
+    "confirmMoveToTop": "Di chuyển lên đầu",
+    "confirmMoveToBottom": "Di chuyển xuống cuối",
+    "moveSuccessful": "Di chuyển thành công",
+    "moveFailed": "Di chuyển thất bại",
+
+    "turn":"STT",
+    "patientFullName":"Tên bệnh nhân",
+    "examID":"Mã phiếu",
+    "status": "Trạng thái",
+    "emailRemind": "Email nhắc nhở",
+    "function":"Chức năng",
+    "sent": "Đã gửi",
+    "unSent": "Chưa gửi",
+    "done": "Hoàn tất",
+    "unDone": "Đang chờ",
+    "unKnown":"Chưa rõ"
 }

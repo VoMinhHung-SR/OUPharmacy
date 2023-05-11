@@ -8,5 +8,21 @@
     "hours": "hours",
     "mins": "minutes",
     "secs": "seconds",
-    "listExamsToday": "List examinations today"
+    "listExamsToday": "List examinations today",
+    "confirmMoveToTop": "Confirm move to top",
+    "confirmMoveToBottom": "Confirm bring to bottom",
+    "moveSuccessful": "Move successful",
+    "moveFailed": "Move failed",
+
+    "turn":"Turn",
+    "patientFullName":"Patient full name",
+    "examID":"ExamID",
+    "status": "Status",
+    "emailRemind": "Email remind",
+    "function":"Function",
+    "sent": "Sent",
+    "unSent": "Unsent",
+    "done": "Done",
+    "unDone": "Waiting",
+    "unKnown":"Unknown"
 }

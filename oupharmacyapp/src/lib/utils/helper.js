@@ -115,6 +115,7 @@ export const setListExamToday = async (examData) => {
               remindStatus: false,
               examID: exam.id,
               author: exam.user.email,
+              patientFullName: exam.patient.first_name + " " + exam.patient.last_name,
               startedDate,
               distance,
               duration
