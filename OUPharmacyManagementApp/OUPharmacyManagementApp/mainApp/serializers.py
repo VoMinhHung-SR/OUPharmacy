@@ -151,6 +151,7 @@ class UserNormalSerializer(ModelSerializer):
 
 class ExaminationsPairSerializer(ModelSerializer):
     user = UserNormalSerializer()
+    patient = PatientSerializer()
 
     class Meta:
         model = Examination
