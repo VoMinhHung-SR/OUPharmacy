@@ -13,6 +13,9 @@
     "confirmMoveToBottom": "Confirm bring to bottom",
     "moveSuccessful": "Move successful",
     "moveFailed": "Move failed",
+    "moveToTop": "Move to top",
+    "bringToBottom":"Bring to bottom",
+    "userInfo": "User info",
 
     "turn":"Turn",
     "patientFullName":"Patient full name",

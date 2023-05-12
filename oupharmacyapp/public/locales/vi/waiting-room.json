@@ -13,6 +13,9 @@
     "confirmMoveToBottom": "Di chuyển xuống cuối",
     "moveSuccessful": "Di chuyển thành công",
     "moveFailed": "Di chuyển thất bại",
+    "moveToTop": "Chuyển lên đầu",
+    "bringToBottom":"Chuyển xuống cuối",
+    "userInfo": "Thông tin",
 
     "turn":"STT",
     "patientFullName":"Tên bệnh nhân",
