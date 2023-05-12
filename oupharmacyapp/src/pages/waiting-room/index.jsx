@@ -1,4 +1,4 @@
-import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import moment from "moment";
 import { useContext } from "react";
 import { useGeolocated } from "react-geolocated";
@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet";
 
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
@@ -75,20 +75,63 @@ const WaitingRoom = () => {
         
    } 
 
-    return !isGeolocationAvailable ? (
-        <div>Your browser does not support Geolocation</div>
-    ) : !isGeolocationEnabled ? (
-        <Container>
-            <Helmet>
-                <title>Waiting room</title>
-            </Helmet>
-              <div className="ou-grid ou-grid-cols-12 ou-text-center">
-                 {renderCurrentAndNextExam(exams)}
-                </div>
-                <Box></Box>
-            <div>Geolocation is not enabled</div>
-        </Container>
-    ) : coords ? (
+   const renderButton = (isCommitted) => {
+        if (!exams.length)
+            return
+
+        if(exams.length === 1)
+            return <Tooltip title={t('userInfo')}>
+                  <span>
+                    <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><QuestionMarkIcon/></Button>
+                  </span>
+            </Tooltip>
+        else
+            return(
+                <>
+                   <Tooltip title={t('userInfo')}>
+                        <span>
+                            <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><QuestionMarkIcon/></Button>
+                        </span>
+                    </Tooltip>
+                    {isCommitted ? <></> : <>
+                    <Tooltip title={t('moveToTop')}>
+                        <span>
+                            <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><ArrowUpwardIcon/></Button>
+                        </span>
+                    </Tooltip>
+                    <Tooltip title={t('bringToBottom')}>
+                        <span>
+                            <Button className="!ou-bg-blue-700 !ou-text-white !ou-ml-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
+                        </span>
+                    </Tooltip>
+                    </>}
+               </>
+            ) 
+           
+        
+   }
+
+    // return !isGeolocationAvailable ? (
+    //     <div>Your browser does not support Geolocation</div>
+    // ) : !isGeolocationEnabled ? (
+    //     <Container>
+    //         <Helmet>
+    //             <title>Waiting room</title>
+    //         </Helmet>
+    //           <div className="ou-grid ou-grid-cols-12 ou-text-center">
+    //              {renderCurrentAndNextExam(exams)}
+    //             </div>
+    //             <Box></Box>
+    //         <div>Geolocation is not enabled</div>
+    //     </Container>
+    // ) : coords ? (
+    //     // THis is for render data
+    //     "render data for the logic auto detect user's locale"
+    // ) : (
+    //     <div>Getting the location data&hellip; </div>
+    // );
+    
+    return (
         <Container>
             <Helmet>
                 <title>Waiting room</title>
@@ -149,8 +192,7 @@ const WaitingRoom = () => {
                                             : <span className="ou-text-red-700">{t('unSent')}</span>}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><ArrowUpwardIcon/></Button>
-                                            <Button className="!ou-bg-blue-700 !ou-text-white !ou-ml-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
+                                            {renderButton(e.isCommitted)}
                                         </TableCell>
                                     </TableRow>
                             ))
@@ -163,9 +205,7 @@ const WaitingRoom = () => {
                     </TableContainer>
                 </div>
             </Container>
-        
-    ) : (
-        <div>Getting the location data&hellip; </div>
-    );
+
+    )
 }
 export default WaitingRoom
