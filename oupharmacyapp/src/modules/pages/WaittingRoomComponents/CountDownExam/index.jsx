@@ -1,5 +1,5 @@
 
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import CountDownTimer from "../CountDownTimer";
 import moment from "moment";
 import { timeUntilExam } from "../../../../lib/utils/helper";
@@ -11,9 +11,8 @@ const CountDownExam = (props) => {
 
         return(
             <>
-                <Box className="ou-min-w-[300px] 
-                ou-p-5 ou-border-[1.5px] ou-border-black ou-border-solid 
-                
+                <Box component={Paper} elevation={6} className="ou-min-w-[300px] ou-p-5
+                ou-border-[1.5px] ou-border-black ou-border-solid 
                 ou-rounded-[8px]">
                     {props.currentID ? <>
                         <Box>

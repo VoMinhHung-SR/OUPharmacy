@@ -49,7 +49,7 @@ const Nav = () => {
     }
   ];
   // State trigger menu open
-  const {isLoading, notifyListContent} = useNotification();
+  const {isLoading, notifyListContent, markAllAsRead} = useNotification();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -148,9 +148,14 @@ const Nav = () => {
                 </Box>
               </Link>
           </Tooltip>
-       
+            {console.log(notifyListContent)}
             <Box className="hover:ou-cursor-pointer">
-              <NotificationButton length={notifyListContent.length} isLoading={isLoading} items={notifyListContent}/>    
+                <NotificationButton
+                length={notifyListContent.filter(item => !item.is_commit).length}
+                isLoading={isLoading}
+                items={notifyListContent}
+                onClick={() => markAllAsRead(notifyListContent)}
+              />                
             </Box>
        
           <Tooltip title={t('openSettings')}>

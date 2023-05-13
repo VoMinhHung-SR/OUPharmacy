@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet";
 
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import InfoIcon from '@mui/icons-material/Info';
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
@@ -44,9 +44,7 @@ const WaitingRoom = () => {
         const filteredExams = exams.filter(exam => !exam.isCommitted);
 
         if(filteredExams.length === 0)
-            return <Box className="ou-col-span-12 ou-mt-4 ou-mb-2 ou-text-center">
-           {t('waiting-room:errNullExams')}
-        </Box>
+            return 
    
         if (filteredExams.length > 1)
             return (
@@ -75,24 +73,20 @@ const WaitingRoom = () => {
         
    } 
 
-   const renderButton = (isCommitted) => {
+   const renderButton = (index,isCommitted) => {
         if (!exams.length)
-            return
+            return 
 
         if(exams.length === 1)
             return <Tooltip title={t('userInfo')}>
                   <span>
-                    <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><QuestionMarkIcon/></Button>
+                    <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><InfoIcon/></Button>
                   </span>
             </Tooltip>
         else
             return(
                 <>
-                   <Tooltip title={t('userInfo')}>
-                        <span>
-                            <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><QuestionMarkIcon/></Button>
-                        </span>
-                    </Tooltip>
+                   
                     {isCommitted ? <></> : <>
                     <Tooltip title={t('moveToTop')}>
                         <span>
@@ -101,10 +95,15 @@ const WaitingRoom = () => {
                     </Tooltip>
                     <Tooltip title={t('bringToBottom')}>
                         <span>
-                            <Button className="!ou-bg-blue-700 !ou-text-white !ou-ml-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
+                            <Button className="!ou-bg-blue-700 !ou-text-white !ou-mx-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
                         </span>
                     </Tooltip>
                     </>}
+                    <Tooltip title={t('userInfo')}>
+                        <span>
+                            <Button className="!ou-bg-green-700 !ou-text-white !ou-ml-1" onClick={()=> handleMoveToTop(index)}><InfoIcon/></Button>
+                        </span>
+                    </Tooltip>
                </>
             ) 
            
@@ -130,7 +129,7 @@ const WaitingRoom = () => {
     // ) : (
     //     <div>Getting the location data&hellip; </div>
     // );
-    
+
     return (
         <Container>
             <Helmet>
@@ -139,12 +138,10 @@ const WaitingRoom = () => {
               <div className="ou-grid ou-grid-cols-12 ou-text-center">
                     {renderCurrentAndNextExam(exams)}
                 </div>
-                <div className="ou-text-center">
+                <div className="ou-text-center ou-mt-8">
                     {t('listExamsToday')}
 
-                    
-                   
-                    <TableContainer component={Paper} elevation={4} className="ou-my-3 ou-mb-8">
+                    <TableContainer component={Paper} elevation={6} className="ou-my-3 ou-mb-8">
 
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
@@ -168,7 +165,15 @@ const WaitingRoom = () => {
                         </TableHead>
                         <TableBody>
                         {
-                            ! exams.length ? <></> : 
+                            ! exams.length ? <TableRow>
+                                <TableCell colSpan={12}>
+                                <Box className="ou-col-span-12 ou-mt-4 ou-mb-2 ou-text-center">
+                            {t('waiting-room:errNullExams')}
+                        </Box> 
+                                </TableCell>
+                                
+                                </TableRow>
+                        : 
                             exams.map((e,index) => (
                                     <TableRow>
                                         <TableCell>
@@ -192,11 +197,12 @@ const WaitingRoom = () => {
                                             : <span className="ou-text-red-700">{t('unSent')}</span>}
                                         </TableCell>
                                         <TableCell align="center">
-                                            {renderButton(e.isCommitted)}
+                                            {renderButton(index, e.isCommitted)}
                                         </TableCell>
                                     </TableRow>
                             ))
                         }
+                        
                         </TableBody>
                        
 

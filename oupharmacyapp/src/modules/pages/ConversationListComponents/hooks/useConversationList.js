@@ -9,13 +9,13 @@ const useConversationList = () => {
     useEffect(()=>{
         const setUserDB = async ()=>{    
             try{
-                await setDoc(doc(db,"users", user.id.toString()),{
-                    "id": user.id,
-                    "email": user.email,
-                    "fullName": user.first_name +" "+ user.last_name,
-                    "avatar": user.avatar_path,
-                    "lastSeen" : serverTimestamp() 
-                },{merge:true})
+                await setDoc(doc(db, "users", user.id.toString()), {
+                    id: user.id,
+                    email: user.email,
+                    fullName: `${user.first_name} ${user.last_name}`,
+                    avatar: user.avatar_path,
+                    lastSeen: serverTimestamp() 
+                  }, { merge: true });
             }catch(err){
                 console.log(err)
                 ErrorAlert("Đã có lỗi xảy ra","Vui lòng quay lại sau", "OK")

@@ -19,7 +19,7 @@ import i18n from './i18n'
 import Booking from './pages/booking'
 import Examinations from './pages/examinations'
 import ProtectedUserRoute from './modules/common/layout/userRoute'
-import { BACKEND_BASEURL, ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
+import { ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
 import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
 import Forbidden from './modules/common/layout/components/403-forbidden'
 import NotFound from './modules/common/layout/components/404-not_found'
@@ -31,8 +31,6 @@ import Loading from './modules/common/components/Loading'
 import { Box } from '@mui/material'
 import Demo from './pages/demo'
 import { getCookieValue } from './lib/utils/getCookieValue'
-import { fetchListExamOncePerDay } from './lib/utils/fetchListExamOncePerDay'
-import { endpoints } from './config/APIs'
 import { getListExamToday, getTotalListExamPerDay, setListExamToday } from './lib/utils/helper'
 import { fetchListExaminationToday } from './modules/pages/WaittingRoomComponents/services'
 import { jobMidnight } from './cron/job/at_midnight'
@@ -119,7 +117,9 @@ function App() {
                         <Route path="/forbidden" element={<Forbidden />} />
                        
                         <Route path="*" element={<NotFound/>} />
-                        <Route path='/demo' element={<Demo/>}/>
+                      
+
+                          <Route path='/demo' element={<Demo/>}/>
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                      
