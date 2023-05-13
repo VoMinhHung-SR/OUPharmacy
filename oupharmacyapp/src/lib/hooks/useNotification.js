@@ -32,9 +32,27 @@ const useNotification = () => {
         
     }, [notificationsSnapshot])
 
+    const markAllAsRead = async () => {
+        setIsLoading(true);
+        try {
+          await notificationsSnapshot.docs.forEach((doc) => {
+            doc.ref.update({
+              is_commit: true,
+            });
+          });
+          setNotifyListContent((prevState) =>
+            prevState.map((notification) => ({ ...notification, is_commit: true }))
+          );
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
     return {
         notificationsSnapshot: notificationsSnapshot?.docs,
-        notifyListContent,
+        notifyListContent, markAllAsRead,
         isLoading: notificationsLoading,
     }
 }
