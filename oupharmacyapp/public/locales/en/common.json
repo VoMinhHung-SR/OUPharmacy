@@ -29,5 +29,9 @@
     "totalCheckUpsToday": "Total number of check-ups today",
     "totalExamsList": "Total examinations",
 
-    "titleHome": "OUPharmacy"
+    "titleHome": "OUPharmacy",
+    "newerNotification": "Newer notifications",
+    "olderNotification": "Older notifications",
+    "markAllAsRead": "Mark all as read",
+    "deleteAll": "Delete all"
 }

@@ -16,7 +16,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import { ROLE_DOCTOR, ROLE_NURSE } from "../../../../../lib/constants";
-import useExaminationCard from "./hooks/useExaminationCard";
+
 import Loading from "../../Loading";
 import CustomModal from "../../Modal";
 import useCustomModal from "../../../../../lib/hooks/useCustomModal";
@@ -27,7 +27,6 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
   const { t } = useTranslation(["examinations", "common", "modal", "examination-detail"]);
 
   const {id, description, created_date, mail_status} = examinationData
-  // const { isLoadingButton, isBackdropLoading } = useExaminationCard();
   const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
  
   const handleSendEmailConfirm = async () => {

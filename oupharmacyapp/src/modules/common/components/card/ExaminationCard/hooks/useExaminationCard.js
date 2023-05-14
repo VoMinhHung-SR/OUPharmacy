@@ -46,6 +46,7 @@ const useExaminationCard = () =>{
         try{
             await setDoc(doc(db,"notifications", examinationID.toString()),{
                 "is_commit": false,
+                "is_active": true,
                 "booking_id": examinationID,
                 'content': STATUS_BOOKING_CONFIRMED,
                 "recipient_id": userID,

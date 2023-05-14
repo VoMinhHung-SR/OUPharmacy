@@ -154,7 +154,7 @@ const Nav = () => {
                 length={notifyListContent.filter(item => !item.is_commit).length}
                 isLoading={isLoading}
                 items={notifyListContent}
-                onClick={() => markAllAsRead(notifyListContent)}
+                markAllAsRead={markAllAsRead} 
               />                
             </Box>
        
