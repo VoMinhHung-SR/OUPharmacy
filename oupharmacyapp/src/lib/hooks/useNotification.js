@@ -1,10 +1,13 @@
-import { collection, doc, getDocs, orderBy, query, where } from "firebase/firestore"
+import { collection, doc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore"
 import { useMemo } from "react"
 import { useCallback, useContext, useEffect, useState } from "react"
 import { useCollection } from "react-firebase-hooks/firestore"
 import { userContext } from "../../App"
 import { db } from "../../config/firebase"
 import { generateQueryGetNotification } from "../utils/getRecipientNotification"
+import { ConfirmAlert } from "../../config/sweetAlert2"
+import createToastMessage from "../utils/createToastMessage"
+import { TOAST_ERROR, TOAST_SUCCESS } from "../constants"
 
 const useNotification = () => {
     const [user, userReady] = useContext(userContext)
@@ -32,23 +35,25 @@ const useNotification = () => {
         
     }, [notificationsSnapshot])
 
-    const markAllAsRead = async () => {
+    const markAllAsRead = async (listNotification) => {
         setIsLoading(true);
+      
         try {
-          await notificationsSnapshot.docs.forEach((doc) => {
-            doc.ref.update({
-              is_commit: true,
+          // Update the is_commit field for each document in Firebase
+          await Promise.all(listNotification.map(notification => {
+            const { id } = notification;
+            return updateDoc(doc(db, "notifications", id.toString()), {
+              is_commit: true
             });
-          });
-          setNotifyListContent((prevState) =>
-            prevState.map((notification) => ({ ...notification, is_commit: true }))
-          );
+          }));
+          createToastMessage({message:"thanh conG", type:TOAST_SUCCESS})
         } catch (error) {
           console.error(error);
+          createToastMessage({message:"THAT BAI", type:TOAST_ERROR})
         } finally {
           setIsLoading(false);
         }
-      };
+    };
 
     return {
         notificationsSnapshot: notificationsSnapshot?.docs,

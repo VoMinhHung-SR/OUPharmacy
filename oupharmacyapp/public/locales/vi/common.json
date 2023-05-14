@@ -29,5 +29,9 @@
     "totalCheckUpsToday": "Tổng số phiếu khám hôm nay",
     "totalExamsList": "Tổng số phiếu",
  
-    "titleHome": "OUPharmacy"
+    "titleHome": "OUPharmacy",
+    "newerNotification": "Thông báo gần đây",
+    "olderNotification": "Thông báo cũ hơn",
+    "markAllAsRead": "Đánh dấu đọc tất cả",
+    "deleteAll": "Xóa tất cả"
 }
