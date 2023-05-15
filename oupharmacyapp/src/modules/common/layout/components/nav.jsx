@@ -148,7 +148,6 @@ const Nav = () => {
                 </Box>
               </Link>
           </Tooltip>
-            {console.log(notifyListContent)}
             <Box className="hover:ou-cursor-pointer">
                 <NotificationButton
                 length={notifyListContent.filter(item => !item.is_commit).length}

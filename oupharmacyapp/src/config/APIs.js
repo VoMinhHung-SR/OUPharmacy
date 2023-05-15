@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
+import { BACKEND_BASEURL, PRD_BACKEND_BASEURL } from '../lib/constants';
 axios.defaults.withCredentials = false;
 
 
@@ -61,8 +62,15 @@ export let endpoints = {
     // Common Config:
     'common-configs': '/common-configs/'
 }
-
-const baseURL = 'http://127.0.0.1:8000';
+let baseURL;
+if (process.env.NODE_ENV === 'production') {
+  baseURL = PRD_BACKEND_BASEURL;
+  console.log(baseURL)
+} else {
+  baseURL = BACKEND_BASEURL;
+  console.log(baseURL)
+}
+// const baseURL = BACKEND_BASEURL;
 const mapBaseURL = "https://rsapi.goong.io"  
 
 export const mapApi = () => {
