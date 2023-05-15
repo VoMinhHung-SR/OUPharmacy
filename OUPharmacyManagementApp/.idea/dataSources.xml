@@ -6,6 +6,12 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/oupharmacydb</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="oupharmacy@production" uuid="9196ceb4-4cd6-4001-bb8a-16fff737b086">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://root:7WfVEBbLPlEKF0NkSTI8@containers-us-west-60.railway.app:7685/railway</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
