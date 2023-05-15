@@ -34,6 +34,10 @@ DEBUG = True
 
 # Application definition
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://oupharmacy-vominhhung.up.railway.app'
+]
+
 # 'debug_toolbar',
 INSTALLED_APPS = [
     'jazzmin',
