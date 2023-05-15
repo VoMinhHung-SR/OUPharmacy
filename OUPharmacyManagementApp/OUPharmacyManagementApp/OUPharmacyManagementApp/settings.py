@@ -104,6 +104,10 @@ REST_FRAMEWORK = {
     )
 }
 
+import pymysql
+
+pymysql.install_as_MySQLdb()
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -152,7 +156,12 @@ USE_I18N = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "mainApp", "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = 'static/'
+
 AUTH_USER_MODEL = 'mainApp.User'
 MEDIA_ROOT = '%s/mainApp/static/' % BASE_DIR
 CKEDITOR_UPLOAD_PATH = 'post/'
