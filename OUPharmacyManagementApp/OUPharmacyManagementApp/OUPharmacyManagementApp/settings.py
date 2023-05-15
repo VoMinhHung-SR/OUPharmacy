@@ -34,6 +34,10 @@ DEBUG = True
 
 # Application definition
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://oupharmacy-vominhhung.up.railway.app'
+]
+
 # 'debug_toolbar',
 INSTALLED_APPS = [
     'jazzmin',
@@ -113,11 +117,12 @@ pymysql.install_as_MySQLdb()
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'oupharmacydb',
-        'USER': 'root',
-        'PASSWORD': 'Hung@123456',
-        'HOST': '',
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': int(os.getenv('DB_PORT'))
     }
 }
 
