@@ -21,6 +21,17 @@ export const getTotalListExamPerDay = async () => {
   
 }
 
+export const formatNumber = (num) => {
+  const options = {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+    useGrouping: true,
+    minimumIntegerDigits: 1,
+    style: 'decimal',
+  };
+  return num.toLocaleString('en-US', options).replace(/,/g, '.');
+}
+
 export const convertTimestampToDateTime = (timestamp) => {
   // Create a new date object using the Unix timestamp multiplied by 1000 to convert it to milliseconds
     const date = new Date(timestamp * 1000);

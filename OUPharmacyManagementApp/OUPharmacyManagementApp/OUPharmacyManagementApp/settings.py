@@ -154,7 +154,7 @@ LANGUAGE_CODE = 'en-us'
 # READ DATA : UTC (-7H) ; WRITE DATA : UTC (OKE)
 
 # ValueError at /admin/django_celery_beat/periodictask/ (USE_TZ=TRUE)
-USE_TZ = False
+USE_TZ = True
 TIME_ZONE = 'Asia/Bangkok'
 USE_I18N = True
 

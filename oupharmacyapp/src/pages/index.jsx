@@ -210,7 +210,7 @@ const Home = () => {
               <Paper style={{height: '100%'}}>
               <Box
                       // max-[600px]:ou-w-[354px] max-[600px]:ou-m-auto 
-                className=" ou-rounded ou-border-solid  ou-border-2 ou-border-black ou-min-w-[354px]"
+                className=" ou-rounded ou-border-solid  ou-border-2 ou-border-black ou-min-w-[300px]"
               >
                 <MapGL longitude={viewport.longitude} latitude={viewport.latitude} zoom={viewport.zoom}/>
               </Box>

@@ -25,7 +25,7 @@ const MapGL = (props) => {
               }
           }
 
-          style={{minWidth:350, minHeight:600}}
+          style={{minWidth:300, minHeight:450}}
           mapStyle="mapbox://styles/mapbox/streets-v11"
         >
 

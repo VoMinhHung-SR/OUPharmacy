@@ -8,8 +8,10 @@ import { generateQueryGetNotification } from "../utils/getRecipientNotification"
 import { ConfirmAlert } from "../../config/sweetAlert2"
 import createToastMessage from "../utils/createToastMessage"
 import { APP_ENV, TOAST_ERROR, TOAST_SUCCESS } from "../constants"
+import { useTranslation } from "react-i18next"
 
 const useNotification = () => {
+    const {t} = useTranslation(['common'])
     const [user, userReady] = useContext(userContext)
     const [isLoading, setIsLoading] = useState(true)
     const queryGetNotification = generateQueryGetNotification(user?.id)
@@ -51,10 +53,10 @@ const useNotification = () => {
                   is_active: false
                 });
           }));
-          createToastMessage({message:"thanh conG", type:TOAST_SUCCESS})
+          createToastMessage({message:t('updateSuccess'), type:TOAST_SUCCESS})
         } catch (error) {
           console.error(error);
-          createToastMessage({message:"THAT BAI", type:TOAST_ERROR})
+          createToastMessage({message:t('updateFailed'), type:TOAST_ERROR})
         } finally {
           setIsLoading(false);
         }

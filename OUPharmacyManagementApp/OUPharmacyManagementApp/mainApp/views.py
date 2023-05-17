@@ -1,6 +1,7 @@
 import datetime
 import http
 import math
+import os
 import uuid
 import json
 import urllib.request
@@ -202,7 +203,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                 error_msg = 'Email was sent already!!!'
         if not error_msg:
             examination.mail_status = True
-            examination.updated_date = datetime.datetime.today()
             examination.save()
             return Response(data={
                 'status': 'Send mail successfully',
@@ -224,7 +224,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         if not user or not patient:
             return Response(data={'errMsg': 'User or patient not found'},
                             status=status.HTTP_400_BAD_REQUEST)
-        current_date = datetime.date.today().strftime('%d-%m-%Y')
         seconds = request.data.get('seconds')/60
         minutes = math.ceil(int(seconds))
         subject = "Thông báo: phiếu đăng ký khám của bạn sắp bắt đầu"
@@ -253,7 +252,6 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             return Response(data={'errMsg': 'Failed to send email'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         examination.mail_status = True
-        examination.updated_date = datetime.datetime.today()
         examination.save()
         return Response(data={
             'status': 'Send mail successfully',
@@ -282,8 +280,8 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                 date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
             else:
                 date = datetime.datetime.now().date()
-            start_of_day = datetime.datetime.combine(date, datetime.time.min)
-            end_of_day = datetime.datetime.combine(date, datetime.time.max)
+            start_of_day = datetime.datetime.combine(date, datetime.time.min).astimezone(pytz.utc)
+            end_of_day = datetime.datetime.combine(date, datetime.time.max).astimezone(pytz.utc)
             examinations = Examination.objects.filter(created_date__range=(start_of_day, end_of_day)).all()
         except Exception as error:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMsg": "Can't get Examinations"})
@@ -293,11 +291,10 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
     def get_list_exam_today(self, request):
         try:
             now = datetime.datetime.now()
-            today = now.replace(hour=0, minute=0, second=0, microsecond=0)
-            tomorrow = (now + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-            end_of_today = datetime.datetime.combine(today, datetime.time.max)
+            today = now.replace(hour=0, minute=0, second=0, microsecond=0).astimezone(pytz.utc)
+            tomorrow = now.replace(hour=23, minute=59, second=59).astimezone(pytz.utc).astimezone(pytz.utc)
             examinations = Examination.objects.filter(created_date__range=(today,
-                                                                           end_of_today)).order_by('updated_date').all()
+                                                                           tomorrow)).order_by('updated_date').all()
         except Exception as error:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"errMgs": "Can't get Examinations"})
@@ -474,16 +471,14 @@ class BillViewSet(viewsets.ViewSet, generics.CreateAPIView,
 
             examination_id = prescribing_id.diagnosis.examination.id
             if request.GET['resultCode'] != str(0):
-                return HttpResponseRedirect(redirect_to='http://localhost:5173/examinations/' + str(examination_id) +
-                                                        '/payments')
+                return HttpResponseRedirect(redirect_to=os.getenv('CLIENT_SERVER')+'/examinations/' + str(examination_id) + '/payments')
             else:
                 Bill.objects.create(prescribing=prescribing_id, amount=float(request.GET['amount']))
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'errMgs': 'prescriptionId or examinationId not found'})
 
-        return HttpResponseRedirect(redirect_to='http://localhost:5173/examinations/' + str(examination_id) +
-                                                '/payments')
+        return HttpResponseRedirect(redirect_to=os.getenv('CLIENT_SERVER')+'/examinations/' + str(examination_id) + '/payments')
 
     @action(methods=['POST'], detail=False, url_path='momo-payments')
     def momo_payments(self, request):
@@ -495,9 +490,9 @@ class BillViewSet(viewsets.ViewSet, generics.CreateAPIView,
         secretKey = "v2srvmKzz6f5wVht5OwcXWErUhBdn4tq"
         orderInfo = "Pay with MoMo"
         # Redirect Server URL
-        redirectUrl = "http://localhost:8000/bills/bill_status?prescribingId="+prescribing
+        redirectUrl = os.getenv('SERVER') + "/bills/bill_status?prescribingId="+prescribing
         # Redirect Client URL
-        ipnUrl = "http://localhost:8000/bills/bill_status/"
+        ipnUrl = os.getenv('SERVER') + "/bills/bill_status/"
         amount = str(request.data.get('amount'))
         orderId = str(uuid.uuid4())
         requestId = str(uuid.uuid4())
@@ -632,6 +627,7 @@ class PrescribingViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrie
     queryset = Prescribing.objects.filter(active=True)
     serializer_class = PrescribingSerializer
     pagination_class = ExaminationPaginator
+
     @action(methods=['POST'], detail=False, url_path='get-by-diagnosis')
     def get_by_diagnosis(self, request):
         user = request.user
