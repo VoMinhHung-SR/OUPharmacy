@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { db } from "../../../../../../config/firebase"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../config/sweetAlert2"
-import { STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../../../lib/constants"
+import { APP_ENV, STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../../../lib/constants"
 import { fetchSendEmailConfirmExamination } from "../services"
 import createToastMessage from "../../../../../../lib/utils/createToastMessage"
 
@@ -44,7 +44,7 @@ const useExaminationCard = () =>{
 
     const createNotificationRealtime  = async (userID, examinationID, avatar) => {
         try{
-            await setDoc(doc(db,"notifications", examinationID.toString()),{
+            await setDoc(doc(db,`${APP_ENV}_notifications`, examinationID.toString()),{
                 "is_commit": false,
                 "is_active": true,
                 "booking_id": examinationID,

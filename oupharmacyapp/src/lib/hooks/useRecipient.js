@@ -4,6 +4,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { userContext } from "../../App";
 import { db } from "../../config/firebase";
 import { getRecipientId } from "../utils/helper";
+import { APP_ENV } from "../constants";
 
 const useRecipient = (members) => {
     const [user] = useContext(userContext);
@@ -11,7 +12,7 @@ const useRecipient = (members) => {
     const recipientId = getRecipientId(members, user.id)
 
     // get Avatar
-    const queryGetRecipient = query(collection(db, 'users'),
+    const queryGetRecipient = query(collection(db, `${APP_ENV}_users`),
         where('id', '==', getRecipientId(members, user.id))
     )
 

@@ -5,6 +5,7 @@ import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomCompo
 import axios from "axios";
 import APIs, { endpoints } from "../../config/APIs";
 import { loadDistanceFromUser } from "../services";
+import { APP_ENV } from "../constants";
 
 // it will return a user Id (recipient message in room chat) not current user
 export const getRecipientId = (member ,currentUserId) => member.find(userId => userId !== currentUserId)
@@ -33,20 +34,6 @@ export const convertTimestampToDateTime = (timestamp) => {
     return ` ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// export const timeUntilExam = (startDateTime) => {
-//   const now = new Date();
-//   const start = new Date(startDateTime);
-//   const diff = Math.floor((start.getTime() - now.getTime()) / 1000);
-
-//   if (diff < 0) {
-//     return "The exam has already started";
-//   }
-
-//   const minutes = Math.floor(diff / 60);
-//   const seconds = diff % 60;
-
-//   return `The exam will start in ${minutes} minutes and ${seconds} seconds`;
-// }
 export const timeUntilExam = (startDateTime) => {
   if (!startDateTime)
     return;
@@ -79,7 +66,7 @@ export const timeUntilExam = (startDateTime) => {
 export const getListExamToday = async () => {
     const todayStr = new Date().toLocaleDateString()
     const today = moment(todayStr).format('YYYY-MM-DD')
-    const waitingRoomRef = doc(db, 'waiting-room', today);
+    const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
   
     try {
       const docSnapshot = await getDoc(waitingRoomRef);
@@ -99,7 +86,7 @@ export const setListExamToday = async (examData) => {
     const todayStr = new Date().toLocaleDateString()
     const today = moment(todayStr).format('YYYY-MM-DD')
     // Create a reference to the document with ID set to today's date
-    const waitingRoomRef = doc(db, 'waiting-room', today);
+    const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
     let examList = [];
     if(examData.length !== 0){
       for (let i = 0; i < examData.length; i++) {
@@ -138,7 +125,7 @@ export const keyUpdateExam = async (examId, keyUpdate, value) => {
   const todayStr = new Date().toLocaleDateString();
   const today = moment(todayStr).format('YYYY-MM-DD');
 
-  const waitingRoomRef = doc(db, 'waiting-room', today);
+  const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
   const waitingRoomDoc = await getDoc(waitingRoomRef);
 
   if (waitingRoomDoc.exists()) {

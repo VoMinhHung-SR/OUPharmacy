@@ -7,7 +7,7 @@ import { db } from "../../config/firebase"
 import { generateQueryGetNotification } from "../utils/getRecipientNotification"
 import { ConfirmAlert } from "../../config/sweetAlert2"
 import createToastMessage from "../utils/createToastMessage"
-import { TOAST_ERROR, TOAST_SUCCESS } from "../constants"
+import { APP_ENV, TOAST_ERROR, TOAST_SUCCESS } from "../constants"
 
 const useNotification = () => {
     const [user, userReady] = useContext(userContext)
@@ -35,16 +35,21 @@ const useNotification = () => {
         
     }, [notificationsSnapshot])
 
-    const markAllAsRead = async (listNotification) => {
+    const updateNotifications = async (listNotification, action) => {
         setIsLoading(true);
       
         try {
           // Update the is_commit field for each document in Firebase
           await Promise.all(listNotification.map(notification => {
             const { id } = notification;
-            return updateDoc(doc(db, "notifications", id.toString()), {
-              is_commit: true
-            });
+            if(action === 'mark')
+              return updateDoc(doc(db, `${APP_ENV}_notifications`, id.toString()), {
+                is_commit: true
+              });
+              else 
+                return updateDoc(doc(db, `${APP_ENV}_notifications`, id.toString()), {
+                  is_active: false
+                });
           }));
           createToastMessage({message:"thanh conG", type:TOAST_SUCCESS})
         } catch (error) {
@@ -55,9 +60,10 @@ const useNotification = () => {
         }
     };
 
+
     return {
         notificationsSnapshot: notificationsSnapshot?.docs,
-        notifyListContent, markAllAsRead,
+        notifyListContent, updateNotifications,
         isLoading: notificationsLoading,
     }
 }

@@ -7,6 +7,7 @@ import { db } from "../../../../config/firebase"
 import { ErrorAlert } from "../../../../config/sweetAlert2"
 import { generateQueryGetMessages, transformMessage } from "../../../../lib/utils/getMessagesInConversation"
 import { fetchRecipientInbox } from "../services"
+import { APP_ENV } from "../../../../lib/constants"
 
 const useChatWindow = () => {
     const [user]=useContext(userContext)
@@ -32,10 +33,10 @@ const useChatWindow = () => {
                 
         }
         const getConversationInfo = async () => {
-            const conversationRef = doc(db, 'conversations', conversationId.toString())
+            const conversationRef = doc(db, `${APP_ENV}_conversations`, conversationId.toString())
             const conversationSnapshot = await getDoc(conversationRef)
             const queryMessages = query(
-                collection(db, 'messages'),
+                collection(db, `${APP_ENV}_messages`),
                 where('conversation_id', '==', conversationId.toString()),
                 orderBy('sent_at', 'asc')
             )
@@ -60,7 +61,7 @@ const useChatWindow = () => {
     const addMessageToDbAndUpdateLastSeen = async () => {
         // update last seen in 'users' collection
         await setDoc(
-            doc(db, 'users', user.id.toString()),
+            doc(db, `${APP_ENV}_users`, user.id.toString()),
             {
                 lastSeen: serverTimestamp()
             },
@@ -68,7 +69,7 @@ const useChatWindow = () => {
         ) // just update what is changed
 
         // add new message to 'messages' collection
-        await addDoc(collection(db, 'messages'), {
+        await addDoc(collection(db, `${APP_ENV}_messages`), {
             conversation_id: conversationId,
             sent_at: serverTimestamp(),
             text: newMessage,

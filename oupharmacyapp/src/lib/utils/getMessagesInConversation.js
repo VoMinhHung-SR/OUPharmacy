@@ -1,10 +1,11 @@
 import { collection, orderBy, query, where } from "firebase/firestore"
 import { db } from "../../config/firebase"
+import { APP_ENV } from "../constants"
 
 
 export const generateQueryGetMessages = (conversationId) =>
 	query(
-		collection(db, 'messages'),
+		collection(db, `${APP_ENV}_messages`),
 		where('conversation_id', '==', conversationId),
 		orderBy('sent_at', 'asc')
 	)

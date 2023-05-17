@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom"
 import { userContext } from "../../../../../App"
 import { db } from "../../../../../config/firebase"
 
-import { STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../../lib/constants"
+import { APP_ENV, STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../../lib/constants"
 
 import { fetchExaminationListConfirm, fetchSendEmailConfirmExamination } from "../services"
 import createToastMessage from "../../../../../lib/utils/createToastMessage"
@@ -132,7 +132,7 @@ const useExaminationConfirm = () =>{
       const createNotificationRealtime  = async (userID, examinationID, avatar) => {
         console.log("create notification")
         try{
-            await setDoc(doc(db,"notifications", examinationID.toString()),{
+            await setDoc(doc(db,`${APP_ENV}_notifications`, examinationID.toString()),{
                 "is_commit": false,
                 "is_active": true,
                 "booking_id": examinationID,

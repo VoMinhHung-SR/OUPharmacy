@@ -6,7 +6,7 @@ import SuccessfulAlert, { ErrorAlert } from "../../../../../config/sweetAlert2";
 import { fetchRecipients } from "../services";
 import { useCollection } from "react-firebase-hooks/firestore"
 import createToastMessage from "../../../../../lib/utils/createToastMessage";
-import { TOAST_ERROR } from "../../../../../lib/constants";
+import { APP_ENV, TOAST_ERROR } from "../../../../../lib/constants";
 import useDebounce from "../../../../../lib/hooks/useDebounce";
 const useSidebarInbox = (user) => {
     const [isLoadingRecipients, setIsLoadingRecipients] = useState(true)
@@ -53,7 +53,7 @@ const useSidebarInbox = (user) => {
 
     // check a conversation already exists
     const queryGetConversationsForCurrentUser = query(
-        collection(db, 'conversations'),
+        collection(db, `${APP_ENV}_conversations`),
         where('members', 'array-contains', user.id)
     )
     const [conversationsSnapshot] = useCollection(queryGetConversationsForCurrentUser)
@@ -69,7 +69,7 @@ const useSidebarInbox = (user) => {
         if (!user)
             return;
         if (user.id !== userId && !checkConversationExists(userId)) {
-            await addDoc(collection(db, 'conversations'), {
+            await addDoc(collection(db, `${APP_ENV}_conversations`), {
                 members: [user.id, userId]
             })
             SuccessfulAlert("Thêm cuộc trò chuyện thành công", "OK")

@@ -49,7 +49,7 @@ const Nav = () => {
     }
   ];
   // State trigger menu open
-  const {isLoading, notifyListContent, markAllAsRead} = useNotification();
+  const {isLoading, notifyListContent, updateNotifications} = useNotification();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -153,7 +153,7 @@ const Nav = () => {
                 length={notifyListContent.filter(item => !item.is_commit).length}
                 isLoading={isLoading}
                 items={notifyListContent}
-                markAllAsRead={markAllAsRead} 
+                updateNotifications={updateNotifications}
               />                
             </Box>
        

@@ -4,6 +4,7 @@ import { db } from "../../config/firebase";
 import { getDirections } from "../utils/getDirections";
 import moment from "moment";
 import { keyUpdateExam } from "../utils/helper";
+import { APP_ENV } from "../constants";
 
 
 export const sendReminderEmail = async (examID, seconds) => {
@@ -49,7 +50,7 @@ export const loadDistanceFromUser = async (lat, lng) => {
 export const handleSendRemindEmail = async () => {
     const currentTime = Date.now();
     const today = moment().format('YYYY-MM-DD');
-    const waitingRoomRef = doc(db, 'waiting-room', today);
+    const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
   
     try {
       const docSnap = await getDoc(waitingRoomRef);

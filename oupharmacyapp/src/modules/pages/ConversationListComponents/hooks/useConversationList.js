@@ -3,13 +3,14 @@ import { useContext, useEffect } from "react"
 import { userContext } from "../../../../App"
 import { db } from "../../../../config/firebase";
 import { ErrorAlert } from "../../../../config/sweetAlert2";
+import { APP_ENV } from "../../../../lib/constants";
 
 const useConversationList = () => {
     const [user] = useContext(userContext);
     useEffect(()=>{
         const setUserDB = async ()=>{    
             try{
-                await setDoc(doc(db, "users", user.id.toString()), {
+                await setDoc(doc(db, `${APP_ENV}_users`, user.id.toString()), {
                     id: user.id,
                     email: user.email,
                     fullName: `${user.first_name} ${user.last_name}`,

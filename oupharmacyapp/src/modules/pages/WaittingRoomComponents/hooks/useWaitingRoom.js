@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { generateQueryGetExamsListPerDay } from "../services";
 import moment from "moment";
-import { CURRENT_DATE, TOAST_ERROR, TOAST_SUCCESS } from "../../../../lib/constants";
+import { APP_ENV, CURRENT_DATE, TOAST_ERROR, TOAST_SUCCESS } from "../../../../lib/constants";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { generateQueryGetWaitingRoomListToday } from "../utils/helpers";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -19,7 +19,7 @@ const useWaitingRoom = () => {
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
 
-    const unsubscribe = onSnapshot(doc(db, 'waiting-room', today), (docSnapshot) => {
+    const unsubscribe = onSnapshot(doc(db, `${APP_ENV}_waiting-room`, today), (docSnapshot) => {
       if (docSnapshot.exists()) {
         const examsArray = docSnapshot.data().exams;
         setExams(examsArray);
@@ -83,7 +83,7 @@ const useWaitingRoom = () => {
         
         // Update exams collection in firestore
         try {
-          await updateDoc(doc(db, 'waiting-room', today), { exams: examList });
+          await updateDoc(doc(db, `${APP_ENV}_waiting-room`, today), { exams: examList });
           createToastMessage({message:t('moveSuccessful'),type:TOAST_SUCCESS});
         } catch (error) {
           createToastMessage({message:t('moveFailed'),type:TOAST_ERROR});
@@ -121,7 +121,7 @@ const useWaitingRoom = () => {
       }
       // Update exams collection in firestore
       try {
-        await updateDoc(doc(db, 'waiting-room', today), { exams: examList });
+        await updateDoc(doc(db,`${APP_ENV}_waiting-room`, today), { exams: examList });
         createToastMessage({message:t('moveSuccessful'),type:TOAST_SUCCESS});
       } catch (error) {
         createToastMessage({message:t('moveFailed'),type:TOAST_ERROR});
