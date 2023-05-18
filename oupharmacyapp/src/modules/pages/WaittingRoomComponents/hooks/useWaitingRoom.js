@@ -14,7 +14,7 @@ import createToastMessage from "../../../../lib/utils/createToastMessage";
 const useWaitingRoom = () => {
   const {t} = useTranslation(['waiting-room', 'modal'])
   const [exams, setExams] = useState([]);
-  const todayStr = new Date().toLocaleDateString();
+  const todayStr = moment().utcOffset('+07:00').format('YYYY-MM-DD');
   const today = moment(todayStr).format('YYYY-MM-DD');
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
