@@ -127,10 +127,9 @@ const Examinations = () => {
                 <ExaminationCard key={`e-${e.id}`} 
                 examinationData={e} user={user} 
                 callback={handleChangeFlag}
-
                 disableOtherCards={disableOtherCards}
                 loading={loadingState[e.id] || false} 
-                sendEmailConfirm={() => handleSendEmailConfirm(e.user.id, e.id, e.user.avatar_path)}
+                sendEmailConfirm={() => handleSendEmailConfirm(e.user.id, e.id, user.avatar_path)}
                 />       
             )) :  <TableCell colSpan={12} component="th" scope="row">
             <Typography> <Box className="ou-text-center ou-p-10 ou-text-red-700">{t('examinations:errExamsNull')}</Box></Typography>
