@@ -5,8 +5,10 @@ import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../../../con
 import * as Yup from 'yup';
 import { fetchAddPrescriptionDetail, fetchCreatePrescribing, fetchMedicinesUnit } from "../services";
 import { useTranslation } from "react-i18next";
-import { REGEX_ADDRESS, REGEX_NUMBER999 } from "../../../../../../lib/constants";
+import { APP_ENV, REGEX_ADDRESS, REGEX_NUMBER999, STATUS_BOOKING_WAS_PRESCRIBED } from "../../../../../../lib/constants";
 import { keyUpdateExam } from "../../../../../../lib/utils/helper";
+import { db } from "../../../../../../config/firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const usePrescriptionDetailCard = () => {
     const {t} = useTranslation(['yup-validate', 'modal', 'prescription-detail'])
@@ -66,8 +68,7 @@ const usePrescriptionDetailCard = () => {
         }, () => { return; })
     }
 
-    const handleAddPrescriptionDetail = (examID) => {
-        console.log(examID)
+    const handleAddPrescriptionDetail = (examID, recipientID) => {
         const addPrescriptionDetail = async () => {
             if (medicinesSubmit.length !== 0) {
                 let prescribingData = {user:user.id, diagnosis: parseInt(prescribingId)}
@@ -91,6 +92,7 @@ const usePrescriptionDetailCard = () => {
                     setOpenBackdrop(false)
                     // Update commit of waiting-room 
                     if(examID){
+                        createNotificationRealtime(recipientID, examID)
                         await keyUpdateExam(examID, "isCommitted")
                     }
                     return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
@@ -165,6 +167,23 @@ const usePrescriptionDetailCard = () => {
             loadMedicineUnits()
         }
     }, [flag, medicinesSubmit])
+
+    const createNotificationRealtime  = async (userID, examinationID) => {
+        try{
+            await setDoc(doc(db,`${APP_ENV}_notifications`, examinationID.toString()),{
+                "is_commit": false,
+                "is_active": true,
+                "booking_id": examinationID,
+                'content': STATUS_BOOKING_WAS_PRESCRIBED,
+                "recipient_id": userID,
+                "avatar": user.avatar_path,
+                "sent_at" : serverTimestamp()
+            },{merge:true})
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return {
         user,
         medicinesSubmit,

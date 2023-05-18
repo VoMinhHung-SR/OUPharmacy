@@ -109,7 +109,7 @@ const PrescriptionList = () => {
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <Typography>
-                                                            {p.examination.user.first_name} {p.examination.user.last_name}
+                                                            {p.user.first_name} {p.user.last_name} 
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="center">

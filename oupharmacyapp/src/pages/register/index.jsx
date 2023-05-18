@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import useAddressInfo from "../../modules/pages/RegisterComponents/hooks/useAddressInfo";
 import { Helmet } from "react-helmet";
+import { CURRENT_DATE } from "../../lib/constants";
+import moment from "moment";
 
 const Register = () => {
     const {t, tReady} = useTranslation(['register', 'common', "yup-validate"]) 
@@ -163,6 +165,9 @@ const Register = () => {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        inputProps={{
+                                            max:  moment(CURRENT_DATE).format('YYYY-MM-DD')
+                                          }}
                                         {...methods.register("dob")}
                                     />
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.dob?.message}</p>) : <></>}

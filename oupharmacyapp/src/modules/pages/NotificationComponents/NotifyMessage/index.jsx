@@ -2,7 +2,7 @@ import { Avatar, Box, ListItem, ListItemButton, ListItemIcon, ListItemText, Text
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
-import { STATUS_BOOKING_CONFIRMED, STATUS_BOOKING_DONE } from "../../../../lib/constants";
+import { STATUS_BOOKING_CONFIRMED, STATUS_BOOKING_DONE, STATUS_BOOKING_WAS_PRESCRIBED } from "../../../../lib/constants";
 import { convertFirestoreTimestampToString } from "../../../../lib/utils/getMessagesInConversation";
 
 const NotifyMessage = ({content, recipientId, examinationId, sentAt, avatar}) => {
@@ -23,7 +23,9 @@ const NotifyMessage = ({content, recipientId, examinationId, sentAt, avatar}) =>
       
               <ListItemText >
               <Typography component="div" className="ou-list-item-text-container " style={{ maxHeight: '70px'}}>
-                {content === STATUS_BOOKING_CONFIRMED ? t('common:notifyExaminationConfirm') : content === STATUS_BOOKING_DONE ? "DONE" : <></>}
+                {content === STATUS_BOOKING_CONFIRMED ? t('common:notifyExaminationConfirm') 
+                : content === STATUS_BOOKING_DONE ? "DONE" 
+                : content === STATUS_BOOKING_WAS_PRESCRIBED ? t('common:diagnosedNotify'): <></>}
               </Typography>
               <Typography component="div" style={{ maxHeight: '70px'}}>
                 <span className="ou-text-[12px]" >

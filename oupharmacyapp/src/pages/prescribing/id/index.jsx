@@ -97,7 +97,7 @@ const PrescriptionDetail = () => {
                                         <Grid item xs={4}>
                                             <Typography>
                                                 <span >{t('doctorName')}: </span>
-                                                {prescriptionDetail.examination.user.first_name} {prescriptionDetail.examination.user.last_name}
+                                                {prescriptionDetail.user.first_name} {prescriptionDetail.user.last_name}
                                             </Typography>
                                         </Grid>
                                         
@@ -116,7 +116,8 @@ const PrescriptionDetail = () => {
                                         </Grid>
                                     </Grid>
                                 </Box>
-                                <PrescriptionDetailCard examID={prescriptionDetail.examination.id} />
+                                <PrescriptionDetailCard examID={prescriptionDetail.examination.id} 
+                                recipientID={prescriptionDetail.examination.user.id} />
                             </Box>
                         </>
                     )

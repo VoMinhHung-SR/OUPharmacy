@@ -15,6 +15,7 @@ export const REGEX_NUMBER999 = /^([1-9]|[1-9][0-9]|[1-9][0-9][0-9])*$/;
 
 // Personal status constant
 export const STATUS_BOOKING_CONFIRMED = 161
+export const STATUS_BOOKING_WAS_PRESCRIBED = 162
 export const STATUS_BOOKING_DONE = 1610
 
 // firebase constant
