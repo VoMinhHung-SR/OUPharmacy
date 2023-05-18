@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Container, createFilterOptions, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Container, createFilterOptions, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Paper, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import useAddressInfo from "../../modules/pages/RegisterComponents/hooks/useAddressInfo";
 import { Helmet } from "react-helmet";
+import { CURRENT_DATE } from "../../lib/constants";
+import moment from "moment";
 
 const Register = () => {
     const {t, tReady} = useTranslation(['register', 'common', "yup-validate"]) 
@@ -85,13 +87,13 @@ const Register = () => {
             <div style={{ "width": "100%"
             }}>
                 <Container style={{ "padding": "50px" }}>
-                    <form onSubmit={methods.handleSubmit((data)=> {
-                       
+                    <Box component={Paper} elevation={6}  className="ou-w-[80%] ou-m-auto" style={{ "border": "1.5px solid black", "borderRadius": "5px" }}>
+                        <form onSubmit={methods.handleSubmit((data)=> {
                         onSubmit(data, methods.setError, locationGeo);
                     })} 
-                    className="ou-m-auto ou-px-8 ou-py-4 ou-w-[80%]"
-                    style={{ "border": "2px solid black", "borderRadius": "5px" }}>
-                        <h1 className="ou-text-center ou-text-2xl" style={{ color: "#084468", fontWeight:"bold" }}>{t('registerUser')}</h1>
+                    className="ou-m-auto ou-px-8 ou-py-4 "
+                    >
+                        <h1 className="ou-text-center ou-text-2xl ou-py-2 ou-uppercase ou-font-semibold">{t('registerUser')}</h1>
                         <Grid container justifyContent="flex" className="ou-mt-6" >
                             <Grid item xs={4} className="ou-pr-2" >
                                 <TextField
@@ -163,6 +165,9 @@ const Register = () => {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        inputProps={{
+                                            max:  moment(CURRENT_DATE).format('YYYY-MM-DD')
+                                          }}
                                         {...methods.register("dob")}
                                     />
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.dob?.message}</p>) : <></>}
@@ -221,8 +226,8 @@ const Register = () => {
                             </Grid>
                         </Grid>
 
-                        <h1 className="ou-text-center ou-text-2xl ou-mt-6" style={{ color: "#084468", fontWeight:"bold" }}>{t('addressInfo')}</h1>
-                        <Typography className="ou-text-center  !ou-text-sm">({t('correctAddress')})</Typography>
+                        <h2 className="ou-text-center ou-text-2xl ou-pt-8 ou-pb-3 ou-uppercase ou-font-semibold">{t('addressInfo')}</h2>
+                        <Typography className="ou-text-center !ou-text-sm ou-pb-3">({t('correctAddress')})</Typography>
                         <Grid container justifyContent="flex">
                             
                             <Grid item xs={4} className={clsx('ou-pr-2 !ou-mt-4')} >
@@ -330,7 +335,7 @@ const Register = () => {
                                         />
                       
                                         <label htmlFor="select-image">
-                                            <Button variant="contained" color="primary" component="span">
+                                            <Button className="!ou-min-w-[150px]"  variant="contained" color="primary" component="span">
                                                 {t('uploadAvatar')}
                                             </Button>
                                         </label>
@@ -349,7 +354,7 @@ const Register = () => {
                                     
                                 ): (
                                     <Box sx={{textAlign:"right"}}>
-                                        <Button variant="contained" color="success" type="submit" >{t('submit')}</Button>
+                                        <Button className="!ou-min-w-[150px]" variant="contained" color="success" type="submit" >{t('submit')}</Button>
                                     </Box>
                                 )}
                                 
@@ -358,32 +363,36 @@ const Register = () => {
                         </Grid>
                       
 
-                    </form>
-                </Container>
-                <Grid container>
-                    <Grid item sx={{ margin: "0 auto", mb: 2 }}>
-                        <Typography
-                            variant="subtitle1"
-                            gutterBottom
-                            component={Link}
-                            to="/"
-                            style={{ textDecoration: "inherit" }}
-                            color="grey.700"
-                        >
-                            {t('common:backToHomepage')}
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid container justifyContent="flex-end">
-                    <Grid item sx={{ margin: "0 auto", mb: 2 }}>
-                        <Link
-                            to="/login/"
-                            style={{ textDecoration: "inherit", color: "#1976d2" }}
-                        >
-                           {t('common:haveAnCount')}
-                        </Link>
-                    </Grid>
-                </Grid>
+                        </form>
+
+                            <Grid container>
+                                <Grid item sx={{ margin: "0 auto", mb: 2 }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        gutterBottom
+                                        component={Link}
+                                        to="/"
+                                        style={{ textDecoration: "inherit" }}
+                                        color="grey.700"
+                                    >
+                                        {t('common:backToHomepage')}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid container justifyContent="flex-end">
+                                <Grid item sx={{ margin: "0 auto", mb: 4 }}>
+                                    <Link
+                                        to="/login/"
+                                        style={{ textDecoration: "inherit", color: "#1976d2" }}
+                                    >
+                                    {t('common:haveAnCount')}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    
+                    </Container>
+               
             </div>
 
         </>

@@ -5,6 +5,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { calculateAmount } from "./utils/helper";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import { formatNumber } from "../../../../../lib/utils/helper";
 const BillCard = (props) =>{
 
     const {t} = useTranslation(['payment','common', 'modal']);
@@ -110,7 +111,7 @@ const BillCard = (props) =>{
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        {p.quantity}
+                                                        {formatNumber(p.quantity)}
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <Typography>

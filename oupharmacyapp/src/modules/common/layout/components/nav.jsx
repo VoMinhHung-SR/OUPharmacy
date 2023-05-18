@@ -12,7 +12,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { changeLanguage } from "i18next";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FlagUK from "../../../../../public/flagUK";
 import FlagVN from "../../../../../public/flagVN";
 import { ERROR_CLOUDINARY, ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
@@ -72,16 +72,16 @@ const Nav = () => {
   const {user, handleLogout} = useNav();
   let btn = <>
       <ul className="ou-flex ou-text-white ou-items-center">
-          <Link to="/login">
+        <Link to="/login">
             <MenuItem style={{ "color": "inherit" }} >
                   <LoginIcon style={{ "marginRight": "5px" }} />{t('login')}
             </MenuItem>
           </Link>
-          <Link to="/register">
+          {/* <Link to="/register">
             <MenuItem style={{ "color": "inherit" }}>
                     <HowToRegIcon style={{ "marginRight": "5px" }} />{t('register')}
             </MenuItem>
-          </Link>
+          </Link> */}
       </ul>
   </>
 
@@ -116,12 +116,15 @@ const Nav = () => {
             }}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-            {/* <Link to="/profile" className="nav-link" style={{ "padding": "0px" }}>
+            <Link to="/profile" className="nav-link" style={{ "padding": "0px" }}>
                 <MenuItem style={{ "color": "#333" }}>
-                    <Avatar src={user.avatar_path} /> Trang cá nhân
+                   <AccountCircleIcon fontSize="small" />
+                    <Typography marginLeft={2}>
+                    Trang cá nhân
+                    </Typography>
                 </MenuItem>
             </Link>
-            <Divider /> */}
+            <Divider />
             <Link to="/users/examinations" className="nav-link" style={{ "padding": "0px" }}>
                 <MenuItem style={{ "color": "#333" }}>
                     <ListAlt fontSize="small" />
@@ -305,20 +308,23 @@ const Nav = () => {
                 {pages.map((page) => renderElementNav(page.id+"-mb", page.link, page.name, true, page.id+"-mb"))}
             </Menu>
           </Box>
-          <Link to="/"  >
-                <Avatar alt="OUPharmacy-Logo"  
-                    sx={{
-                        mr: 2,
-                        display: { xs: 'flex', md: 'none' },
-                        flexGrow: 1,
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                        src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354767/OUPharmacy/logo_oupharmacy_1x1_zks7t4.png" />
+          <Box  sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Link to="/" className=" ou-flex ou-justify-center ou-items-center">
+            <Avatar alt="OUPharmacy-Logo"  
+                sx={{
+                    mr: 2,
+                    display: { xs: 'flex', md: 'none' },
+                    flexGrow: 1,
+                    fontWeight: 700,
+                    letterSpacing: '.3rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                }}
+                src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354767/OUPharmacy/logo_oupharmacy_1x1_zks7t4.png" />
+               
             </Link>
-          <Typography variant="h5" noWrap component="a" href=""
+          </Box>
+          {/* <Typography variant="h5" noWrap component="a" href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -330,7 +336,7 @@ const Nav = () => {
             }}
           >
             OUPHARMACY
-          </Typography>
+          </Typography> */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => renderElementNav(page.id, page.link, page.name, false, page.id+"-dek"))}
           </Box>

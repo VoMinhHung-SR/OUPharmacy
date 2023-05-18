@@ -33,5 +33,8 @@
     "newerNotification": "Newer notifications",
     "olderNotification": "Older notifications",
     "markAllAsRead": "Mark all as read",
-    "deleteAll": "Delete all"
+    "deleteAll": "Delete all",
+    "updateSuccess": "Update success",
+    "updateFailed": "Update failed",
+    "diagnosedNotify" : "Your medical record has been diagnosed by a doctor"
 }

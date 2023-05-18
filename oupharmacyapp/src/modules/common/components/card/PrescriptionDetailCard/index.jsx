@@ -7,7 +7,9 @@ import BackdropLoading from "../../BackdropLoading";
 import { useTranslation } from "react-i18next";
 import Loading from "../../Loading";
 
-const PrescriptionDetailCard = ({examID}) => {
+const PrescriptionDetailCard = ({examID, recipientID}) => {
+
+
     const {onSubmit, medicinesSubmit, openBackdrop, handleAddPrescriptionDetail,
         medicineUnits, setMedicine, handleDeleteItem, prescriptionDetailSchema} = usePrescriptionDetailCard()
 
@@ -205,7 +207,7 @@ const PrescriptionDetailCard = ({examID}) => {
                                     color="grey.700"
                                 >
                                     <Button className="!ou-mt-5 ou-w-[120px]" variant="contained" color="success"
-                                        onClick={() =>handleAddPrescriptionDetail(examID)} 
+                                        onClick={() =>handleAddPrescriptionDetail(examID, recipientID)} 
                                     >
                                         {t('prescribing')}
                                     </Button>

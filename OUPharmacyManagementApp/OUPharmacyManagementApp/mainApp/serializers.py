@@ -142,7 +142,7 @@ class UserNormalSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', "email", "location", "locationGeo"]
+        fields = ['id',"first_name", "last_name", "email", "location", "locationGeo"]
         extra_kwargs = {
             'locationGeo': {'read_only': 'true'},
             'location': {'write_only': 'true'}
@@ -160,7 +160,8 @@ class ExaminationsPairSerializer(ModelSerializer):
 
 class DiagnosisSerializer(ModelSerializer):
     examination = ExaminationSerializer()
-
+    user = UserNormalSerializer()
+    
     class Meta:
         model = Diagnosis
         exclude = []

@@ -33,5 +33,8 @@
     "newerNotification": "Thông báo gần đây",
     "olderNotification": "Thông báo cũ hơn",
     "markAllAsRead": "Đánh dấu đọc tất cả",
-    "deleteAll": "Xóa tất cả"
+    "deleteAll": "Xóa tất cả",
+    "updateSuccess": "Cập nhật thành công",
+    "updateFailed": "Cập nhật thất bại",
+    "diagnosedNotify" : "Phiếu khám của bạn đã được chẩn đoán bởi bác sĩ"
 }
