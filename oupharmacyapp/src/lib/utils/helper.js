@@ -75,8 +75,8 @@ export const timeUntilExam = (startDateTime) => {
 }
 
 export const getListExamToday = async () => {
-    const todayStr = new Date().toLocaleDateString()
-    const today = moment(todayStr).format('YYYY-MM-DD')
+    const todayStr = moment().utcOffset('+07:00').format('YYYY-MM-DD');
+    const today = moment(todayStr).format('YYYY-MM-DD');
     const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
   
     try {
@@ -94,8 +94,8 @@ export const getListExamToday = async () => {
   };
 
 export const setListExamToday = async (examData) => {
-    const todayStr = new Date().toLocaleDateString()
-    const today = moment(todayStr).format('YYYY-MM-DD')
+    const todayStr = moment().utcOffset('+07:00').format('YYYY-MM-DD');
+    const today = moment(todayStr).format('YYYY-MM-DD');
     // Create a reference to the document with ID set to today's date
     const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
     let examList = [];
@@ -153,3 +153,9 @@ export const keyUpdateExam = async (examId, keyUpdate, value) => {
 }
 
 
+export const goToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}

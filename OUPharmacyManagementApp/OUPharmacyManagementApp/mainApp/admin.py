@@ -124,7 +124,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class DiagnosisAdmin(admin.ModelAdmin):
-    list_display = ['id', 'sign', 'diagnosed', 'examination', 'user']
+    list_display = ['id', 'sign', 'diagnosed', 'examination', 'user', 'patient']
 
 
 class BillAdmin(admin.ModelAdmin):

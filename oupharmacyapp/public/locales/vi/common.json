@@ -36,5 +36,7 @@
     "deleteAll": "Xóa tất cả",
     "updateSuccess": "Cập nhật thành công",
     "updateFailed": "Cập nhật thất bại",
-    "diagnosedNotify" : "Phiếu khám của bạn đã được chẩn đoán bởi bác sĩ"
+    "diagnosedNotify" : "Phiếu khám của bạn đã được chẩn đoán bởi bác sĩ",
+
+    "seeDetail": "Xem chi tiết"
 }

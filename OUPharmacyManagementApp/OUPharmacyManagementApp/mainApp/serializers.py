@@ -161,7 +161,8 @@ class ExaminationsPairSerializer(ModelSerializer):
 class DiagnosisSerializer(ModelSerializer):
     examination = ExaminationSerializer()
     user = UserNormalSerializer()
-    
+    patient = PatientSerializer()
+
     class Meta:
         model = Diagnosis
         exclude = []

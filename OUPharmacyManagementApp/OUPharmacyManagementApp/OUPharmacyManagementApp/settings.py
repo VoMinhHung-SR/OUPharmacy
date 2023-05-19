@@ -16,7 +16,11 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import os
+
+
 from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials
 
 load_dotenv()
 
@@ -212,10 +216,19 @@ CELERY_BROKER_URL = "redis://default:12ru4X3ZiUglwwjxjqfVTLOHVCYy9IPe@redis-1796
 CELERY_RESULT_BACKEND = "redis://default:12ru4X3ZiUglwwjxjqfVTLOHVCYy9IPe@redis-17968.c265.us-east-1-2.ec2.cloud.redislabs.com:17968"
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-DJANGO_CELERY_BEAT_TZ_AWARE = False
+DJANGO_CELERY_BEAT_TZ_AWARE = True
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TIMEZONE = 'Asia/Bangkok'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+
+# FIREBASE
+FIREBASE_CONFIG = os.path.join(BASE_DIR, 'config', 'firebase.json')
+cred = credentials.Certificate(FIREBASE_CONFIG)
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://oupharmacy-5ddaa-default-rtdb.firebaseio.com'
+})
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

@@ -36,5 +36,7 @@
     "deleteAll": "Delete all",
     "updateSuccess": "Update success",
     "updateFailed": "Update failed",
-    "diagnosedNotify" : "Your medical record has been diagnosed by a doctor"
+    "diagnosedNotify" : "Your medical record has been diagnosed by a doctor",
+
+    "seeDetail": "See detail"
 }

@@ -11,3 +11,8 @@ export const fetchPrescriptionDetail = async (prescbingId) => {
     const res = await authApi().get(endpoints['prescription'](prescbingId));
     return res;
 }
+
+export const fetchMedicalRecords = async (patientID) => {
+    const res = await authApi().post(endpoints['get-medical-records'],{patientId: patientID})
+    return res;
+}

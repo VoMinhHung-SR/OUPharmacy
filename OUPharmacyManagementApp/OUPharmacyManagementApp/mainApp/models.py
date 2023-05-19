@@ -144,6 +144,7 @@ class Diagnosis(BaseModel):
 
     examination = models.ForeignKey(Examination, on_delete=models.CASCADE, blank=False, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.sign

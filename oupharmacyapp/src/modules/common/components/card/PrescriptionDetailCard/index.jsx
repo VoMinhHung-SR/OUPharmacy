@@ -41,15 +41,15 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                 (<BackdropLoading/>)
                 : <></>
             }
-            <Box className='ou-mx-4 ou-my-10'>
+            <Box className='ou-my-10'>
                 <form 
                     className="ou-m-auto"
                     onSubmit={methods.handleSubmit((data)=> onSubmit(data,methods.reset()))}
                 >
                     <Grid 
-                        container justifyContent="flex" alignItems="center" spacing={3}>
+                        container justifyContent="flex" alignItems="center"  >
 
-                        <Grid item xs={4.5} >
+                        <Grid item xs={4} className="ou-pr-2">
                             <FormControl fullWidth >
                                 <Autocomplete
                                     id="medicineName"
@@ -73,7 +73,7 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={3}>
+                        <Grid item xs={3} className="ou-px-2">
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
@@ -87,7 +87,7 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                                 {...methods.register("uses")}
                             />
                         </Grid>
-                        <Grid item xs={2.5}>
+                        <Grid item xs={3} className="ou-px-2">
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
@@ -102,14 +102,15 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                             />
                         </Grid>
                         <Grid item xs={2}>
-                            <Grid item >
+                            <Grid item  className="ou-flex !ou-items-center">
                                 <Typography
+                            
                                     variant="subtitle1"
                                     gutterBottom
                                     style={{ textDecoration: "inherit" }}
-                                    className=""
+                                    className="ou-w-[100%] ou-block"
                                 >
-                                    <Button variant="contained" color="success" type="submit">
+                                    <Button variant="contained" color="success" type="submit"  className="!ou-py-3 !ou-px-8 !ou-w-full">
                                         {t('addMedicine')}</Button>
                                 </Typography>
                             </Grid>
