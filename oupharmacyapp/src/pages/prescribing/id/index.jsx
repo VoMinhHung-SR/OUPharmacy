@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material"
+import { Button, Container, Grid, Paper, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
@@ -7,6 +7,8 @@ import PrescriptionDetailCard from "../../../modules/common/components/card/Pres
 import Loading from "../../../modules/common/components/Loading"
 import usePrescriptionDetail from "../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
 import { Helmet } from "react-helmet"
+import PatientInfoModal from "../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
+import MedicalRecordsModal from "../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
 
 const PrescriptionDetail = () => {
     const {isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()
@@ -54,66 +56,21 @@ const PrescriptionDetail = () => {
                         <>
                             <Box className='ou-py-5 ou-m-auto ou-max-w-[1536px]'>
                                 <Box style={{ "margin": "auto" }}>
-                                    <h1 className="ou-text-center ou-text-2xl">{t('basicInformation')}</h1>
-                                    <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} spacing={2}>
-                                        <Grid item xs={4} >
-                                            <Typography>
-                                                <span >{t('patientFullName')}: </span>
-                                                {prescriptionDetail.examination.patient.first_name} {prescriptionDetail.examination.patient.last_name}
-                                            </Typography>
+                                    <Grid container justifyContent="flex" className="ou-min-h-[160px] ou-p-5" component={Paper} elevation={5}> 
+                                        <Grid item xs={12} className="ou-pb-5" >
+                                            <h1 className="ou-text-center ou-text-2xl">{t('basicInformation')}</h1>
                                         </Grid>
-                                        <Grid item xs={4} >
-                                            <Typography>
-                                                <span >{t('dateOfBirth')}: </span>
-                                                {prescriptionDetail.examination.patient.date_of_birth ?
-                                                    <span >{moment(prescriptionDetail.examination.patient.date_of_birth).format('DD/MM/YYYY') }</span>
-                                                    : t('common:undefined')}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={4} >
-                                            <Typography>
-                                                <span >{t('phoneNumber')}: </span>
-                                                {prescriptionDetail.examination.patient.phone_number}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={4} >
-                                            <Typography>
-                                                <span >{t('prescriptionId')}: </span>
-                                                {prescriptionDetail.examination.id}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                            <Typography>
-                                                <span >{t('createdDate')}: </span>
-                                                <span>{moment(prescriptionDetail.examination.created_date).format('DD/MM/YYYY')}</span>
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                            <Typography>
-                                                <span >{t('diagnosisDate')}: </span>
-                                                <span >{moment(prescriptionDetail.created_date).format('DD/MM/YYYY')}</span>
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                            <Typography>
-                                                <span >{t('doctorName')}: </span>
-                                                {prescriptionDetail.user.first_name} {prescriptionDetail.user.last_name}
-                                            </Typography>
-                                        </Grid>
-                                        
-                                        <Grid item xs={4} >
-                                            <Typography>
-                                                <span >{t('sign')}: </span>
-                                                {prescriptionDetail.sign}
-                                            </Typography>
 
+                                        <Grid item xs={6} className="ou-text-center" >
+                                            <PatientInfoModal patientData={prescriptionDetail.examination.patient}/>
                                         </Grid>
-                                        <Grid item xs={4} >
-                                            <Typography>
-                                                <span >{t('diagnosed')}: </span>
-                                                {prescriptionDetail.diagnosed}
-                                            </Typography>
+
+                                        <Grid item xs={6} className="ou-text-center">
+                                            <MedicalRecordsModal patientID={prescriptionDetail.examination.patient.id}/>
                                         </Grid>
+
+
+                                 
                                     </Grid>
                                 </Box>
                                 <PrescriptionDetailCard examID={prescriptionDetail.examination.id} 

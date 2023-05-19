@@ -20,5 +20,19 @@
     "prescribing":"Kê toa",
     "addMedicine": "Thêm thuốc",
     "confirmDeleteMedicine":"Xác nhận xóa đơn vị thuốc này",
-    "confirmAddPrescription":"Xác nhận tạo phiếu kê toa"
+    "confirmAddPrescription":"Xác nhận tạo phiếu kê toa",
+    "medicalRecords": "Hồ sơ bệnh án",
+
+    "unDiagnosed": "Bệnh nhân này chưa tồn tại bất kỳ phiếu chẩn đoán",
+    "firstRecord": "Phiếu chẩn đoán đầu tiên vào ngày",
+    "diagnosedSheet": "Phiếu chẩn đoán thứ",
+    "at": "vào ngày",
+    "patientInfo": "Thông tin bệnh nhân",
+
+    "email": "Email",
+    "gender": "Giới tính",
+    "address": "Địa chỉ",
+    "male": "Nam",
+    "female": "Nữ",
+    "secret": "Bí mật"
 }

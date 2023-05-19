@@ -1,4 +1,4 @@
-import { Button, Container, FormControl, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Button, Container, FormControl, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { Link, useNavigate } from "react-router-dom"
 import Loading from "../../modules/common/components/Loading"
@@ -55,7 +55,7 @@ const PrescriptionList = () => {
                  </Box>)
                     : (
                         <>
-                            <Box className='ou-py-8 ou-m-auto ou-max-w-[1536px]'>
+                            <Box className='ou-py-8 ou-m-auto ou-max-w-[1536px] ou-w-[100%]'>
                                 {/* <form className="d-flex mb-3 "
                                     // onSubmit={search} 
                                     style={{ "marginLeft": "auto", "maxWidth": "300px" }}>
@@ -75,11 +75,11 @@ const PrescriptionList = () => {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>{t('prescriptionId')}</TableCell>
-                                                <TableCell align="center">{t('sign')}</TableCell>
-                                                <TableCell align="center">{t('diagnosed')}</TableCell>
-                                                <TableCell align="center">{t('diagnosisDate')}</TableCell>
-                                                <TableCell align="center">{t('doctorName')}</TableCell>
-                                                <TableCell align="center">{t('feature')}</TableCell>
+                                                <TableCell colSpan={3} align="center">{t('sign')}</TableCell>
+                                                <TableCell colSpan={3} align="center">{t('diagnosed')}</TableCell>
+                                                <TableCell colSpan={2} align="center">{t('diagnosisDate')}</TableCell>
+                                                <TableCell colSpan={2} align="center">{t('doctorName')}</TableCell>
+                                                <TableCell colSpan={1} align="center">{t('feature')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -94,34 +94,42 @@ const PrescriptionList = () => {
                                                         </Typography>   
                                                     </TableCell>
 
-                                                    <TableCell align="center">
-                                                        <Typography>
+                                                    <TableCell  colSpan={3} >
+                                                        <Typography className="ou-table-truncate-text-container"  >
                                                             {p.sign}
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align="center">
-                                                        <Typography>
+                                                    <TableCell  colSpan={3}>
+                                                        <Typography className="ou-table-truncate-text-container" >
                                                             {p.diagnosed}
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align="center">
+                                                    <TableCell align="center"  colSpan={2}>
                                                         <Typography>{moment(p.created_date).format('DD/MM/YYYY')}</Typography>
                                                     </TableCell>
-                                                    <TableCell align="center">
+                                                    <TableCell align="center"  colSpan={2}>
                                                         <Typography>
                                                             {p.user.first_name} {p.user.last_name} 
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align="center">
+                                                    <TableCell align="center"  colSpan={1}>
                                                         {user && user.role === ROLE_DOCTOR ?
                                                             (<>
                                                                 <Typography className="mb-2">
                                                                     <Link style={{ "textDecoration": "none" }}
 
                                                                         to={`/prescribing/${p.id}`}>
-                                                                        <Button variant="contained" size="small" endIcon={<AssignmentIcon />}>
-                                                                            {t('prescribing')}
-                                                                        </Button>
+
+                                                                            <Tooltip title={t('prescribing')}>
+                                                                                <span>
+
+                                                                                <Button variant="contained"  
+                                                                                 className="ou-bg-blue-700 !ou-min-w-[68px] !ou-min-h-[40px] !ou-mx-2">
+                                                                                    <AssignmentIcon />
+                                                                                </Button>
+                                                                                </span>
+                                                                            </Tooltip>
+                                                                        
                                                                     </Link>
                                                                 </Typography>
                                                             </>)

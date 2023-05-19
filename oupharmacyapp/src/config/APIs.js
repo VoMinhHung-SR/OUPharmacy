@@ -40,6 +40,7 @@ export let endpoints = {
     
     // Diagnosis
     'diagnosis':'/diagnosis/',
+    'get-medical-records':'/diagnosis/get-medical-records/',
     'prescription':(diagnosisId) => `/diagnosis/${diagnosisId}/`,
     
     // Prescribing:

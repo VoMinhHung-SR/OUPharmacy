@@ -153,3 +153,9 @@ export const keyUpdateExam = async (examId, keyUpdate, value) => {
 }
 
 
+export const goToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
