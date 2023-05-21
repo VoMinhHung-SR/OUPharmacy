@@ -35,7 +35,7 @@ const DiagnosisForm = (props) => {
             <>
                 <Box sx={{ minHeight: "300px" }} component={Paper} elevation={5} className="ou-py-5 ou-w-[100%] ou-m-auto ou-max-w-[1536px]">
                     <form onSubmit={methods.handleSubmit((data) => 
-                        onSubmit(data,props.examinationId, props.userID, props.handleChangeFlag))
+                        onSubmit(data,props.examinationId, props.userID, props.patientID ,props.handleChangeFlag))
                     }>
                         <h1 className="ou-text-center  ou-text-xl">{t('createPrescription')}</h1>
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }}  className="ou-m-auto ou-justify-center ou-items-center ou-px-8">
@@ -110,7 +110,7 @@ const DiagnosisForm = (props) => {
                         </h1>
                     <Grid container justifyContent="flex" className="ou-m-auto ou-justify-center ou-items-center ou-px-8">
                         <Grid item xs={12} className="!ou-mt-4" >
-                            <InputLabel htmlFor="diagnosed">{t('sign')}<span className="text-danger">*</span></InputLabel>
+                            <InputLabel htmlFor="diagnosed">{t('sign')}</InputLabel>
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
@@ -126,7 +126,7 @@ const DiagnosisForm = (props) => {
                         </Grid>
 
                         <Grid item xs={12} className="!ou-mt-4">
-                            <InputLabel htmlFor="diagnosed">{t('diagnosed')}<span className="text-danger">*</span></InputLabel>
+                            <InputLabel htmlFor="diagnosed">{t('diagnosed')}</InputLabel>
                             <TextField
                                 fullWidth
                                 autoComplete="given-name"
@@ -149,12 +149,13 @@ const DiagnosisForm = (props) => {
                                 color="grey.700"
                       
                             >
-                                <Button variant="contained" 
+                                {props.seen ? <></> :  <Button variant="contained" 
                                     className="!ou-mt-5 !ou-min-w-[150px] !ou-min-h-[40px]" 
                                     color="success" 
                                     onClick={()=> router(`/prescribing/${props.id}`)} >
                                     {t('prescribing')}
-                                </Button>
+                                </Button>}
+                               
                             </Typography>
                         </Grid>
                     </Grid>

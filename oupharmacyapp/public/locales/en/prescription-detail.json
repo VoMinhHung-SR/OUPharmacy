@@ -1,8 +1,9 @@
+
 {
     "prescribingExist":"The list prescribing ID of this exam sheet",
     "errNullPrescribing":"There is no prescribing exist",
     "errNullPrescription":"There is no prescription exist",
-    "basicInformation": "Basic infomation",
+    "basicInformation": "Basic information",
     "patientFullName": "Patient full name",
     "dateOfBirth": "Date of birth",
     "phoneNumber": "Phone number",
@@ -20,5 +21,19 @@
     "prescribing":"Prescribing",
     "addMedicine": "Add medicine",
     "confirmDeleteMedicine":"Confirm to delete this medicine unit",
-    "confirmAddPrescription":"Confirm to add prescription"
+    "confirmAddPrescription":"Confirm to add prescription",
+    "medicalRecords": "Medical records",
+
+    "unDiagnosed": "This patient do not have any diagnosis sheets",
+    "firstRecord": "The first record at",
+    "diagnosedSheet": "The diagnosis sheet",
+    "at": "at",
+
+    "patientInfo": "Patient information",
+    "gender": "Gender",
+    "address": "Address",
+    "email": "Email",
+    "male": "Male",
+    "female": "Female",
+    "secret": "Secret"
 }

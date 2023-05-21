@@ -83,6 +83,7 @@ const Diagnosis = () => {
                                         diagnosed={diagnosis.diagnosed}
                                         sign={diagnosis.sign}
                                         userID={user.id}
+                                        patientID={examinationDetail.patient.id}
                                         handleChangeFlag={handleChangeFlag}
                                         />
                                     }       

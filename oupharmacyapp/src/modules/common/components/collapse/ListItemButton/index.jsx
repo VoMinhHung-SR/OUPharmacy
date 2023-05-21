@@ -5,8 +5,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import Loading from "../../Loading";
 
-const CustomCollapseListItemButton = ({title, content, loading}) => {
-    const {open, handleSetOpen} = useCollapse()
+const CustomCollapseListItemButton = ({title, content, loading, isOpen}) => {
+    const {open, handleSetOpen} = useCollapse(isOpen)
     return(
         <>
             <ListItemButton onClick={handleSetOpen} disablePadding >

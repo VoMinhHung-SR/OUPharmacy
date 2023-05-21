@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "oupharmacy-5ddaa",
+  "private_key_id": "dd220d36b41be11cd68fa981f9de926a7031cb53",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGrGZahlkQONJS\nEnU+SqCY6bLF2e38rFyL9mIAZljO8PiOxieBJWeGLurh6ekX4NiP+Gvl6pwpgUX7\nmItUJNmhcHYOWZ8OQuzYIy86Znwsz8ItH2qhjn6pw9CGMq2m2jRnluFLkPkFgcQO\nA2aAhB6cIJwKRQ2AgThkux8Yvpo+zCirLA+jCK2HAgj2TSc/3K3jqb8SucjgpS4C\nrZ44OFllhK2G+qDrL2ywGhta6zUNTH98o6uTYeQXZwtz3nYAxES9j9kWPf+seKYR\nR+h2cIMP+HfgY8gKXECi7TzND5GVG9lN28l5InnP+KMuLLR7U9ALySPMVQ9NvQHi\nNQ2JmcuHAgMBAAECggEAHTClVTWaDl0a4b4ehcl3MSBdCN7NLauxaUsI+SAQek9D\nZc7NbRcuz7NDBXBVtBFwIC8Sw1QmH58DxkSSbAmCBEs+vTsDuJeyrsr0nHMEWZ0o\n3XJZO2VxTMYddCosA3DZ9EJh1bV2MQ3w3VI4lDdVPAE6i/O7WR8jRwGLPxp6FTGt\nNqWXUra74PGtkpFWtw/FaHH0ur08nRAnlh9uM3aLkk4qYuzVZcnK7nCui8/axEPv\nOiR210ng+vYJJ2gF7049HYwJsBKwpxBa/rRiRwYyP8S4Cz+RgWH9l2DD8IKWj9Nz\n8dORJ+NEUYn6PaH2MIiAGeeW681nFTTtqBnfY4zmYQKBgQD77K73YVnzpHjGs0Zm\n2NmxeERKCZL3+EJnYQKBm3DZK8wbhBPBx7ithHKrQ8jjOdpOxFEobz241iXYMwiN\nayXGRqaCgZ81HCWw9OQq0Y0dq8EN20EXAD7zfwuz9jzLn7O7Foxjfc8K5yIcvex2\nXG5Tu+ZV4ty9+wH1vyPTAYtK1wKBgQDJ4y7aFu4eap3t5ZPkGONV9OQpwFUevp/1\n3jtOuwPFbwiafW64JXq3MDy4eM06WNZ2AIMxPDWaOwh2PTcSlQeUI1izw0TvyoxG\nrR2bQdCea44eArMrGUg2X1hd+YEmuNDmpKVuqdPXABEMLZ7DCg+brFW95YbPbsCb\niwGAybee0QKBgC2NLE3asnMViCkVfWNXTnWCc4aXmJVxtEAREGzy+EKsYqmPBiuB\nu2jUjA9foFFFwq1/XdVb1+M2BX3ELIW1nAzv9WefnHPz9PS8Mw1y+nsk9TFWNby8\n9KT+kdUmbvO6mrr3ZscOloM4K7jatojoSaKmVQ2uiY9odYBD4Wxj2RXdAoGBAKSx\nfywMnq4Tfchvi4j9QJ+DiooAy6+sBGQXqbwdVgM/A/67qpHwiT5dzHsUmR8rD7Dt\n1BhbLMMnu0xxvbab+rW/bAIhnuAbFPonCUr5ks1ZonMa8ryLAFzSxQzMmK5VAJ3W\n3Nn9EsKG3GFZ6fTkBT2ShdPHJYWcrOV2rYA5jmCxAoGBAL23m2BdqeqTMhIK/ky9\nZytGMljBPrJZhzQVnZEQXE+EMw0iVsySgo69ipA+/3P/PyzNkwOt6n28AiQwEGLY\n5ZrcPvplmPrInujIj/+xU8UeyvBs3FMqeZ20Ofteb3fcth94hVcN12lWjrzveJGC\n66vIthEWsCrJ5ECub9PLOyoL\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-b0u17@oupharmacy-5ddaa.iam.gserviceaccount.com",
+  "client_id": "114609837235274496747",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-b0u17%40oupharmacy-5ddaa.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

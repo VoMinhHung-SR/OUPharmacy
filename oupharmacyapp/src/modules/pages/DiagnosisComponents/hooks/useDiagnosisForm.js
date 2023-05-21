@@ -20,15 +20,15 @@ const useDiagnosisForm = () => {
     
     });
 
-    const onSubmit = (data, examinationID, userID, callback) =>{
-        console.log(typeof(callback))
+    const onSubmit = (data, examinationID, userID, patientId ,callback) =>{
         const handleOnSubmit = async () => {
             try{
                 const prescriptionData = {
                     sign: data.sign,
                     diagnosed: data.diagnosed,
                     examination: parseInt(examinationID),
-                    user: userID
+                    user: userID,
+                    patient: patientId
                 }
                 const res = await fetchCreateDiagnosis(prescriptionData)
                 if (res.status === 201){

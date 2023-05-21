@@ -10,6 +10,7 @@ import { APP_ENV, STATUS_BOOKING_CONFIRMED, TOAST_SUCCESS } from "../../../../..
 import { fetchExaminationListConfirm, fetchSendEmailConfirmExamination } from "../services"
 import createToastMessage from "../../../../../lib/utils/createToastMessage"
 import { ConfirmAlert, ErrorAlert } from "../../../../../config/sweetAlert2"
+import { goToTop } from "../../../../../lib/utils/helper"
 
 const useExaminationConfirm = () =>{
     const {t} = useTranslation(['examinations','modal'])
@@ -32,6 +33,7 @@ const useExaminationConfirm = () =>{
     const [page, setPage] = useState(1);
     
     const handleChangePage = (event, value) => {
+        goToTop();
         setIsLoadingExamination(true);
         setExaminationList([]);
         setPage(value);

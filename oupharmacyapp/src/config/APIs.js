@@ -40,6 +40,7 @@ export let endpoints = {
     
     // Diagnosis
     'diagnosis':'/diagnosis/',
+    'get-medical-records':'/diagnosis/get-medical-records/',
     'prescription':(diagnosisId) => `/diagnosis/${diagnosisId}/`,
     
     // Prescribing:
@@ -65,10 +66,8 @@ export let endpoints = {
 let baseURL;
 if (process.env.NODE_ENV === 'production') {
   baseURL = PRD_BACKEND_BASEURL;
-  console.log(baseURL)
 } else {
   baseURL = BACKEND_BASEURL;
-  console.log(baseURL)
 }
 // const baseURL = BACKEND_BASEURL;
 const mapBaseURL = "https://rsapi.goong.io"  

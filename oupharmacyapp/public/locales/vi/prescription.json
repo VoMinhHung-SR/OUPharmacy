@@ -1,6 +1,6 @@
 {
     "errNullPrescription":"Phiếu khám chưa được chẩn đoán",
-    "prescriptionId": "Mã phiếu khám",
+    "prescriptionId": "Mã phiếu",
     "sign": "Triệu chứng",
     "diagnosed": "Chẩn đoán",
     "diagnosisDate": "Ngày chẩn đoán",

@@ -1,8 +1,9 @@
 import { useState } from "react"
 
-const useCollapse = () => {
+const useCollapse = (isOpen) => {
 
-    const [open, setOpen] = useState(false)
+
+    const [open, setOpen] = useState(isOpen || false)
 
     const handleSetOpen = () => {
         setOpen(!open);
