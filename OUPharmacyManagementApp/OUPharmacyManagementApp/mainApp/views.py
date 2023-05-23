@@ -40,6 +40,8 @@ from .paginator import BasePagination, ExaminationPaginator
 from rest_framework.parsers import MultiPartParser
 from rest_framework.parsers import JSONParser
 from apscheduler.schedulers.background import BackgroundScheduler
+import requests
+from .tasks import job_send_email_re_examination, load_waiting_room
 
 # Create your views here.
 wageBooking = 20000
@@ -117,6 +119,21 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
         result_page = paginator.paginate_queryset(examinations, request)
         serializer = ExaminationSerializer(result_page, context={'request': request}, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+    @action(methods=['get'], detail=False, url_path='demo')
+    def demo (self, request):
+        try:
+            # job_send_email_re_examination.delay()
+            load_waiting_room.delay()
+            # res = requests.get('https://rsapi.goong.io/Direction', params={
+            #     'origin': '10.816905962180005,106.6786961439645',
+            #     'destination': '10.793500150986223,106.67777364026149',
+            #     'vehicle': 'car',
+            #     'api_key': 'SGj019RWMrUGpd9XYy7qmSeRYbbvEFkOaPnmB49N'
+            # })
+        except Exception as ex:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data=[])
+        return Response(status=status.HTTP_200_OK, data=[])
 
 
 class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
@@ -292,7 +309,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         try:
             now = datetime.datetime.now()
             today = now.replace(hour=0, minute=0, second=0, microsecond=0).astimezone(pytz.utc)
-            tomorrow = now.replace(hour=23, minute=59, second=59).astimezone(pytz.utc).astimezone(pytz.utc)
+            tomorrow = now.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
             examinations = Examination.objects.filter(created_date__range=(today,
                                                                            tomorrow)).order_by('updated_date').all()
         except Exception as error:

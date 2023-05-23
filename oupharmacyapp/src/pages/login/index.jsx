@@ -51,7 +51,7 @@ const Login = () =>{
                     "transform": "translate(-50%, -50%)"
                 }}>
 
-                    <Container component={Paper} elevation={4} style={{ "padding": "20px", "width": "600px", "border": "1.5px solid black", "borderRadius": "5px" }}>
+                    <Container component={Paper} elevation={6} style={{ "padding": "20px", "width": "600px"}} className="ou-rounded-lg">
                         <Box style={{"margin":"12px auto"}}>
                             <Avatar sx={{ width: '200px', height: '50px', margin:"auto" }} variant="square"
                                 src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354515/OUPharmacy/Untitled-1_hdvtsk.png"></Avatar>

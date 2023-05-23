@@ -212,8 +212,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-CELERY_BROKER_URL = "redis://default:12ru4X3ZiUglwwjxjqfVTLOHVCYy9IPe@redis-17968.c265.us-east-1-2.ec2.cloud.redislabs.com:17968"
-CELERY_RESULT_BACKEND = "redis://default:12ru4X3ZiUglwwjxjqfVTLOHVCYy9IPe@redis-17968.c265.us-east-1-2.ec2.cloud.redislabs.com:17968"
+CELERY_BROKER_URL = "redis://default:12ru4X3ZiUglwwjxjqfVTLOHVCYy9IPe@redis-17968.c265.us-east-1-2.ec2.cloud.redislabs.com:17968/0"
+CELERY_RESULT_BACKEND = "redis://default:12ru4X3ZiUglwwjxjqfVTLOHVCYy9IPe@redis-17968.c265.us-east-1-2.ec2.cloud.redislabs.com:17968/0"
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 DJANGO_CELERY_BEAT_TZ_AWARE = True
