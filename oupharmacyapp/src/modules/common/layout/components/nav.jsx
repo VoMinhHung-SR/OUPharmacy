@@ -125,7 +125,7 @@ const Nav = () => {
                 </MenuItem>
             </Link>
             <Divider />
-            <Link to="/users/examinations" className="nav-link" style={{ "padding": "0px" }}>
+            <Link to="/profile/examinations" className="nav-link" style={{ "padding": "0px" }}>
                 <MenuItem style={{ "color": "#333" }}>
                     <ListAlt fontSize="small" />
                     <Typography marginLeft={2}>

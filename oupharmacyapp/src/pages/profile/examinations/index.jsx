@@ -49,10 +49,10 @@ const ExaminationList = () =>{
                     </Box>
                 </Box>)
                 : (
-                    <Container >
-                            <Box className='ou-py-8' sx={{ minHeight: "300px" }}>
-                                <TableContainer component={Paper} elevation={4}>
-                                    <Table sx={{ minWidth: 800 }} aria-label="simple table">
+         
+                            <Box sx={{ minHeight: "300px" }}>
+                                <TableContainer >
+                                    <Table aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>{t('id')}</TableCell>
@@ -76,7 +76,7 @@ const ExaminationList = () =>{
                                                     </TableCell>
 
                                                     <TableCell align="center">
-                                                        <Typography>
+                                                        <Typography className="ou-table-truncate-text-container">
                                                             {e.description}
                                                         </Typography>
                                                     </TableCell>
@@ -123,7 +123,7 @@ const ExaminationList = () =>{
                                 </Box>
                             )}
                             </Box>
-                    </Container>
+                 
                 )
         }
     </>)

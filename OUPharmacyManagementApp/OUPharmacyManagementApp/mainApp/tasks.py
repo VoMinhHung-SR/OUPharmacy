@@ -1,30 +1,71 @@
+import json
 import os
+from datetime import timedelta, datetime, time
 
+import pytz
+from django.core.mail import EmailMessage
 from django.utils import timezone
 
 from celery import shared_task
+from firebase_admin import firestore
 
-import firebase_admin
-from firebase_admin import firestore, credentials
-from OUPharmacyManagementApp.OUPharmacyManagementApp.settings import BASE_DIR
+from .models import Examination
+import requests
+
+from google.cloud import firestore as google_cloud_firestore
+
 
 # Run task: celery -A OUPharmacyManagementApp.celery worker --pool=solo --loglevel=info
 
-FIREBASE_CONFIG = os.path.join(BASE_DIR, 'config', 'firebase.json')
-cred = credentials.Certificate(FIREBASE_CONFIG)
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://oupharmacy-5ddaa-default-rtdb.firebaseio.com'
-})
-
-database = firestore.client()
-
 @shared_task
 def load_waiting_room():
-    current_day = timezone.now().strftime('%Y-%m-%d')
     try:
-        print(current_day)
-        doc_ref = database.collection('demo').document(str(current_day))
-        doc_ref.set({'message': 'demo from BE'})
+        current_day = datetime.now()
+        now = timezone.now()
+        print(current_day, now)
+        exam_today = []
+        today = current_day.replace(hour=0, minute=0, second=0)
+        tomorrow = current_day.replace(hour=23, minute=59, second=59)
+        print("today", today, 'tomorrow', tomorrow)
+        today_utc = current_day.replace(hour=0, minute=0, second=0).astimezone(pytz.utc)
+        tomorrow_utc = current_day.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
+        print("today_utc", today_utc, 'tomorrow_utc', tomorrow_utc)
+        examinations = Examination.objects.filter(created_date__range=(today, tomorrow)).order_by('updated_date').all()
+        start_time = datetime.combine(current_day, time(hour=7, minute=0))
+        total_examinations = len(examinations)
+        for index, examination in enumerate(examinations):
+            user = examination.user
+            location = user.location
+            lat = location.lat
+            lng = location.lng
+            res = requests.get('https://rsapi.goong.io/Direction', params={
+                'origin': f'{os.getenv("MAP_ORIGIN_LAT")},{os.getenv("MAP_ORIGIN_LNG")}',
+                'destination': f'{lat},{lng}',
+                'vehicle': 'car',
+                'api_key': os.getenv('MAP_APIKEY')
+            })
+
+            res_data = json.loads(res.text)
+            data = {
+                'isCommitted': False,
+                'remindStatus': False,
+                'examID': examination.id,
+                'author': examination.user.email,
+                'patientFullName': f'{examination.patient.first_name} {examination.patient.last_name}',
+                'startedDate': start_time.timestamp(),
+                'distance': res_data.get('routes')[0].get('legs')[0].get('distance').get('text'),
+                'duration': res_data.get('routes')[0].get('legs')[0].get('duration').get('value')
+
+            }
+
+            exam_today.append(data)
+            if index < total_examinations - 1:
+                start_time += timedelta(minutes=20)
+
+        database = firestore.client()
+        doc_ref = database.collection('demo').document(str(current_day.date()))
+        doc_ref.set({'exams': exam_today})
+
     except Exception as ex:
         print(ex)
         return "Add failed!"
@@ -32,8 +73,56 @@ def load_waiting_room():
 
 
 @shared_task
-def send_remind_email():
-    print("Lich nhac nho tai kham hom nay")
-    return "Lich nhac nho tai kham"
+def job_send_email_re_examination():
+    # Get the current date
+    current_date = timezone.now().date()
 
+    # Calculate the date one month ago
+    one_month_ago = current_date - timedelta(days=30)
 
+    print(current_date, one_month_ago)
+
+    # Retrieve examinations created one month ago
+    examinations = Examination.objects.filter(created_date__gte=one_month_ago).all()
+
+    for examination in examinations:
+        # Get the related user and patient
+        user = examination.user
+        patient = examination.patient
+
+        if not user or not patient:
+            continue  # Skip to the next examination if user or patient is not found
+
+        # Check if the examination is already reminded
+        if examination.reminder_email:
+            continue  # Skip to the next examination if already reminded
+
+        # Compose the email subject
+        subject = "Nhắc nhở: Tái khám"
+
+        # Format the created_date to "ĐD-MM-YYYY" format
+        created_date_formatted = examination.created_date.strftime("%d-%m-%Y")
+
+        # Compose the email content
+        content = f"Xin chào {user.first_name} {user.last_name},\n\n" \
+                  f"Đây là một lời nhắc nhở rằng đã một tháng kể từ lần khám trước của bạn. " \
+                  f"Chúng tôi cần thông báo đến bạn, đặt lịch tái khám sớm nhất có thể để kiểm tra lại tình trạng sức khỏe của mình.\n\n" \
+                  f"Họ tên bệnh nhân: {patient.first_name} {patient.last_name}\n" \
+                  f"Mô tả: {examination.description}\n" \
+                  f"Ngày tạo: {created_date_formatted}\n\n" \
+                  f"Vui lòng liên hệ chúng tôi, hoặc lên trang chủ OUPharmacy để đặt lịch tái khám.\n\n" \
+                  f"Cảm ơn bạn, chúc bạn một ngày mới thật nhiều sức khỏe!\n"
+
+        # Send the reminder email
+        try:
+            send_email = EmailMessage(subject, content, to=[user.email])
+            send_email.send()
+        except Exception as e:
+            print(f"Lỗi gửi email nhắc nhở đến {user.email}: {str(e)}")
+        else:
+            # Update the examination's reminder_email field
+            examination.reminder_email = True
+            examination.save()
+            print('OKE')
+
+    return print('OKE but no exams')

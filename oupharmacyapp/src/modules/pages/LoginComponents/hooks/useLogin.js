@@ -14,7 +14,13 @@ const useLogin = () => {
     const [openError, setOpenError] = useState(false);
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const nav = useNavigate();
-    
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+      };
+
     const mutation = useMutation((data) =>
         fetchAccessToken(data.username, data.password),
     );
@@ -61,7 +67,7 @@ const useLogin = () => {
         openBackdrop,loginSchema,
         openError,
         onSubmit,
-        setOpenError
+        setOpenError, showPassword, handleTogglePassword
     }
 }
 export default useLogin;

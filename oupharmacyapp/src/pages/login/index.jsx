@@ -1,4 +1,4 @@
-import { Alert, Avatar, Button, Collapse, Container, Grid, IconButton, Paper, TextField } from "@mui/material";
+import { Alert, Avatar, Button, Collapse, Container, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import BackdropLoading from "../../modules/common/components/BackdropLoading";
 import CloseIcon from "@mui/icons-material/Close";
@@ -11,9 +11,10 @@ import Loading from "../../modules/common/components/Loading";
 import { Helmet } from "react-helmet";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import HomeIcon from '@mui/icons-material/Home';
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 const Login = () =>{
     const {t, tReady} = useTranslation(['login', 'yup-validate'])
-    const {onSubmit, openError, openBackdrop, setOpenError, loginSchema} = useLogin();
+    const {onSubmit, openError, openBackdrop, setOpenError, loginSchema, showPassword, handleTogglePassword} = useLogin();
     
     const methods = useForm({
         mode:"onSubmit", 
@@ -50,7 +51,7 @@ const Login = () =>{
                     "transform": "translate(-50%, -50%)"
                 }}>
 
-                    <Container component={Paper} elevation={4} style={{ "padding": "20px", "width": "600px", "border": "1.5px solid black", "borderRadius": "5px" }}>
+                    <Container component={Paper} elevation={6} style={{ "padding": "20px", "width": "600px"}} className="ou-rounded-lg">
                         <Box style={{"margin":"12px auto"}}>
                             <Avatar sx={{ width: '200px', height: '50px', margin:"auto" }} variant="square"
                                 src="https://res.cloudinary.com/dl6artkyb/image/upload/v1666354515/OUPharmacy/Untitled-1_hdvtsk.png"></Avatar>
@@ -96,17 +97,56 @@ const Login = () =>{
                                 {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.username?.message}</p>) : <></>}
                             </Grid>
                             <Grid item xs={12} style={{margin:"16px 0"}}>
-                                <TextField
+                                {/* <TextField
                                     fullWidth
                                     autoComplete="given-name"
                                     id="password"
                                     name="password"
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     label={t('password')}
                                     error={methods.formState.errors.password}
                                     {...methods.register("password")}
-                                />
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleTogglePassword}
+                              
+                                            edge="end"
+                                            >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                /> */}
+                                <FormControl variant="outlined" fullWidth>
+                                {methods.formState.errors.password?.message ? (
+                                    <InputLabel className="!ou-text-red-600" htmlFor="outlined-adornment-password">
+                                        {t('password')}
+                                    </InputLabel>)
+                                 :<InputLabel htmlFor="outlined-adornment-password">{t('password')}</InputLabel>}
+                                    
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        label={t('password')}
+                                        error={methods.formState.errors.password?.message}
+                                        {...methods.register("password")}
+                                        endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleTogglePassword}
+                                        
+                                            edge="end"
+                                            >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                    />
                                  {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.password?.message}</p>) : <></>}
+                                </FormControl>
                             </Grid>
                             <div style={{ "margin": "0 auto", "textAlign": "center" }}>
                                 <Button

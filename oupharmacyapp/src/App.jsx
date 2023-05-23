@@ -7,7 +7,7 @@ import Login from './pages/login'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Home from './pages'
 import Register from './pages/register'
-import ExaminationList from './pages/users/examinations'
+import ExaminationList from './pages/profile/examinations'
 import Diagnosis from './pages/examinations/id/diagnosis'
 import PrescriptionList from './pages/prescribing'
 import PrescriptionDetail from './pages/prescribing/id'
@@ -38,6 +38,7 @@ import { jobEveryMinutes } from './cron/job/every_minutes'
 import BackdropLoading from './modules/common/components/BackdropLoading'
 import ScrollToTop from './modules/common/components/ScrollToTop'
 import { OUPharmacyChatBot } from './chatbot'
+import Profile from './pages/profile'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -88,8 +89,10 @@ function App() {
                         <Route element={<ProtectedUserRoute/>}>
                     
                           <Route path='/booking' element={<Booking/>}/>
-                          <Route path='/users/examinations' element={<ExaminationList />} />
-
+                          
+                          <Route path='/profile' element={<Profile />} >
+                            <Route path='/profile/examinations' element={<ExaminationList />} />
+                          </Route>
 
                           {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
                           <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>

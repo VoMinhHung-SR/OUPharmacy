@@ -13,7 +13,7 @@ const Layout = () => {
   return (
     <>
         <Nav/>
-        <main className="ou-min-h-[550px] ou-relative ou-z-0 ou-mt-[62px]">
+        <main className="ou-min-h-[550px] ou-relative ou-z-0 ou-mt-[62px] ou-bg-[#ededed]">
             {isHomepage ? (
             <Outlet />
             ) : (

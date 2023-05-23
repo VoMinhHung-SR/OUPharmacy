@@ -87,7 +87,7 @@ const Register = () => {
             <div style={{ "width": "100%"
             }}>
                 <Container style={{ "padding": "50px" }}>
-                    <Box component={Paper} elevation={6}  className="ou-w-[80%] ou-m-auto" style={{ "border": "1.5px solid black", "borderRadius": "5px" }}>
+                    <Box component={Paper} elevation={6}  className="ou-w-[80%] ou-m-auto ou-rounded">
                         <form onSubmit={methods.handleSubmit((data)=> {
                         onSubmit(data, methods.setError, locationGeo);
                     })} 
@@ -389,9 +389,10 @@ const Register = () => {
                                     </Link>
                                 </Grid>
                             </Grid>
-                        </Box>
+                    </Box>
                     
-                    </Container>
+                
+                </Container>
                
             </div>
 
