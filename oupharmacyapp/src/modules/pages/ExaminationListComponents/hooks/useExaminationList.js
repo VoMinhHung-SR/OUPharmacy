@@ -4,6 +4,7 @@ import { userContext } from "../../../../App"
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../config/sweetAlert2"
 import { fetchDeleteAnExamination, fetchExaminationList } from "../services"
 import { useSearchParams } from "react-router-dom"
+import { goToTop } from "../../../../lib/utils/helper"
 const useExaminationList = () => {
     const [user] = useContext(userContext)
     const [isLoading, setIsLoading] = useState(true)
@@ -18,6 +19,7 @@ const useExaminationList = () => {
     const [page, setPage] = useState(1);
 
     const handleChangePage = (event, value) => {
+        goToTop()
         setIsLoading(true)
         setPage(value)
     };

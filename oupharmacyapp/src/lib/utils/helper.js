@@ -107,7 +107,7 @@ export const setListExamToday = async (examData) => {
           startedDate.setMinutes(startedDate.getMinutes() + i * 20); // Add 20 minutes for each index
 
           const {distance, duration} = await loadDistanceFromUser(exam.user.locationGeo.lat, exam.user.locationGeo.lng);
-
+        
           const data = {
               isCommitted: false,
               remindStatus: false,
@@ -158,4 +158,9 @@ export const goToTop = () => {
     top: 0,
     behavior: 'smooth'
   });
+}
+
+export const removeSymbol = (symbol, str)  => {
+  const regex = new RegExp(symbol, 'g');
+  return str.replace(regex, '');
 }
