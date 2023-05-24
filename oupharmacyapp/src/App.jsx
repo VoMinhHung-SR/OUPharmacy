@@ -39,6 +39,7 @@ import BackdropLoading from './modules/common/components/BackdropLoading'
 import ScrollToTop from './modules/common/components/ScrollToTop'
 import { OUPharmacyChatBot } from './chatbot'
 import Profile from './pages/profile'
+import ProfileAddressInfo from './pages/profile/address-info'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -91,6 +92,7 @@ function App() {
                           <Route path='/booking' element={<Booking/>}/>
                           
                           <Route path='/profile' element={<Profile />} >
+                            <Route path='/profile/address-info' element={<ProfileAddressInfo />} />
                             <Route path='/profile/examinations' element={<ExaminationList />} />
                           </Route>
 

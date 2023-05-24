@@ -22,6 +22,7 @@ export let endpoints = {
     // User
     'users':'/users/',
     'user-detail':(userId) => `/users/${userId}/`,
+    'get-user-location':(userId) => `/users/${userId}/location-info/`,
     'booking-list':(userId) => `/users/${userId}/booking-list/`,
 
     // Patient

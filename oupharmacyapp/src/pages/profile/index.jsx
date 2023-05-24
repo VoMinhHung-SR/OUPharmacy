@@ -1,7 +1,7 @@
 import { Avatar, Box, Paper } from "@mui/material"
 import { useContext } from "react"
 import { userContext } from "../../App"
-import { Image, Person } from "@mui/icons-material"
+import { Image, ListAlt, Person } from "@mui/icons-material"
 import { Outlet, useLocation, } from "react-router"
 import { Link } from "react-router-dom"
 import clsx from 'clsx';
@@ -12,17 +12,21 @@ import UpdateProfile from "../../modules/pages/ProfileComponents/UpdateProfile"
 const Profile = () => {
     const [user] = useContext(userContext)
     const location = useLocation()
-    console.log(location)
     const userProfile = [{
         id: 'profile',
         pathName: '/profile',
         itemTitle: 'Profile',
         itemIcon: <Person/>
     },{
+        id: 'address-info',
+        pathName: '/profile/address-info',
+        itemTitle: 'Address Info',
+        itemIcon: <ListAlt/>
+    },{
         id: 'booking-list',
         pathName: '/profile/examinations',
         itemTitle: 'Booking list',
-        itemIcon: <Person/>
+        itemIcon: <ListAlt/>
     }]
 
     const itemsNavigate = (itemID, pathName, itemTitle, itemIcon) => {
@@ -66,7 +70,7 @@ const Profile = () => {
                    <Box>
                         <Box>
 
-                            <UpdateProfile dob={user.date_of_birth} gender={user.gender} email={user.email}
+                            <UpdateProfile userID={user.id} dob={user.date_of_birth} gender={parseInt(user.gender)} email={user.email}
                             firstName={user.first_name} lastName={user.last_name} phoneNumber={user.phone_number}/>
                         
                         </Box>

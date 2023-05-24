@@ -19,5 +19,8 @@
     "secret": "Bí mật",
     "noCityFound": "Không tìm tấy tỉnh/thành phố",
     "noDistrictFound": "Không tìm tấy quận/huyện",
-    "correctAddress": "Vui lòng chọn chính xác địa chỉ, vì thông tin này là cần thiết và quan trọng"
+    "correctAddress": "Vui lòng chọn chính xác địa chỉ, vì thông tin này là cần thiết và quan trọng",
+    "updateInformation":"Cập nhật thông tin",
+    "confirmToUpdateInformation":"Xác nhận cập nhật thông tin",
+    "update": "Cập nhật"
 }
