@@ -84,7 +84,7 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
         if self.action in ['get_current_user']:
             return [permissions.IsAuthenticated()]
         if self.action in ['update', 'partial_update']:
-            return [OwnerPermission()]
+            return [UserPermission()]
         if self.action in ['get_examinations']:
             return [OwnerExaminationPermission()]
         return [permissions.AllowAny()]
@@ -119,6 +119,19 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
         result_page = paginator.paginate_queryset(examinations, request)
         serializer = ExaminationSerializer(result_page, context={'request': request}, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+    @action(methods=['get'], detail=True, url_path='location-info')
+    def get_user_location_info(self, request, pk):
+        user = self.get_object()
+        location_id = user.location_id
+        try:
+            location = CommonLocation.objects.get(id=location_id)
+            # Access the location properties
+            print(location.address, location.id)
+            return Response(status=status.HTTP_200_OK, data=CommonLocationSerializer(location).data)
+        except CommonLocation.DoesNotExist:
+            # Handle the case when the location with the given ID doesn't exist
+            return Response(status=status.HTTP_404_NOT_FOUND, data=[])
 
     @action(methods=['get'], detail=False, url_path='demo')
     def demo (self, request):

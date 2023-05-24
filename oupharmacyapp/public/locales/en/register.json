@@ -19,5 +19,8 @@
     "secret": "Secret",
     "noCityFound": "No city found",
     "noDistrictFound": "No district found",
-    "correctAddress": "Please choose a correct location cause this is place the system's service send notify"
+    "correctAddress": "Please choose a correct location cause this is place the system's service send notify",
+    "updateInformation":"Update information",
+    "confirmToUpdateInformation":"Confirm to update information",
+    "update": "Update"
 }

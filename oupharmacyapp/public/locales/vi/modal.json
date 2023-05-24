@@ -9,6 +9,9 @@
     "deleteCompleted": "Xóa thành công",
     "deleteFailed": "Xóa thất bại",
 
+    "updateSuccess":"Cập nhật thành công",
+    "updateFailed": "Cập nhật thất bại",
+
     "errSomethingWentWrong":"Đã có lỗi xảy ra",
     "pleaseTryAgain": "Vui lòng thử lại sau",
     "pleaseDoubleCheck": "Vui lòng kiểm tra kỹ thông tin biểu mẫu",
