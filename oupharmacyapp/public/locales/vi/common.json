@@ -10,6 +10,8 @@
     "send":"Gửi",
     "refresh" : "Phiên bản hết hạn vui lòng làm mới trang",
     "delete": "Xóa",
+    "update": "Cập nhật",
+    "edit": "Chỉnh sửa",
     "undefined":"Chưa xác định",
     "waitingRoom":"Phòng chờ",
     "booking": "Đặt lịch",
@@ -38,5 +40,6 @@
     "updateFailed": "Cập nhật thất bại",
     "diagnosedNotify" : "Phiếu khám của bạn đã được chẩn đoán bởi bác sĩ",
 
-    "seeDetail": "Xem chi tiết"
+    "seeDetail": "Xem chi tiết",
+    "basicInformation": "Thông tin cơ bản"
 }

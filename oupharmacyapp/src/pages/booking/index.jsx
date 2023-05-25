@@ -41,10 +41,10 @@ const Booking = () => {
             <Container>
                 
                 <Box className="ou-w-[60%] ou-max-w-[600px] 
-                ou-absolute ou-top-[40%] ou-left-[50%] -ou-translate-y-1/2 -ou-translate-x-1/2 ou-m-auto" component={Paper}>        
+                ou-absolute ou-top-[40%] ou-left-[50%] -ou-translate-y-1/2 -ou-translate-x-1/2 ou-m-auto" component={Paper} elevation={6}>        
                     <div>
                         <form className="mb-5 p-4 " onSubmit={methods.handleSubmit(checkEmail)} style={{"margin": "auto",
-                        "padding": "20px 20px", "border": "1.5px solid black", "borderRadius": "5px" }}>
+                        "padding": "20px 20px", "borderRadius": "5px" }}>
                             <FormControl fullWidth >
                                 <InputLabel htmlFor="email">{t('enterEmail')}</InputLabel>
                                 <OutlinedInput

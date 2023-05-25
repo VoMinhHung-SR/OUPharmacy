@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material"
+import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
@@ -6,6 +6,8 @@ import Loading from "../../../../modules/common/components/Loading"
 import DiagnosisForm from "../../../../modules/pages/DiagnosisComponents/DiagnosisForm"
 import useDiagnosis from "../../../../modules/pages/DiagnosisComponents/hooks/useDiagnosis"
 import { Helmet } from "react-helmet"
+import PatientInfoModal from "../../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
+import MedicalRecordsModal from "../../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
 
 const Diagnosis = () => {
     const { examinationDetail, isLoadingExamination, diagnosis,
@@ -51,31 +53,29 @@ const Diagnosis = () => {
                     </Box>)
                     : (
                         <Container>
-                            <Box className='ou-py-5 ou-m-auto'>
-                                <Box style={{ "margin": "auto" }}>
-                                    <h1 className="ou-text-center text-primary ou-text-xl">{t('examinationInformantion')}</h1>
-                                    <Grid container justifyContent="flex" style={{ "margin": "10px auto" }} spacing={2}>
-                                        <Grid  xs={6} >
-                                            <Typography>
-                                                <span className="ou-font-semibold">{t('patientFullName')}: </span>  
-                                                {examinationDetail.patient.first_name} {examinationDetail.patient.last_name} 
-                                            </Typography>
+                            <Box className='ou-py-8 ou-m-auto'> 
+                                <Box style={{ "margin": "auto" }} >
+                                    <Grid container justifyContent="flex" className="ou-min-h-[160px] ou-p-5" component={Paper} elevation={5}> 
+                                        <Grid item xs={12} className="ou-pb-5" >
+                                            <h1 className="ou-text-center ou-text-2xl">{t('common:basicInformation')}</h1>
                                         </Grid>
-                                        <Grid  xs={3}>
-                                            <Typography>
-                                                <span className="ou-font-semibold">{t('createdDate')}:</span> {moment(examinationDetail.created_date).format('DD/MM/YYYY')}
-                                            </Typography>
+
+                                        <Grid item xs={6} className="ou-text-center" >
+                                            <PatientInfoModal patientData={examinationDetail.patient}/>
                                         </Grid>
-                                        <Grid  xs={12} className="ou-pt-3">
-                                            <Typography>
-                                                <span className="ou-font-semibold">{t('description')}:</span> {examinationDetail.description}
-                                            </Typography>
+
+                                        <Grid item xs={6} className="ou-text-center">
+                                            <MedicalRecordsModal patientID={examinationDetail.patient.id}/>
                                         </Grid>
+
+
+                                 
                                     </Grid>
                                 </Box>
+                            
                             </Box>
 
-                            <Box className='ou-mt-5'>
+                            <Box className='ou-my-5'>
                                 <Box style={{ "margin": "auto" }}>
                                     {user && <DiagnosisForm
                                         id={prescriptionId}

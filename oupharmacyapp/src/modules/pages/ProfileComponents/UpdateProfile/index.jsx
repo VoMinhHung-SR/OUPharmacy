@@ -51,7 +51,7 @@ const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, g
   return (
     <Box className=" ou-m-auto ou-rounded !ou-h-full">
       <Helmet>
-        <title>OUPharmacy | Profile</title>
+        <title>Profile</title>
       </Helmet>
       <form
         onSubmit={methods.handleSubmit((data) => {

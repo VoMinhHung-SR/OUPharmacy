@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Autocomplete, Box, Button, createFilterOptions, FormControl, Grid, TextField, Typography } from "@mui/material"
+import { Autocomplete, Box, Button, createFilterOptions, FormControl, Grid, Paper, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import usePrescriptionDetailCard from "./hooks/usePrescriptionDetailCard";
@@ -41,7 +41,7 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                 (<BackdropLoading/>)
                 : <></>
             }
-            <Box className='ou-my-10'>
+            <Box className='ou-my-10 ou-py-8 ou-px-6'  component={Paper} elevation={5} >
                 <form 
                     className="ou-m-auto"
                     onSubmit={methods.handleSubmit((data)=> onSubmit(data,methods.reset()))}
@@ -117,10 +117,11 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                         </Grid>
                     </Grid>
                 </form>
-
+                
+                <Box component={Paper} >
                 <form
                     className="ou-my-4"
-                    style={{ "padding": "20px 20px", "border": "1.5px solid black", "borderRadius": "5px" }}>
+                    style={{ "padding": "20px 20px", "border": "1.5px solid gray", "borderRadius":"8px" }}>
                     <h1 className="ou-text-center ou-text-xl ou-pb-4">{t('prescriptionDetail')}</h1>
 
                     {medicinesSubmit.length === 0 ?
@@ -216,6 +217,9 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                             </Grid>
                         </Grid>)}
                 </form>
+
+                </Box>
+               
             </Box>
 
         </>

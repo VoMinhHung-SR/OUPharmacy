@@ -199,7 +199,7 @@ const Home = () => {
       </section>
 
       {/* Contact section */}
-      <section className="ou-mb-10">
+      <section className="ou-yb-10">
    
       {/* Map area */}
       <Box className="ou-text-center !ou-py-10" component={Container}>
@@ -209,8 +209,9 @@ const Home = () => {
             <Grid item xs={12} sm={12} md={6}>
               <Paper style={{height: '100%'}}>
               <Box
+              component={Paper} elevation={5}
                       // max-[600px]:ou-w-[354px] max-[600px]:ou-m-auto 
-                className=" ou-rounded ou-border-solid  ou-border-2 ou-border-black ou-min-w-[300px]"
+                className=" ou-rounded  ou-min-w-[300px]"
               >
                 <MapGL longitude={viewport.longitude} latitude={viewport.latitude} zoom={viewport.zoom}/>
               </Box>
@@ -235,7 +236,7 @@ const Home = () => {
           </Grid>
 
           {/* Contact area */}
-          <Box>
+          <Box className="ou-py-10">
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={3}>
               <Paper style={{height: '100%'}}>
