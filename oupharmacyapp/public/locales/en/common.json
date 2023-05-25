@@ -9,6 +9,8 @@
     "here": "Here",
     "send": "Send",
     "delete": "Delete",
+    "update": "Update",
+    "edit": "Edit",
     "undefined": "Undefined",
     "refresh" : "Please refresh page to get new versions",
     "waitingRoom":"Waiting Room",
@@ -38,5 +40,6 @@
     "updateFailed": "Update failed",
     "diagnosedNotify" : "Your medical record has been diagnosed by a doctor",
 
-    "seeDetail": "See detail"
+    "seeDetail": "See detail",
+    "basicInformation": "Basic Information"
 }

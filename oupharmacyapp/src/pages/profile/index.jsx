@@ -8,24 +8,28 @@ import clsx from 'clsx';
 import { removeSymbol } from "../../lib/utils/helper"
 import Register from "../register"
 import UpdateProfile from "../../modules/pages/ProfileComponents/UpdateProfile"
-
+import { ERROR_CLOUDINARY } from "../../lib/constants"
+import { AVATAR_DEFAULT } from "../../lib/constants"
+import { useTranslation } from "react-i18next"
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 const Profile = () => {
     const [user] = useContext(userContext)
     const location = useLocation()
+    const {t, tReady} = useTranslation(['profile'])
     const userProfile = [{
         id: 'profile',
         pathName: '/profile',
-        itemTitle: 'Profile',
+        itemTitle: t('profile'),
         itemIcon: <Person/>
     },{
         id: 'address-info',
         pathName: '/profile/address-info',
-        itemTitle: 'Address Info',
-        itemIcon: <ListAlt/>
+        itemTitle: t('addressInfo'),
+        itemIcon: <LocationOnIcon/>
     },{
         id: 'booking-list',
         pathName: '/profile/examinations',
-        itemTitle: 'Booking list',
+        itemTitle: t('bookingList'),
         itemIcon: <ListAlt/>
     }]
 
@@ -51,7 +55,7 @@ const Profile = () => {
                    <Avatar
                         className="ou-m-auto"
                         alt={user.first_name + user.last_name}
-                        src={user.avatar_path}
+                        src={user.avatar_path === ERROR_CLOUDINARY ? AVATAR_DEFAULT : user.avatar_path}
                         sx={{ width: 128, height: 128 }}
                     />
         

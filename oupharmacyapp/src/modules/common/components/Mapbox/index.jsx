@@ -7,7 +7,6 @@ import { ORIGIN_LAT } from "../../../../lib/constants";
 import { ORIGIN_LNG } from "../../../../lib/constants";
 
 const MapGL = (props) => {
-
       return (
         // <ReactMapGL
         //   {...viewport}
@@ -18,7 +17,7 @@ const MapGL = (props) => {
           mapboxAccessToken={MAPGL_TOKEN}  
           initialViewState={  
               {
-                  longitude:props.longitude ? props.longitude : 90 ,
+                  longitude:props.longitude ? props.longitude : ORIGIN_LNG ,
                   latitude: props.latitude ? props.latitude : ORIGIN_LAT,
                   zoom: props.zoom ? props.zoom : 15
 
@@ -29,7 +28,8 @@ const MapGL = (props) => {
           mapStyle="mapbox://styles/mapbox/streets-v11"
         >
 
-          <Marker latitude={props.latitude ? props.latitude :  ORIGIN_LAT} longitude={props.longitude ? props.longitude : 90}>
+          <Marker latitude={props.latitude ? props.latitude :  ORIGIN_LAT} 
+          longitude={props.longitude ? props.longitude : ORIGIN_LNG}>
           </Marker>
 
         </Map>

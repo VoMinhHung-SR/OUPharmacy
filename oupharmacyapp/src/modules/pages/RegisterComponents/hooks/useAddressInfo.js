@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import * as Yup from 'yup';
 import useDebounce from '../../../../lib/hooks/useDebounce';
 import { fetchPlaceById, fetchPlaceByInput } from '../../../common/components/Mapbox/services';
 import { fetchDistrictsByCity } from '../services';

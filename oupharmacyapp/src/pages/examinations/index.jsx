@@ -67,7 +67,7 @@ const Examinations = () => {
   const renderExamList = () => 
   (
       <Box className="ou-py-8 ou-m-auto ou-max-w-[1536px]" >
-      <Box className="ou-flex ou-justify-end ou-items-end">
+      <Box className="ou-flex ou-justify-end ou-items-end"> 
         {expanded &&  
         <Fade show={expanded}>
             <ExpandCloseComponent 

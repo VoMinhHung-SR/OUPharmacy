@@ -54,11 +54,11 @@ const PrescriptionDetail = () => {
                     </Box>)
                     : (
                         <>
-                            <Box className='ou-py-5 ou-m-auto ou-max-w-[1536px]'>
-                                <Box style={{ "margin": "auto" }}>
+                            <Box className='ou-my-5 ou-pt-8 ou-m-auto ou-max-w-[1536px]'>
+                                <Box style={{ "margin": "auto" }} >
                                     <Grid container justifyContent="flex" className="ou-min-h-[160px] ou-p-5" component={Paper} elevation={5}> 
                                         <Grid item xs={12} className="ou-pb-5" >
-                                            <h1 className="ou-text-center ou-text-2xl">{t('basicInformation')}</h1>
+                                            <h1 className="ou-text-center ou-text-2xl">{t('common:basicInformation')}</h1>
                                         </Grid>
 
                                         <Grid item xs={6} className="ou-text-center" >
@@ -73,8 +73,11 @@ const PrescriptionDetail = () => {
                                  
                                     </Grid>
                                 </Box>
+                                <Box >
+
                                 <PrescriptionDetailCard examID={prescriptionDetail.examination.id} 
                                 recipientID={prescriptionDetail.examination.user.id} />
+                                </Box>
                             </Box>
                         </>
                     )
