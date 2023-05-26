@@ -25,6 +25,9 @@ class CommonDistrictSerializer(ModelSerializer):
 
 
 class CommonLocationSerializer(ModelSerializer):
+    city = CommonCitySerializer()
+    district = CommonDistrictSerializer()
+
     class Meta:
         model = CommonLocation
         fields = ["id", "address", "lat", "lng", "city", "district"]

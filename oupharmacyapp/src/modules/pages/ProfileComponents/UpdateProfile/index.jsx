@@ -8,45 +8,33 @@ import { Box, Grid, FormControl, InputLabel, Select, MenuItem, Button } from '@m
 import { Helmet } from 'react-helmet';
 import useRegister from '../../RegisterComponents/hooks/useRegister';
 import { CURRENT_DATE } from '../../../../lib/constants';
+import useUpdateProfile from '../hooks/useUpdateProfile';
 
-const UpdateProfile = ({ email, firstName, lastName, dob, phoneNumber, gender }) => {
+const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, gender }) => {
   const { t, tReady } = useTranslation(['register', 'common', 'yup-validate']);
 
-  const {
-    imageUrl,
-    setImageUrl,
-    openBackdrop,
-    setDOB,
-    isLoadingUserRole,
-    registerSchema,
-    selectedImage,
-    setSelectedImage,
-    userRoleID,
-    setGender,
-    onSubmit
-  } = useRegister();
+  const {userRoleID} = useRegister();
 
-  const [initialGender, setInitialGender] = useState(gender);
-
+  const {onSubmit, updateSchema }  = useUpdateProfile()
+  
   const formattedDOB = moment(dob).format('YYYY-MM-DD');
-
+  
   const methods = useForm({
-    mode: 'onSubmit',
-    resolver: yupResolver(registerSchema),
-    defaultValues: {
-      firstName: firstName ? firstName : '',
-      lastName: lastName ? lastName : '',
-      email: email ? email : '',
-      dob: dob ? formattedDOB : '',
-      phoneNumber: phoneNumber ? phoneNumber : ''
-    }
-  });
+      mode: 'onSubmit',
+      resolver: yupResolver(updateSchema),
+      defaultValues: {
+          firstName: firstName ? firstName : '',
+          lastName: lastName ? lastName : '',
+          email: email ? email : '',
+          dob: dob ? formattedDOB : '',
+          phoneNumber: phoneNumber ? phoneNumber : ''
+        }
+    });
 
-  useEffect(() => {
-    if (selectedImage) {
-      setImageUrl(URL.createObjectURL(selectedImage));
-    }
-  }, [selectedImage]);
+
+
+  const isFormDirty = methods.formState.isDirty;
+
 
   if (tReady && isLoadingUserRole)
     return (
@@ -59,19 +47,19 @@ const UpdateProfile = ({ email, firstName, lastName, dob, phoneNumber, gender })
         </Box>
       </Box>
     );
-
+   
   return (
-    <Box className=" ou-m-auto ou-rounded">
+    <Box className=" ou-m-auto ou-rounded !ou-h-full">
       <Helmet>
         <title>Profile</title>
       </Helmet>
       <form
         onSubmit={methods.handleSubmit((data) => {
-          onSubmit(data, methods.setError, locationGeo);
+          onSubmit(data, methods.setError, userID, () => methods.reset());
         })}
-        className="ou-m-auto ou-px-8 ou-py-4 "
+        className="ou-m-auto ou-px-8 ou-py-4  !ou-h-full"
       >
-        <h1 className="ou-text-center ou-text-2xl ou-py-2 ou-uppercase ou-font-semibold">Chinh sua thong tin</h1>
+        <h1 className="ou-text-center ou-text-2xl ou-py-2 ou-uppercase ou-font-semibold">{t('register:updateInformation')}</h1>
         <Grid container justifyContent="flex" className="ou-mt-6">
           <Grid item xs={4} className="ou-pr-2">
             <TextField
@@ -142,7 +130,7 @@ const UpdateProfile = ({ email, firstName, lastName, dob, phoneNumber, gender })
                 type="date"
                 name="dob"
                 error={methods.formState.errors.dob}
-                onChange={(evt) => setDOB(evt.target.value)}
+             
                 sx={{ width: 220 }}
                 InputLabelProps={{
                   shrink: true
@@ -164,10 +152,11 @@ const UpdateProfile = ({ email, firstName, lastName, dob, phoneNumber, gender })
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-              
+                name='gender'
                 label={t('gender')}
-                onChange={(evt) => setGender(evt.target.value)}
-                defaultValue={gender}
+             
+                defaultValue={parseInt(gender)}
+                {...methods.register('gender')}
               >
                 <MenuItem value={0}>{t('male')}</MenuItem>
                 <MenuItem value={1}>{t('female')}</MenuItem>
@@ -186,8 +175,8 @@ const UpdateProfile = ({ email, firstName, lastName, dob, phoneNumber, gender })
               </Box>
             ) : (
               <Box sx={{ textAlign: 'right' }}>
-                <Button className="!ou-min-w-[150px]" variant="contained" color="success" type="submit">
-                  {t('Update Infomation')}
+                <Button className="!ou-min-w-[150px] !ou-mt-3" disabled={!isFormDirty} variant="contained" color="success" type="submit">
+                  {t('register:update')}
                 </Button>
               </Box>
             )}

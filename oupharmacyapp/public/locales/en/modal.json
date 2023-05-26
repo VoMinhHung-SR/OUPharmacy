@@ -3,11 +3,14 @@
     "yes": "Yes",
     "cancel": "Cancel",
 
-    "createSuccessed": "Create successed",
+    "createSuccessed": "Create success",
     "createFailed": "Create failed",
 
     "deleteCompleted": "Delete completed",
     "deleteFailed": "Delete failed",
+
+    "updateSuccess":"Update success",
+    "updateFailed": "Update failed",
 
     "errSomethingWentWrong":"Something went wrong",
     "pleaseTryAgain": "Please try again",
