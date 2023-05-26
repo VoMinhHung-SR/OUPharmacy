@@ -5,9 +5,11 @@ import { userContext } from "../../App";
 import { db } from "../../config/firebase";
 import { getRecipientId } from "../utils/helper";
 import { APP_ENV } from "../constants";
+import UserContext from "../context/UserContext";
 
 const useRecipient = (members) => {
-    const [user] = useContext(userContext);
+    const {user} = useContext(UserContext);
+    // const [user] = useContext(userContext);
     // get ID
     const recipientId = getRecipientId(members, user.id)
 

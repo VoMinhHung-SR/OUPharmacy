@@ -2,9 +2,11 @@ import { List, ListItem, ListItemText, Typography } from "@mui/material"
 import moment from "moment"
 import { useContext } from "react"
 import { userContext } from "../../../../../App"
+import UserContext from "../../../../../lib/context/UserContext"
 
 const MessageCard = ({message}) => {
-    const [user] = useContext(userContext)
+    const {user} = useContext(UserContext)
+    // const [user] = useContext(userContext);
     if (message) {
         return (<>
             {message.user === user.id ?

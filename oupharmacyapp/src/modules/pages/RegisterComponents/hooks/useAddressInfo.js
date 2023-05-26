@@ -7,6 +7,8 @@ import { fetchDistrictsByCity } from '../services';
 const useAddressInfo = () => {
     const [districts, setDistricts] = useState([])
     const [cityId, setCityId] = useState(null)
+    const [cityName, setCityName] = useState('')
+    const [districtName, setDistrictName] = useState('')
     const [addressInput, setAddressInput] = useState('')
     const [listPlace, setListPlace] = useState([])
     const [loading, setLoading] = useState(false)
@@ -71,7 +73,8 @@ const useAddressInfo = () => {
 
     return {
         setCityId, addressInput,loading, listPlace, handleGetPlaceByID, handleSetLocation,
-        setAddressInput, districts, setSelectedOption, selectedOption, locationGeo: location
+        setAddressInput, districts, setSelectedOption, selectedOption, locationGeo: location,
+        setCityName, setDistrictName, cityName, districtName
     }
 }
 

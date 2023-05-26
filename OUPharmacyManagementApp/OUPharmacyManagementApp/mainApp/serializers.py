@@ -25,12 +25,32 @@ class CommonDistrictSerializer(ModelSerializer):
 
 
 class CommonLocationSerializer(ModelSerializer):
-    city = CommonCitySerializer()
-    district = CommonDistrictSerializer()
+    district_info = serializers.SerializerMethodField(source='district')
+    city_info = serializers.SerializerMethodField(source='city')
+
+    def get_district_info(self, obj):
+        district = obj.district
+        if district:
+            return {'id': district.id, 'name': district.name}
+        else:
+            return {}
+
+    def get_city_info(self, obj):
+        city = obj.city
+        if city:
+            return {'id': city.id, 'name': city.name}
+        else:
+            return {}
 
     class Meta:
         model = CommonLocation
-        fields = ["id", "address", "lat", "lng", "city", "district"]
+        fields = ["id", "address", "lat", "lng", "city", 'district', "district_info", "city_info"]
+        extra_kwargs = {
+            'city': {'write_only': 'true'},
+            'city_info': {'read_only': 'true'},
+            'district_info': {'read_only': 'true'},
+            'district': {'write_only': 'true'}
+        }
 
 
 class UserSerializer(ModelSerializer):
@@ -57,8 +77,13 @@ class UserSerializer(ModelSerializer):
 
     def get_locationGeo(self, obj):
         location = obj.location
+        city = location.city
+        district = location.district
         if location:
-            return {'lat': location.lat, 'lng': location.lng}
+            return {'lat': location.lat, 'lng': location.lng,
+                    'address': location.address,
+                    'district': {'id': district.id, 'name': district.name},
+                    'city': {'id': city.id, 'name': city.name}}
         else:
             return {}
 
@@ -138,8 +163,12 @@ class UserNormalSerializer(ModelSerializer):
 
     def get_locationGeo(self, obj):
         location = obj.location
+        city = location.city
+        district = location.district
         if location:
-            return {'lat': location.lat, 'lng': location.lng}
+            return {'lat': location.lat, 'lng': location.lng,
+                    'district': {'id': district.id, 'name': district.name},
+                    'city': {'id': city.id, 'name': city.name}}
         else:
             return {}
 

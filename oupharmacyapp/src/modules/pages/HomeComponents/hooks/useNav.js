@@ -2,8 +2,9 @@ import Cookies from "js-cookie";
 import { useContext } from "react";
 import { userContext } from "../../../../App";
 import { useNavigate } from "react-router";
+import UserContext from "../../../../lib/context/UserContext";
 const useNav = () =>{
-    const [user, dispatch] = useContext(userContext);
+    const {user, dispatch} = useContext(UserContext);
     const router = useNavigate();
 
     const handleLogout = () =>{

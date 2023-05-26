@@ -3,9 +3,11 @@ import { userContext } from "../../../../App"
 import { fetchDiagnosisList } from "../services"
 import { useSearchParams } from "react-router-dom"
 import { goToTop } from "../../../../lib/utils/helper"
+import UserContext from "../../../../lib/context/UserContext"
 
 const usePrescriptionList = () =>{
-    const [user] = useContext(userContext)
+    const {user} = useContext(UserContext)
+    // const [user] = useContext(userContext);
     const [prescriptionList, setPrescriptionList] = useState([])
     const [isLoadingPrescriptionList, setIsLoadingPrescriptionList] = useState(true);
     

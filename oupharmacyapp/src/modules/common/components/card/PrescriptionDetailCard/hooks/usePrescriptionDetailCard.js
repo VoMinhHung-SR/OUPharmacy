@@ -9,11 +9,13 @@ import { APP_ENV, REGEX_ADDRESS, REGEX_NUMBER999, STATUS_BOOKING_WAS_PRESCRIBED 
 import { keyUpdateExam } from "../../../../../../lib/utils/helper";
 import { db } from "../../../../../../config/firebase";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import UserContext from "../../../../../../lib/context/UserContext";
 
 const usePrescriptionDetailCard = () => {
     const {t} = useTranslation(['yup-validate', 'modal', 'prescription-detail'])
     const {prescribingId} = useParams();
-    const [user] = useContext(userContext)
+    // const [user] = useContext(userContext)
+    const {user}=useContext(UserContext);
     const [flag, setFlag] = useState(false)
     const router = useNavigate();
     const [openBackdrop, setOpenBackdrop] = useState(false)

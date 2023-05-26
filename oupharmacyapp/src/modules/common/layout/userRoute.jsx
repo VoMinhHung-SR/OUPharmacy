@@ -7,10 +7,13 @@ import useConversationList from '../../pages/ConversationListComponents/hooks/us
 import Loading from '../components/Loading';
 import Icon401Unauthorized from '../../../lib/assets/icon401Unauthorized';
 import { Helmet } from 'react-helmet';
+import UserContext from '../../../lib/context/UserContext';
 
 const ProtectedUserRoute = () => {
     const {t, ready} = useTranslation(['common','modal']);
-    const [user] = useContext(userContext);
+    const {user} = useContext(UserContext);
+
+    // const [user] = useContext(userContext);
     const router = useNavigate()
    
      //TODO: add skeletons here

@@ -2,9 +2,11 @@ import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router"
 import { userContext } from "../../../../App"
 import { fetchDiagnosisByExaminationID, fetchPrescribingByDiagnosis } from "../services"
+import UserContext from "../../../../lib/context/UserContext"
 
 const usePayment = () => {
-    const [user] = useContext(userContext)
+    const {user} = useContext(UserContext)
+    // const [user] = useContext(userContext);
     const {examinationId} = useParams()
     const [isLoadingPrescriptionDetail, setIsloadingPrescriptionDetail] = useState(true)
     const [examinationDetail, setExaminationDetail] = useState([])

@@ -7,18 +7,18 @@ import useUpdateLocation from "../hooks/useUpdateLocation";
 import useAddressInfo from "../../RegisterComponents/hooks/useAddressInfo";
 import clsx from "clsx";
 
-const UpdateAddressInfo = () => {
+const UpdateAddressInfo = (props) => {
     const { t, tReady } = useTranslation(['register', 'common', 'yup-validate']);
-    const { locationData, user, locationSchema } = useUpdateLocation()
+    const { locationData, user, locationSchema, onSubmit } = useUpdateLocation()
  
     const methods = useForm({
         mode: 'onSubmit',
         resolver: yupResolver(locationSchema),
         defaultValues: {
             location:{
-                address: locationData.address ? locationData.address : "",
-                city: locationData.city?.id ? locationData.city.id : -1 ,
-                district: locationData.district?.id ? locationData.district.id : -1
+                address: "",
+                city: -1 ,
+                district: -1
             }
           }
       })
@@ -26,8 +26,8 @@ const UpdateAddressInfo = () => {
       const isFormDirty = methods.formState.isDirty;
 
 
-      const {districts, setAddressInput, setCityId, handleGetPlaceByID, handleSetLocation,
-          listPlace, setSelectedOption, locationGeo} = useAddressInfo()
+      const {districts, setDistrictName, setAddressInput, setCityId, setCityName, cityName, districtName,
+        handleGetPlaceByID, handleSetLocation, listPlace, setSelectedOption, locationGeo} = useAddressInfo()
       const { allConfig } = useSelector((state) => state.config);
   
        // Filter Options for address
@@ -43,9 +43,9 @@ const UpdateAddressInfo = () => {
           stringify: (option) => option.name,
       });
     return <form
-    //   onSubmit={methods.handleSubmit((data) => {
-    //     onSubmit(data, methods.setError, userID, () => methods.reset());
-    //   })}
+      onSubmit={methods.handleSubmit((data) => {
+        onSubmit(data, methods.setError,locationGeo, props.callBackSuccess, cityName, districtName);
+      })}
      
     >
       
@@ -62,6 +62,7 @@ const UpdateAddressInfo = () => {
                         onChange={(event, value) => {
                             methods.setValue('location.district', ' ')
                             setCityId(value.id)
+                            setCityName(value.name)
                             methods.setValue("location.city", value.id)
                             methods.clearErrors('location.city')
                         }}
@@ -84,7 +85,7 @@ const UpdateAddressInfo = () => {
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         noOptionsText={t('noDistrictFound')}
                         onChange={(event, value) => {
-                            
+                            setDistrictName(value.name)
                             methods.setValue("location.district",value.id)
                             methods.clearErrors('location.district')
                         }}
