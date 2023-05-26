@@ -10,12 +10,9 @@ import useRegister from '../../RegisterComponents/hooks/useRegister';
 import { CURRENT_DATE } from '../../../../lib/constants';
 import useUpdateProfile from '../hooks/useUpdateProfile';
 
-const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, gender }) => {
+const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, gender, handleOnSuccess }) => {
   const { t, tReady } = useTranslation(['register', 'common', 'yup-validate']);
-
-  const {userRoleID} = useRegister();
-
-  const {onSubmit, updateSchema }  = useUpdateProfile()
+  const {onSubmit, updateSchema}  = useUpdateProfile()
   
   const formattedDOB = moment(dob).format('YYYY-MM-DD');
   
@@ -32,11 +29,10 @@ const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, g
     });
 
 
-
   const isFormDirty = methods.formState.isDirty;
 
 
-  if (tReady && isLoadingUserRole)
+  if (tReady)
     return (
       <Box sx={{ minHeight: '300px' }}>
         <Helmet>
@@ -55,7 +51,7 @@ const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, g
       </Helmet>
       <form
         onSubmit={methods.handleSubmit((data) => {
-          onSubmit(data, methods.setError, userID, () => methods.reset());
+          onSubmit(data, methods.setError, userID, () => {handleOnSuccess(), methods.reset({ isDirty: false });});
         })}
         className="ou-m-auto ou-px-8 ou-py-4  !ou-h-full"
       >
@@ -168,18 +164,14 @@ const UpdateProfile = ({ userID ,email, firstName, lastName, dob, phoneNumber, g
 
         <Grid container justifyContent="flex" className="ou-my-3">
           <Grid item xs={12}>
-            {userRoleID === -1 ? (
-              <Box className="ou-p-5 ou-text-center">
-                <div className="ou-text-red-700 ou-text-xl">{t('common:refresh')}</div>
-                <div></div>
-              </Box>
-            ) : (
+ 
               <Box sx={{ textAlign: 'right' }}>
-                <Button className="!ou-min-w-[150px] !ou-mt-3" disabled={!isFormDirty} variant="contained" color="success" type="submit">
+                <Button className="!ou-min-w-[150px] !ou-mt-3" 
+                  disabled={!isFormDirty} variant="contained" color="success" type="submit">
                   {t('register:update')}
                 </Button>
               </Box>
-            )}
+       
           </Grid>
         </Grid>
       </form>

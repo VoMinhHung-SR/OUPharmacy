@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router';
 import { userContext } from '../../../../App';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
+import UserContext from '../../../../lib/context/UserContext';
 
 const useLogin = () => {
     const {t} = useTranslation(['yup-validate'])
-    const [user, dispatch] = useContext(userContext);
+    // const [user, dispatch] = useContext(userContext);
+    const {user,dispatch} = useContext(UserContext)
     const [openError, setOpenError] = useState(false);
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const nav = useNavigate();

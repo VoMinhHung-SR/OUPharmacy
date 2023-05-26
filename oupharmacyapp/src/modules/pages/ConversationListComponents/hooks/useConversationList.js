@@ -4,9 +4,11 @@ import { userContext } from "../../../../App"
 import { db } from "../../../../config/firebase";
 import { ErrorAlert } from "../../../../config/sweetAlert2";
 import { APP_ENV } from "../../../../lib/constants";
+import UserContext from "../../../../lib/context/UserContext";
 
 const useConversationList = () => {
-    const [user] = useContext(userContext);
+    // const [user] = useContext(userContext);
+    const {user} = useContext(UserContext);
     useEffect(()=>{
         const setUserDB = async ()=>{    
             try{

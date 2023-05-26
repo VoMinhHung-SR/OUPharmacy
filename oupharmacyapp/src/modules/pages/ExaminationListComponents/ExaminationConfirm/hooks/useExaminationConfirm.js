@@ -11,6 +11,7 @@ import { fetchExaminationListConfirm, fetchSendEmailConfirmExamination } from ".
 import createToastMessage from "../../../../../lib/utils/createToastMessage"
 import { ConfirmAlert, ErrorAlert } from "../../../../../config/sweetAlert2"
 import { goToTop } from "../../../../../lib/utils/helper"
+import UserContext from "../../../../../lib/context/UserContext"
 
 const useExaminationConfirm = () =>{
     const {t} = useTranslation(['examinations','modal'])
@@ -49,7 +50,8 @@ const useExaminationConfirm = () =>{
     }
 
 
-    const [user] = useContext(userContext)
+    const {user} = useContext(UserContext)
+    // const [user] = useContext(userContext);
     const [flag, setFlag] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 

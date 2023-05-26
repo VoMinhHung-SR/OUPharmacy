@@ -52,8 +52,8 @@ class AuthInfo(APIView):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
 
 
-class CommonLocationViewSet(viewsets.ViewSet, generics.RetrieveAPIView,generics.ListAPIView,
-                            generics.CreateAPIView, generics.DestroyAPIView):
+class CommonLocationViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.ListAPIView,
+                            generics.CreateAPIView, generics.DestroyAPIView, generics.UpdateAPIView):
     queryset = CommonLocation.objects.all()
     serializer_class = CommonLocationSerializer
     parser_classes = [JSONParser, MultiPartParser]

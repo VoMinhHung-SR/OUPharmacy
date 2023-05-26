@@ -19,6 +19,7 @@ export let endpoints = {
     'districts-by-city': '/common-districts/get-by-city/',
     // Common Location
     'location':'/common-locations/', 
+    'location-detail':(locationID) => `/common-locations/${locationID}/`,
     // User
     'users':'/users/',
     'user-detail':(userId) => `/users/${userId}/`,

@@ -7,11 +7,14 @@ import { useTranslation } from "react-i18next"
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { useContext } from "react"
 import { userContext } from "../../../../App"
+import UserContext from "../../../../lib/context/UserContext"
 
 const LimitExamPerDay = () => {
     const {t} = useTranslation(['modal', "common"])
     const {totalExams, handleOpenModal, handleCloseModal, isOpen} = useLimitExamPerDay(CURRENT_DATE) 
-    const [user] = useContext(userContext);
+    // const [user] = useContext(userContext);
+    const {user} = useContext(UserContext);
+
 
     if(!user || user.role === ROLE_USER){
         return;

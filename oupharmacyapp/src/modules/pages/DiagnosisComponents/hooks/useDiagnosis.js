@@ -3,10 +3,12 @@ import { useParams } from "react-router";
 import { userContext } from "../../../../App";
 import { authApi, endpoints } from "../../../../config/APIs";
 import { fetchDiagnosisByExamID } from "../services";
+import UserContext from "../../../../lib/context/UserContext";
 
 const useDiagnosis = () => {
     const { examinationId } = useParams();
-    const [user] = useContext(userContext)
+    // const [user] = useContext(userContext)
+    const {user} = useContext(UserContext);
     const [examinationDetail, setExaminationDetail] = useState([])
     const [isLoadingExamination, setIsLoadingExamination] = useState(true)
     const [prescriptionId, setPrescriptionId] = useState(-1)
