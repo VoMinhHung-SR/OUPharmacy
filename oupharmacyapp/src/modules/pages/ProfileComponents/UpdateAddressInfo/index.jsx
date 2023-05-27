@@ -66,8 +66,8 @@ const UpdateAddressInfo = (props) => {
                             methods.setValue("location.city", value.id)
                             methods.clearErrors('location.city')
                         }}
-                        renderInput={(params) => <TextField {...params} label={t('city')} 
-
+                        renderInput={(params) => <TextField {...params} 
+                            label={t('city')} 
                             error={methods.formState.errors.location?.city}
                             name="location.city"
                             />}
