@@ -3,34 +3,36 @@ import { useContext, useState } from "react";
 import clsx from "clsx";
 import { userContext } from "../../../../App";
 import UserContext from "../../../../lib/context/UserContext";
+import { useTranslation } from "react-i18next";
+import MapGL from "../../../common/components/Mapbox";
 
-const AddressInfo = () => {
+const AddressInfo = ({locationData}) => {
     // const [user] = useContext(userContext)
-    const {user} = useContext(UserContext);
-    const [viewport, setViewport] = useState({
-        latitude: user.locationGeo.lat,
-        longitude: user.locationGeo.lng,
+    const { t, tReady } = useTranslation(['register', 'common']);
+const [viewport, setViewport] = useState({
+        latitude: locationData.lat,
+        longitude: locationData.lng,
         zoom: 16,
     }); 
-    console.log("address info !!@ ", user)
+    console.log(locationData)
     return (
         <>
         
         <Grid container justifyContent="flex">
                 <Grid item xs={6} className={clsx('ou-pr-2 !ou-mt-4')} >
                     <FormControl fullWidth >
-                        <TextField value={user.locationGeo.city.name}></TextField>
+                        <TextField value={locationData.city.name}   label={t('city')} ></TextField>
                     </FormControl>
                 </Grid>
                 <Grid item xs={6} className="!ou-mt-4 ou-pl-2" >
                     <FormControl fullWidth >
-                        <TextField value={user.locationGeo.district.name}></TextField>   
+                        <TextField value={locationData.district.name}   label={t('district')}></TextField>   
                     </FormControl>
                 </Grid>
             </Grid>
                 <Grid item xs={12} className="!ou-mt-4">
                 <FormControl fullWidth >
-                    <TextField value={user.locationGeo.address}></TextField>   
+                    <TextField value={locationData.address}   label={t('address')}></TextField>   
                         
                 </FormControl>
             </Grid>

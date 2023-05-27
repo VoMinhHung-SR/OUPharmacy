@@ -22,5 +22,6 @@
     "correctAddress": "Please choose a correct location cause this is place the system's service send notify",
     "updateInformation":"Update information",
     "confirmToUpdateInformation":"Confirm to update information",
-    "update": "Update"
+    "update": "Update",
+    "updateAddressInfo": "Update address information"
 }

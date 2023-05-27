@@ -22,5 +22,6 @@
     "correctAddress": "Vui lòng chọn chính xác địa chỉ, vì thông tin này là cần thiết và quan trọng",
     "updateInformation":"Cập nhật thông tin",
     "confirmToUpdateInformation":"Xác nhận cập nhật thông tin",
-    "update": "Cập nhật"
+    "update": "Cập nhật",
+    "updateAddressInfo": "Cập nhật thông tin đỉa chỉ"
 }

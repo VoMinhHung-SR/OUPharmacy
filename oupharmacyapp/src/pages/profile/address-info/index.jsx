@@ -21,7 +21,10 @@ const ProfileAddressInfo = () => {
     const {user} = useContext(UserContext);
 
     const { handleCloseModal, isOpen, handleOpenModal} = useCustomModal();
-
+    const [flag, setFlag] = useState(false)
+    const handleChangeFlag = () => setFlag(!flag)
+    useEffect(()=> {},[flag])
+    
     return(
         <Box className=" ou-m-auto ou-rounded">
         <Helmet>
@@ -40,15 +43,16 @@ const ProfileAddressInfo = () => {
               </Box>
         </Box>
             <CustomModal
-            title="chinh sua thong tin"
-            className="ou-w-[900px]"
+            title={t('updateAddressInfo')}
+            className="ou-w-[900px] ou-text-center"
             open={isOpen}
             onClose={handleCloseModal}
             content={
                 <UpdateAddressInfo 
-                callBackSuccess={() => {
-                    handleCloseModal();
-                }
+                  callBackSuccess={() => {
+                      handleChangeFlag();
+                      handleCloseModal();
+                  }
                 }/>
             }
        
