@@ -19,10 +19,12 @@ import { ERROR_CLOUDINARY, ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/const
 import useNotification from "../../../../lib/hooks/useNotification";
 
 import NotificationButton from "../../components/button/Notification";
+import CustomModal from "../../components/Modal";
+import useCustomModal from "../../../../lib/hooks/useCustomModal";
 const Nav = () => {
   
-  const { t, i18n } = useTranslation('common');
-   // Page nav 
+  const { t, i18n } = useTranslation(['common', 'modal']);
+  // Page nav 
   const pages = [
     {
       // Accept all user
@@ -50,13 +52,14 @@ const Nav = () => {
   ];
   // State trigger menu open
   const {isLoading, notifyListContent, updateNotifications} = useNotification();
+  const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
+    setAnchorElNav(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
+    setAnchorElNav(null);
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -77,11 +80,6 @@ const Nav = () => {
                   <LoginIcon style={{ "marginRight": "5px" }} />{t('login')}
             </MenuItem>
           </Link>
-          {/* <Link to="/register">
-            <MenuItem style={{ "color": "inherit" }}>
-                    <HowToRegIcon style={{ "marginRight": "5px" }} />{t('register')}
-            </MenuItem>
-          </Link> */}
       </ul>
   </>
 
@@ -124,16 +122,14 @@ const Nav = () => {
                     </Typography>
                 </MenuItem>
             </Link>
-            <Divider />
-            {/* <Link to="/profile/examinations" className="nav-link" style={{ "padding": "0px" }}>
-                <MenuItem style={{ "color": "#333" }}>
-                    <ListAlt fontSize="small" />
+            <Divider className="!ou-m-[0px]" />
+            {/* <MenuItem style={{ "color": "#333" }} className="!ou-py-2" onClick={handleOpenModal}>
+                   <AccountCircleIcon fontSize="small" />
                     <Typography marginLeft={2}>
-                        {t('bookingList')}
+                      change password
                     </Typography>
-                </MenuItem>
-            </Link>
-            <Divider /> */}
+            </MenuItem>
+            <Divider className="!ou-m-[0px]"/> */}
             <MenuItem onClick={handleLogout} >
                 <Logout fontSize="small" />
                 <Typography marginLeft={2}>
@@ -359,6 +355,19 @@ const Nav = () => {
           </Box>
         </Toolbar>
       </Container>
+      {/* <CustomModal title={'hhihi'}   className="ou-w-[900px]"
+        open={isOpen}
+        onClose={handleCloseModal}
+        content={<Box>
+          <div>
+              ahihi
+          </div> 
+        </Box>}
+        actions={[
+          <Button key="cancel" onClick={handleCloseModal}>
+            {t('modal:cancel')}
+          </Button>
+        ]}/> */}
     </AppBar>
   )
 }

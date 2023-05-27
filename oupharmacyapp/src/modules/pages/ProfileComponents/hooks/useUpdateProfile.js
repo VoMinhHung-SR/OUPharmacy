@@ -8,18 +8,16 @@ import { useNavigate } from 'react-router';
 import { updateProfile } from '../services';
 import Cookies from 'js-cookie';
 import { userContext } from '../../../../App';
+import UserContext from '../../../../lib/context/UserContext';
 
 const useUpdateProfile = () =>{
     const {t} = useTranslation(['yup-validate','modal'])
     const [openBackdrop, setOpenBackdrop] = useState(false);
-    const [user, dispatch] = useContext(userContext);
+    // const [user, dispatch] = useContext(userContext);
+    const {user, dispatch , updateUser} = useContext(UserContext)
     const router = useNavigate('');
 
-    const [flag, setFlag] = useState(false)
 
-    useEffect(()=> {
-
-    },[flag])
     const updateSchema = Yup.object().shape({
         firstName: Yup.string().trim()
             .required(t('yupFirstNameRequired'))
@@ -59,18 +57,10 @@ const useUpdateProfile = () =>{
                 const res = await updateProfile(userID, formData)
                
                 if (res.status === 200) {
-                    callBack()
-                    Cookies.set('user', JSON.stringify(res.data))
-                    dispatch({
-                        'type': 'login',
-                        'payload': res.data
-                    })
-                    setOpenBackdrop(false)
+                    updateUser(res.data)
                     createToastMessage({type:TOAST_SUCCESS, message:t("modal:updateSuccess")})
-                    setFlag(!flag)
+                    callBack()
                 }
-
-
             } catch (err) {
                 if (err.response) {
                     const data = err.response.data;

@@ -9,19 +9,15 @@ import { ConfirmAlert } from "../../config/sweetAlert2"
 import createToastMessage from "../utils/createToastMessage"
 import { APP_ENV, TOAST_ERROR, TOAST_SUCCESS } from "../constants"
 import { useTranslation } from "react-i18next"
+import UserContext from "../context/UserContext"
 
 const useNotification = () => {
     const {t} = useTranslation(['common'])
-    const [user, userReady] = useContext(userContext)
+    const {user} = useContext(UserContext)
     const [isLoading, setIsLoading] = useState(true)
     const queryGetNotification = generateQueryGetNotification(user?.id)
     const [notificationsSnapshot, notificationsLoading, __error] = useCollection(queryGetNotification)
     const [notifyListContent, setNotifyListContent] = useState([])
-    if(!userReady)
-        return {
-            notifyListContent,
-            isLoading: true
-        }
     // if snapshot have data then map to state
     useEffect(()=> {
         try{

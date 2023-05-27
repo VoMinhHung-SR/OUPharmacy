@@ -5,8 +5,10 @@ import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from "../../../../config/sw
 import { fetchDeleteAnExamination, fetchExaminationList } from "../services"
 import { useSearchParams } from "react-router-dom"
 import { goToTop } from "../../../../lib/utils/helper"
+import UserContext from "../../../../lib/context/UserContext"
 const useExaminationList = () => {
-    const [user] = useContext(userContext)
+    const {user} = useContext(UserContext)
+    // const [user] = useContext(userContext);
     const [isLoading, setIsLoading] = useState(true)
     const [flag, setFlag] = useState(false)
     const [examinationList, setExaminationList] = useState([])

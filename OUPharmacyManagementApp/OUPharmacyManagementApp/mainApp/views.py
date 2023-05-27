@@ -52,8 +52,8 @@ class AuthInfo(APIView):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
 
 
-class CommonLocationViewSet(viewsets.ViewSet, generics.RetrieveAPIView,generics.ListAPIView,
-                            generics.CreateAPIView, generics.DestroyAPIView):
+class CommonLocationViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.ListAPIView,
+                            generics.CreateAPIView, generics.DestroyAPIView, generics.UpdateAPIView):
     queryset = CommonLocation.objects.all()
     serializer_class = CommonLocationSerializer
     parser_classes = [JSONParser, MultiPartParser]
@@ -85,7 +85,7 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
             return [permissions.IsAuthenticated()]
         if self.action in ['update', 'partial_update']:
             return [UserPermission()]
-        if self.action in ['get_examinations']:
+        if self.action in ['get_examinations','change_password']:
             return [OwnerExaminationPermission()]
         return [permissions.AllowAny()]
 
@@ -147,6 +147,17 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
         except Exception as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data=[])
         return Response(status=status.HTTP_200_OK, data=[])
+
+    @action(methods=['post'], detail=True, url_path='change-password')
+    def change_password(self, request, pk):
+        user = self.get_object()
+        try:
+            new_password = request.data.get('new_password')
+            user.set_password(new_password)
+            user.save()
+        except Exception as ex:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(status=status.HTTP_200_OK)
 
 
 class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,

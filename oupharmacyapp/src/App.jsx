@@ -40,6 +40,7 @@ import ScrollToTop from './modules/common/components/ScrollToTop'
 import { OUPharmacyChatBot } from './chatbot'
 import Profile from './pages/profile'
 import ProfileAddressInfo from './pages/profile/address-info'
+import { UserProvider } from './lib/context/UserContext'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -47,7 +48,6 @@ function App() {
 
   const configDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true)
-  const [user, dispatch] = useReducer(userReducer, getCookieValue('user'))
   
   useEffect(()=> {
     const fetchData = async () => {
@@ -78,7 +78,8 @@ function App() {
         <I18nextProvider i18n={i18n}>
           <BrowserRouter>
             {/* <CookiesProvider> */}
-              <userContext.Provider value={[user, dispatch]}>
+            <UserProvider>
+              {/* <userContext.Provider value={[user, dispatch]}> */}
                 <QueueStateProvider>
                     <ScrollToTop />
                     <Routes>
@@ -131,8 +132,9 @@ function App() {
                       </Route>
                     </Routes>
                 </QueueStateProvider>
-              </userContext.Provider>
+              {/* </userContext.Provider> */}
             {/* </CookiesProvider> */}
+            </UserProvider>
           </BrowserRouter>
         </I18nextProvider>
     </QueryClientProvider>
