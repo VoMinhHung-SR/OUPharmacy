@@ -16,3 +16,8 @@ export const featchCreateExamination = async (examinationData) => {
     const res = await authApi().post(endpoints['examination'], examinationData)
     return res;
 }
+
+export const fetchExamDateData = async (date) => {
+    const res = await authApi().post(endpoints['get-total-exams'], { date: date });
+    return res;
+}

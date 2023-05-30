@@ -13,7 +13,7 @@ class ExaminationFilter(django_filters.FilterSet):
 
 
 class RecipientsFilter(django_filters.FilterSet):
-    email = django_filters.CharFilter(field_name="email")
+    email = django_filters.CharFilter(field_name="email", lookup_expr="icontains")
 
     class Meta:
         model = User

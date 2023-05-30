@@ -1,126 +1,85 @@
-import { Box, Button, TextField } from "@mui/material"
-import { useContext, useEffect, useState } from "react"
-import { userContext } from "../App"
-import useDebounce from "../lib/hooks/useDebounce"
-import Loading from "../modules/common/components/Loading"
-import { fetchPlaceById, fetchPlaceByInput } from "../modules/common/components/Mapbox/services"
-import { getDirections } from "../lib/utils/getDirections"
-import { CURRENT_DATE } from "../lib/constants"
-import moment from "moment"
-import { sendReminderEmail } from "../lib/services"
-import MyDataTable from "../modules/common/components/MyDataTable"
+import React, { useEffect, useState } from 'react';
+import { Box, TextField } from '@mui/material';
+import { TimePicker } from '@mui/x-date-pickers';
+import moment from 'moment';
+import { authApi, endpoints } from '../config/APIs';
 
 const Demo = () => {
-    const [input, setInput] = useState('')
-    const [user]  = useContext(userContext)
-    console.log(user)
-    const debounceValue = useDebounce(input, 500)
-    const [listPlace, setListPlace] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [location, setLocation] = useState({
-        lat: "",
-        lng: ""
-    })
-    const [distance, setDistance] = useState({
-        duration: "",
-        distance: ""
-    })
+  const [date, setDate] = useState('');
+  const [examinations, setExaminations] = useState([]);
+  const [selectedTime, setSelectedTime] = useState(null);
 
-    const examFakeData = [{
-        examID: 26,
-        duration: 121,
-        author: "vominhhung1546@gmail.com",
-        distance: "1.09 km",
-        isCommitted: false,
-        remindStatus: false,
-        startedDate: 1652135700000
-      }];
-
-    useEffect(()=> {
-        const loadMapInput = async () => {
-            try{
-                setLoading(true)
-                const res = await fetchPlaceByInput(debounceValue)
-                if(res.status === 200){
-                    console.log(res.data)
-                    setListPlace(res.data.predictions)
-                }
-            }catch (err){
-                setListPlace([])
-                console.log(err)
-            }finally{
-                setLoading(false)
-            }
+  useEffect(() => {
+    const getExaminationData = async (date) => {
+      try {
+        const res = await authApi().post(endpoints['get-total-exams'], { date: date });
+        if (res.status === 200) {
+          setExaminations(res.data.examinations);
+          console.log(res.data);
         }
-        if(debounceValue)
-            loadMapInput()
-    }, [debounceValue])
-    
-    // useEffect(()=> {
-    //     const loadDistanceFromUser = async (lat, lng) => {
-    //         try{
-    //             const res = await getDirections(lat, lng)
-    //             if(res.status === 200)
-    //                 setDistance({distance: res.data.routes[0].legs[0].distance.text, duration: res.data.routes[0].legs[0].duration.text})
-    //             console.log(res.data)
-                
-    //         }catch(err)
-    //         {
-    //             console.log(err)
-    //         }
-           
-    //     }
-    //     if(user?.locationGeo)
-    //         loadDistanceFromUser(user.locationGeo.lat, user.locationGeo.lng)
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    // }, [user])
-
-
-    const handleSendRemindEmail = async () => {
-        const currentTime = new Date().getTime();
-
-        examFakeData.forEach(async (exam) => {
-            console.log(exam)
-            const examStartTime = new Date(exam.startedDate).getTime();
-            const examEndTime = examStartTime + exam.duration * 1000;
-            console.log("current:", currentTime)
-            console.log("start:", examStartTime)
-            console.log("end", examEndTime)
-            console.log(currentTime + 60 * 1000  >= examStartTime)
-          if (currentTime + 60 * 1000 >= examEndTime && !exam.reminderSent) {
-            await sendReminderEmail(exam.examID, exam.duration);
-          }
-        });
-      };
-    
-    const handleGetPlaceByID = async (placeId) =>{
-        const res = await fetchPlaceById(placeId)
-        if(res.status === 200){
-            console.log(res.data.result.geometry)
-            setLocation({lat: res.data.result.geometry.location.lat,
-            lng:  res.data.result.geometry.location.lng})
-        }
+    if (date) {
+      getExaminationData(date);
     }
-    console.log(location)
-    return (
-        <>
-            <h1>Day la trang demo</h1>
-            <TextField label="input" value={input} onChange={(evt)=> setInput(evt.target.value)}/>
-            <h1>input: {input}</h1>
-            <h1>debounceValue: {debounceValue}</h1>
-            {loading ? <Loading/> : 
-                listPlace && listPlace.length !== 0 ?
-                 <Box>
-                    {listPlace.map((place)=> <Box>{place.description} <Button onClick={()=> handleGetPlaceByID(place.place_id)}>CLICK ME</Button></Box>)}
-                </Box> 
-                : <h1>KO co phan tu</h1> }
+  }, [date]);
 
+ const shouldDisableTime = (time) => {
+  const selectedDate = moment(date).format('YYYY-MM-DD');
+  const disabledTimesFromData = examinations
+    .filter((e) => e.created_date.includes(selectedDate))
+    .map((e) => moment(e.created_date).format('HH:mm:ss'));
 
-            <Button onClick={handleSendRemindEmail}>SEND EMAIL REMIND</Button>
+  const isDisabledRange = (time.hour() >= 0 && time.hour() < 7) || (time.hour() >= 17 && time.hour() <= 23);
 
+  return (
+    disabledTimesFromData.includes(time.format('HH:mm:ss')) || isDisabledRange
+  );
+};
 
-           
-        </>
-    )
-}
-export default Demo
+  const handleTimeChange = (time) => {
+    const selectedDate = moment(date).format('YYYY-MM-DD');
+    const selectedTime = time.format('HH:mm:ss');
+    const concatenatedValue = `${selectedDate}T${selectedTime}`;
+    
+    // Use the concatenated value as needed
+    console.log(concatenatedValue);
+
+    setSelectedTime(concatenatedValue);
+  };
+
+  if(selectedTime){
+    const date2= new Date(selectedTime)
+    console.log(selectedTime)
+  }
+  return (
+    <>
+      <h1>Day la trang demo</h1>
+      <TextField
+        value={date}
+        type="date"
+        onChange={(newValue) => setDate(newValue.target.value)}
+      />
+      {date &&  <TimePicker
+          label="Basic time picker"
+          onChange={handleTimeChange}
+          renderInput={(props) => <TextField {...props} />}
+          views={['hours', 'minutes']}
+          minTime={moment().startOf('day')}
+          maxTime={moment().endOf('day')}
+          ampm={false}
+          timeSteps={{minutes:20}}
+          shouldDisableTime={shouldDisableTime}
+        /> }
+    
+
+      {examinations &&
+        examinations.map((e) => <Box key={e.id}>{e.created_date}</Box>)}
+    </>
+  );
+};
+
+export default Demo;

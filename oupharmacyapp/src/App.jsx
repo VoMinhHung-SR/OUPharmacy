@@ -42,6 +42,9 @@ import Profile from './pages/profile'
 import ProfileAddressInfo from './pages/profile/address-info'
 import { UserProvider } from './lib/context/UserContext'
 
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+
 export const userContext = createContext()
 const queryClient = new QueryClient()
 function App() {
@@ -78,6 +81,7 @@ function App() {
         <I18nextProvider i18n={i18n}>
           <BrowserRouter>
             {/* <CookiesProvider> */}
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
             <UserProvider>
               {/* <userContext.Provider value={[user, dispatch]}> */}
                 <QueueStateProvider>
@@ -126,6 +130,7 @@ function App() {
                       
 
                           <Route path='/demo' element={<Demo/>}/>
+                      
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                      
@@ -135,6 +140,7 @@ function App() {
               {/* </userContext.Provider> */}
             {/* </CookiesProvider> */}
             </UserProvider>
+                        </LocalizationProvider>
           </BrowserRouter>
         </I18nextProvider>
     </QueryClientProvider>

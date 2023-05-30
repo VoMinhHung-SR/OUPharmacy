@@ -7,17 +7,21 @@ import Loading from "../../../common/components/Loading";
 import useFormAddExamination from "./hooks/useFormAddExamination"
 import { CURRENT_DATE } from "../../../../lib/constants";
 import moment from "moment";
+import { TimePicker, dateTimePickerToolbarClasses } from "@mui/x-date-pickers";
 
 const FormAddExamination = (props) => {
 
     const {t , tReady} = useTranslation(['booking', 'yup-validate', 'modal'])
-    const {onSubmit, openBackdrop, formAddExaminationSchema} = useFormAddExamination();
+    const {onSubmit, openBackdrop, date, handleTimeChange, shouldDisableTime,
+        setDate, formAddExaminationSchema} = useFormAddExamination();
     const methods = useForm({
-        mode:"onSubmit", 
+        mode:"onChange", 
         resolver: yupResolver(formAddExaminationSchema),
         defaultValues:{
             description:"",
-            createdDate:"",
+            date:"",
+            time: "",
+            createdDate: "",
             firstName:"",
             lastName:"",
             email:props.email ? props.email : "",
@@ -65,27 +69,72 @@ const FormAddExamination = (props) => {
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.description?.message}</p>) : <></>}
                                 </FormControl>
                             </Grid>
+                            {
+                               date ? <>
+                                <Grid item xs={6} className="!ou-mt-6 ou-pr-2" >
+                                    <TextField
+                                        fullWidth
+                                        autoComplete="given-name"
+                                        id="createdDate"
+                                        name="createdDate"
+                                        type="date"
+                                        label={t('createdDate')}
+                                        value={date}
+                                        onChange={(newDate)=> {setDate(newDate.target.value); methods.setValue('createdDate',newDate.target.value)}}
 
-                            <Grid item xs={12} className="!ou-mt-6" >
+                                        // error={methods.formState.errors.createdDate}
+                                        {...methods.register("createdDate")}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
 
-                                <TextField
-                                    fullWidth
-                                    autoComplete="given-name"
-                                    id="createdDate"
-                                    name="createdDate"
-                                    type="date"
-                                    label={t('createdDate')}
-                                    error={methods.formState.errors.createdDate}
-                                    {...methods.register("createdDate")}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    inputProps={{
-                                        min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD') ,
-                                    }}
-                                />
-                                {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.createdDate?.message}</p>) : <></>}
-                            </Grid>
+                                        inputProps={{
+                                            min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD') ,
+                                        }}
+                                    />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.createdDate?.message}</p>) : <></>}
+                                </Grid>
+                                <Grid item xs={6} className="!ou-mt-6 ou-pl-2" >
+                                    <TimePicker
+                                        className="ou-w-full"
+                                        label="Giowf khams"
+                                        onChange={handleTimeChange}
+                                        renderInput={(props) => <TextField {...props} />}
+                                        views={['hours', 'minutes']}
+                                        minTime={moment().startOf('day')}
+                                        maxTime={moment().endOf('day')}
+                                        ampm={false}
+                                        timeSteps={{minutes:20}}
+                                        shouldDisableTime={shouldDisableTime}
+                                    />
+                                </Grid>
+
+                                </> 
+                            : <>
+                                
+                                <Grid item xs={12} className="!ou-mt-6" >
+                                    <TextField
+                                        fullWidth
+                                        autoComplete="given-name"
+                                        id="createdDate"
+                                        name="createdDate"
+                                        type="date"
+                                        label={t('createdDate')}
+                                        value={date}
+                                        onChange={(newDate)=> {setDate(newDate.target.value); ; methods.setValue('createdDate',newDate.target.value)}}
+                                        error={methods.formState.errors.createdDate}
+                                        // {...methods.register("createdDate")}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputProps={{
+                                            min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD') ,
+                                        }}
+                                    />
+                                    {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.createdDate?.message}</p>) : <></>}
+                                </Grid>
+                            </>
+                        }
                         </Grid>
 
                         <h5 className="ou-text-center ou-mt-8 ou-text-2xl">{t('patientInfo')}</h5>
@@ -152,7 +201,7 @@ const FormAddExamination = (props) => {
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.phoneNumber?.message}</p>) : <></>}
                             </Grid>
                         </Grid>
-
+                       
                         <Grid container justifyContent="flex" style={{ "margin": "0 auto" }} >
                             <Grid item xs={12} className="!ou-mt-6">
                                 <TextField
@@ -186,6 +235,9 @@ const FormAddExamination = (props) => {
                                             shrink: true,
                                         }}
                                         style={{ "margin": "5px" }}
+                                        inputProps={{
+                                            max: moment(CURRENT_DATE).add(0, 'days').format('YYYY-MM-DD') ,
+                                        }}
                                         {...methods.register("dateOfBirth")} 
                                     />
                                     {methods.formState.errors ? (<p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">{methods.formState.errors.dateOfBirth?.message}</p>) : <></>}

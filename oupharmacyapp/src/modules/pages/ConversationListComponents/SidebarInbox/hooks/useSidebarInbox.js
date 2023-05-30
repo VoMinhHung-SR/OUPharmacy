@@ -24,11 +24,12 @@ const useSidebarInbox = (user) => {
     useEffect(() => {
         const loadName = async () => {
             try {
-                let query = q.toString();
 
-                query === "" ? (query += `email=${debouncedSearchValue}`) 
-                : (query += `&email=${debouncedSearchValue}`);
+                let query = q.get('email');
+                query === null ? (query = `email=${debouncedSearchValue}`) 
+                : (query = `email=${q.get('email').toString()}`);
                 let res;
+                
                 if (user) {
                     res = await fetchRecipients(query);
                 }
