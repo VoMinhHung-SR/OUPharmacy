@@ -11,6 +11,7 @@ from collections import deque
 from crypt import methods
 from datetime import timedelta
 
+from django.utils import timezone
 import requests
 import hmac
 import hashlib
@@ -31,6 +32,7 @@ from rest_framework import views
 
 from rest_framework import filters
 
+from .constant import MAX_EXAMINATION_PER_DAY
 from .filters import ExaminationFilter,RecipientsFilter
 from .permissions import *
 from django.core.mail import send_mail, EmailMessage
@@ -182,6 +184,17 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             if patient:
+
+                current_day = timezone.now()
+                max_examinations = MAX_EXAMINATION_PER_DAY
+                print(created_date)
+                print(current_day)
+                today_utc = current_day.replace(hour=0, minute=0, second=0).astimezone(pytz.utc)
+                tomorrow_utc = current_day.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
+                if Examination.objects.filter(created_date__range=(today_utc, tomorrow_utc)).count() > max_examinations:
+                    return Response(data={"errMsg": "Maximum number of examinations reached"},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
                 e = Examination.objects.create(wage=wageBooking, description=description,
                                                patient=patient, user=user)
                 if created_date:
@@ -313,7 +326,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                             status=status.HTTP_200_OK)
         return Response(data={}, status=status.HTTP_200_OK)
 
-    @action(methods=['get'], detail=False, url_path='get-total-exams')
+    @action(methods=['post'], detail=False, url_path='get-total-exams')
     def get_total_exam_per_day(self, request):
         date_str = request.data.get('date')
         try:
@@ -326,7 +339,10 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             examinations = Examination.objects.filter(created_date__range=(start_of_day, end_of_day)).all()
         except Exception as error:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMsg": "Can't get Examinations"})
-        return Response(data={"totalExams": len(examinations), "dateStr": date}, status=status.HTTP_200_OK)
+        return Response(data={"totalExams": len(examinations), "dateStr": date, 
+                              "examinations": ExaminationSerializer(examinations,
+                                                                    context={'request': request}, many=True).data},
+                        status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=False, url_path='get-list-exam-today')
     def get_list_exam_today(self, request):

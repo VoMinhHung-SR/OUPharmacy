@@ -17,6 +17,7 @@
     "@kommunicate/kommunicate-chatbot-plugin": "^0.0.6",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
+    "@mui/x-date-pickers": "^6.5.0",
     "@reduxjs/toolkit": "^1.9.3",
     "axios": "^1.2.2",
     "clsx": "^1.2.1",

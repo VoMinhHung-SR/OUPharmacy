@@ -149,7 +149,7 @@ const Nav = () => {
           </Tooltip>
             <Box className="hover:ou-cursor-pointer">
                 <NotificationButton
-                length={notifyListContent.filter(item => !item.is_commit).length}
+                length={notifyListContent && notifyListContent.filter(item => !item.is_commit).length}
                 isLoading={isLoading}
                 items={notifyListContent}
                 updateNotifications={updateNotifications}

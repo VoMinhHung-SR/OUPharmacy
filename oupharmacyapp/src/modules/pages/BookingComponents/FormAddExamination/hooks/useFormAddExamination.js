@@ -1,15 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from '../../../../../config/sweetAlert2';
 import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER } from '../../../../../lib/constants';
-import { featchCreateExamination, fetchCreateOrUpdatePatient } from '../services';
+import { featchCreateExamination, fetchCreateOrUpdatePatient, fetchExamDateData } from '../services';
+import moment from 'moment';
 
 
 const useFormAddExamination = () => {
     const {t} = useTranslation(['yup-validate','modal', 'booking']);
 
     const [openBackdrop, setOpenBackdrop] = useState(false)
+
+    const [date, setDate] = useState('');
+    const [examinations, setExaminations] = useState([]);
+    const [selectedTime, setSelectedTime] = useState(null);
+
+
 
     const formAddExaminationSchema = Yup.object().shape({
         firstName: Yup.string().trim()
@@ -50,8 +57,54 @@ const useFormAddExamination = () => {
     
     });
 
+
+    useEffect(() => {
+        const getExaminationData = async (date) => {
+          try {
+            const res = await fetchExamDateData(date);
+            if (res.status === 200) {
+              setExaminations(res.data.examinations);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+    
+        if (date) {
+          getExaminationData(date);
+        }
+      }, [date]);
+
+
+    const shouldDisableTime = (time) => {
+        const selectedDate = moment(date).format('YYYY-MM-DD');
+        const disabledTimesFromData = examinations
+            .filter((e) => e.created_date.includes(selectedDate))
+            .map((e) => moment(e.created_date).format('HH:mm:ss'));
+
+        const isDisabledRange = (time.hour() >= 0 && time.hour() < 7) || (time.hour() >= 17 && time.hour() <= 23);
+
+        return (
+            disabledTimesFromData.includes(time.format('HH:mm:ss')) || isDisabledRange
+        );
+    };
+
+
+    const handleTimeChange = (time) => {
+        const selectedDate = moment(date).format('YYYY-MM-DD');
+        const selectedTime = time.format('HH:mm:ss');
+        const concatenatedValue = `${selectedDate}T${selectedTime}`;
+        
+        // Use the concatenated value as needed
+        console.log(concatenatedValue);
+    
+        setSelectedTime(concatenatedValue);
+    };
+    
+
+
     const onSubmit = async (patientID, data, callback) => {
-        if(data === undefined)
+        if(data === undefined || !selectedTime)
             return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
 
         const patientData = {
@@ -72,7 +125,8 @@ const useFormAddExamination = () => {
                 const examinationData = {
                     patient: res.data.id,
                     description: data.description,
-                    created_date: data.createdDate
+                    // created_date: data.createdDate
+                    created_date: new Date(selectedTime)
                 }
                 const resExamination = await featchCreateExamination(examinationData);
                 if(resExamination.status === 201){
@@ -103,9 +157,9 @@ const useFormAddExamination = () => {
     }
 
     return {
-        openBackdrop,
+        openBackdrop, selectedTime, examinations, setDate, date, setDate,
         onSubmit,
-        formAddExaminationSchema
+        formAddExaminationSchema, handleTimeChange, shouldDisableTime, examinations
     }
 }
 export default useFormAddExamination;

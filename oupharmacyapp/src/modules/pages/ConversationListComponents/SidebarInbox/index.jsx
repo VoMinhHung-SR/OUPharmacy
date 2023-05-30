@@ -1,15 +1,26 @@
-import { Avatar, Box, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
 import Loading from "../../../common/components/Loading";
 import SearchIcon from '@mui/icons-material/Search';
 import useSidebarInbox from "./hooks/useSidebarInbox";
 import ConversationDetail from "../ConversationComponents";
 import { useTranslation } from "react-i18next";
-import { AVATAR_DEFAULT } from "../../../../lib/constants";
+import { AVATAR_DEFAULT, ERROR_CLOUDINARY, ROLE_DOCTOR, ROLE_NURSE, ROLE_USER } from "../../../../lib/constants";
+import { convertFirestoreTimestampToString } from "../../../../lib/utils/getMessagesInConversation";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import clsx from "clsx";
 
 const SidebarInbox = (props) => {
     const {t} = useTranslation(['conversation'])
     const {isLoadingRecipients, recipients, conversationsSnapshot, name, setName,
         createNewConversation} = useSidebarInbox(props.user)
+
+    const renderDayFromNow = (dateString, language) => {
+        moment.locale(language);
+        const date = moment(dateString);
+        return date.fromNow();
+        }
+
 
     return (
         <>
@@ -64,18 +75,29 @@ const SidebarInbox = (props) => {
                                         );
                                       })
                                     .filter((obj)=> obj.id !== props.user.id).map((u) => (
+                                        
                                         <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300" key={u.id} id={u.id} onClick={()=>{
                                             createNewConversation(u.id);
                                         }}>
                                             <ListItemAvatar>
                                                 <Avatar
                                                     alt={u.email ? u.email : "unknown"}
-                                                    src={u.avatar_path ? u.avatar_path : AVATAR_DEFAULT}
+                                                    src={u.avatar_path === ERROR_CLOUDINARY ? AVATAR_DEFAULT : u.avatar_path}
                                                 />
                                             </ListItemAvatar>
                                             <ListItemText
-                                                primary={<Box className="ou-truncate">{u.email}</Box>}
-                                                secondary={"Xin chao ban"}
+                                                primary=
+                                                    {
+                                                    <Box className={clsx('ou-truncate',{
+                                                        '!ou-text-blue-700': u.role === ROLE_DOCTOR,
+                                                        "!ou-text-green-700":  u.role === ROLE_NURSE})
+                                                      } >{u.first_name + " " + u.last_name}  
+                                                        {u.role === ROLE_DOCTOR ? <Tooltip title={t('isDoctor')} followCursor><span><AccountCircleIcon/></span></Tooltip>
+                                                        : u.role === ROLE_NURSE ? <Tooltip title={t('isNurse')} followCursor><span><AccountCircleIcon/></span></Tooltip>
+                                                        : <></>}
+                                                    </Box>
+                                                }
+                                                secondary={u.email}
                                             />
                                         </ListItem>))
                                     )
