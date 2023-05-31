@@ -36,6 +36,10 @@
 
     "yupCreatedDateRequired":"Created date was required",
 
+    "yupCreatedTimeRequired":"Time was required",
+    "yupCreatedTimeInvalid": "Invalid Time",
+    "yupTimeDivisibleBy20":"The minutes of the time divisible by 20 (00; 20; 40)",
+
     "yupSignRequired": "Sign was required",
     "yupSignMaxLenght":"Sign exceeds the allowed length",
     "yupSignInvalid":"Invalid sign",

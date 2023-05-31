@@ -114,6 +114,7 @@ class UserSerializer(ModelSerializer):
         }
 
 
+
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
@@ -234,5 +235,9 @@ class BillSerializer(ModelSerializer):
         fields = ["id", "amount", "prescribing"]
 
 
+class DoctorAvailabilitySerializer(ModelSerializer):
+    doctor = UserNormalSerializer()
 
-
+    class Meta:
+        model = DoctorAvailability
+        fields = ['id', 'day', 'start_time', 'end_time', 'doctor']

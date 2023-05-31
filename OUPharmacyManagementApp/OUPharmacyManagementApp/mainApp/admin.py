@@ -99,6 +99,16 @@ class PatientAdmin(admin.ModelAdmin):
     list_filter = ['last_name']
 
 
+class DoctorAvailabilityAdmin(admin.ModelAdmin):
+    list_display = ['id', 'day', 'start_time', 'end_time', 'doctor']
+    list_filter = ['doctor', 'day']
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "doctor":
+            kwargs["queryset"] = User.objects.filter(role__name="ROLE_DOCTOR")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
 class UserRoleAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'active']
 
@@ -168,3 +178,4 @@ admin.site.register(PrescriptionDetail, PrescriptionDetailAdmin)
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserRole, UserRoleAdmin)
+admin.site.register(DoctorAvailability, DoctorAvailabilityAdmin)
