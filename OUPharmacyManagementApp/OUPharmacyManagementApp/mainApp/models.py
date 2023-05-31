@@ -118,7 +118,17 @@ class Patient(BaseModel):
     address = models.CharField(max_length=255, null=True)
 
     def __str__(self):
-        return self.first_name + ' ' +self.last_name
+        return self.first_name + ' ' + self.last_name
+
+
+class DoctorAvailability(models.Model):
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.doctor})"
 
 
 class Examination(BaseModel):
@@ -132,6 +142,7 @@ class Examination(BaseModel):
     description = models.CharField(max_length=254, null=False, blank=False)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=False)
+    doctor_availability = models.ForeignKey(DoctorAvailability, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.description

@@ -32,7 +32,7 @@ from rest_framework import views
 
 from rest_framework import filters
 
-from .constant import MAX_EXAMINATION_PER_DAY
+from .constant import MAX_EXAMINATION_PER_DAY, ROLE_DOCTOR, ROLE_NURSE
 from .filters import ExaminationFilter,RecipientsFilter
 from .permissions import *
 from django.core.mail import send_mail, EmailMessage
@@ -162,6 +162,36 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
         return Response(status=status.HTTP_200_OK)
 
 
+class DoctorAvailabilityViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView,
+                         generics.UpdateAPIView, generics.RetrieveAPIView):
+    queryset = DoctorAvailability.objects.all()
+    serializer_class = DoctorAvailabilitySerializer
+    parser_classes = [JSONParser, MultiPartParser, ]
+
+    @action(methods=['post'], detail=False, url_path='get-doctor-availability')
+    def get_doctor_availability(self, request):
+        date_str = request.data.get('date')
+        doctor_id = request.data.get('doctor')
+        try:
+            if date_str and doctor_id:
+                date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+                print(date_str)
+                print(doctor_id)
+                doctor_data = DoctorAvailability.objects.filter(doctor=doctor_id, day=date).all()
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST,
+                                data={"errMsg": "Can't get data, doctor or date is false"})
+
+        except Exception as error:
+            print(error)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMsg": "Cant get data doctor or date is false"})
+
+        if doctor_data:
+            return Response(data=DoctorAvailabilitySerializer(doctor_data, context={'request': request}, many=True).data,
+                            status=status.HTTP_200_OK)
+        return Response(data=[], status=status.HTTP_200_OK)
+
+
 class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                          generics.RetrieveAPIView,
                          generics.DestroyAPIView, generics.UpdateAPIView):
@@ -178,30 +208,38 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
         if user:
             try:
                 patient = Patient.objects.get(pk=request.data.get('patient'))
-                # wage = request.data.get('wage')
                 description = request.data.get('description')
                 created_date = request.data.get('created_date')
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            if patient:
 
+            if patient:
                 current_day = timezone.now()
                 max_examinations = MAX_EXAMINATION_PER_DAY
-                print(created_date)
-                print(current_day)
                 today_utc = current_day.replace(hour=0, minute=0, second=0).astimezone(pytz.utc)
                 tomorrow_utc = current_day.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
+
                 if Examination.objects.filter(created_date__range=(today_utc, tomorrow_utc)).count() > max_examinations:
                     return Response(data={"errMsg": "Maximum number of examinations reached"},
                                     status=status.HTTP_400_BAD_REQUEST)
 
-                e = Examination.objects.create(wage=wageBooking, description=description,
-                                               patient=patient, user=user)
                 if created_date:
-                    e.created_date = created_date
-                e.save()
-                return Response(ExaminationSerializer(e, context={'request': request}).data,
-                                status=status.HTTP_201_CREATED)
+                    # Check if an examination with the same created_date already exists
+                    existing_examination = Examination.objects.filter(created_date=created_date).first()
+                    if existing_examination:
+                        return Response(data={"errMsg": "An examination already exists for the specified created_date"},
+                                        status=status.HTTP_400_BAD_REQUEST)
+                try:
+                    e = Examination.objects.create(description=description, patient=patient, user=user)
+                    if created_date:
+                        e.created_date = created_date
+                    e.save()
+                    return Response(ExaminationSerializer(e, context={'request': request}).data,
+                                    status=status.HTTP_201_CREATED)
+                except:
+                    return Response(data={"errMsg": "Error occurred while creating examination"},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
             else:
                 return Response(data={"errMgs": "Patient doesn't exist"},
                                 status=status.HTTP_400_BAD_REQUEST)
@@ -730,12 +768,18 @@ def get_all_config(request):
         # database
         cities = CommonCity.objects.values("id", "name")
         roles = UserRole.objects.values("id", "name")
+        nurses = User.objects.filter(role__name=ROLE_NURSE,
+                                     is_active=True).values("id", "email", "first_name", "last_name")
+        doctors = User.objects.filter(role__name=ROLE_DOCTOR,
+                                      is_active=True).values("id", "email", "first_name", "last_name")
         res_data = {
             "cityOptions": cities,
             "roles": roles,
+            "doctors": doctors,
+            "nurses": nurses
         }
     except Exception as ex:
-        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs": "City error"})
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs": "value Error"})
     else:
         return Response(data=res_data, status=status.HTTP_200_OK)
 

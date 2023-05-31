@@ -36,6 +36,10 @@
 
     "yupCreatedDateRequired":"Ngày tạo không được phép để trống",
 
+    "yupCreatedTimeRequired":"Thời gian không được để trống",
+    "yupCreatedTimeInvalid": "Thời gian không hợp lệ",
+    "yupTimeDivisibleBy20":"Số phút phải chia hết cho 20 (00; 20; 40)",
+
     "yupSignRequired": "Triệu chứng không được để trống",
     "yupSignMaxLenght":"Triệu chứng vượt quá độ dài cho phép",
     "yupSignInvalid":"Triệu chứng không hợp lệ",
