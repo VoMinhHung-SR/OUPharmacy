@@ -163,8 +163,8 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
 
 
 class DoctorAvailabilityViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView,
-                         generics.UpdateAPIView, generics.RetrieveAPIView):
-    queryset = DoctorAvailability.objects.all()
+                         generics.UpdateAPIView, generics.RetrieveAPIView, generics.CreateAPIView):
+    queryset = DoctorAvailability.objects.all().order_by('start_time')
     serializer_class = DoctorAvailabilitySerializer
     parser_classes = [JSONParser, MultiPartParser, ]
 
@@ -175,9 +175,7 @@ class DoctorAvailabilityViewSet(viewsets.ViewSet, generics.ListAPIView, generics
         try:
             if date_str and doctor_id:
                 date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
-                print(date_str)
-                print(doctor_id)
-                doctor_data = DoctorAvailability.objects.filter(doctor=doctor_id, day=date).all()
+                doctor_data = DoctorAvailability.objects.filter(doctor=doctor_id, day=date).all().order_by('start_time')
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST,
                                 data={"errMsg": "Can't get data, doctor or date is false"})
@@ -210,6 +208,7 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                 patient = Patient.objects.get(pk=request.data.get('patient'))
                 description = request.data.get('description')
                 created_date = request.data.get('created_date')
+                doctor_availability = DoctorAvailability.objects.get(pk=request.data.get('doctor_availability'))
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -223,14 +222,15 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                     return Response(data={"errMsg": "Maximum number of examinations reached"},
                                     status=status.HTTP_400_BAD_REQUEST)
 
-                if created_date:
-                    # Check if an examination with the same created_date already exists
-                    existing_examination = Examination.objects.filter(created_date=created_date).first()
-                    if existing_examination:
-                        return Response(data={"errMsg": "An examination already exists for the specified created_date"},
-                                        status=status.HTTP_400_BAD_REQUEST)
+                # if created_date:
+                #     # Check if an examination with the same created_date already exists
+                #     existing_examination = Examination.objects.filter(created_date=created_date).first()
+                #     if existing_examination:
+                #         return Response(data={"errMsg": "An examination already exists for the specified created_date"},
+                #                         status=status.HTTP_400_BAD_REQUEST)
                 try:
-                    e = Examination.objects.create(description=description, patient=patient, user=user)
+                    e = Examination.objects.create(description=description, patient=patient,
+                                                   user=user, doctor_availability=doctor_availability)
                     if created_date:
                         e.created_date = created_date
                     e.save()
@@ -389,7 +389,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
             today = now.replace(hour=0, minute=0, second=0, microsecond=0).astimezone(pytz.utc)
             tomorrow = now.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
             examinations = Examination.objects.filter(created_date__range=(today,
-                                                                           tomorrow)).order_by('updated_date').all()
+                                                                           tomorrow)).order_by('created_date').all()
         except Exception as error:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"errMgs": "Can't get Examinations"})

@@ -7,7 +7,7 @@ const useCountDownTimer = () => {
         const interval = setInterval(()=> {
                 setTimerSeconds(prevState => prevState -1)
         }, 1000)
-        console.log(timerSeconds)
+      
         if (timerSeconds === 0) {
             clearInterval(interval);
         }
