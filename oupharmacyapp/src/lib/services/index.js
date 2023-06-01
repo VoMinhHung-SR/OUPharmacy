@@ -51,16 +51,17 @@ export const handleSendRemindEmail = async () => {
     const currentTime = Date.now();
     const today = moment().format('YYYY-MM-DD');
     const waitingRoomRef = doc(db, `${APP_ENV}_waiting-room`, today);
-  
+ 
     try {
       const docSnap = await getDoc(waitingRoomRef);
       if (docSnap.exists()) {
         const exams = docSnap.data().exams;
         for (const exam of exams) {
-          const examStartTime = exam.startedDate.toDate().getTime();
-          const examEndTime = examStartTime + exam.duration * 1000;
+          const examStartTime = moment(`${exam.startedDate} ${exam.startTime}`, 'YYYY-MM-DD HH:mm:ss').valueOf();
+      
+          const examNotifyTime = examStartTime - (exam.duration * 1000);
   
-          if (currentTime + 60 * 1000 >= examEndTime && !exam.remindStatus) {
+          if (currentTime + 60 * 1000 >= examNotifyTime && !exam.remindStatus) {
             await sendReminderEmail(exam.examID, exam.duration);
             console.log(`Reminder email sent for exam ${exam.examID}.`);
 

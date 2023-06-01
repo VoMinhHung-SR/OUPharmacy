@@ -5,7 +5,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { calculateAmount } from "./utils/helper";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { formatNumber } from "../../../../../lib/utils/helper";
+import { formatNumber, formatNumberCurrency } from "../../../../../lib/utils/helper";
 const BillCard = (props) =>{
 
     const {t} = useTranslation(['payment','common', 'modal']);
@@ -22,13 +22,13 @@ const BillCard = (props) =>{
             )
         else return (
             <Box className="!ou-mt-2 ">
-                <Button className="!ou-mr-5 !ou-bg-[#1e88e5"
+                {/* <Button className="!ou-mr-5 !ou-bg-[#1e88e5"
                     variant="contained" 
                     disabled
                     onClick={()=> zaloPayPayment(calculateAmount(prescriptionDetail, props.wage), props.id)}
                     >
                         {t('zalopayPayment')}
-                </Button>
+                </Button> */}
                 <Button variant="contained"  className="!ou-bg-[#a50064]"
                     onClick={()=> momoPayment(calculateAmount(prescriptionDetail, props.wage), props.id)}
                     >
@@ -115,11 +115,11 @@ const BillCard = (props) =>{
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <Typography>
-                                                            {p.medicine_unit.price}
+                                                            {formatNumberCurrency(p.medicine_unit.price)}
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align="center">
-                                                        {p.medicine_unit.price * p.quantity}
+                                                    <TableCell align="center" className="!ou-text-[16px]">
+                                                        {formatNumberCurrency(p.medicine_unit.price * p.quantity)}
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -129,8 +129,8 @@ const BillCard = (props) =>{
 
                                 </TableContainer>
                                 <Box className="ou-p-3" style={{ textAlign: "right" }}>
-                                    <Typography className="ou-p-2">{t('serviceFee')}: {props.wage} VND</Typography>
-                                    <h4 className="p-2">{t('amount')}: {calculateAmount(prescriptionDetail, props.wage)} VND</h4>
+                                    <Typography className="ou-p-2">{t('serviceFee')}:  {formatNumberCurrency(props.wage, 'VND')} VND</Typography>
+                                    <h4 className="p-2">{t('amount')}:   {formatNumberCurrency(calculateAmount(prescriptionDetail, props.wage))}  VND</h4>
                                     {receipt ? 
                                     (<>
                                         <h3 className="ou-text-xl ou-mt-4 ou-text-green-700 ou-font-bold ou-flex ou-justify-end ou-items-center">{t('done')} <CheckCircleOutlineIcon /></h3>

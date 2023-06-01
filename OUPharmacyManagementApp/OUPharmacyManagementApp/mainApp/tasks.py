@@ -30,12 +30,14 @@ def load_waiting_room():
         today_utc = current_day.replace(hour=0, minute=0, second=0).astimezone(pytz.utc)
         tomorrow_utc = current_day.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
         print("today_utc", today_utc, 'tomorrow_utc', tomorrow_utc)
-        examinations = Examination.objects.filter(created_date__range=(today, tomorrow)).order_by('updated_date').all()
-        start_time = datetime.combine(current_day, time(hour=7, minute=0))
+        examinations = Examination.objects.filter(created_date__range=(today_utc,
+                                                                       tomorrow_utc)).order_by('updated_date').all().order_by('-created_date')
+
         total_examinations = len(examinations)
         for index, examination in enumerate(examinations):
             user = examination.user
             location = user.location
+            doctor_availability = examination.doctor_availability
             lat = location.lat
             lng = location.lng
             res = requests.get('https://rsapi.goong.io/Direction', params={
@@ -46,31 +48,35 @@ def load_waiting_room():
             })
 
             res_data = json.loads(res.text)
+
+            start_time_str = doctor_availability.start_time.strftime("%H:%M:%S") if doctor_availability else None
+            end_time_str = doctor_availability.end_time.strftime("%H:%M:%S") if doctor_availability else None
+
             data = {
                 'isCommitted': False,
                 'remindStatus': False,
                 'examID': examination.id,
                 'author': examination.user.email,
                 'patientFullName': f'{examination.patient.first_name} {examination.patient.last_name}',
-                'startedDate': start_time.timestamp(),
+                'startedDate': str(current_day.date()),  # Update the value as per your requirement
+                'startTime': start_time_str,
+                'endTime': end_time_str,
+                'doctorID': examination.doctor_availability.doctor.id if examination.doctor_availability else None,
                 'distance': res_data.get('routes')[0].get('legs')[0].get('distance').get('text'),
                 'duration': res_data.get('routes')[0].get('legs')[0].get('duration').get('value')
-
             }
 
             exam_today.append(data)
-            if index < total_examinations - 1:
-                start_time += timedelta(minutes=20)
 
         database = firestore.client()
-        doc_ref = database.collection('demo').document(str(current_day.date()))
+        doc_ref = database.collection('dev_waiting-room').document(str(current_day.date()))
         doc_ref.set({'exams': exam_today})
 
     except Exception as ex:
         print(ex)
         return "Add failed!"
-    return "Add OKE!"
 
+    return "Add OKE!"
 
 @shared_task
 def job_send_email_re_examination():

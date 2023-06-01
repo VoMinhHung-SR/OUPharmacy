@@ -17,5 +17,9 @@
     "man": "Nam",
     "woman": "Nữ",
     "secret": "Bí mật",
+    "time": "Thời gian bắt đầu",
+    "doctor": "Bác sĩ",
+    "Dr": "Dr.",
+    "noDoctorFound": "Không tìm thấy tên bác sĩ",
     "confirmBooking": "Xác nhận tạo phiếu đặt lịch"
 }

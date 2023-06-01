@@ -7,5 +7,7 @@
     "errNoConversation": "Không tồn tại đoạn hội thoại",
     "errNoRecipient": "Không có kết quả tìm kiếm",
     "errNoMessage": "Nhập nội dung để gửi tin nhắn",
-    "enterMessage": "Nhập tin nhắn mới..."
+    "enterMessage": "Nhập tin nhắn mới...",
+    "isDoctor" :"Người dùng này là bác sĩ",
+    "isNurse": "Người dùng này là y tá"
 }

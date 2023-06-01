@@ -17,6 +17,9 @@
     "man": "Man",
     "woman": "Woman",
     "secret": "Secret",
-
+    "time": "Start time",
+    "doctor": "Doctor",
+    "Dr": "Dr.",
+    "noDoctorFound": "No doctor's name was found",
     "confirmBooking": "Confirmation of booking form"
 }

@@ -114,6 +114,7 @@ class UserSerializer(ModelSerializer):
         }
 
 
+
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
@@ -152,10 +153,26 @@ class PatientSerializer(ModelSerializer):
 class ExaminationSerializer(ModelSerializer):
     patient = PatientSerializer()
     user = UserSerializer()
+    doctor_info = serializers.SerializerMethodField(source="doctor_availability")
+
+    def get_doctor_info(self, obj):
+        doctor = obj.doctor_availability
+        if doctor:
+            doctor_info = doctor.doctor
+            if doctor_info:
+                return {'id': doctor_info.id, 'email': doctor_info.email,
+                        'first_name': doctor_info.first_name, 'last_name': doctor_info.last_name}
+        return {}
 
     class Meta:
         model = Examination
+        fields = ["id", "active", "created_date", "updated_date", "description", 'mail_status',
+                  'doctor_availability', 'user', 'patient', 'wage', 'reminder_email', 'doctor_info']
         exclude = []
+        extra_kwargs = {
+            'doctor_info': {'read_only': 'true'},
+            'doctor_availability': {'write_only': 'true'}
+        }
 
 
 class UserNormalSerializer(ModelSerializer):
@@ -179,15 +196,6 @@ class UserNormalSerializer(ModelSerializer):
             'locationGeo': {'read_only': 'true'},
             'location': {'write_only': 'true'}
         }
-
-
-class ExaminationsPairSerializer(ModelSerializer):
-    user = UserNormalSerializer()
-    patient = PatientSerializer()
-
-    class Meta:
-        model = Examination
-        fields = ['id', 'user', 'patient', 'description']
 
 
 class DiagnosisSerializer(ModelSerializer):
@@ -234,5 +242,31 @@ class BillSerializer(ModelSerializer):
         fields = ["id", "amount", "prescribing"]
 
 
+class DoctorAvailabilitySerializer(ModelSerializer):
+    doctor_info = serializers.SerializerMethodField(source='doctor')
+
+    def get_doctor_info(self, obj):
+        doctor = obj.doctor
+        if doctor:
+            return {'id': doctor.id, 'email': doctor.email,
+                    'first_name': doctor.first_name, 'last_name': doctor.last_name}
+        else:
+            return {}
+
+    class Meta:
+        model = DoctorAvailability
+        fields = ['id', 'day', 'start_time', 'end_time', 'doctor', 'doctor_info']
+        extra_kwargs = {
+            'doctor_info': {'read_only': 'true'},
+            'doctor': {'write_only': 'true'}
+        }
 
 
+class ExaminationsPairSerializer(ModelSerializer):
+    user = UserNormalSerializer()
+    patient = PatientSerializer()
+    doctor_availability = DoctorAvailabilitySerializer()
+
+    class Meta:
+        model = Examination
+        fields = ['id', 'user', 'patient', 'description', 'doctor_availability', 'created_date']

@@ -18,4 +18,59 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    .ou-error-timepicker .MuiInputLabel-root {
+      color: red; /* Customize the label color */
+    }
+    
+    .ou-error-timepicker .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+      border-color: red; /* Customize the input border color */
+    }
+
+    .ou-radio-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .ou-radio-label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      margin: 8px 20px;
+    }
+    
+    .ou-radio-input {
+      display: none;
+    }
+    
+    .ou-radio-custom {
+      width: 120px;
+      height: 40px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .ou-radio-input:checked + .ou-radio-custom {
+      background-color: #1976d2;
+      color: #fff;
+    }
+    
+    .ou-radio-custom:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .ou-radio-custom:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .ou-radio-custom:active {
+      background-color: #ddd;
+    }
   }

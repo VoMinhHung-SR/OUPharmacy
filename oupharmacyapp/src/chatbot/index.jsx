@@ -1,3 +1,4 @@
+import Kommunicate from '@kommunicate/kommunicate-chatbot-plugin';
 import React from 'react';
 
 export const OUPharmacyChatBot = () => {
@@ -19,11 +20,24 @@ export const OUPharmacyChatBot = () => {
     // })(document, window.kommunicate || {});
 
     (function(d, m){
-        var kommunicateSettings = {
+       /*---------------- Kommunicate settings start ----------------*/
+      // var defaultSettings = {
+      //   "defaultBotIds": ["oupharmacy-gj9ar"], // Replace <BOT_ID> with your bot ID which you can find in bot section of dashboard
+      //   "defaultAssignee": "oupharmacy-gj9ar", // Replace <BOT_ID> with your bot ID which you can find in bot section of dashboard
+      //   "skipRouting":true
+      // };
+
+      var kommunicateSettings = {
+          automaticChatOpenOnNavigation:false,
           appId:'34ecb68da4ad3dc79330e73674c66e979',
           popupWidget:true,
-          automaticChatOpenOnNavigation:true
+          quickReplies:["Đặt lịch ngay","Kết nối với y tá", "Kết nối với bác sĩ"],
+          // onInit: function() {
+          //     Kommunicate.updateSettings(defaultSettings); 
+          // } ,
       };
+      /*----------------- Kommunicate settings end ------------------*/
+        
         var s = document.createElement("script"); 
         s.type = "text/javascript"; 
         s.async = true;

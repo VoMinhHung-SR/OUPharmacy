@@ -9,11 +9,13 @@ import useExaminationDetailCard from "./hooks/useExaminationDetailCard";
 import ListItemButton from "./ListItemButton";
 import MiniDiagnosisCard from "./MiniDiagnosisCard";
 import MiniPrescribingCard from "./MiniPrescribingCard";
+import { useSelector } from "react-redux";
 
 
 const ExaminationDetailCard = ({examinationData}) => {
     const { t, tReady } = useTranslation(["examination-detail"]);
     const { diagnosis, isLoading, bill, prescbring} = useExaminationDetailCard(examinationData?.id)
+ 
 
     if (tReady)
       return (
@@ -21,7 +23,7 @@ const ExaminationDetailCard = ({examinationData}) => {
           <Loading />
         </Box>
       );
-
+  
     return (
       <Box className="ou-my-5 ou-mb-8 ou-w-[90%] ou-m-auto">
         <Box>
@@ -96,7 +98,19 @@ const ExaminationDetailCard = ({examinationData}) => {
                       {t("userCreated")}: {examinationData.user.email}
                     </Typography>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={6}>
+                    <Typography
+                      variant="subtitle1"
+                      gutterBottom
+                      style={{ textDecoration: "inherit", marginRight: "20px" }}
+                      color="grey.700"
+                      className="ou-truncate"
+                    >
+                      {t("userCreated")}: {examinationData.doctor_info.first_name + " " + examinationData.doctor_info.last_name}
+                    </Typography>
+                  </Grid>
+         
+                  <Grid item xs={6}>
                     <Typography
                       variant="subtitle1"
                       gutterBottom
@@ -105,7 +119,7 @@ const ExaminationDetailCard = ({examinationData}) => {
                     >
                       {t("remindEmail")}:{" "}
                       <span>
-                        {examinationData.mail_status ? t("sent") : t("noSend")}
+                        {examinationData.reminder_email ? t("sent") : t("noSend")}
                       </span>
                     </Typography>
                   </Grid>
