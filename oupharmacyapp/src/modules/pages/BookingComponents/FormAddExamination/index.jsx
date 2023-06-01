@@ -16,8 +16,8 @@ import DoctorAvailabilityTime from "../DoctorAvailabilityTime";
 const FormAddExamination = (props) => {
 
     const {t , tReady} = useTranslation(['booking', 'yup-validate', 'modal'])
-    const {onSubmit, openBackdrop, date, shouldDisableTime, examinations,
-        setDate, formAddExaminationSchema} = useFormAddExamination();
+    const {onSubmit, openBackdrop, date, shouldDisableTime, examinations, setDoctor, timeNotAvailable,
+        doctor,setDate, formAddExaminationSchema, isLoading} = useFormAddExamination();
 
     const handleDateChange = (event) => {
         setDate(event.target.value);
@@ -55,7 +55,7 @@ const FormAddExamination = (props) => {
         matchFrom: 'start',
         stringify: (option) => option.name,
     });
-    
+
     if (tReady)
         return <Box sx={{ minHeight: "300px" }}>
         <Box className='ou-p-5'>
@@ -109,9 +109,9 @@ const FormAddExamination = (props) => {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                        inputProps={{
-                                            min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD'),
-                                        }}
+                                        // inputProps={{
+                                        //     min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD'),
+                                        // }}
                                         onChange={handleDateChange}
                                         />
                                         {methods.formState.errors.selectedDate && (
@@ -127,15 +127,16 @@ const FormAddExamination = (props) => {
                                                 <Autocomplete
                                                     id="doctor"
                                                     options={allConfig.doctors}
-                                                    getOptionLabel={(option) => `Dr.${option.first_name + " " +option.last_name}`}
+                                                    getOptionLabel={(option) => `${t('Dr')} ${option.first_name + " " +option.last_name}`}
                                                     filterOptions={filterOptions}
                                                     isOptionEqualToValue={(option, value) => option.id === value.id}
                                             
                                                     noOptionsText={t('noDoctorFound')}
                                                     onChange={(event, value) => {
+                                                        setDoctor(value.id)
                                                         methods.setValue('doctor', value.id)
                                                     }}
-                                                    renderInput={(params) => <TextField {...params} label={t('Doctors')} 
+                                                    renderInput={(params) => <TextField {...params} label={t('doctor')} 
                         
                                                         error={methods.formState.errors.doctor?.message}
                                                         name="doctors"
@@ -178,12 +179,13 @@ const FormAddExamination = (props) => {
                                                 </p>
                                             )}
                                         </Grid> */}
-                                        
-                                        <Grid item xs={12} className={clsx("!ou-mt-6 ou-pl-2")}>
-
-                                            <DoctorAvailabilityTime/>
-                                    
-                                        </Grid>
+                                        { (doctor && timeNotAvailable) && (<Grid item xs={12} className={clsx("!ou-mt-6 ou-pl-2")}>
+                                            <DoctorAvailabilityTime disabledTimes={timeNotAvailable} 
+                                            onChange={(event)=> methods.setValue('selectedTime', event.target.value)}
+                                            isLoading={isLoading}/>
+                                        </Grid>)
+                                        }
+                                       
                                         </>
                                       
                                     )}

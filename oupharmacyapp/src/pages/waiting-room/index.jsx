@@ -2,7 +2,7 @@ import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContai
 import moment from "moment";
 import { useContext } from "react";
 import { useGeolocated } from "react-geolocated";
-import { CURRENT_DATE, MAX_EXAM_PER_DAY } from "../../lib/constants";
+import { CURRENT_DATE, MAX_EXAM_PER_DAY, ROLE_USER } from "../../lib/constants";
 import { QueueStateContext } from "../../lib/context/QueueStateContext";
 import CountDownExam from "../../modules/pages/WaittingRoomComponents/CountDownExam"
 import useWaitingRoom from "../../modules/pages/WaittingRoomComponents/hooks/useWaitingRoom";
@@ -15,11 +15,13 @@ import { Helmet } from "react-helmet";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import InfoIcon from '@mui/icons-material/Info';
+import UserContext from "../../lib/context/UserContext";
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
     const { exams , isLoading, handleMoveToTop, handleBringToBottom} = useWaitingRoom()
     const {t, tReady} = useTranslation(['waiting-room'])
+    const {user} = useContext(UserContext)
 
     const {isGeolocationAvailable, isGeolocationEnabled, coords, getPosition} = useGeolocated({
         positionOptions: {
@@ -27,6 +29,7 @@ const WaitingRoom = () => {
         },
         userDecisionTimeout: 5000,
     })
+
     if(isLoading || tReady){
         return <>
             <Helmet>
@@ -39,40 +42,75 @@ const WaitingRoom = () => {
     }
 
     const filteredExams = exams.filter(exam => !exam.isCommitted);
-
     const renderCurrentAndNextExam = (exams) => {
         const filteredExams = exams.filter(exam => !exam.isCommitted);
-
-        if(filteredExams.length === 0)
-            return 
-   
-        if (filteredExams.length > 1)
-            return (
-                <>
-                    <Box className="ou-py-4 ou-col-span-6 ou-m-auto ou-mt-8">
-                        {/* <Box className="ou-my-2">Current</Box> */}
-                        <CountDownExam  currentID={filteredExams[0].examID} 
-                        startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
-                    </Box>
-                    <Box className="ou-py-4 ou-col-span-6 ou-m-auto ou-mt-8">
-                        {/* <Box className="ou-my-2">Next</Box> */}
-                        <CountDownExam nextID={filteredExams[1].examID} 
-                       startedTime={convertFirestoreTimestampToString(filteredExams[1].startedDate)}/>
-                      
-                    </Box>
-                </>
-            )
+      
+        if (filteredExams.length === 0) {
+          return null;
+        }
+      
+        const sortedExams = filteredExams.sort((a, b) => a.startTime.localeCompare(b.startTime));
+      
+        const currentExams = [];
+        const nextExams = [];
+      
+        let currentIndex = 0;
+      
+        while (currentIndex < sortedExams.length) {
+          let currentExam = sortedExams[currentIndex];
+          let nextExam = sortedExams[currentIndex + 1];
+      
+          const examsWithSameStartTime = [currentExam];
+      
+          while (nextExam && nextExam.startTime === currentExam.startTime) {
+            examsWithSameStartTime.push(nextExam);
+            currentIndex++;
+            currentExam = sortedExams[currentIndex];
+            nextExam = sortedExams[currentIndex + 1];
+          }
+      
+          if (currentExams.length === 0) {
+            currentExams.push(...examsWithSameStartTime);
+          } else {
+            nextExams.push(...examsWithSameStartTime);
+            break;
+          }
+      
+          currentIndex++;
+        }
+      
         return (
-            <Box className="ou-py-4 ou-col-span-12 ou-m-auto ou-text-center">
-                {/* <Box className="ou-my-2">Current </Box> */}
-                <CountDownExam  currentID={filteredExams[0].examID} 
-                startedTime={convertFirestoreTimestampToString(filteredExams[0].startedDate)}/>
+          <>
+            <Box className="ou-py-4 ou-col-span-6 ou-m-auto ou-mt-8">
+              {currentExams.map(exam => (
+                <Box className="ou-my-3">
+                  <CountDownExam
+                    key={exam.examID}
+                    currentID={exam.examID}
+                    startTime={moment(`${exam.startedDate} ${exam.startTime}`, 'YYYY-MM-DD HH:mm:ss').valueOf()}
+                  />
+                </Box>
+              ))}
             </Box>
-        )
-        
-        
-   } 
-
+            {nextExams.length > 0 && (
+              <Box className="ou-py-4 ou-col-span-6 ou-m-auto ou-mt-8">
+                {nextExams.map(exam => (
+                  <Box className="ou-my-3">
+                    <CountDownExam
+                      key={exam.examID}
+                      nextID={exam.examID}
+                      startTime={moment(`${exam.startedDate} ${exam.startTime}`, 'YYYY-MM-DD HH:mm:ss').valueOf()}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </>
+        );
+      };
+      
+      
+      
    const renderButton = (index,isCommitted) => {
         if (!exams.length)
             return 
@@ -87,23 +125,23 @@ const WaitingRoom = () => {
             return(
                 <>
                    
-                    {isCommitted ? <></> : <>
-                    <Tooltip title={t('moveToTop')}>
-                        <span>
-                            <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><ArrowUpwardIcon/></Button>
-                        </span>
-                    </Tooltip>
-                    <Tooltip title={t('bringToBottom')}>
-                        <span>
-                            <Button className="!ou-bg-blue-700 !ou-text-white !ou-mx-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
-                        </span>
-                    </Tooltip>
+                    {isCommitted || user.role === ROLE_USER ? <></> : <>
+                        <Tooltip title={t('moveToTop')}>
+                            <span>
+                                <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><ArrowUpwardIcon/></Button>
+                            </span>
+                        </Tooltip>
+                        <Tooltip title={t('bringToBottom')}>
+                            <span>
+                                <Button className="!ou-bg-blue-700 !ou-text-white !ou-mx-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
+                            </span>
+                        </Tooltip>
                     </>}
-                    <Tooltip title={t('userInfo')}>
+                    {/* <Tooltip title={t('userInfo')}>
                         <span>
                             <Button className="!ou-bg-green-700 !ou-text-white !ou-ml-1" onClick={()=> handleMoveToTop(index)}><InfoIcon/></Button>
                         </span>
-                    </Tooltip>
+                    </Tooltip> */}
                </>
             ) 
            
@@ -135,24 +173,25 @@ const WaitingRoom = () => {
             <Helmet>
                 <title>Waiting room</title>
             </Helmet>
-              <div className="ou-grid ou-grid-cols-12 ou-text-center">
+                <div className="ou-grid ou-grid-cols-12 ou-text-center">
                     {renderCurrentAndNextExam(exams)}
                 </div>
-                <div className="ou-text-center ou-mt-8">
+             
+                <div className="ou-text-center ou-mt-8 ou-pb-8">
                     {t('listExamsToday')}
 
-                    <TableContainer component={Paper} elevation={6} className="ou-my-3 ou-mb-8">
+                    <TableContainer component={Paper} elevation={6} className="ou-my-3 ">
 
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                            <TableCell>{t("turn")}</TableCell>
+                            <TableCell>{t("examID")}</TableCell>
                             <TableCell align="center">{t("patientFullName")}</TableCell>
-                            <TableCell align="center">{t("examID")}</TableCell>
                             <TableCell align="center">{t("startedTime")}</TableCell>
+                            <TableCell align="center">end_time</TableCell>
                             <TableCell align="center">{t("status")}</TableCell>
                             <TableCell align="center">{t("emailRemind")}</TableCell>
-                            <TableCell align="center">
+                            {user.role !== ROLE_USER &&    <TableCell align="center">
                                 <Box className="ou-flex ou-justify-center ou-items-center">
 
                                 {t("function")} 
@@ -160,7 +199,8 @@ const WaitingRoom = () => {
                                 </Box>
                             
                             
-                            </TableCell>
+                            </TableCell> }
+                         
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -177,16 +217,18 @@ const WaitingRoom = () => {
                             exams.map((e,index) => (
                                     <TableRow>
                                         <TableCell>
-                                            {index + 1}
+                                            {e.examID}
                                         </TableCell>
                                         <TableCell>
                                             {e.patientFullName ? e.patientFullName : t('unKnown')}
                                         </TableCell>
                                         <TableCell align="center">
-                                            {e.examID}
+                                            {e.startTime ? e.startTime : <></> }
+                       
                                         </TableCell>
                                         <TableCell align="center">
-                                            {moment(convertFirestoreTimestampToString(e.startedDate)).format('HH:mm:ss')}
+                                            {e.endTime ? e.endTime : <></> }
+                                       
                                         </TableCell>
                                         <TableCell align="center">
                                             {e.isCommitted ? <span className="ou-text-green-700">{t('done')}</span>
@@ -196,9 +238,10 @@ const WaitingRoom = () => {
                                             {e.remindStatus ?  <span className="ou-text-green-700">{t('sent')}</span> 
                                             : <span className="ou-text-red-700">{t('unSent')}</span>}
                                         </TableCell>
-                                        <TableCell align="center">
+                                        {user.role !== ROLE_USER &&  <TableCell align="center">
                                             {renderButton(index, e.isCommitted)}
-                                        </TableCell>
+                                        </TableCell>}
+                                       
                                     </TableRow>
                             ))
                         }

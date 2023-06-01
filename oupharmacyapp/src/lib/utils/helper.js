@@ -5,7 +5,7 @@ import { fetchListExaminationToday } from "../../modules/pages/WaittingRoomCompo
 import axios from "axios";
 import APIs, { endpoints } from "../../config/APIs";
 import { loadDistanceFromUser } from "../services";
-import { APP_ENV } from "../constants";
+import { APP_ENV, CURRENT_DATE } from "../constants";
 
 // it will return a user Id (recipient message in room chat) not current user
 export const getRecipientId = (member ,currentUserId) => member.find(userId => userId !== currentUserId)
@@ -102,9 +102,10 @@ export const setListExamToday = async (examData) => {
     if(examData.length !== 0){
       for (let i = 0; i < examData.length; i++) {
           const exam = examData[i];
-          const startedDate = new Date();
-          startedDate.setHours(7, 0, 0, 0); // Set to 7AM
-          startedDate.setMinutes(startedDate.getMinutes() + i * 20); // Add 20 minutes for each index
+          
+          // const startedDate = new Date();
+          // startedDate.setHours(7, 0, 0, 0); // Set to 7AM
+          // startedDate.setMinutes(startedDate.getMinutes() + i * 20); // Add 20 minutes for each index
 
           const {distance, duration} = await loadDistanceFromUser(exam.user.locationGeo.lat, exam.user.locationGeo.lng);
         
@@ -114,9 +115,12 @@ export const setListExamToday = async (examData) => {
               examID: exam.id,
               author: exam.user.email,
               patientFullName: exam.patient.first_name + " " + exam.patient.last_name,
-              startedDate,
               distance,
-              duration
+              duration,
+              startedDate: moment(CURRENT_DATE).format('YYYY-MM-DD'),
+              doctorID: exam.doctor_availability.id,
+              startTime: exam.doctor_availability.start_time,
+              endTime: exam.doctor_availability.end_time,
           };
 
           examList.push(data);
@@ -163,4 +167,16 @@ export const goToTop = () => {
 export const removeSymbol = (symbol, str)  => {
   const regex = new RegExp(symbol, 'g');
   return str.replace(regex, '');
+}
+
+export const splitTime = (selectedTime) => {
+  const [start, end] = selectedTime.split(" - ");
+  const startTime = start.split(":")[0] + ":00:00";
+  const endTime = (parseInt(start.split(":")[0]) + 1).toString().padStart(2, "0") + ":00:00";
+
+  return { start_time: startTime, end_time: endTime };
+};
+
+export function formatNumberCurrency(number) {
+  return number.toLocaleString();
 }

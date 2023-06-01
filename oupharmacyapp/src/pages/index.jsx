@@ -32,7 +32,7 @@ const Home = () => {
     zoom: 16,
   });
 
-  console.log(APP_ENV)
+
   const { allConfig } = useSelector((state) => state.config);
 
   if(tReady)

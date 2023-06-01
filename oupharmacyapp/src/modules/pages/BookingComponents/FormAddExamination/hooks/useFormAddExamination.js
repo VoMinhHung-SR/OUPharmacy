@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from '../../../../../config/sweetAlert2';
-import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER } from '../../../../../lib/constants';
+import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER, TOAST_SUCCESS } from '../../../../../lib/constants';
 import { featchCreateExamination, fetchCreateOrUpdatePatient, fetchExamDateData } from '../services';
 import moment from 'moment';
 import useDebounce from '../../../../../lib/hooks/useDebounce';
+import { fetchCreateDoctorWorkingTime, fetchGetDoctorAvailability } from '../../services';
+import { splitTime } from '../../../../../lib/utils/helper';
+import createToastMessage from '../../../../../lib/utils/createToastMessage';
 
 
 const useFormAddExamination = () => {
@@ -14,8 +17,10 @@ const useFormAddExamination = () => {
     const [openBackdrop, setOpenBackdrop] = useState(false)
 
     const [date, setDate] = useState('');
+    const [doctor, setDoctor] = useState(null);
     const [examinations, setExaminations] = useState([]);
-
+    const [timeNotAvailable, setTimeNotAvailable] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const formAddExaminationSchema = Yup.object().shape({
         firstName: Yup.string().trim()
@@ -52,16 +57,10 @@ const useFormAddExamination = () => {
             .max(254, t('yupDescriptionMaxLenght'))
             .matches(REGEX_NOTE, t('yupDescriptionInvalid')),
 
-        doctor: Yup.string()
-        .required(t('required')),
+        doctor: Yup.string().required(t('required')),
         
         selectedTime: Yup.string()
-            .required(t('yupCreatedTimeRequired'))
-            .test('is-valid-time', t('yupTimeDivisibleBy20'), (value) => {
-                const time = new Date(value);
-                const minutes = moment(time, 'HH:mm:ss').minutes();
-                return minutes === 0 || minutes === 20 || minutes === 40;
-              }),
+            .required(t('yupCreatedTimeRequired')),
 
         selectedDate: Yup.string()
             .required(t('yupCreatedDateRequired'))
@@ -70,7 +69,7 @@ const useFormAddExamination = () => {
 
 
     const debouncedValue = useDebounce(date,500)
-
+    const debouncedValueDoctor = useDebounce(doctor, 500)
     useEffect(() => {
         const getExaminationData = async (date) => {
           try {
@@ -80,19 +79,37 @@ const useFormAddExamination = () => {
             }
           } catch (error) {
             console.error(error);
-          } finally {
-            setOpenBackdrop(false)
+          }finally {
+            // setOpenBackdrop(false)
+            setIsLoading(false)
           }
         };
-    
+        const getDoctorAvailability = async (date, doctor) => {
+            try{
+                const res = await fetchGetDoctorAvailability(date, parseInt(doctor))
+                if (res.status === 200){
+                    setTimeNotAvailable(res.data)
+                    console.log(res.data)
+                }
+            } catch( err){
+                console.log(err)
+            }finally {
+                // setOpenBackdrop(false)
+                setIsLoading(false)
+              }
+        }
+
+        if(debouncedValueDoctor && debouncedValue){
+            setIsLoading(true)
+            getDoctorAvailability(debouncedValue, debouncedValueDoctor)
+        }
         if (debouncedValue) {
-            setOpenBackdrop(true)
+            setIsLoading(true)
           getExaminationData(debouncedValue);
         }
-      }, [debouncedValue]);
+      }, [debouncedValue, debouncedValueDoctor]);
 
 
-    
 
 
     const shouldDisableTime = (time) => {
@@ -126,8 +143,8 @@ const useFormAddExamination = () => {
             return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
     
     
-        const createdDate = handleTimeChange(data.selectedDate, data.selectedTime);
-    
+        // const createdDate = handleTimeChange(data.selectedDate, data.selectedTime);
+        console.log(data)
         const patientData = {
             first_name: data.firstName,
             last_name: data.lastName,
@@ -137,49 +154,82 @@ const useFormAddExamination = () => {
             address: data.address,
             gender: data.gender
         }
-        const handleOnSubmit = async () => {
+
+        const createDoctorWorkingTime = async () => {
+            try{
+
+                const { start_time, end_time } = splitTime(data.selectedTime);
+    
+                const requestData = {
+                    doctor: parseInt(data.doctor),
+                    day: data.selectedDate,
+                    start_time,
+                    end_time
+                };
+                
+                const res = await fetchCreateDoctorWorkingTime(requestData)
+                
+                if(res.status === 201){
+                    console.log(res.data)
+                    handleOnSubmit(res.data.id)
+                    // return createToastMessage({message:"OKE",type:TOAST_SUCCESS})
+                }
+            }catch(err){
+                console.log(err)
+            }
+
+        }
+
+        const handleOnSubmit = async (doctorWorkingTime) => {
             setOpenBackdrop(true)
-            // const res = await fetchCreateOrUpdatePatient(patientID, patientData);
-            // // Update done or created patient info
-            // if(res.status === 200 || res.status === 201){
-            //     console.log(res)
-            //     const examinationData = {
-            //         patient: res.data.id,
-            //         description: data.description,
-            //         // created_date: data.createdDate
-            //         created_date: createdDate
-            //     }
-            //     const resExamination = await featchCreateExamination(examinationData);
-            //     if(resExamination.status === 201){
-            //         SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
-            //         callback();
-            //     }
-            //     else{
-            //         setOpenBackdrop(false)
-            //         return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
-            //     }
-            //     if(resExamination.status === 500){
-            //         setOpenBackdrop(false)
-            //         return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
-            //     }
-            // }
-            // else{
-            //     setOpenBackdrop(false)
-            //     return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
-            // }
+            // Update done or created patient info
+            const res = await fetchCreateOrUpdatePatient(patientID, patientData);
+            
+
+            const selectedStartTime = data.selectedTime.split(' - ')[0]; // Extract the first start time
+            const combinedDateTime = moment(data.selectedDate + ' ' + selectedStartTime, 'YYYY-MM-DD HH:mm')
+            
+
+            if(res.status === 200 || res.status === 201){
+                console.log(res)
+                const examinationData = {
+                    patient: res.data.id,
+                    description: data.description,
+                    // created_date: data.createdDate
+                    created_date: combinedDateTime,
+                    doctor_availability: doctorWorkingTime
+                }
+                const resExamination = await featchCreateExamination(examinationData);
+                if(resExamination.status === 201){
+                    SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
+                    callback();
+                }
+                else{
+                    setOpenBackdrop(false)
+                    return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+                }
+                if(resExamination.status === 500){
+                    setOpenBackdrop(false)
+                    return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+                }
+            }
+            else{
+                setOpenBackdrop(false)
+                return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+            }
             setOpenBackdrop(false)
         }
         
         return ConfirmAlert(t('booking:confirmBooking'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
         // this is callback function when user confirmed "Yes"
         ()=>{
-            handleOnSubmit()
+            createDoctorWorkingTime()
         }, () => { return; })
     }
 
     return {
         openBackdrop, examinations, setDate, date, setDate,
-        onSubmit,
+        onSubmit, setDoctor, doctor, timeNotAvailable, isLoading,
         formAddExaminationSchema, handleTimeChange, shouldDisableTime, examinations
     }
 }
