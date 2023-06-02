@@ -68,9 +68,6 @@ const PrescriptionDetail = () => {
                                         <Grid item xs={6} className="ou-text-center">
                                             <MedicalRecordsModal patientID={prescriptionDetail.examination.patient.id}/>
                                         </Grid>
-
-
-                                 
                                     </Grid>
                                 </Box>
                                 <Box >
