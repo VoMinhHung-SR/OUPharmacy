@@ -16,13 +16,14 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import InfoIcon from '@mui/icons-material/Info';
 import UserContext from "../../lib/context/UserContext";
+import { useSelector } from "react-redux";
 
 const WaitingRoom = () => {
     const queue = useContext(QueueStateContext)
     const { exams , isLoading, handleMoveToTop, handleBringToBottom} = useWaitingRoom()
     const {t, tReady} = useTranslation(['waiting-room'])
     const {user} = useContext(UserContext)
-
+    const { allConfig } = useSelector((state) => state.config);
     const {isGeolocationAvailable, isGeolocationEnabled, coords, getPosition} = useGeolocated({
         positionOptions: {
             enableHighAccuracy: false,
@@ -144,9 +145,17 @@ const WaitingRoom = () => {
                     </Tooltip> */}
                </>
             ) 
-           
-        
    }
+
+    const renderStatus = (isCommitted, isStarted) => {
+        if(isCommitted)
+            return <span className="ou-text-green-700">{t('done')}</span>
+
+        if(!isCommitted && isStarted)
+            return <span className="ou-text-yellow-600">{t('processing')}</span>
+        
+        return  <span className="ou-text-red-700">{t('unDone')}</span>
+    }
 
     // return !isGeolocationAvailable ? (
     //     <div>Your browser does not support Geolocation</div>
@@ -168,6 +177,18 @@ const WaitingRoom = () => {
     //     <div>Getting the location data&hellip; </div>
     // );
 
+
+    const renderDoctor = (doctorId) => {
+        const doctor = allConfig.doctors.find(doctor => doctor.id === doctorId);
+        
+        if (doctor) {
+          const { first_name, last_name } = doctor;
+          return <Box>{`${first_name} ${last_name}`}</Box>;
+        }
+        
+        return null;
+      };
+
     return (
         <Container>
             <Helmet>
@@ -187,19 +208,18 @@ const WaitingRoom = () => {
                             <TableRow>
                             <TableCell>{t("examID")}</TableCell>
                             <TableCell align="center">{t("patientFullName")}</TableCell>
+                            <TableCell align="center">{t("doctorFullName")}</TableCell>
                             <TableCell align="center">{t("startedTime")}</TableCell>
-                            <TableCell align="center">end_time</TableCell>
+                            <TableCell align="center">{t("endTime")}</TableCell>
                             <TableCell align="center">{t("status")}</TableCell>
-                            <TableCell align="center">{t("emailRemind")}</TableCell>
-                            {user.role !== ROLE_USER &&    <TableCell align="center">
-                                <Box className="ou-flex ou-justify-center ou-items-center">
-
-                                {t("function")} 
-                                
-                                </Box>
-                            
-                            
-                            </TableCell> }
+                            {user.role !== ROLE_USER &&    <>
+                                <TableCell align="center">{t("emailRemind")}</TableCell>
+                                {/* <TableCell align="center">
+                                    <Box className="ou-flex ou-justify-center ou-items-center">
+                                        {t("function")}   
+                                    </Box>
+                            </TableCell> */}
+                            </> }
                          
                             </TableRow>
                         </TableHead>
@@ -219,9 +239,14 @@ const WaitingRoom = () => {
                                         <TableCell>
                                             {e.examID}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {e.patientFullName ? e.patientFullName : t('unKnown')}
                                         </TableCell>
+
+                                        <TableCell align="center">
+                                            {e.doctorID ? renderDoctor(e.doctorID): t('unKnown')}
+                                        </TableCell>
+
                                         <TableCell align="center">
                                             {e.startTime ? e.startTime : <></> }
                        
@@ -231,16 +256,19 @@ const WaitingRoom = () => {
                                        
                                         </TableCell>
                                         <TableCell align="center">
-                                            {e.isCommitted ? <span className="ou-text-green-700">{t('done')}</span>
-                                            : <span className="ou-text-red-700">{t('unDone')}</span> }
+                                            {renderStatus(e.isCommitted, e.isStarted)}
                                         </TableCell>
-                                        <TableCell align="center">
-                                            {e.remindStatus ?  <span className="ou-text-green-700">{t('sent')}</span> 
-                                            : <span className="ou-text-red-700">{t('unSent')}</span>}
-                                        </TableCell>
-                                        {user.role !== ROLE_USER &&  <TableCell align="center">
-                                            {renderButton(index, e.isCommitted)}
-                                        </TableCell>}
+                                       
+                                        {user.role !== ROLE_USER && <>
+
+                                            <TableCell align="center">
+                                                {e.remindStatus ?  <span className="ou-text-green-700">{t('sent')}</span> 
+                                                : <span className="ou-text-red-700">{t('unSent')}</span>}
+                                            </TableCell>
+                                            {/* <TableCell align="center">
+                                                {renderButton(index, e.isCommitted)}
+                                            </TableCell> */}
+                                        </>}
                                        
                                     </TableRow>
                             ))

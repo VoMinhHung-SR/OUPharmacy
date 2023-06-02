@@ -38,7 +38,7 @@ from .permissions import *
 from django.core.mail import send_mail, EmailMessage
 from rest_framework.decorators import action, api_view, permission_classes
 from .serializers import *
-from .paginator import BasePagination, ExaminationPaginator
+from .paginator import BasePagination, ExaminationPaginator, MedicineUnitPagination
 from rest_framework.parsers import MultiPartParser
 from rest_framework.parsers import JSONParser
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -438,7 +438,7 @@ class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView, generics.UpdateAPI
 class MedicineViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView,
                       generics.UpdateAPIView, generics.CreateAPIView, generics.DestroyAPIView):
     queryset = Medicine.objects.filter(active=True)
-    serializer_class = MedicineSerializer
+    serializer_class = MedicineUnitPagination
     pagination_class = BasePagination
 
 
@@ -446,7 +446,7 @@ class MedicineUnitViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retri
                           generics.UpdateAPIView, generics.CreateAPIView, generics.DestroyAPIView):
     queryset = MedicineUnit.objects.filter(active=True)
     serializer_class = MedicineUnitSerializer
-    pagination_class = BasePagination
+    pagination_class = MedicineUnitPagination
     parser_classes = [JSONParser, MultiPartParser]
 
     def get_queryset(self):
