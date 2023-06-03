@@ -125,7 +125,7 @@ class MedicineAdmin(admin.ModelAdmin):
 
 class MedicineUnitAdmin(admin.ModelAdmin):
     list_display = ['id', 'price', 'in_stock', 'created_date', 'medicine', 'category']
-    list_filter = ['medicine']
+    list_filter = ['medicine', 'category']
 
 
 class CategoryAdmin(admin.ModelAdmin):

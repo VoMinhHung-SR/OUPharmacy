@@ -27,5 +27,8 @@
     "unSent": "Unsent",
     "done": "Done",
     "unDone": "Waiting",
-    "unKnown":"Unknown"
+    "unKnown":"Unknown",
+    "endTime": "End time",
+    "doctorFullName": "Doctor full name",
+    "processing": "Processing"
 }

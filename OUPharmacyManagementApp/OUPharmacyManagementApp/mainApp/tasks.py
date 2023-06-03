@@ -31,7 +31,7 @@ def load_waiting_room():
         tomorrow_utc = current_day.replace(hour=23, minute=59, second=59).astimezone(pytz.utc)
         print("today_utc", today_utc, 'tomorrow_utc', tomorrow_utc)
         examinations = Examination.objects.filter(created_date__range=(today_utc,
-                                                                       tomorrow_utc)).order_by('updated_date').all().order_by('-created_date')
+                                                                       tomorrow_utc)).order_by('created_date').all()
 
         total_examinations = len(examinations)
         for index, examination in enumerate(examinations):
@@ -54,11 +54,12 @@ def load_waiting_room():
 
             data = {
                 'isCommitted': False,
+                'isStarted': False,
                 'remindStatus': False,
                 'examID': examination.id,
                 'author': examination.user.email,
                 'patientFullName': f'{examination.patient.first_name} {examination.patient.last_name}',
-                'startedDate': str(current_day.date()),  # Update the value as per your requirement
+                'startedDate': current_day.strftime("%Y-%m-%d"),  # Update the value as per your requirement
                 'startTime': start_time_str,
                 'endTime': end_time_str,
                 'doctorID': examination.doctor_availability.doctor.id if examination.doctor_availability else None,

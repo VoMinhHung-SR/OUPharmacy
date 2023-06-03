@@ -70,6 +70,9 @@ export const handleSendRemindEmail = async () => {
 
             console.log(`Exam ${exam.examID} updated with remindStatus=true.`);
           }
+          if(currentTime + 60 * 1000 >= examStartTime) {
+            await keyUpdateExam(exam.examID, 'isStarted', true);
+          }
         }
       } else {
         console.log('No document exists for today.');

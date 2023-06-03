@@ -92,10 +92,10 @@ const usePrescriptionDetailCard = () => {
                         }
                     })
                     setOpenBackdrop(false)
-                    // Update commit of waiting-room 
+                    // Update commit of waiting-room    
                     if(examID){
                         createNotificationRealtime(recipientID, examID)
-                        await keyUpdateExam(examID, "isCommitted")
+                        await keyUpdateExam(examID, "isCommitted", true)
                     }
                     return SuccessfulAlert(t('modal:createSuccessed'), t('modal:ok'), () => router('/'))
                 }

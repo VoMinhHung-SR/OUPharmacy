@@ -22,7 +22,7 @@ const Layout = () => {
             </Container>
             )}
         </main>
-        <LimitExamPerDay/>
+        {/* <LimitExamPerDay/> */}
         <Footer />
         <ToastContainer position="bottom-right" autoClose={1500} 
             pauseOnFocusLoss draggable pauseOnHover

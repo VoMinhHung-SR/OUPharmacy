@@ -111,6 +111,7 @@ export const setListExamToday = async (examData) => {
         
           const data = {
               isCommitted: false,
+              isStarted: false,
               remindStatus: false,
               examID: exam.id,
               author: exam.user.email,
@@ -118,7 +119,7 @@ export const setListExamToday = async (examData) => {
               distance,
               duration,
               startedDate: moment(CURRENT_DATE).format('YYYY-MM-DD'),
-              doctorID: exam.doctor_availability.id,
+              doctorID: exam.doctor_availability.doctor_info.id,
               startTime: exam.doctor_availability.start_time,
               endTime: exam.doctor_availability.end_time,
           };
