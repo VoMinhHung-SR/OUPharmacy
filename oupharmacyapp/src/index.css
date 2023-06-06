@@ -73,4 +73,10 @@
     .ou-radio-custom:active {
       background-color: #ddd;
     }
+
+    .ou-table-cell {
+      display: flex;
+      align-items: flex-start; /* Aligns content to the top */
+      padding: 16px; /* Adjust the padding as needed */
+    }
   }
