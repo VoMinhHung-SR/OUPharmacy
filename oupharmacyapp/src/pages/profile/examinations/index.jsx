@@ -1,4 +1,4 @@
-import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import Loading from "../../../modules/common/components/Loading";
 import useExaminationList from "../../../modules/pages/ExaminationListComponents/hooks/useExaminationList"
@@ -82,7 +82,6 @@ const ExaminationList = () =>{
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Typography>{moment(e.created_date).format('DD/MM/YYYY')}</Typography>
-                                                {/* <Moment format="DD/MM/YYY" >{e.created_date}</Moment> */}
                                             </TableCell>
                                             <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
                                             <TableCell align="center">
@@ -90,22 +89,37 @@ const ExaminationList = () =>{
                                                     {e.patient.first_name +" "+ e.patient.last_name}
                                                 </Typography>
                                             </TableCell>
-                                            <TableCell align="center" className="!ou-flex">
-                                                {!e.mail_status  &&  <Button size="small" variant="contained"
-                                                    className="!ou-mr-2"
-                                                    color="success" >
-                                                    <EditIcon></EditIcon>
-                                                </Button>}
+                                            <TableCell align="center">
+                                                <Box  className="!ou-flex ou-justify-center ou-items-center">
+                                                    {!e.mail_status  &&  
+                                                    <Tooltip title={t('common:edit')} followCursor className="hover:ou-cursor-pointer ">
+                                                    {/* <span> */}
+                                                        <Button variant="contained"
+                                                                className="!ou-mr-2 !ou-min-w-[68px]  !ou-p-2  hover:ou-cursor-pointer"
+                                                                color="success" >
+                                                                <EditIcon></EditIcon>
+                                                        </Button>
+                                                    {/* </span> */}
+                                                </Tooltip>
+                                                }
+                                                    <Tooltip title={t('common:delete')} followCursor className="hover:ou-cursor-pointer">
+                                                        <span>
+                                                        <Button 
+                                                            className="!ou-min-w-[68px]  !ou-p-2 hover:ou-cursor-pointer"
+                                                                variant="contained"
+                                                                onClick={()=>{
+                                                                    handleDeleteExamination(e.id)
+                                                                }}
+                                                                color="error" >
+                                                                    <DeleteIcon></DeleteIcon>
+                                
+                                                            </Button>
+                                                        </span>
+                                                    </Tooltip>
+
+                                                </Box>
                                                 
-                                                <Button size="small"
-                                                    variant="contained"
-                                                    onClick={()=>{
-                                                        handleDeleteExamination(e.id)
-                                                    }}
-                                                    color="error" >
-                                                        <DeleteIcon></DeleteIcon>
-                                                    {/* {t('common:delete')} */}
-                                                </Button>
+                                           
                                             </TableCell>
                                         </TableRow>
                                     ))}
