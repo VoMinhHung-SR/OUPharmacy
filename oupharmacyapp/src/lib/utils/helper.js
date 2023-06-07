@@ -178,6 +178,13 @@ export const splitTime = (selectedTime) => {
   return { start_time: startTime, end_time: endTime };
 };
 
+export function formatSelectedTime(start_time, end_time) {
+  const startTimeFormatted = start_time.slice(0, 5); // Extract the first 5 characters (hh:mm)
+  const endTimeFormatted = end_time.slice(0, 5); // Extract the first 5 characters (hh:mm)
+  return `${startTimeFormatted} - ${endTimeFormatted}`;
+}
+
 export function formatNumberCurrency(number) {
   return number.toLocaleString();
 }
+

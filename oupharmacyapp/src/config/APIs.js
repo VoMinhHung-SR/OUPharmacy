@@ -28,6 +28,7 @@ export let endpoints = {
     // Doctor 
     'get-doctor-availability': '/doctor-availability/get-doctor-availability/',
     'doctor-availability': "/doctor-availability/",
+    'doctor-availability-detail':(doctorAvailabilityID) => `/doctor-availability/${doctorAvailabilityID}/`,
     // Patient
     'get-patient-by-email':'/patients/get-patient-by-email/',
     'patient':'/patients/',

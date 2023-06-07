@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import SuccessfulAlert, { ConfirmAlert, ErrorAlert } from '../../../../../config/sweetAlert2';
-import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER, TOAST_SUCCESS } from '../../../../../lib/constants';
-import { featchCreateExamination, fetchCreateOrUpdatePatient, fetchExamDateData } from '../services';
+import { REGEX_ADDRESS, REGEX_EMAIL, REGEX_NAME, REGEX_NOTE, REGEX_PHONE_NUMBER, TOAST_ERROR, TOAST_SUCCESS } from '../../../../../lib/constants';
+import { featchCreateExamination, fetchCreateOrUpdatePatient, fetchDeleteDoctorAvailabilityTime, fetchExamDateData, fetchUpdateExamination } from '../services';
 import moment from 'moment';
 import useDebounce from '../../../../../lib/hooks/useDebounce';
 import { fetchCreateDoctorWorkingTime, fetchGetDoctorAvailability } from '../../services';
@@ -187,7 +187,8 @@ const useFormAddExamination = () => {
             
 
             const selectedStartTime = data.selectedTime.split(' - ')[0]; // Extract the first start time
-            const combinedDateTime = moment(data.selectedDate + ' ' + selectedStartTime, 'YYYY-MM-DD HH:mm')
+            const combinedDateTime = moment(data.selectedDate + ' ' + selectedStartTime, 'YYYY-MM-DD HH:mm');
+            const formattedDateTime = combinedDateTime.format('YYYY-MM-DD HH:mm:ss');
             
 
             if(res.status === 200 || res.status === 201){
@@ -196,12 +197,12 @@ const useFormAddExamination = () => {
                     patient: res.data.id,
                     description: data.description,
                     // created_date: data.createdDate
-                    created_date: combinedDateTime,
+                    created_date: new Date(formattedDateTime),
                     doctor_availability: doctorWorkingTime
                 }
                 const resExamination = await featchCreateExamination(examinationData);
                 if(resExamination.status === 201){
-                    SuccessfulAlert(t('modal:createSuccessed'),t('modal:ok'))
+                    createToastMessage({message:t('modal:createSuccessed'), type:TOAST_SUCCESS})
                     callback();
                 }
                 else{
@@ -227,10 +228,120 @@ const useFormAddExamination = () => {
         }, () => { return; })
     }
 
+    const onUpdateSubmit = async (examinationID, patientID, data, callback, doctorAvailabilityID) => {
+        if(data === undefined)
+            return ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
+    
+    
+        // const createdDate = handleTimeChange(data.selectedDate, data.selectedTime);
+        const patientData = {
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email,
+            phone_number: data.phoneNumber,
+            date_of_birth: data.dateOfBirth,
+            address: data.address,
+            gender: data.gender
+        }
+
+
+        const deleteCurrentDoctorWorkingTime = async (doctorAvailabilityID) =>{
+            try{
+                const res = await fetchDeleteDoctorAvailabilityTime(doctorAvailabilityID)
+                if(res.status === 204)
+                    return createDoctorWorkingTime()
+            }catch (err){
+                return ErrorAlert("Da co loi xay ra",  "", "OKE")
+            }
+        } 
+        const createDoctorWorkingTime = async () => {
+            try{
+
+                const { start_time, end_time } = splitTime(data.selectedTime);
+    
+                const requestData = {
+                    doctor: parseInt(data.doctor),
+                    day: data.selectedDate,
+                    start_time,
+                    end_time
+                };
+                
+                const res = await fetchCreateDoctorWorkingTime(requestData)
+                
+                if(res.status === 201){
+                    console.log(res.data)
+                    handleOnSubmit(res.data.id)
+                    // return createToastMessage({message:"OKE",type:TOAST_SUCCESS})
+                }
+            }catch(err){
+                console.log(err)
+            }
+
+        }
+
+        const handleOnSubmit = async (doctorWorkingTime) => {
+            setOpenBackdrop(true)
+            // Update done or created patient info
+            const res = await fetchCreateOrUpdatePatient(patientID, patientData);
+            
+
+            const selectedStartTime = data.selectedTime.split(' - ')[0]; // Extract the first start time
+            const combinedDateTime = moment(data.selectedDate + ' ' + selectedStartTime, 'YYYY-MM-DD HH:mm');
+            const  formattedDateTime = combinedDateTime.format('YYYY-MM-DD HH:mm:ss');
+            
+
+            if(res.status === 200 || res.status === 201){
+                console.log(res)
+                const examinationData = {
+                    patient: res.data.id,
+                    description: data.description,
+                    created_date: new Date(formattedDateTime),
+                    doctor_availability: doctorWorkingTime
+                }
+                const resExamination = await fetchUpdateExamination(examinationID, examinationData);
+                if(resExamination.status === 200){
+                    createToastMessage({message:t('modal:updateSuccess'), type:TOAST_SUCCESS})
+                    callback();
+                }
+                else{
+                    setOpenBackdrop(false)
+                    return  createToastMessage({message:t('modal:updateFailed'), type:TOAST_ERROR})
+                }
+                if(resExamination.status === 500){
+                    setOpenBackdrop(false)
+                    return createToastMessage({message:t('modal:updateFailed'), type:TOAST_ERROR})
+                }
+            }
+            else{
+                setOpenBackdrop(false)
+                return  createToastMessage({message:t('modal:updateFailed'), type:TOAST_ERROR})
+            }
+            setOpenBackdrop(false)
+        }
+        
+        // return ConfirmAlert(t('booking:confirmBooking'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
+        // // this is callback function when user confirmed "Yes"
+        // ()=>{
+        //     createDoctorWorkingTime()
+        // }, () => { return; })
+        if(doctorAvailabilityID){
+
+            // const selectedStartTime = data.selectedTime.split(' - ')[0]; // Extract the first start time
+            // const combinedDateTime = moment(data.selectedDate + ' ' + selectedStartTime, 'YYYY-MM-DD HH:mm');
+            // const formattedDateTime = combinedDateTime.format('YYYY-MM-DD HH:mm:ss');
+            // // console.log(data);
+            // return console.log(new Date(formattedDateTime));
+               return deleteCurrentDoctorWorkingTime(doctorAvailabilityID)
+        }
+        else 
+           return createDoctorWorkingTime()
+    }
+
     return {
         openBackdrop, examinations, setDate, date, setDate,
         onSubmit, setDoctor, doctor, timeNotAvailable, isLoading,
-        formAddExaminationSchema, handleTimeChange, shouldDisableTime, examinations
+        onUpdateSubmit,
+        formAddExaminationSchema, handleTimeChange, shouldDisableTime
     }
 }
 export default useFormAddExamination;

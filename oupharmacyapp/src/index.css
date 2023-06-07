@@ -73,7 +73,10 @@
     .ou-radio-custom:active {
       background-color: #ddd;
     }
-
+    .ou-selected-time {
+      background-color: #1976d2;
+      color: #fff;
+    }
     .ou-table-cell {
       display: flex;
       align-items: flex-start; /* Aligns content to the top */

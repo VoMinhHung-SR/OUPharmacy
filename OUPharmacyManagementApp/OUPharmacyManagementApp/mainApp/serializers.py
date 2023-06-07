@@ -151,7 +151,9 @@ class PatientSerializer(ModelSerializer):
 
 
 class ExaminationSerializer(ModelSerializer):
-    patient = PatientSerializer()
+    patient_id = serializers.IntegerField(write_only=True)
+
+    patient = PatientSerializer(read_only=True)
     user = UserSerializer()
     doctor_info = serializers.SerializerMethodField(source="doctor_availability")
 
@@ -160,14 +162,27 @@ class ExaminationSerializer(ModelSerializer):
         if doctor:
             doctor_info = doctor.doctor
             if doctor_info:
-                return {'id': doctor_info.id, 'email': doctor_info.email,
-                        'first_name': doctor_info.first_name, 'last_name': doctor_info.last_name}
+                return {
+                    'id': obj.doctor_availability.id,
+                    'email': doctor_info.email,
+                    'day': obj.doctor_availability.day,
+                    'doctor_id': doctor_info.id,
+                    'start_time': doctor.start_time,
+                    'end_time': doctor.end_time,
+                    'first_name': doctor_info.first_name,
+                    'last_name': doctor_info.last_name
+                }
         return {}
+
+    def to_internal_value(self, data):
+        # Map the patient_id to the patient field
+        data['patient'] = {'id': data.pop('patient_id', None)}
+        return super().to_internal_value(data)
 
     class Meta:
         model = Examination
         fields = ["id", "active", "created_date", "updated_date", "description", 'mail_status',
-                  'doctor_availability', 'user', 'patient', 'wage', 'reminder_email', 'doctor_info']
+                  'doctor_availability', 'user', 'patient', 'patient_id', 'wage', 'reminder_email', 'doctor_info']
         exclude = []
         extra_kwargs = {
             'doctor_info': {'read_only': 'true'},
@@ -248,7 +263,8 @@ class DoctorAvailabilitySerializer(ModelSerializer):
     def get_doctor_info(self, obj):
         doctor = obj.doctor
         if doctor:
-            return {'id': doctor.id, 'email': doctor.email,
+            return {'id': obj.id, 'email': doctor.email, "doctor_id": doctor.id,
+                    'start_time': obj.start_time, 'end_time': obj.end_time,  'day': obj.day,
                     'first_name': doctor.first_name, 'last_name': doctor.last_name}
         else:
             return {}

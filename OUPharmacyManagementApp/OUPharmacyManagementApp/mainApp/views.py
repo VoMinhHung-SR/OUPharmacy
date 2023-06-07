@@ -221,13 +221,6 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                 if Examination.objects.filter(created_date__range=(today_utc, tomorrow_utc)).count() > max_examinations:
                     return Response(data={"errMsg": "Maximum number of examinations reached"},
                                     status=status.HTTP_400_BAD_REQUEST)
-
-                # if created_date:
-                #     # Check if an examination with the same created_date already exists
-                #     existing_examination = Examination.objects.filter(created_date=created_date).first()
-                #     if existing_examination:
-                #         return Response(data={"errMsg": "An examination already exists for the specified created_date"},
-                #                         status=status.HTTP_400_BAD_REQUEST)
                 try:
                     e = Examination.objects.create(description=description, patient=patient,
                                                    user=user, doctor_availability=doctor_availability)
@@ -245,6 +238,39 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
                                 status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(data={"errMgs": "User not found"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk=None):
+        user = request.user
+        if user:
+            try:
+                patient = Patient.objects.get(pk=request.data.get('patient'))
+                description = request.data.get('description')
+                created_date = request.data.get('created_date')
+                doctor_availability = DoctorAvailability.objects.get(pk=request.data.get('doctor_availability'))
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            if patient:
+                try:
+                    e = self.get_object(pk)
+                    if created_date:
+                        e.created_date = created_date
+                    e.description = description
+                    e.patient = patient
+                    e.user = user
+                    e.doctor_availability = doctor_availability
+                    e.save()
+                    return Response(ExaminationSerializer(e, context={'request': request}).data,
+                                    status=status.HTTP_200_OK)
+                except:
+                    return Response(data={"errMsg": "Error occurred while updating examination"},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            else:
+                return Response(data={"errMsg": "Patient doesn't exist"},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(data={"errMsg": "User not found"},
                             status=status.HTTP_400_BAD_REQUEST)
 
     @action(methods=['post'], detail=True, url_path='send_mail')
