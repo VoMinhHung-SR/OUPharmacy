@@ -1,4 +1,4 @@
-import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Container, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import Loading from "../../../modules/common/components/Loading";
 import useExaminationList from "../../../modules/pages/ExaminationListComponents/hooks/useExaminationList"
@@ -7,11 +7,15 @@ import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CustomModal from "../../../modules/common/components/Modal";
+import ExaminationUpdate from "../../../modules/pages/ExaminationListComponents/ExaminationUpdate";
+import useCustomModal from "../../../lib/hooks/useCustomModal";
+import CustomCollapseListItemButton from "../../../modules/common/components/collapse/ListItemButton";
 const ExaminationList = () =>{
     const { isLoading, examinationList, handleDeleteExamination, 
         handleChangePage, page,pagination} = useExaminationList();
     const router = useNavigate();
-
+ 
     const {t,ready} = useTranslation(['examinations','common'])   
     
     if(!ready)
@@ -64,50 +68,8 @@ const ExaminationList = () =>{
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {examinationList.map(e => (
-                                        <TableRow
-                                            key={e.id}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell component="th" scope="row" >
-                                                <Typography>
-                                                    {e.id}
-                                                </Typography>
-                                            </TableCell>
-
-                                            <TableCell align="center">
-                                                <Typography className="ou-table-truncate-text-container">
-                                                    {e.description}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                <Typography>{moment(e.created_date).format('DD/MM/YYYY')}</Typography>
-                                                {/* <Moment format="DD/MM/YYY" >{e.created_date}</Moment> */}
-                                            </TableCell>
-                                            <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
-                                            <TableCell align="center">
-                                                <Typography>
-                                                    {e.patient.first_name +" "+ e.patient.last_name}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell align="center" className="!ou-flex">
-                                                {!e.mail_status  &&  <Button size="small" variant="contained"
-                                                    className="!ou-mr-2"
-                                                    color="success" >
-                                                    <EditIcon></EditIcon>
-                                                </Button>}
-                                                
-                                                <Button size="small"
-                                                    variant="contained"
-                                                    onClick={()=>{
-                                                        handleDeleteExamination(e.id)
-                                                    }}
-                                                    color="error" >
-                                                        <DeleteIcon></DeleteIcon>
-                                                    {/* {t('common:delete')} */}
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
+                                    {examinationList.map(examination => (
+                                        <OwnerExaminationUpdate e={examination}   handleDeleteExamination={() => handleDeleteExamination(examination.id)}/>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -129,6 +91,100 @@ const ExaminationList = () =>{
                  
                 )
         }
+        
     </>)
 } 
 export default ExaminationList
+
+
+export const OwnerExaminationUpdate = ({e, handleDeleteExamination}) => {
+    const {t,ready} = useTranslation(['examinations','common'])  
+    const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal(); 
+    return (
+        <>
+           <TableRow
+        key={e.id}
+        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+        <TableCell component="th" scope="row" >
+            <Typography>
+                {e.id}
+            </Typography>
+        </TableCell>
+
+        <TableCell align="center">
+            <Typography className="ou-table-truncate-text-container">
+                {e.description}
+            </Typography>
+        </TableCell>
+        <TableCell align="center">
+            <Typography>{moment(e.created_date).format('DD/MM/YYYY')}</Typography>
+        </TableCell>
+        <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
+        <TableCell align="center">
+            <Typography>
+                {e.patient.first_name +" "+ e.patient.last_name}
+            </Typography>
+        </TableCell>
+        <TableCell align="center">
+            <Box  className="!ou-flex ou-justify-center ou-items-center">
+                {!e.mail_status  &&  
+                <Tooltip title={t('common:edit')} followCursor className="hover:ou-cursor-pointer ">
+                {/* <span> */}
+                    <Button variant="contained"
+                            className="!ou-mr-2 !ou-min-w-[68px]  !ou-p-2  hover:ou-cursor-pointer"
+                            color="success"
+                            onClick={handleOpenModal}
+                            >
+                            <EditIcon></EditIcon>
+                    </Button>
+                {/* </span> */}
+            </Tooltip>
+            }
+                <Tooltip title={t('common:delete')} followCursor className="hover:ou-cursor-pointer">
+                    <span>
+                    <Button 
+                        className="!ou-min-w-[68px]  !ou-p-2 hover:ou-cursor-pointer"
+                            variant="contained"
+                            onClick={()=> handleDeleteExamination()}
+                            color="error" >
+                                <DeleteIcon></DeleteIcon>
+
+                        </Button>
+                    </span>
+                </Tooltip>
+
+            </Box>
+            
+       
+        </TableCell>
+    </TableRow>
+
+    <CustomModal
+            title={t('medicalRecords')}
+            className="ou-w-[900px] ou-text-center"
+            open={isOpen}
+            onClose={handleCloseModal}
+            content={<Box>
+                  {/* <CustomCollapseListItemButton title={t("diagnose")} 
+                  content={
+                    <ExaminationUpdate examination={e} />
+                  }
+                />
+                <CustomCollapseListItemButton title={t("patientInfo")}
+                   content={
+                    <ExaminationUpdate examination={e} />
+                  }
+                /> */}
+                  <ExaminationUpdate examination={e} handleClose={handleCloseModal}/>
+            </Box>}
+            actions={[
+            <Button key="cancel" onClick={handleCloseModal}>
+                {t('modal:cancel')}
+            </Button>
+            ]}
+            />
+        </>
+     
+    )
+}

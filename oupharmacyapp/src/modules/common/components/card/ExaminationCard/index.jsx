@@ -92,104 +92,108 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
         </TableCell>
         <TableCell
           align="center"
-          className="!ou-flex ou-justify-center ou-items-center"
+        
         >
-          <Typography>
-            {mail_status === true ? (
-              <>
-                {user && user.role === ROLE_DOCTOR ? (
-                  <>
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={`/examinations/${id}/diagnosis`}
-                    >
-                    <Tooltip title={t("diagnose")} className="hover:ou-cursor-pointer">
-                      <span>
-                          <Button
-                            variant="contained"
-                         
-                            color="success"
-                            className="!ou-min-w-[68px] !ou-min-h-[40px] !ou-p-2  hover:ou-cursor-pointer"
+          <Box   className="ou-flex ou-justify-center ou-items-center">
+            <Typography>
+              {mail_status === true ? (
+                <>
+                  {user && user.role === ROLE_DOCTOR ? (
+                    <>
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={`/examinations/${id}/diagnosis`}
+                      >
+                      <Tooltip title={t("diagnose")} className="hover:ou-cursor-pointer">
+                        <span>
+                            <Button
+                              variant="contained"
+                          
+                              color="success"
+                              className="!ou-min-w-[68px] !ou-min-h-[40px] !ou-p-2  hover:ou-cursor-pointer"
+                            >
+                                <MedicalServicesIcon />
+                            </Button>
+                        </span>
+                          
+                        </Tooltip>
+                      </Link>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {user && user.role === ROLE_NURSE ? (
+                    <>
+                      <Tooltip title={t("pay")}>
+                        <span>
+                          <Link
+                            style={{ textDecoration: "none" }}
+                            to={`/examinations/${id}/payments`}
                           >
-                              <MedicalServicesIcon />
-                          </Button>
-                      </span>
+                            <Button
+                              variant="contained"
+                              color="success"
+                              size="small"
+                              className="!ou-min-w-[68px] !ou-py-2  !ou-min-h-[40px]"
+                            >
+                              <PaidIcon />
+                            </Button>
+                          </Link>
                         
+                        </span>
                       </Tooltip>
-                    </Link>
-                  </>
-                ) : (
-                  <></>
-                )}
-                {user && user.role === ROLE_NURSE ? (
-                  <>
-                    <Tooltip title={t("pay")}>
-                      <span>
-                        <Link
-                          style={{ textDecoration: "none" }}
-                          to={`/examinations/${id}/payments`}
-                        >
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Render button for DOCTORS */}
+                  {user && user.role === ROLE_DOCTOR ? (
+                    <>
+                      <Tooltip title={t("noReady")}>
+                        <span>
                           <Button
-                            variant="contained"
-                            color="success"
                             size="small"
-                            className="!ou-min-w-[68px] !ou-py-2  !ou-min-h-[40px]"
+                            variant="contained"
+                            className="!ou-bg-red-700 !ou-min-w-[68px]  !ou-min-h-[40px]"
                           >
-                            <PaidIcon />
-                          </Button>
-                        </Link>
-                      
-                      </span>
-                    </Tooltip>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <>
-                {/* Render button for DOCTORS */}
-                {user && user.role === ROLE_DOCTOR ? (
-                  <>
-                    <Tooltip title={t("noReady")}>
-                        <Button
-                          size="small"
-                          variant="contained"
-                          className="!ou-bg-red-700 !ou-min-w-[68px]  !ou-min-h-[40px]"
-                        >
-                            <span>
-                              <ErrorIcon />
-                           </span>
-                          </Button>
-                        
-                    </Tooltip>
-                  </>
-                ) : (
-                  <></>
-                )}
-                {/* Render button for NURSES */}
-                {user && user.role === ROLE_NURSE ? (
-                  renderButton()
-                ) : (
-                  <></>
-                )}
-              </>
-            )}
-          </Typography>
-          <Typography>
-            <Tooltip title={t("detail")} >
-              <span>
-                <Button
-                    variant="contained"
-                    className="ou-bg-blue-700 !ou-min-w-[68px]  !ou-min-h-[40px] !ou-py-2 !ou-mx-2"
-                    size="small"
-                    onClick={()=>handleOpenModal()}
-                  >
-                    <AssignmentIcon />
-                  </Button>
-              </span>
-            </Tooltip>
-          </Typography>
+                            
+                                <ErrorIcon />
+                            </Button>
+                            </span>
+                          
+                      </Tooltip>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {/* Render button for NURSES */}
+                  {user && user.role === ROLE_NURSE ? (
+                    renderButton()
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
+            </Typography>
+            <Typography>
+              <Tooltip title={t("detail")} >
+                <span>
+                  <Button
+                      variant="contained"
+                      className="ou-bg-blue-700 !ou-min-w-[68px]  !ou-min-h-[40px] !ou-py-2 !ou-mx-2"
+                      size="small"
+                      onClick={()=>handleOpenModal()}
+                    >
+                      <AssignmentIcon />
+                    </Button>
+                </span>
+              </Tooltip>
+            </Typography>
+          </Box>
+       
         </TableCell>
       </TableRow>
       
