@@ -11,6 +11,7 @@ from collections import deque
 from crypt import methods
 from datetime import timedelta
 
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 import requests
 import hmac
@@ -19,7 +20,7 @@ from time import time
 import random
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Count
+from django.db.models import Count, DateTimeField
 from django.http import HttpResponseRedirect
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny
@@ -424,6 +425,29 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                             status=status.HTTP_200_OK)
         return Response(data=[],
                         status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=False, url_path='get-list-doctor-exams-today')
+    def get_list_doctor_exams(self, request):
+        try:
+            request_data = request.data
+            request_date = request_data.get('date')
+
+            if request_date:
+                # Use the provided date from the request body
+                examination_date = datetime.datetime.strptime(request_date, '%Y-%m-%d').date()
+            else:
+                # Use today's date as the default
+                examination_date = timezone.now().date()
+
+            examinations = Examination.objects.filter(doctor_availability__day=examination_date)
+
+            return Response(
+                data=ExaminationsPairSerializer(examinations, context={'request': request}, many=True).data,
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class PatientViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
