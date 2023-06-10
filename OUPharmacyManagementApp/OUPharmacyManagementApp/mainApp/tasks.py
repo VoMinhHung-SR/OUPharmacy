@@ -83,66 +83,62 @@ def load_waiting_room():
 @shared_task
 def task_load_waiting_room_by_doctor_availability():
     try:
-        try:
-            current_day = datetime.strptime("2023-06-08", "%Y-%m-%d")
-            start_of_day = timezone.make_aware(datetime.combine(current_day.date(), datetime.min.time()))
-            end_of_day = start_of_day + timedelta(days=1) - timedelta(microseconds=1)
+        current_day = datetime.strptime("2023-06-08", "%Y-%m-%d")
+        start_of_day = timezone.make_aware(datetime.combine(current_day.date(), datetime.min.time()))
+        end_of_day = start_of_day + timedelta(days=1) - timedelta(microseconds=1)
 
-            now = timezone.now()
-            print("Current Day:", current_day)
-            print("Now:", now)
+        now = timezone.now()
+        print("Current Day:", current_day)
+        print("Now:", now)
 
-            exam_today = []
+        exam_today = []
 
-            doctor_availabilities = DoctorAvailability.objects.filter(day=current_day.date()).select_related('doctor')
+        doctor_availabilities = DoctorAvailability.objects.filter(day=current_day.date()).select_related('doctor')
 
-            for doctor_availability in doctor_availabilities:
-                user = doctor_availability.doctor
-                examinations = Examination.objects.filter(
-                    doctor_availability__day=current_day.date(),
-                    doctor_availability=doctor_availability
-                ).order_by('created_date').all()
+        for doctor_availability in doctor_availabilities:
+            user = doctor_availability.doctor
+            examinations = Examination.objects.filter(
+                doctor_availability__day=current_day.date(),
+                doctor_availability=doctor_availability
+            ).order_by('created_date').all()
 
-                for examination in examinations:
-                    location = user.location
-                    lat = location.lat
-                    lng = location.lng
-                    res = requests.get('https://rsapi.goong.io/Direction', params={
-                        'origin': f'{os.getenv("MAP_ORIGIN_LAT")},{os.getenv("MAP_ORIGIN_LNG")}',
-                        'destination': f'{lat},{lng}',
-                        'vehicle': 'car',
-                        'api_key': os.getenv('MAP_APIKEY')
-                    })
+            for examination in examinations:
+                location = user.location
+                lat = location.lat
+                lng = location.lng
+                res = requests.get('https://rsapi.goong.io/Direction', params={
+                    'origin': f'{os.getenv("MAP_ORIGIN_LAT")},{os.getenv("MAP_ORIGIN_LNG")}',
+                    'destination': f'{lat},{lng}',
+                    'vehicle': 'car',
+                    'api_key': os.getenv('MAP_APIKEY')
+                })
 
-                    res_data = json.loads(res.text)
+                res_data = json.loads(res.text)
 
-                    start_time_str = doctor_availability.start_time.strftime("%H:%M:%S")
-                    end_time_str = doctor_availability.end_time.strftime("%H:%M:%S")
+                start_time_str = doctor_availability.start_time.strftime("%H:%M:%S")
+                end_time_str = doctor_availability.end_time.strftime("%H:%M:%S")
 
-                    data = {
-                        'isCommitted': False,
-                        'isStarted': False,
-                        'remindStatus': False,
-                        'examID': examination.id,
-                        'author': user.email,
-                        'patientFullName': f'{examination.patient.first_name} {examination.patient.last_name}',
-                        'startedDate': current_day.strftime("%Y-%m-%d"),  # Update the value as per your requirement
-                        'startTime': start_time_str,
-                        'endTime': end_time_str,
-                        'doctorID': examination.doctor_availability.doctor.id,
-                        'distance': res_data.get('routes')[0].get('legs')[0].get('distance').get('text'),
-                        'duration': res_data.get('routes')[0].get('legs')[0].get('duration').get('value')
-                    }
+                data = {
+                    'isCommitted': False,
+                    'isStarted': False,
+                    'remindStatus': False,
+                    'examID': examination.id,
+                    'author': user.email,
+                    'patientFullName': f'{examination.patient.first_name} {examination.patient.last_name}',
+                    'startedDate': current_day.strftime("%Y-%m-%d"),  # Update the value as per your requirement
+                    'startTime': start_time_str,
+                    'endTime': end_time_str,
+                    'doctorID': examination.doctor_availability.doctor.id,
+                    'distance': res_data.get('routes')[0].get('legs')[0].get('distance').get('text'),
+                    'duration': res_data.get('routes')[0].get('legs')[0].get('duration').get('value')
+                }
 
-                    exam_today.append(data)
+                exam_today.append(data)
 
-            database = firestore.client()
-            doc_ref = database.collection('dev_waiting-room-doctor').document(str(current_day.date()))
-            doc_ref.set({'exams': exam_today})
+        database = firestore.client()
+        doc_ref = database.collection('dev_waiting-room').document(str(current_day.date()))
+        doc_ref.set({'exams': exam_today})
 
-        except Exception as ex:
-            print(ex)
-            return "Add failed!"
     except Exception as ex:
         print(ex)
         return "Add failed!"
