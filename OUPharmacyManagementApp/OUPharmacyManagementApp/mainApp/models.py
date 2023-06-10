@@ -160,6 +160,9 @@ class Diagnosis(BaseModel):
     def __str__(self):
         return self.sign
 
+    class Meta:
+        verbose_name_plural = "Diagnosis"
+
 
 class Medicine(BaseModel):
     name = models.CharField(max_length=254, null=False, blank=False, unique=True)
@@ -175,6 +178,9 @@ class Category(BaseModel):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 class MedicineUnit(BaseModel):
