@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from django.utils.html import format_html
 from django.shortcuts import render
 from . import cloud_context
@@ -33,11 +34,23 @@ from oauth2_provider.models import (
 )
 
 
+def calculate_doctor_frequency():
+    try:
+        doctor_frequency = DoctorAvailability.objects.annotate(month=TruncMonth('day')) \
+            .values('doctor__id', 'doctor__first_name', 'doctor__last_name', 'doctor__email') \
+            .annotate(count=Count('id')) \
+            .values('doctor__id', 'doctor__first_name', 'doctor__last_name', 'doctor__email', 'count')
+        return list(doctor_frequency)
+    except Exception as e:
+        # Handle the error or log it
+        print(f"An error occurred while calculating doctor frequency: {str(e)}")
+        return []
+
 class MainAppAdminSite(admin.AdminSite):
 
     def index(self, request, extra_context=None):
         app_list = self.get_app_list(request)
-
+        doctor_frequency = calculate_doctor_frequency()
         # Get counts of active patients, medicine units, and active users
         patients = Patient.objects.filter(active=True).count()
         medicine_units = MedicineUnit.objects.filter(active=True).count()
@@ -78,11 +91,14 @@ class MainAppAdminSite(admin.AdminSite):
             data_medicine_labels.append(m['medicine_unit__medicine__name'])
             data_medicine_quantity.append(m['count'])
 
+        print(doctor_frequency)
+
         context = {
             **self.each_context(request),
             "title": "OUPharmacy",
             "subtitle": None,
             "app_list": app_list,
+
             "patients": patients,
             "users": users,
             "data_examination": data_examination,
@@ -91,6 +107,7 @@ class MainAppAdminSite(admin.AdminSite):
             "current_year": date.today().year,
             'data_medicine_labels': data_medicine_labels,
             'data_medicine_quantity': data_medicine_quantity,
+            'doctor_frequency': doctor_frequency,
             **(extra_context or {}),
         }
 
