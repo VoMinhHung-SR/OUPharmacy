@@ -109,20 +109,8 @@
           var revenue_chart = {
             datasets: [{
               data: {{data_revenue|safe}},
-              backgroundColor: [
-                '#2c3e50',
-                '#3c8dbc',
-                '#f39c12',
-                '#f1c40f',
-                '#d63031',
-                '#f56954',
-                '#e67e22',
-                '#8e44ad',
-                '#1abc9c',
-                '#3498db',
-                '#2ecc71',
-                '#bdc3c7',
-              ],
+              borderColor: "#30747e", backgroundColor:"#1f3865",
+
               label: "Thống kê doanh thu theo các tháng trong năm {{current_year}}",
               borderWidth: 1,
             }],
@@ -142,7 +130,7 @@
             ]
           };
           var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: revenue_chart,
             options: {
               responsive: false,
@@ -174,11 +162,10 @@
                 '#E1A836',
               ]
             }],
-            labels: [
-              'Bổ phế Nam Hà không đường (Hộp 1 chai 125ml)',
-              'Thực phẩm bảo vệ sức khoẻ hỗ trợ bổ phổi tăng cường sức khỏe sau ốm EU Healthcare Recovery (Hộp 30 viên)',
-              'Dorocodon (Hộp 2 vỉ x 10 viên)',
-              'Calcium-Nic Extra 10ml (Hộp 2 vỉ x 10 ống)'
+            labels:[
+              {% for label in data_medicine_labels %}
+                '{{ label }}',
+              {% endfor %}
             ]
           };
           var myDoughnutChart_2 = new Chart(ctx_2, {
@@ -196,8 +183,113 @@
             }
           });
         });
+        $(function() {
+          // var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
+          // var doctorFrequencyChart = {
+          //   datasets: [{
+          //     data: [
+          //       {% for entry in doctor_frequency %}
+          //         {{ entry.count }},
+          //       {% endfor %}
+          //     ],
+          //      backgroundColor: [
+          //       {% for _ in doctor_frequency %}
+          //           getRandomColor(),
+          //       {% endfor %}
+          //       ]
+          //   }],
+          //   labels: [
+          //     {% for entry in doctor_frequency %}
+          //       '{{ entry.doctor.first_name }} {{ entry.doctor.last_name }}',
+          //     {% endfor %}
+          //   ]
+          // };
+          // var myChart = new Chart(ctx, {
+          //   type: 'doughnut',
+          //   data: doctorFrequencyChart,
+          //   options: {
+          //     responsive: false,
+          //     maintainAspectRatio: false,
+          //     legend: {
+          //       position: 'bottom',
+          //       labels: {
+          //         boxWidth: 30
+          //       }
+          //     }
+          //   }
+          // });
+           var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
+
+          var queryset_data = {{ doctor_frequency|safe }};
+          var data = queryset_data.map(function(entry) {
+            return {
+              doctor__id: entry.doctor__id,
+              doctor__first_name: entry.doctor__first_name,
+              doctor__last_name: entry.doctor__last_name,
+              doctor__email: entry.doctor__email,
+              month: entry.month,
+              count: entry.count
+            };
+          });
+
+          var labels = data.map(function(entry) {
+            return entry.doctor__first_name + ' ' + entry.doctor__last_name;
+          });
+
+          var doctorFrequencyChart = {
+            datasets: [{
+              data: data.map(function(entry) {
+                return entry.count;
+              }),
+              backgroundColor: [
+                {% for _ in doctor_frequency %}
+                    getRandomColor(),
+                {% endfor %}
+                ],
+                 label: "Thống kê tần suất khám của bác sĩ",
+            }],
+            labels: labels
+          };
+
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: doctorFrequencyChart,
+            options: {
+              responsive: false,
+              maintainAspectRatio: false,
+              legend: {
+                display: false
+              },
+              scales: {
+                xAxes: [{
+                  ticks: {
+                    autoSkip: false,
+                    maxRotation: 90,
+                    minRotation: 90
+                  }
+                }],
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    precision: 0
+                  }
+                }]
+              }
+            }
+          });
+        });
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+          }
       </script>
     </div>
+
         <div class="chars-stats">
             <div class="pt-5">
                 <br/>
@@ -214,6 +306,7 @@
                 <br/>
                 <br/>
             </div>
+
             <div class="pt-5">
                 <br/>
                 <h2>Thống kê tần suất sử dụng thuốc trong năm</h2>
@@ -222,74 +315,85 @@
                 <br/>
                 <br/>
             </div>
+
+             <div class="pt-5">
+                <br/>
+                <h2>Thống kê tần suất khám trong năm</h2>
+                <br/>
+                <canvas style="margin: 0 auto"  id="doctor_frequency_chart" width="700px" height="400px"></canvas>
+                <br/>
+                <br/>
+             </div>
+
         </div>
     </div>
 </div>
 
-<!-- The Modal -->
-<div class="modal" id="by_month">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Thống kê theo tháng</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="" method="post">
-                    <label for="revenue_stats_month">Choose month to statistic:</label>
-                    <input type="month" id="revenue_stats_month" name="revenue_stats_month"
-                           min="2010-03" required>
-                    <button onclick="revenue_stats(1)" class="btn btn-primary" type="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" id="by_quarterly">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Thống kê theo quý</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="">
-                    <label for="revenue_stats_from">From: </label>
-                    <input type="date" id="revenue_stats_from" name="revenue_stats_from" required>
-                    <label for="revenue_stats_to">To: </label>
-                    <input type="date" id="revenue_stats_to" name="revenue_stats_to" required>
-                    <button onclick="revenue_stats(3)" type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" id="by_year">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Thống kê theo năm</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+<!--&lt;!&ndash; The Modal &ndash;&gt;-->
+<!--<div class="modal" id="by_month">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title">Thống kê theo tháng</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--            <div class="modal-body">-->
+<!--                <form action="" method="post">-->
+<!--                    <label for="revenue_stats_month">Choose month to statistic:</label>-->
+<!--                    <input type="month" id="revenue_stats_month" name="revenue_stats_month"-->
+<!--                           min="2010-03" required>-->
+<!--                    <button onclick="revenue_stats(1)" class="btn btn-primary" type="submit">Submit</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="modal" id="by_quarterly">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title">Thống kê theo quý</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--            </div>-->
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="">
-                    <label for="revenue_stats_year">Choose year to statistic:</label>
-                    <input type="number" id="revenue_stats_year" name="revenue_stats_year" min="2010" max="2080"
-                           step="1" value="2022" required/>
-                    <button onclick="revenue_stats(2)" type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!--            &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--            <div class="modal-body">-->
+<!--                <form action="">-->
+<!--                    <label for="revenue_stats_from">From: </label>-->
+<!--                    <input type="date" id="revenue_stats_from" name="revenue_stats_from" required>-->
+<!--                    <label for="revenue_stats_to">To: </label>-->
+<!--                    <input type="date" id="revenue_stats_to" name="revenue_stats_to" required>-->
+<!--                    <button onclick="revenue_stats(3)" type="submit" class="btn btn-primary">Submit</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="modal" id="by_year">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title">Thống kê theo năm</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--            <div class="modal-body">-->
+<!--                <form action="">-->
+<!--                    <label for="revenue_stats_year">Choose year to statistic:</label>-->
+<!--                    <input type="number" id="revenue_stats_year" name="revenue_stats_year" min="2010" max="2080"-->
+<!--                           step="1" value="2022" required/>-->
+<!--                    <button onclick="revenue_stats(2)" type="submit" class="btn btn-primary">Submit</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 {% endblock %}
 
