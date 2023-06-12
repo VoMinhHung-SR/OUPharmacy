@@ -11,8 +11,8 @@
           integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous"/>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <!--- my stats script -->
-    <script src="{% static 'jobportals/js/stats.js' %}"></script>
+<!--    &lt;!&ndash;- my stats script &ndash;&gt;-->
+<!--    <script src="{% static 'jobportals/js/stats.js' %}"></script>-->
     <!--- bootstrap -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -25,7 +25,13 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/js/script.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block coltype %}colMS{% endblock %}
@@ -37,89 +43,358 @@
 {% block nav-sidebar %}{% endblock %}
 
 {% block content %}
-<!--    <div id="content-main">-->
-<!--        {#  {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}#}-->
-<!--        <div class="container-fluid">-->
-<!--            <nav class="navbar navbar-expand-sm bg-light navbar-light mb-4">-->
-<!--                <form>-->
-<!--                    <ul class="navbar-nav">-->
-<!--                        <li class="nav-item mr-2">-->
-<!--                            <select class="form-control" id="select-quarter-one" name="quarter-one">-->
-<!--                                <option selected value="0">Cả năm</option>-->
-<!--                                <option value="1">Quý 1</option>-->
-<!--                                <option value="2">Quý 2</option>-->
-<!--                                <option value="3">Quý 3</option>-->
-<!--                                <option value="4">Quý 4</option>-->
-<!--                            </select>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item mr-2">-->
-<!--                            <input id="txt-year" type="number" placeholder="Nhập năm cần thống kê"-->
-<!--                                   class="form-control form-control " style="width: 150px"-->
-<!--                                   name="year"-->
-<!--                                   min="1000"/>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item mr-2">-->
-<!--                            <button id="submit-btn" type="button" class="btn btn-primary">Thống kê</button>-->
-<!--                        </li>-->
-<!--                    </ul>-->
+<div class="container">
+  <div style="display: flex" class="pt-5">
+    <h5 class="py-3 bg-blue text-white text-center mr-2" style="width:50%; border-radius: 10px">Tổng số người dùng có trong hệ thống: <span style="color:yellow; font-weight: bold">{{users}}</span></h5>
+    <h5 class="py-3 bg-green text-white text-center ml-2" style="width:50%; border-radius: 10px">Tổng số bệnh nhân có trong hệ thống: <span style="color:yellow; font-weight: bold">{{patients}}</span></h5>
+  </div>
+  <div>
+    <div class="js">
+      <script>
+        $(function() {
+          var ctx = document.getElementById('examinations').getContext('2d');
+          var examination_chart = {
+            datasets: [{
+              data: {{data_examination | safe}},
+              backgroundColor: [
+                '#2c3e50',
+                '#3c8dbc',
+                '#f39c12',
+                '#f1c40f',
+                '#d63031',
+                '#f56954',
+                '#e67e22',
+                '#8e44ad',
+                '#1abc9c',
+                '#3498db',
+                '#2ecc71',
+                '#bdc3c7',
+              ],
+              label: "Tần suất đặt lịch khám theo các tháng trong năm {{current_year}}",
+              "borderWidth": 1,
+            }],
+            labels: [
+              'Tháng 1',
+              'Tháng 2',
+              'Tháng 3',
+              'Tháng 4',
+              'Tháng 5',
+              'Tháng 6',
+              'Tháng 7',
+              'Tháng 8',
+              'Tháng 9',
+              'Tháng 10',
+              'Tháng 11',
+              'Tháng 12'
+            ]
+          };
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: examination_chart,
+            options: {
+              responsive: false,
+              maintainAspectRatio: false,
+              legend: {
+                position: 'top',
+                labels: {
+                  boxWidth: 30
+                }
+              }
+            }
+          });
+        });
+
+        $(function() {
+          var ctx = document.getElementById('revenue_stats').getContext('2d');
+          var revenue_chart = {
+            datasets: [{
+              data: {{data_revenue|safe}},
+              borderColor: "#30747e", backgroundColor:"#1f3865",
+
+              label: "Thống kê doanh thu theo các tháng trong năm {{current_year}}",
+              borderWidth: 1,
+            }],
+            labels: [
+              'Tháng 1',
+              'Tháng 2',
+              'Tháng 3',
+              'Tháng 4',
+              'Tháng 5',
+              'Tháng 6',
+              'Tháng 7',
+              'Tháng 8',
+              'Tháng 9',
+              'Tháng 10',
+              'Tháng 11',
+              'Tháng 12'
+            ]
+          };
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: revenue_chart,
+            options: {
+              responsive: false,
+              maintainAspectRatio: false,
+              legend: {
+                position: 'top',
+                labels: {
+                  boxWidth: 30
+                }
+              }
+            }
+          });
+        });
+
+        $(function() {
+          var ctx_2 = document.getElementById("medicines_type_stats").getContext('2d');
+          var data_2 = {
+            datasets: [{
+              data: {{data_medicine_quantity}},
+              backgroundColor: [
+                "#A6B6C9",
+                "#E1E1E1",
+                '#F4C29F',
+                '#D5AC8B',
+                '#B3A285',
+                '#B2AB98',
+                '#F2BE6F',
+                '#DFD87E',
+                '#E1A836',
+              ]
+            }],
+            labels:[
+              {% for label in data_medicine_labels %}
+                '{{ label }}',
+              {% endfor %}
+            ]
+          };
+          var myDoughnutChart_2 = new Chart(ctx_2, {
+            type: 'doughnut',
+            data: data_2,
+            options: {
+              responsive: false,
+              maintainAspectRatio: false,
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 30
+                }
+              }
+            }
+          });
+        });
+        $(function() {
+          // var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
+          // var doctorFrequencyChart = {
+          //   datasets: [{
+          //     data: [
+          //       {% for entry in doctor_frequency %}
+          //         {{ entry.count }},
+          //       {% endfor %}
+          //     ],
+          //      backgroundColor: [
+          //       {% for _ in doctor_frequency %}
+          //           getRandomColor(),
+          //       {% endfor %}
+          //       ]
+          //   }],
+          //   labels: [
+          //     {% for entry in doctor_frequency %}
+          //       '{{ entry.doctor.first_name }} {{ entry.doctor.last_name }}',
+          //     {% endfor %}
+          //   ]
+          // };
+          // var myChart = new Chart(ctx, {
+          //   type: 'doughnut',
+          //   data: doctorFrequencyChart,
+          //   options: {
+          //     responsive: false,
+          //     maintainAspectRatio: false,
+          //     legend: {
+          //       position: 'bottom',
+          //       labels: {
+          //         boxWidth: 30
+          //       }
+          //     }
+          //   }
+          // });
+           var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
+
+          var queryset_data = {{ doctor_frequency|safe }};
+          var data = queryset_data.map(function(entry) {
+            return {
+              doctor__id: entry.doctor__id,
+              doctor__first_name: entry.doctor__first_name,
+              doctor__last_name: entry.doctor__last_name,
+              doctor__email: entry.doctor__email,
+              month: entry.month,
+              count: entry.count
+            };
+          });
+
+          var labels = data.map(function(entry) {
+            return entry.doctor__first_name + ' ' + entry.doctor__last_name;
+          });
+
+          var doctorFrequencyChart = {
+            datasets: [{
+              data: data.map(function(entry) {
+                return entry.count;
+              }),
+              backgroundColor: [
+                {% for _ in doctor_frequency %}
+                    getRandomColor(),
+                {% endfor %}
+                ],
+                 label: "Thống kê tần suất khám của bác sĩ",
+            }],
+            labels: labels
+          };
+
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: doctorFrequencyChart,
+            options: {
+              responsive: false,
+              maintainAspectRatio: false,
+              legend: {
+                display: false
+              },
+              scales: {
+                xAxes: [{
+                  ticks: {
+                    autoSkip: false,
+                    maxRotation: 90,
+                    minRotation: 90
+                  }
+                }],
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    precision: 0
+                  }
+                }]
+              }
+            }
+          });
+        });
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+          }
+      </script>
+    </div>
+
+        <div class="chars-stats">
+            <div class="pt-5">
+                <br/>
+                <h2>Thống kê doanh thu theo tháng</h2>
+                <br/>
+                <canvas style="margin: 0 auto" width="700px" height="400px" id="revenue_stats"></canvas>
+            </div>
+
+            <div class="pt-5">
+                <br/>
+                <h2>Thống kê tần suất khám trong năm</h2>
+                <br/>
+                <canvas style="margin: 0 auto" id="examinations" width="700px" height="400px"></canvas>
+                <br/>
+                <br/>
+            </div>
+
+            <div class="pt-5">
+                <br/>
+                <h2>Thống kê tần suất sử dụng thuốc trong năm</h2>
+                <br/>
+                <canvas style="margin: 0 auto" id="medicines_type_stats" width="700px" height="400px"></canvas>
+                <br/>
+                <br/>
+            </div>
+
+             <div class="pt-5">
+                <br/>
+                <h2>Thống kê tần suất khám trong năm</h2>
+                <br/>
+                <canvas style="margin: 0 auto"  id="doctor_frequency_chart" width="700px" height="400px"></canvas>
+                <br/>
+                <br/>
+             </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--&lt;!&ndash; The Modal &ndash;&gt;-->
+<!--<div class="modal" id="by_month">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title">Thống kê theo tháng</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--            <div class="modal-body">-->
+<!--                <form action="" method="post">-->
+<!--                    <label for="revenue_stats_month">Choose month to statistic:</label>-->
+<!--                    <input type="month" id="revenue_stats_month" name="revenue_stats_month"-->
+<!--                           min="2010-03" required>-->
+<!--                    <button onclick="revenue_stats(1)" class="btn btn-primary" type="submit">Submit</button>-->
 <!--                </form>-->
-<!--            </nav>-->
-<!--            <div class="row">-->
-<!--                <div class="col-md-12">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-md-12">-->
-<!--                            <h5 class="text-primary">Statistical chart</h5>-->
-<!--                            <p>Biểu đồ thống kê ứng viên nộp đơn ứng tuyển trên hệ thống hàng quý, hàng-->
-<!--                                năm theo ngành nghề </p>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-12 p-3">-->
-<!--                            <div>-->
-<!--                                <canvas id="myChart" width="100%" height="30"></canvas>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-md-12 p-3">-->
-<!--                    <h5 class="text-primary">Statistical report table</h5>-->
-<!--                    <p>Bảng báo cáo, thống kê ứng viên nộp đơn ứng tuyển trên hệ thống hàng quý, hàng-->
-<!--                        năm theo ngành nghề </p>-->
-<!--                    <div class="w-100 overflow-auto" style="height: 500px; ">-->
-<!--                        <table class="table table-bordered w-100">-->
-<!--                            <thead>-->
-<!--                            <tr>-->
-<!--                                <th colspan="3" class="text-center" id="title-stats">Thống kê cả năm nay</th>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <th class="col-2 text-center">Số thư tự</th>-->
-<!--                                <th class="col-7">Ngành nghề</th>-->
-<!--                                <th class="col-3 text-center">Số lượng ứng tuyển</th>-->
-<!--                            </tr>-->
-<!--                            </thead>-->
-<!--                            <tbody id="table-body">-->
-<!--                            </tbody>-->
-<!--                        </table>-->
-<!--                    </div>-->
-<!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
-{% include 'stats.html' %}
+<!--</div>-->
+<!--<div class="modal" id="by_quarterly">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title">Thống kê theo quý</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--            <div class="modal-body">-->
+<!--                <form action="">-->
+<!--                    <label for="revenue_stats_from">From: </label>-->
+<!--                    <input type="date" id="revenue_stats_from" name="revenue_stats_from" required>-->
+<!--                    <label for="revenue_stats_to">To: </label>-->
+<!--                    <input type="date" id="revenue_stats_to" name="revenue_stats_to" required>-->
+<!--                    <button onclick="revenue_stats(3)" type="submit" class="btn btn-primary">Submit</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="modal" id="by_year">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--            <div class="modal-header">-->
+<!--                <h4 class="modal-title">Thống kê theo năm</h4>-->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--            <div class="modal-body">-->
+<!--                <form action="">-->
+<!--                    <label for="revenue_stats_year">Choose year to statistic:</label>-->
+<!--                    <input type="number" id="revenue_stats_year" name="revenue_stats_year" min="2010" max="2080"-->
+<!--                           step="1" value="2022" required/>-->
+<!--                    <button onclick="revenue_stats(2)" type="submit" class="btn btn-primary">Submit</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 {% endblock %}
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
-
-
-
 
 
