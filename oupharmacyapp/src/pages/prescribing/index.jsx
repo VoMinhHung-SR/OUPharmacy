@@ -120,7 +120,7 @@ const PrescriptionList = () => {
 
                                                                         to={`/prescribing/${p.id}`}>
 
-                                                                            <Tooltip title={t('prescribing')}>
+                                                                            <Tooltip followCursor title={t('prescribing')}>
                                                                                 <span>
 
                                                                                 <Button variant="contained"  

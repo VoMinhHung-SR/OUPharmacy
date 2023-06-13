@@ -140,7 +140,7 @@ const Nav = () => {
         
         {/* Show nav menu */}
         <ul className="ou-flex ou-justify-center ou-items-center">
-          <Tooltip title={t('openSettings')}>
+          <Tooltip followCursor title={t('openSettings')}>
               <Link to="/conversations" className="ou-pr-3">
                 <Box>
                   <MailOutlineIcon color="#f3f3f3" sx={{fontSize:"24px"}} />    
@@ -156,7 +156,7 @@ const Nav = () => {
               />                
             </Box>
        
-          <Tooltip title={t('openSettings')}>
+          <Tooltip followCursor title={t('openSettings')}>
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}
               aria-controls={open ? 'account-menu' : undefined}
               aria-haspopup="true"
@@ -339,13 +339,13 @@ const Nav = () => {
                 
           <Box sx={{ flexGrow: 0 }} className="ou-flex">
             {i18n.language === 'en' ? 
-              <Tooltip title={t('changeLanguage')}>
+              <Tooltip followCursor title={t('changeLanguage')}>
                 <Button className="!ou-text-white" onClick={()=> changeLanguage('vi')}>
                   <FlagUK width={30} height={30}/>
                 </Button> 
               </Tooltip>
               :
-              <Tooltip title={t('changeLanguage')}>
+              <Tooltip followCursor title={t('changeLanguage')}>
                 <Button className="!ou-text-white" onClick={()=> changeLanguage('en')}>
                   <FlagVN width={30} height={30}/>
                 </Button>

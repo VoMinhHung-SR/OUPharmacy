@@ -26,7 +26,7 @@ import BackdropLoading from "../../BackdropLoading";
 const ExaminationCard = ({examinationData, user, callback, disableOtherCards, loading, sendEmailConfirm}) => {
   const { t } = useTranslation(["examinations", "common", "modal", "examination-detail"]);
 
-  const {id, description, created_date, mail_status} = examinationData
+  const {id, description, created_date, mail_status, doctor_info} = examinationData
   const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
  
   const handleSendEmailConfirm = async () => {
@@ -43,7 +43,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
     //   );
 
     return (
-      <Tooltip title={t("sendEmail")}>
+      <Tooltip followCursor title={t("sendEmail")}>
         <Button
           onClick={handleSendEmailConfirm}
           disabled={disableOtherCards}
@@ -80,7 +80,8 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
           </Typography>
         </TableCell>
         <TableCell align="center">
-          <Typography>{moment(created_date).format("DD/MM/YYYY")}</Typography>
+          <Typography>{doctor_info.day ? <span>{moment(new Date(doctor_info.day)).format("DD/MM/YYYY")}</span>
+          : <span>{moment(created_date).format("DD/MM/YYYY")}</span>}</Typography>
         </TableCell>
         {mail_status ? (
           <TableCell align="center" className="!ou-text-green-700 !ou-font-bold"> {t("sent")}</TableCell>
@@ -104,7 +105,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                         style={{ textDecoration: "none" }}
                         to={`/examinations/${id}/diagnosis`}
                       >
-                      <Tooltip title={t("diagnose")} className="hover:ou-cursor-pointer">
+                      <Tooltip followCursor title={t("diagnose")} className="hover:ou-cursor-pointer">
                         <span>
                             <Button
                               variant="contained"
@@ -124,7 +125,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                   )}
                   {user && user.role === ROLE_NURSE ? (
                     <>
-                      <Tooltip title={t("pay")}>
+                      <Tooltip followCursor title={t("pay")}>
                         <span>
                           <Link
                             style={{ textDecoration: "none" }}
@@ -152,7 +153,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                   {/* Render button for DOCTORS */}
                   {user && user.role === ROLE_DOCTOR ? (
                     <>
-                      <Tooltip title={t("noReady")}>
+                      <Tooltip followCursor title={t("noReady")}>
                         <span>
                           <Button
                             size="small"
@@ -179,7 +180,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
               )}
             </Typography>
             <Typography>
-              <Tooltip title={t("detail")} >
+              <Tooltip followCursor title={t("detail")} >
                 <span>
                   <Button
                       variant="contained"

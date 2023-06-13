@@ -22,7 +22,7 @@ const LimitExamPerDay = () => {
 
     return (
         <>
-            <Tooltip title={t('common:totalExamsList')}>
+            <Tooltip  title={t('common:totalExamsList')}>
                 <span
                     className="ou-right-[30px] ou-bottom-[100px] !ou-fixed "
                     onClick={handleOpenModal}
