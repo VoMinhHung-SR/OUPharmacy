@@ -42,9 +42,8 @@ const WaitingRoom = () => {
         </>
     }
 
-    const filteredExams = exams.filter(exam => !exam.isCommitted);
     const renderCurrentAndNextExam = (exams) => {
-        const filteredExams = exams.filter(exam => !exam.isCommitted);
+        const filteredExams = exams && exams.filter(exam => !exam.isCommitted);
       
         if (filteredExams.length === 0) {
           return null;
@@ -117,7 +116,7 @@ const WaitingRoom = () => {
             return 
 
         if(exams.length === 1)
-            return <Tooltip title={t('userInfo')}>
+            return <Tooltip followCursor title={t('userInfo')}>
                   <span>
                     <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><InfoIcon/></Button>
                   </span>
@@ -126,13 +125,13 @@ const WaitingRoom = () => {
             return(
                 <>
                    
-                    {isCommitted || user.role === ROLE_USER ? <></> : <>
-                        <Tooltip title={t('moveToTop')}>
+                    {isCommitted || (!user || user.role !== ROLE_USER) ? <></> : <>
+                        <Tooltip followCursor title={t('moveToTop')}>
                             <span>
                                 <Button className="!ou-bg-green-700 !ou-text-white !ou-mr-1" onClick={()=> handleMoveToTop(index)}><ArrowUpwardIcon/></Button>
                             </span>
                         </Tooltip>
-                        <Tooltip title={t('bringToBottom')}>
+                        <Tooltip followCursor title={t('bringToBottom')}>
                             <span>
                                 <Button className="!ou-bg-blue-700 !ou-text-white !ou-mx-1" onClick={()=> handleBringToBottom(index)}><ArrowDownwardIcon/></Button>
                             </span>
@@ -212,7 +211,7 @@ const WaitingRoom = () => {
                             <TableCell align="center">{t("startedTime")}</TableCell>
                             <TableCell align="center">{t("endTime")}</TableCell>
                             <TableCell align="center">{t("status")}</TableCell>
-                            {user.role !== ROLE_USER &&    <>
+                            {(!user || user.role !== ROLE_USER) &&    <>
                                 <TableCell align="center">{t("emailRemind")}</TableCell>
                                 {/* <TableCell align="center">
                                     <Box className="ou-flex ou-justify-center ou-items-center">
@@ -259,7 +258,7 @@ const WaitingRoom = () => {
                                             {renderStatus(e.isCommitted, e.isStarted)}
                                         </TableCell>
                                        
-                                        {user.role !== ROLE_USER && <>
+                                        {(!user || user.role !== ROLE_USER) && <>
 
                                             <TableCell align="center">
                                                 {e.remindStatus ?  <span className="ou-text-green-700">{t('sent')}</span> 

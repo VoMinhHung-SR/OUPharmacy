@@ -109,9 +109,9 @@ const FormAddExamination = (props) => {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                        inputProps={{
-                                            min: moment(CURRENT_DATE).add(1, 'days').format('YYYY-MM-DD'),
-                                        }}
+                                        // inputProps={{
+                                        //     min: moment(CURRENT_DATE).add(0, 'days').format('YYYY-MM-DD'),
+                                        // }}
                                         onChange={handleDateChange}
                                         />
                                         {methods.formState.errors.selectedDate && (

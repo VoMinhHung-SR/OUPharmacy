@@ -74,7 +74,7 @@ const SidebarInbox = (props) => {
                                           (conversation) => conversation.data().members.includes(recipient.id)
                                         );
                                       })
-                                    .filter((obj)=> obj.id !== props.user.id).map((u) => (
+                                    .filter((obj)=> obj.id !== props.user.id && obj.role !== ROLE_USER).map((u) => (
                                         
                                         <ListItem className="ou-cursor-pointer hover:ou-bg-gray-300" key={u.id} id={u.id} onClick={()=>{
                                             createNewConversation(u.id);
