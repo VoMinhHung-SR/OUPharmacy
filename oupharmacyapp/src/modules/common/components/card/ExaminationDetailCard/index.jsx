@@ -52,11 +52,8 @@ const ExaminationDetailCard = ({examinationData}) => {
                       color="grey.700"
                     >
                       {t("createdDate")}:{" "}
-                      <span>
-                        {moment(examinationData.created_date).format(
-                          "DD/MM/YYYY"
-                        )}
-                      </span>
+                      {examinationData.doctor_info.day ? <span>{moment(examinationData.doctor_info.day).format("DD/MM/YYYY")}</span> 
+                      :  <span>{moment(examinationData.created_date).format("DD/MM/YYYY")}</span> }
                     </Typography>
                   </Grid>
                   <Grid item xs={6} className="ou-pr-2">

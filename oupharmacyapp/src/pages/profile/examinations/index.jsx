@@ -118,7 +118,8 @@ export const OwnerExaminationUpdate = ({e, handleDeleteExamination}) => {
             </Typography>
         </TableCell>
         <TableCell align="center">
-            <Typography>{moment(e.created_date).format('DD/MM/YYYY')}</Typography>
+            <Typography>{e.doctor_info.day ? <span>{moment(e.doctor_info.day).format("DD/MM/YYYY")}</span> 
+                      :  <span>{moment(e.created_date).format("DD/MM/YYYY")}</span> }</Typography>
         </TableCell>
         <TableCell align="center">{e.mail_status === true ? t('sent') : t('noSent')}</TableCell>
         <TableCell align="center">
@@ -129,7 +130,7 @@ export const OwnerExaminationUpdate = ({e, handleDeleteExamination}) => {
         <TableCell align="center">
             <Box  className="!ou-flex ou-justify-center ou-items-center">
                 {!e.mail_status  &&  
-                <Tooltip title={t('common:edit')} followCursor className="hover:ou-cursor-pointer ">
+                <Tooltip followCursor title={t('common:edit')} className="hover:ou-cursor-pointer ">
                 {/* <span> */}
                     <Button variant="contained"
                             className="!ou-mr-2 !ou-min-w-[68px]  !ou-p-2  hover:ou-cursor-pointer"
@@ -141,7 +142,7 @@ export const OwnerExaminationUpdate = ({e, handleDeleteExamination}) => {
                 {/* </span> */}
             </Tooltip>
             }
-                <Tooltip title={t('common:delete')} followCursor className="hover:ou-cursor-pointer">
+                <Tooltip followCursor title={t('common:delete')} className="hover:ou-cursor-pointer">
                     <span>
                     <Button 
                         className="!ou-min-w-[68px]  !ou-p-2 hover:ou-cursor-pointer"

@@ -4,6 +4,7 @@ from datetime import timedelta, datetime, time
 
 import pytz
 from django.core.mail import EmailMessage
+from django.db.models import F
 from django.utils import timezone
 
 from celery import shared_task
@@ -83,7 +84,7 @@ def load_waiting_room():
 @shared_task
 def task_load_waiting_room_by_doctor_availability():
     try:
-        current_day = datetime.strptime("2023-06-08", "%Y-%m-%d")
+        current_day = datetime.now()
         start_of_day = timezone.make_aware(datetime.combine(current_day.date(), datetime.min.time()))
         end_of_day = start_of_day + timedelta(days=1) - timedelta(microseconds=1)
 
@@ -93,17 +94,19 @@ def task_load_waiting_room_by_doctor_availability():
 
         exam_today = []
 
-        doctor_availabilities = DoctorAvailability.objects.filter(day=current_day.date()).select_related('doctor')
+        doctor_availabilities = DoctorAvailability.objects.filter(day=current_day.date()).select_related('doctor').order_by('start_time')
 
         for doctor_availability in doctor_availabilities:
             user = doctor_availability.doctor
             examinations = Examination.objects.filter(
                 doctor_availability__day=current_day.date(),
-                doctor_availability=doctor_availability
-            ).order_by('created_date').all()
+                doctor_availability=doctor_availability,
+                mail_status=True
+            ).all()
 
             for examination in examinations:
-                location = user.location
+
+                location = examination.user.location
                 lat = location.lat
                 lng = location.lng
                 res = requests.get('https://rsapi.goong.io/Direction', params={
@@ -118,17 +121,21 @@ def task_load_waiting_room_by_doctor_availability():
                 start_time_str = doctor_availability.start_time.strftime("%H:%M:%S")
                 end_time_str = doctor_availability.end_time.strftime("%H:%M:%S")
 
+                print(examination.doctor_availability)
+
+                doctor_id = examination.doctor_availability.doctor_id
+
                 data = {
                     'isCommitted': False,
                     'isStarted': False,
                     'remindStatus': False,
                     'examID': examination.id,
-                    'author': user.email,
+                    'author': examination.user.email,
                     'patientFullName': f'{examination.patient.first_name} {examination.patient.last_name}',
                     'startedDate': current_day.strftime("%Y-%m-%d"),  # Update the value as per your requirement
                     'startTime': start_time_str,
                     'endTime': end_time_str,
-                    'doctorID': examination.doctor_availability.doctor.id,
+                    'doctorID': doctor_id,
                     'distance': res_data.get('routes')[0].get('legs')[0].get('distance').get('text'),
                     'duration': res_data.get('routes')[0].get('legs')[0].get('duration').get('value')
                 }
