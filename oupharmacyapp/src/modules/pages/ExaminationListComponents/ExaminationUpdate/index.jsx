@@ -69,7 +69,7 @@ const ExaminationUpdate = ({examination,handleClose, ...props}) => {
                 onUpdateSubmit(examination.id, examination?.patient?.id, data, ()=>{
                     methods.setError(),handleClose()}, examination?.doctor_info?.id))} 
                     className="ou-m-auto ou-py-6 ou-px-10">
-                        <h3 className="ou-text-center ou-text-2xl">{t('booking')}</h3>
+                        <h3 className="ou-text-center ou-text-2xl">{t('updateBooking')}</h3>
                         <Grid container justifyContent="flex">
                             <Grid item xs={12} className="!ou-mt-6" >
                                 <FormControl fullWidth >

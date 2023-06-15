@@ -162,7 +162,7 @@ export const OwnerExaminationUpdate = ({e, handleDeleteExamination}) => {
     </TableRow>
 
     <CustomModal
-            title={t('medicalRecords')}
+            // title={t('medicalRecords')}
             className="ou-w-[900px] ou-text-center"
             open={isOpen}
             onClose={handleCloseModal}
