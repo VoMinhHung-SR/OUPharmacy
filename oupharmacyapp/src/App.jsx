@@ -67,7 +67,7 @@ function App() {
     };
 
     fetchData()
-    jobMidnight()
+    // jobMidnight()
     jobEveryMinutes()
   },[])
 

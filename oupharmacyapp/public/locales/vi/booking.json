@@ -1,6 +1,7 @@
 {
     "enterEmail": "Nhập vào email để tạo lịch khám",
     
+    "updateBooking": "Cập nhật lịch khám",
     "booking": "Đặt lịch khám",
     "patientInfo": "Thông tin bệnh nhân",
     "description": "Mô tả",
