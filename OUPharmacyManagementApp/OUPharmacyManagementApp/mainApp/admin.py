@@ -123,7 +123,7 @@ admin_site = MainAppAdminSite(name='OUPharmacy')
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'email', 'role']
-    list_filter = ['email']
+    list_filter = ['email', 'role']
     search_fields = ['email']
     readonly_fields = ['avatar_view']
 
