@@ -340,6 +340,7 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
                             status=status.HTTP_404_NOT_FOUND)
         user = examination.user
         patient = examination.patient
+        doctor_availability = examination.doctor_availability
         if not user or not patient:
             return Response(data={'errMsg': 'User or patient not found'},
                             status=status.HTTP_400_BAD_REQUEST)
@@ -350,13 +351,13 @@ OUPharmacy xin chúc bạn một ngày tốt lành và thật nhiều sức kh�
         content = f"""Xin chào {user.first_name} {user.last_name},
 Phiếu khám của bạn sẽ bắt đầu sau: {minutes} phút.
 
-Bệnh nhân {patient.first_name} {patient.last_name} của bạn có lịch khám với chúng tôi vào ngày {examination.created_date:%d-%m-%Y}.
+Bệnh nhân {patient.first_name} {patient.last_name} của bạn có lịch khám với chúng tôi vào ngày {doctor_availability.day:%d-%m-%Y}.
 
 Chi tiết lịch đặt khám của bạn:
 (+)  Mã đặt lịch: {examination.pk}
 (+)  Họ tên bệnh nhân: {patient.first_name} {patient.last_name}
 (+)  Mô tả: {examination.description}
-(+)  Ngày đăng ký: {examination.created_date:%d-%m-%Y}
+(+)  Ngày đăng ký: {doctor_availability.day:%d-%m-%Y}
 =====================
 (-)  Phí khám của bạn là: {examination.wage:,.0f} VND
 
