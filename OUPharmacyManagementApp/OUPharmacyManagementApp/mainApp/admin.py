@@ -12,7 +12,6 @@ from django.db.models.functions import TruncMonth
 from datetime import date
 from django.urls import reverse
 
-
 from django_celery_beat.admin import ClockedScheduleAdmin, CrontabScheduleAdmin, \
     PeriodicTaskAdmin
 from django_celery_beat.models import ClockedSchedule, \
@@ -45,6 +44,7 @@ def calculate_doctor_frequency():
         # Handle the error or log it
         print(f"An error occurred while calculating doctor frequency: {str(e)}")
         return []
+
 
 class MainAppAdminSite(admin.AdminSite):
 
@@ -103,8 +103,8 @@ class MainAppAdminSite(admin.AdminSite):
             "users": users,
             "data_examination": data_examination,
             "data_revenue": data_revenue,
-            "medicineUnits": medicine_units,
             "current_year": date.today().year,
+            "medicineUnits": medicine_units,
             'data_medicine_labels': data_medicine_labels,
             'data_medicine_quantity': data_medicine_quantity,
             'doctor_frequency': doctor_frequency,
@@ -206,8 +206,8 @@ class MyModelAdmin(admin.ModelAdmin):
     def stats_link(self, obj):
         url = reverse('admin:stats_view')
         return format_html('<a href="{}">Stats</a>', url)
-    stats_link.short_description = 'Stats'
 
+    stats_link.short_description = 'Stats'
 
 
 has_email = hasattr(get_user_model(), "email")
@@ -282,10 +282,8 @@ admin_site.register(User, UserAdmin)
 admin_site.register(UserRole, UserRoleAdmin)
 admin_site.register(DoctorAvailability, DoctorAvailabilityAdmin)
 
-
 admin_site.register(IntervalSchedule)
 admin_site.register(CrontabSchedule, CrontabScheduleAdmin)
 admin_site.register(SolarSchedule)
 admin_site.register(ClockedSchedule, ClockedScheduleAdmin)
 admin_site.register(PeriodicTask, PeriodicTaskAdmin)
-
