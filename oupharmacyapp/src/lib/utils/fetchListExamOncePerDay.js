@@ -15,7 +15,7 @@ export function fetchListExamOncePerDay(url, onDataLoaded, onChangedParams) {
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
-  
+            
             // Update the last fetch date
             localStorage.setItem("lastFetchDate", todayStr);
             localStorage.setItem("lastTotalListExam", onChangedParams.toString());
