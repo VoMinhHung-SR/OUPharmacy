@@ -77,7 +77,6 @@
 
                     <select id="revenue-year" onchange={handleYearOnchange(this.value,"revenue")}
                             class="form-select form-select-lg px-4 py-2 " aria-label=".form-select-lg example">
-                        <option value="2020">2020</option>
                         <option value="2021">2021</option>
                         <option value="2022">2022</option>
                         <option selected value="2023">2023</option>
@@ -108,11 +107,9 @@
 
                     <select id="examinations-year" onchange={handleYearOnchange(this.value,"examinations")}
                             class="form-select form-select-lg px-4 py-2 " aria-label=".form-select-lg example">
-                        <option value="0" selected>Năm</option>
-                        <option value="2020">2020</option>
                         <option value="2021">2021</option>
                         <option value="2022">2022</option>
-                        <option value="2023">2023</option>
+                        <option  selected value="2023">2023</option>
                     </select>
                 </div>
             </div>
@@ -139,11 +136,9 @@
 
                     <select id="medicines-year" onchange={handleYearOnchange(this.value,"medicines")}
                             class="form-select form-select-lg px-4 py-2 " aria-label=".form-select-lg example">
-                        <option value="0" selected>Năm</option>
-                        <option value="2020">2020</option>
                         <option value="2021">2021</option>
                         <option value="2022">2022</option>
-                        <option value="2023">2023</option>
+                        <option selected value="2023">2023</option>
                     </select>
                 </div>
             </div>
@@ -171,11 +166,9 @@
 
                     <select id="doctor-year" onchange={handleYearOnchange(this.value,"doctor")}
                             class="form-select form-select-lg px-4 py-2 " aria-label=".form-select-lg example">
-                        <option value="0" selected>Năm</option>
-                        <option value="2020">2020</option>
                         <option value="2021">2021</option>
                         <option value="2022">2022</option>
-                        <option value="2023">2023</option>
+                        <option selected value="2023">2023</optionselected>
                     </select>
                 </div>
             </div>
@@ -186,7 +179,7 @@
             <br/>
         </div>
     </div>
-     <canvas id="chart"></canvas>
+
 </div>
 </div>
 
@@ -196,66 +189,7 @@
 
 {% block extrajs %}
 {{ block.super }}
- <script>
-        // Generate random data for three lines
-        function generateRandomData() {
-            var data = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                datasets: [
-                    {
-                        label: 'Line 1',
-                        data: getRandomData(),
-                        borderColor: 'red',
-                        fill: false
-                    },
-                    {
-                        label: 'Line 2',
-                        data: getRandomData(),
-                        borderColor: 'blue',
-                        fill: false
-                    },
-                    {
-                        label: 'Line 3',
-                        data: getRandomData(),
-                        borderColor: 'green',
-                        fill: false
-                    }
-                ]
-            };
 
-            return data;
-        }
-
-        // Generate random data for a line
-        function getRandomData() {
-            var data = [];
-            for (var i = 0; i < 6; i++) {
-                data.push(Math.floor(Math.random() * 100));
-            }
-            return data;
-        }
-
-        // Create the chart
-        function createChart() {
-            var ctx = document.getElementById('chart').getContext('2d');
-            var data = generateRandomData();
-            var options = {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Random Data Chart'
-                }
-            };
-            new Chart(ctx, {
-                type: 'line',
-                data: data,
-                options: options
-            });
-        }
-
-        // Call the createChart function when the page loads
-        window.onload = createChart;
-    </script>
 <script>
     var revenueChart = undefined
     var examinationsChart = undefined
@@ -328,6 +262,11 @@
                                 display: false
                             },
                         },
+                        scales: {
+                            y: {
+                              min: 0
+                            }
+                        }
                     }
                 });
             });
@@ -346,8 +285,20 @@
         })
             .then(response => response.json())
             .then(data => {
-                const medicines_chart = {
-                    datasets: [{
+              const medicines_chart = {
+                    datasets: [],
+                    labels: []
+                };
+
+                if (data.data_medicine_labels.length === 0) {
+                    // Add default data and labels
+                    medicines_chart.datasets.push({
+                        data: [-1],
+                        backgroundColor: ['#E1E1E1']
+                    });
+                    medicines_chart.labels.push(data.title);
+                } else {
+                    medicines_chart.datasets.push({
                         data: data.data_medicine_quantity,
                         backgroundColor: [
                             "#A6B6C9",
@@ -360,77 +311,85 @@
                             '#DFD87E',
                             '#E1A836',
                         ]
-                    }],
-                    labels: data.data_medicine_labels
+                    });
+                    medicines_chart.labels = data.data_medicine_labels;
+                }
 
-                };
                 medicinesChart = new Chart(ctx_2, {
-                    type: 'doughnut',
-                    data: medicines_chart,
-                    options: {
-                        responsive: false,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                boxWidth: 30
-                            }
-                        }
-                    }
-                });
+    type: 'doughnut',
+    data: medicines_chart,
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        legend: {
+            position: 'top',
+            labels: {
+                boxWidth: 30
+            }
+        }
+    }
+});
             });
 
 
     };
 
-//   function doctorStats(quarter, year) {
-//     if (doctorsChart)
-//         doctorsChart.destroy();
-//     var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
-//     fetch(`/admin/api/doctor_stats/?quarter=${quarter}&year=${year}`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRFToken': Cookies.get('csrftoken'),
-//         }
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             const datasets = data.data_doctor_datasets.map(dataset => ({
-//                 ...dataset,
-//                 data: dataset.data.map(value => ({ x: value, y: value }))
-//             }));
-//
-//             const doctor_chart = {
-//                 datasets: datasets,
-//                 labels: data.data_doctor_labels
-//             };
-//
-//             doctorsChart = new Chart(ctx, {
-//                 type: 'line',
-//                 data: doctor_chart,
-//                 options: {
-//                     responsive: false,
-//                     maintainAspectRatio: false,
-//                     legend: {
-//                         position: 'top',
-//                         labels: {
-//                             boxWidth: 30
-//                         }
-//                     },
-//                     plugins: {
-//                         title: {
-//                             display: false
-//                         },
-//                     }
-//                 }
-//             });
-//         });
-// }
-
-    function doctorStats(quarter, year) {
+    // function doctorStats(quarter, year) {
+    //     if (doctorsChart)
+    //         doctorsChart.destroy()
+    //     var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
+    //     fetch(`/admin/api/doctor_stats/?quarter=${quarter}&year=${year}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': Cookies.get('csrftoken'),
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             const doctor_chart = {
+    //                 datasets: [{
+    //                     data: data.data_doctor_quantity,
+    //                     backgroundColor: [
+    //                         "#A6B6C9",
+    //                         "#E1E1E1",
+    //                         '#F4C29F',
+    //                         '#D5AC8B',
+    //                         '#B3A285',
+    //                         '#B2AB98',
+    //                         '#F2BE6F',
+    //                         '#DFD87E',
+    //                         '#E1A836',
+    //                     ],
+    //                     label: data.title
+    //                 }],
+    //                 labels: data.data_doctor_labels
+    //
+    //             };
+    //             doctorsChart = new Chart(ctx, {
+    //                 type: 'bar',
+    //                 data: doctor_chart,
+    //                 options: {
+    //                     responsive: false,
+    //                     maintainAspectRatio: false,
+    //                     legend: {
+    //                         position: 'top',
+    //                         labels: {
+    //                             boxWidth: 30
+    //                         }
+    //                     },
+    //                     plugins: {
+    //                         title: {
+    //                             display: false
+    //                         },
+    //                     }
+    //                 }
+    //             });
+    //         });
+    // }
+   function doctorStats(quarter, year) {
     if (doctorsChart)
-        doctorsChart.destroy()
+        doctorsChart.destroy();
     var ctx = document.getElementById('doctor_frequency_chart').getContext('2d');
     fetch(`/admin/api/doctor_stats/?quarter=${quarter}&year=${year}`, {
         method: 'GET',
@@ -441,21 +400,43 @@
     })
         .then(response => response.json())
         .then(data => {
-            const datasets = data.data_doctor_datasets.map(dataset => {
-                return {
-                    data: dataset.data,
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
-                    borderColor: dataset.borderColor,
-                    label: dataset.label,
-                    fill: false
-                };
-            });
+           const datasets = data.data_doctor_datasets.length > 0
+          ? data.data_doctor_datasets.map(doctor => ({
+              label: doctor.label,
+              data: doctor.data,
+              borderColor: doctor.borderColor,
+              backgroundColor: doctor.backgroundColor,
+              borderWidth: 4,
+              fill: false
+            }))
+          : [{
+              label: data.title,
+              data: [0],
+              borderColor: 'gray',
+              backgroundColor: 'gray',
+              borderWidth: 4,
+              fill: false
+            }];
+
+            const months = ['Tháng 1',
+                        'Tháng 2',
+                        'Tháng 3',
+                        'Tháng 4',
+                        'Tháng 5',
+                        'Tháng 6',
+                        'Tháng 7',
+                        'Tháng 8',
+                        'Tháng 9',
+                        'Tháng 10',
+                        'Tháng 11',
+                        'Tháng 12'];
 
             const doctor_chart = {
                 datasets: datasets,
-                labels: data.data_doctor_labels
+                labels: months
             };
 
+            // Create a new chart instance
             doctorsChart = new Chart(ctx, {
                 type: 'line',
                 data: doctor_chart,
@@ -472,11 +453,23 @@
                         title: {
                             display: false
                         },
+                    },
+                    scales: {
+                        y: {
+                          min: 0
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0,
+                        }
                     }
                 }
             });
         });
 }
+
+
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -506,7 +499,7 @@
                         data: data.data_revenue,
                         borderColor: "#30747e", backgroundColor: "#1f3865",
                         label: data.title,
-                        borderWidth: 1,
+                        borderWidth: 4,
                     }],
                     labels: [
                         'Tháng 1',
@@ -539,6 +532,11 @@
                         plugins: {
                             title: {
                                 display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                              min: 0
                             }
                         }
                     }
