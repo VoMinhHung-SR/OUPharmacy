@@ -47,6 +47,9 @@ class CommonLocation(models.Model):
     city = models.ForeignKey(CommonCity, on_delete=models.SET_NULL, null=True)
     district = models.ForeignKey(CommonDistrict, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return self.address
+
 
 class UserManager(BaseUserManager):
 
