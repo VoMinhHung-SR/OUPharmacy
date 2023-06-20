@@ -2,7 +2,7 @@ import { Avatar, Box, ListItem, ListItemAvatar, ListItemText, Typography } from 
 import { useNavigate } from "react-router"
 import Loading from "../../../common/components/Loading"
 import useConversationDetail from "../hooks/useConvesationDetail"
-import { AVATAR_DEFAULT } from "../../../../lib/constants"
+import { AVATAR_DEFAULT, ERROR_CLOUDINARY } from "../../../../lib/constants"
 import { useTranslation } from "react-i18next"
 
 const ConversationDetail = (props) => {
@@ -24,7 +24,7 @@ const ConversationDetail = (props) => {
                 <ListItemAvatar>
                     <Avatar
                         alt={docs?.docs[0]?.data().email ? docs?.docs[0].data().email : t('common:undefined')}
-                        src={docs?.docs[0]?.data().avatar ? docs?.docs[0].data().avatar : AVATAR_DEFAULT}
+                        src={docs?.docs[0]?.data().avatar === ERROR_CLOUDINARY ? AVATAR_DEFAULT : docs?.docs[0].data().avatar  }
                     />
                 </ListItemAvatar>
                 <ListItemText

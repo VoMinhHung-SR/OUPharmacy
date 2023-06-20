@@ -157,13 +157,13 @@ def job_send_email_re_examination():
     # Get the current date
     current_date = timezone.now().date()
 
-    # Calculate the date one month ago
-    one_month_ago = current_date - timedelta(days=30)
+    # Calculate the target date (one month before current date)
+    target_date = current_date.replace(month=current_date.month - 1)
 
-    print(current_date, one_month_ago)
+    print(current_date, target_date)
 
     # Retrieve examinations created one month ago
-    examinations = Examination.objects.filter(created_date__gte=one_month_ago).all()
+    examinations = Examination.objects.filter(created_date__lt=target_date).all()
 
     for examination in examinations:
         # Get the related user and patient
