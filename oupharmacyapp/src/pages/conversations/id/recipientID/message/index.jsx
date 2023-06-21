@@ -5,7 +5,7 @@ import MessageCard from "../../../../../modules/common/components/card/MessageCa
 import { transformMessage } from "../../../../../lib/utils/getMessagesInConversation";
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import { useTranslation } from "react-i18next";
-import { AVATAR_DEFAULT } from "../../../../../lib/constants";
+import { AVATAR_DEFAULT, ERROR_CLOUDINARY } from "../../../../../lib/constants";
 import { Helmet } from "react-helmet";
 import { useEffect, useRef } from "react";
 
@@ -70,7 +70,7 @@ const ChatWindow = () => {
                                 <ListItemAvatar>
                                     <Avatar
                                         alt="Profile Picture"
-                                        src={recipient.avatar_path ? recipient.avatar_path : AVATAR_DEFAULT}
+                                        src={recipient.avatar_path === ERROR_CLOUDINARY ? AVATAR_DEFAULT : recipient.avatar_path }
                                     />
                                 </ListItemAvatar>
                                 <ListItemText primary={recipient.email ? recipient.email :" "} style={{ "color": "white" }} />
