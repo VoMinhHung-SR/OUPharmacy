@@ -129,10 +129,8 @@ const usePrescriptionDetailCard = () => {
                         for (let i = 0; i < medicinesSubmit.length; i++) {
                             // Update items in dynamic table
                             if (medicinesSubmit[i].id === medicine.medicineUnitId) {
-                                console.log("UPDATE")
                                 medicinesSubmit[i].uses = data.uses
                                 medicinesSubmit[i].quantity = medicinesSubmit[i].quantity + parseInt(data.quantity)
-                                console.log(medicinesSubmit)
                                 return medicinesSubmit
                             } else
                             // Add new lineItems
@@ -141,7 +139,6 @@ const usePrescriptionDetailCard = () => {
                                     addMedicine(medicine.medicineUnitId, medicine.medicineName,
                                         data.uses, data.quantity);
                         }
-                        console.log(medicinesSubmit)
                     } else
                         addMedicine(medicine.medicineUnitId, medicine.medicineName,
                             data.uses, data.quantity);

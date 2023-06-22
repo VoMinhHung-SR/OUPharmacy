@@ -89,7 +89,6 @@ const useFormAddExamination = () => {
                 const res = await fetchGetDoctorAvailability(date, parseInt(doctor))
                 if (res.status === 200){
                     setTimeNotAvailable(res.data)
-                    console.log(res.data)
                 }
             } catch( err){
                 console.log(err)
@@ -144,7 +143,6 @@ const useFormAddExamination = () => {
     
     
         // const createdDate = handleTimeChange(data.selectedDate, data.selectedTime);
-        console.log(data)
         const patientData = {
             first_name: data.firstName,
             last_name: data.lastName,
@@ -170,7 +168,6 @@ const useFormAddExamination = () => {
                 const res = await fetchCreateDoctorWorkingTime(requestData)
                 
                 if(res.status === 201){
-                    console.log(res.data)
                     handleOnSubmit(res.data.id)
                     // return createToastMessage({message:"OKE",type:TOAST_SUCCESS})
                 }
@@ -269,7 +266,6 @@ const useFormAddExamination = () => {
                 const res = await fetchCreateDoctorWorkingTime(requestData)
                 
                 if(res.status === 201){
-                    console.log(res.data)
                     handleOnSubmit(res.data.id)
                     // return createToastMessage({message:"OKE",type:TOAST_SUCCESS})
                 }
@@ -291,7 +287,6 @@ const useFormAddExamination = () => {
             
 
             if(res.status === 200 || res.status === 201){
-                console.log(res)
                 const examinationData = {
                     patient: res.data.id,
                     description: data.description,
@@ -319,18 +314,7 @@ const useFormAddExamination = () => {
             setOpenBackdrop(false)
         }
         
-        // return ConfirmAlert(t('booking:confirmBooking'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
-        // // this is callback function when user confirmed "Yes"
-        // ()=>{
-        //     createDoctorWorkingTime()
-        // }, () => { return; })
         if(doctorAvailabilityID){
-
-            // const selectedStartTime = data.selectedTime.split(' - ')[0]; // Extract the first start time
-            // const combinedDateTime = moment(data.selectedDate + ' ' + selectedStartTime, 'YYYY-MM-DD HH:mm');
-            // const formattedDateTime = combinedDateTime.format('YYYY-MM-DD HH:mm:ss');
-            // // console.log(data);
-            // return console.log(new Date(formattedDateTime));
                return deleteCurrentDoctorWorkingTime(doctorAvailabilityID)
         }
         else 

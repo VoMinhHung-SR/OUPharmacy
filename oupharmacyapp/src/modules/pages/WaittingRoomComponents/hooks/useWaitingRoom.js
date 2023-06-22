@@ -24,13 +24,11 @@ const useWaitingRoom = () => {
         const examsArray = docSnapshot.data().exams;
         setExams(examsArray);
       } else {
-        console.log('No matching documents found.');
         setExams([]);
       }
 
       setIsLoading(false)
     }, (error) => {
-      console.log('Error getting documents: ', error);
       setIsLoading(false)
       setExams([]);
     });

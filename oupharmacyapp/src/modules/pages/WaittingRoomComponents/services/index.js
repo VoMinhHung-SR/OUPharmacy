@@ -20,11 +20,9 @@ export const generateQueryGetExamsListPerDay = (date) => {
           const examsArray = docSnapshot.data().exams;
           resolve(examsArray);
         } else {
-          console.log('No matching documents found.');
           resolve([]);
         }
       }, (error) => {
-        console.log('Error getting documents: ', error);
         reject([]);
       });
   

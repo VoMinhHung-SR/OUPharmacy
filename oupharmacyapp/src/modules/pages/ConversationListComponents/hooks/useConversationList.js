@@ -3,11 +3,14 @@ import { useContext, useEffect } from "react"
 import { userContext } from "../../../../App"
 import { db } from "../../../../config/firebase";
 import { ErrorAlert } from "../../../../config/sweetAlert2";
-import { APP_ENV } from "../../../../lib/constants";
+import { APP_ENV, TOAST_ERROR } from "../../../../lib/constants";
 import UserContext from "../../../../lib/context/UserContext";
+import { useTranslation } from "react-i18next";
+import createToastMessage from "../../../../lib/utils/createToastMessage";
 
 const useConversationList = () => {
     // const [user] = useContext(userContext);
+    const {t} = useTranslation(['modal'])
     const {user} = useContext(UserContext);
     useEffect(()=>{
         const setUserDB = async ()=>{    
@@ -20,8 +23,7 @@ const useConversationList = () => {
                     lastSeen: serverTimestamp() 
                   }, { merge: true });
             }catch(err){
-                console.log(err)
-                ErrorAlert("Đã có lỗi xảy ra","Vui lòng quay lại sau", "OK")
+                createToastMessage({message:t('modal:updateFailed'), type: TOAST_ERROR})
             }
         }
         if(user){

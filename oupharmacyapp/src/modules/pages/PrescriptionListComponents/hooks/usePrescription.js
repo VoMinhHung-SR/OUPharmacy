@@ -39,7 +39,6 @@ const usePrescriptionList = () =>{
                 const res = await fetchDiagnosisList(querySample);
                 if (res.status === 200) {
                     const data = await res.data;
-                    console.log(data)
                     setPrescriptionList(data.results);
                     setPagination({
                         count: data.count,
@@ -48,7 +47,7 @@ const usePrescriptionList = () =>{
                 }
             } catch (err) {
                 setPrescriptionList([]);
-                console.log(err);
+                console.error(err);
             } finally {
                 setIsLoadingPrescriptionList(false);
                 
