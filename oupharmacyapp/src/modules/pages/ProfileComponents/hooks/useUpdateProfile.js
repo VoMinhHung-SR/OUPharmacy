@@ -52,8 +52,6 @@ const useUpdateProfile = () =>{
                 formData.append("date_of_birth", new Date(data.dob).toISOString())
                 formData.append("gender", parseInt(data.gender))
               
-                // console.log(formData.get('first_name'), formData.get('last_name'),formData.get('email'),
-                // formData.get('phone_number'), formData.get('date_of_birth'),  formData.get('gender'))
                 const res = await updateProfile(userID, formData)
                
                 if (res.status === 200) {

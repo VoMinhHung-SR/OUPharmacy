@@ -13,22 +13,6 @@ const useConversationDetail = (members) => {
         where('id', '==', recipientId)
     )
     const [docs, loading, error] = useCollection(queryGetRecipient)
-    // useEffect(() => {
-    //     const loadRecepientHandler = async () => {
-    //         const querySnapshot = await getDocs(queryGetRecipient); 
-    //         if (querySnapshot.size !== 0) {
-    //             const docs = querySnapshot.docs.map(doc => doc.data())
-    //         } else {
-    //             console.log("snap = 0")
-    //         }
-    //     }
-    //     if (recipientId) {
-    //         loadRecepientHandler()
-    //         console.log(recipient)
-    //         console.log(recipientId)
-    //     }
-
-    // }, [recipientId])
 
     return {
         docs, error, recipientId, loading

@@ -28,7 +28,6 @@ const ExaminationUpdate = ({examination,handleClose, ...props}) => {
         }
         
     },[])
-    console.log(date, doctor)
     const methods = useForm({
         mode:"obSubmit", 
         // resolver: yupResolver(formAddExaminationSchema),

@@ -43,7 +43,6 @@ const useRegister = () => {
         const loadDistricts = async (cityId) => {
             const res = await fetchDistrictsByCity(cityId)
             if(res.status === 200){
-                console.log(res.data)
                 setDistricts(res.data)
             }
             else{

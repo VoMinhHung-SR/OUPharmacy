@@ -8,7 +8,6 @@ const ExaminationDetail = () => {
   const { t, tReady } = useTranslation(["examination-detail"]);
   const { examinationData, isLoadingExaminationDetail } =
     useExaminationDetail();
-  console.log(examinationData);
   if (isLoadingExaminationDetail)
     return (
       <Box>

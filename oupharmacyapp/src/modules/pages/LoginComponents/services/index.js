@@ -6,11 +6,10 @@ export const fetchAccessToken = async (username, password) =>{
         try{
             const user = await authApi().get(endpoints['current-user'])
             if(user.status === 200){
-             console.log(user.data)
                 Cookies.set('user', JSON.stringify(user.data))
              }
         }catch(err){
-            console.log(err)
+            console.error(err)
         }
         
     }

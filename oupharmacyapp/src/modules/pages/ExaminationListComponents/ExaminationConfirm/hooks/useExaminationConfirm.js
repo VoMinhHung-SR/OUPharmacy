@@ -101,7 +101,6 @@ const useExaminationConfirm = () =>{
         return async () => {
           setDisableOtherCards(true); // disable other cards
           setLoadingState((prevState) => ({ ...prevState, [examinationID]: true })); // set loading state for this card
-          console.log("handle Send email confirm")
           try {
             const res = await fetchSendEmailConfirmExamination(examinationID);
             if (res.status === 200) {
@@ -112,7 +111,7 @@ const useExaminationConfirm = () =>{
               ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
             }
           } catch (err) {
-            console.log(err);
+            console.error(err);
           } finally {
             setLoadingState((prevState) => ({ ...prevState, [examinationID]: false })); // set loading state for this card
             setDisableOtherCards(false); // enable other cards
@@ -134,7 +133,6 @@ const useExaminationConfirm = () =>{
       
 
       const createNotificationRealtime  = async (userID, examinationID, avatar) => {
-        console.log("create notification")
         try{
             await setDoc(doc(db,`${APP_ENV}_notifications`, examinationID.toString()),{
                 "is_commit": false,
@@ -146,7 +144,7 @@ const useExaminationConfirm = () =>{
                 "sent_at" : serverTimestamp()
             },{merge:true})
         }catch(err){
-            console.log(err)
+            console.error(err)
         }
     }
    

@@ -15,7 +15,6 @@ export const sendReminderEmail = async (examID, seconds) => {
         console.log("Sent email")
     }catch(err){
         console.log(err)
-        console.log("cant send email")
     }  
     return res;
 };
@@ -32,7 +31,6 @@ export const loadDistanceFromUser = async (lat, lng) => {
         }
     }catch(err)
     {
-        console.log(err)
         return {distance: "", duration: ""}
     }
 }
@@ -63,12 +61,11 @@ export const handleSendRemindEmail = async () => {
   
           if (currentTime + 60 * 1000 >= examNotifyTime && !exam.remindStatus) {
             await sendReminderEmail(exam.examID, exam.duration);
-            console.log(`Reminder email sent for exam ${exam.examID}.`);
+      
 
             // Update the exam document to set remindStatus to true
             await keyUpdateExam(exam.examID, 'remindStatus', true);
 
-            console.log(`Exam ${exam.examID} updated with remindStatus=true.`);
           }
           if(currentTime + 60 * 1000 >= examStartTime) {
             await keyUpdateExam(exam.examID, 'isStarted', true);
