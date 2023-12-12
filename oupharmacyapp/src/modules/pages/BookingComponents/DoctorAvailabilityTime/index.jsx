@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const DoctorAvailabilityTime = ({ disabledTimes, isLoading, selectedStartTime, selectedEndTime, onChange }) => {
+const DoctorAvailabilityTime = ({ disabledTimes, isLoading, selectedStartTime, selectedEndTime, onChange, defaultValue }) => {
   const [selectedTime, setSelectedTime] = useState({ start: selectedStartTime, end: selectedEndTime });
 
   const renderRadioButtons = () => {
@@ -13,7 +13,8 @@ const DoctorAvailabilityTime = ({ disabledTimes, isLoading, selectedStartTime, s
       );
       const isSelected = startHour === selectedTime.start && endHour === selectedTime.end;
       const shouldDisable = isDisabled && (!isSelected || !selectedStartTime || !selectedEndTime);
-
+      
+      const isDefaultSelected = label === defaultValue;
       return (
         <label
           key={index}
@@ -26,7 +27,7 @@ const DoctorAvailabilityTime = ({ disabledTimes, isLoading, selectedStartTime, s
             className="ou-radio-input"
             disabled={shouldDisable}
             onChange={handleChange}
-            checked={isSelected}
+            checked={isSelected || isDefaultSelected}
           />
           <div className={`ou-radio-custom ${isSelected ? 'ou-selected-time' : ''}`}>{label}</div>
         </label>
