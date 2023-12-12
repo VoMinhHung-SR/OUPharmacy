@@ -114,7 +114,6 @@ class UserSerializer(ModelSerializer):
         }
 
 
-
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
@@ -206,7 +205,7 @@ class UserNormalSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id',"first_name", "last_name", "email", "location", "locationGeo"]
+        fields = ['id', "first_name", "last_name", "email", "location", "locationGeo"]
         extra_kwargs = {
             'locationGeo': {'read_only': 'true'},
             'location': {'write_only': 'true'}

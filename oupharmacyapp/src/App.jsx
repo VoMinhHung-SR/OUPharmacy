@@ -68,7 +68,7 @@ function App() {
 
     fetchData()
     // jobMidnight()
-    jobEveryMinutes()
+    // jobEveryMinutes()
   },[])
 
 
@@ -144,7 +144,7 @@ function App() {
           </BrowserRouter>
         </I18nextProvider>
     </QueryClientProvider>
-      <OUPharmacyChatBot/>
+      {/* <OUPharmacyChatBot/> */}
     </>  
 }
 
