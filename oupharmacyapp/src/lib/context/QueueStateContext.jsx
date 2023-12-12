@@ -37,7 +37,6 @@ export const QueueStateProvider = ({ children }) => {
         if (res.status === 500) {
           setQueue([]);
         }
-        console.log(err);
       } finally {
         setIsLoading(false);
       }

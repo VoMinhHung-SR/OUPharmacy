@@ -117,7 +117,6 @@ export const authApi = () => {
                     Cookies.set('refresh_token', res.data.refresh_token)
                     Cookies.set('token', res.data.access_token)
           
-                    // console.log(`Bearer ${res.data.access_token}`)
                     // set authorization header with new token and retry the original request
                     instance.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
                     return instance(originalRequest);

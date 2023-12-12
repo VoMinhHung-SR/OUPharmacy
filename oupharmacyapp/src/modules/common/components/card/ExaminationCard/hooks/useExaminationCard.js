@@ -27,7 +27,7 @@ const useExaminationCard = () =>{
                         ErrorAlert(t('modal:errSomethingWentWrong'),t('modal:pleaseTryAgain'), t('modal:ok'))
                     } 
             }catch(err){
-                console.log(err)
+                createToastMessage({message:t('modal:updateFailed'),type:TOAST_ERROR})
             }finally{
                 setIsLoadingButton(false)
                 setIsBackDropLoading(false)

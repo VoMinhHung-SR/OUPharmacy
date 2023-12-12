@@ -31,7 +31,6 @@ const FormAddExamination = (props) => {
             description:"",
             selectedDate:"",
             selectedTime: "",
-            // createdDate: "",
             doctor:"",
             firstName:"",
             lastName:"",
@@ -44,18 +43,13 @@ const FormAddExamination = (props) => {
     })
     const shouldRenderTimePicker = !!date; 
 
-    const handleTimeChange = (time) => {
-        // Update the form value for the selectedTime field
-        methods.setValue('selectedTime', time);
-        methods.trigger("selectedTime"); // Trigger validation for the field
-    };
-
+    
     const { allConfig } = useSelector((state) => state.config);
     const filterOptions = createFilterOptions({
         matchFrom: 'start',
         stringify: (option) => option.name,
     });
-
+    
     if (tReady)
         return <Box sx={{ minHeight: "300px" }}>
         <Box className='ou-p-5'>
@@ -146,39 +140,6 @@ const FormAddExamination = (props) => {
                                                     {methods.formState.errors.doctor?.message}</p>) : <></>}
                                          
                                         </Grid>
-                                          {/* <Grid item xs={6} className={clsx("!ou-mt-6 ou-pl-2")}>
-                                            <TimePicker
-                                            className={clsx("ou-w-full", {
-                                                "ou-error-timepicker ou-w-full": methods.formState.errors.selectedTime,
-                                                "focus:ou-error-timepicker ou-w-full": methods.formState.errors.selectedTime && methods.formState.touchedFields.selectedTime,
-                                                "!ou-error-timepicker ou-w-full": methods.formState.errors.selectedTime && !methods.formState.touchedFields.selectedTime
-                                            })}
-
-                                            name="selectedTime"
-                                            label={t('time')}
-                                            onChange={handleTimeChange}
-                                            renderInput={(props) => (
-                                                <TextField
-                                                error={methods.formState.errors.selectedTime ? true : false}
-                                                {...props}
-                                                {...methods.register('selectedTime')}
-                                
-                                                />
-                                            )}
-                                            views={['hours', 'minutes']}
-                                            minTime={moment().startOf('day')}
-                                            maxTime={moment().endOf('day')}
-                                            ampm={false}
-                                            timeSteps={{ minutes: 20 }}
-                                            shouldDisableTime={shouldDisableTime}
-                                          
-                                            />
-                                            {methods.formState.errors.selectedTime && (
-                                                <p className="ou-text-xs ou-text-red-600 ou-mt-1 ou-mx-[14px]">
-                                                    {methods.formState.errors.selectedTime.message}
-                                                </p>
-                                            )}
-                                        </Grid> */}
                                         { (doctor && timeNotAvailable) && (<Grid item xs={12} className={clsx("!ou-mt-6 ou-pl-2")}>
                                             <DoctorAvailabilityTime disabledTimes={timeNotAvailable} 
                                             onChange={(event)=> methods.setValue('selectedTime', event.target.value)}
@@ -193,7 +154,7 @@ const FormAddExamination = (props) => {
                                 
                                 
                         </Grid>
-
+                                            
                         <h5 className="ou-text-center ou-mt-8 ou-text-2xl">{t('patientInfo')}</h5>
                         <Grid container justifyContent="flex"  id={props.id}>
                             <Grid item xs={6}  className="!ou-mt-6 ou-pr-2" >

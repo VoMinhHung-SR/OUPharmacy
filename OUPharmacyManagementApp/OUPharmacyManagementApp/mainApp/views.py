@@ -458,7 +458,7 @@ class PatientViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIV
     pagination_class = BasePagination
     parser_classes = [JSONParser, MultiPartParser, ]
 
-    @action(methods=['POST'], detail=False, url_path='get-patient-by-email')
+    @action(methods=['post'], detail=False, url_path='get-patient-by-email')
     def get_patient_by_email(self, request):
         user = request.user
         if user:
@@ -819,16 +819,36 @@ def get_all_config(request):
         # database
         cities = CommonCity.objects.values("id", "name")
         roles = UserRole.objects.values("id", "name")
-        nurses = User.objects.filter(role__name=ROLE_NURSE,
-                                     is_active=True).values("id", "email", "first_name", "last_name")
-        doctors = User.objects.filter(role__name=ROLE_DOCTOR,
-                                      is_active=True).values("id", "email", "first_name", "last_name")
+        nurses = User.objects.filter(role__name=ROLE_NURSE,is_active=True)
+        doctors = User.objects.filter(role__name=ROLE_DOCTOR, is_active=True)
+
+        doctors_data = [
+            {
+                "id": doctor.id,
+                "email": doctor.email,
+                "first_name": doctor.first_name,
+                "last_name": doctor.last_name,
+                "avatar": doctor.avatar.url if doctor.avatar else None  # Get avatar URL if available
+            }
+            for doctor in doctors
+        ]
+        nurses_data = [
+            {
+                "id": nurse.id,
+                "email": nurse.email,
+                "first_name": nurse.first_name,
+                "last_name": nurse.last_name,
+                "avatar": nurse.avatar.url if nurse.avatar else None  # Get avatar URL if available
+            }
+            for nurse in nurses
+        ]
         res_data = {
             "cityOptions": cities,
             "roles": roles,
-            "doctors": doctors,
-            "nurses": nurses
+            "doctors": doctors_data,
+            "nurses": nurses_data
         }
+
     except Exception as ex:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={"errMgs": "value Error"})
     else:

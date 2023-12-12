@@ -30,7 +30,7 @@ const useAddressInfo = () => {
         const loadDistricts = async (cityId) => {
             const res = await fetchDistrictsByCity(cityId)
             if(res.status === 200){
-                console.log(res.data)
+  
                 setDistricts(res.data)
             }
             else{
@@ -48,7 +48,7 @@ const useAddressInfo = () => {
                 setLoading(true)
                 const res = await fetchPlaceByInput(debouncedValue)
                 if(res.status === 200){
-                    console.log(res.data)
+         
                     setListPlace(res.data.predictions)
                 }
             }catch (err){
@@ -65,7 +65,6 @@ const useAddressInfo = () => {
     const handleGetPlaceByID = async (placeId) =>{
         const res = await fetchPlaceById(placeId)
         if(res.status === 200){
-            console.log(res.data.result.geometry)
             setLocation({lat: res.data.result.geometry.location.lat,
             lng:  res.data.result.geometry.location.lng})
         }
