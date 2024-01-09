@@ -1,5 +1,6 @@
 {
     "enterEmail": "Enter your email",
+    "doctorInfo": "Doctor information",
     "updateBooking": "Update booking",
     "booking": "Booking",
     "patientInfo": "Patient information",
@@ -17,9 +18,11 @@
     "man": "Man",
     "woman": "Woman",
     "secret": "Secret",
-    "time": "Start time",
+    "timeTable": "Start time",
     "doctor": "Doctor",
     "Dr": "Dr.",
     "noDoctorFound": "No doctor's name was found",
-    "confirmBooking": "Confirmation of booking form"
+    "confirmBooking": "Confirmation of booking form",
+    "continue":"Continue",
+    "goBack": "Go back"
 }

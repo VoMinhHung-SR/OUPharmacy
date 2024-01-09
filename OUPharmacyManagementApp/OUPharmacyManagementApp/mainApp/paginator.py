@@ -6,7 +6,7 @@ class BasePagination(PageNumberPagination):
 
 
 class MedicineUnitPagination(PageNumberPagination):
-    page_size = 100
+    page_size = 9
 
 
 class ExaminationPaginator(PageNumberPagination):

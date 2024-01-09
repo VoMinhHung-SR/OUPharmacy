@@ -1,25 +1,13 @@
 import { Avatar, Box, Container, Grid, Paper, TextField } from "@mui/material";
 import { AVATAR_DEFAULT, CURRENT_DATE, ERROR_CLOUDINARY } from "../../../../../lib/constants";
-import DoctorAvailabilityTime from "../../../../pages/BookingComponents/DoctorAvailabilityTime";
-import useDoctorAvailability from "../../../../pages/BookingComponents/DoctorAvailabilityTime/hooks/useDoctorAvailability";
-import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import Loading from "../../Loading";
-import moment from "moment";
-import FormAddExamination from "../../../../pages/BookingComponents/FormAddExamination";
 import BookingForm from "../../../../pages/BookingComponents/BookingForm";
 
 const DoctorProfileCard = ({doctorInfo}) => {
     const {t , tReady} = useTranslation(['booking', 'yup-validate', 'modal'])
 
     const doctor = doctorInfo;
-    const {timeNotAvailable, isLoading, date, setDate, time, setTime} = useDoctorAvailability();
-
-    const handleDateChange = (event) => {
-        setDate(event.target.value);
-    };
-
-    const shouldRenderTimePicker = !!date; 
 
     if (tReady)
         return <Box sx={{ minHeight: "300px" }}>

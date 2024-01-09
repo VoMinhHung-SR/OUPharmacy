@@ -495,17 +495,10 @@ class MedicineViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveA
 
 class MedicineUnitViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView,
                           generics.UpdateAPIView, generics.CreateAPIView, generics.DestroyAPIView):
-    queryset = MedicineUnit.objects.filter(active=True)
+    queryset = MedicineUnit.objects.filter(active=True).order_by('medicine__name')
     serializer_class = MedicineUnitSerializer
     pagination_class = MedicineUnitPagination
     parser_classes = [JSONParser, MultiPartParser]
-
-    def get_queryset(self):
-        queryset = self.queryset
-        kw = self.request.query_params.get('kw')
-        if kw:
-            queryset = queryset.filter(medicine__name__icontains=kw)
-        return queryset
 
 
 class DiagnosisViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView,
@@ -821,6 +814,7 @@ def get_all_config(request):
         roles = UserRole.objects.values("id", "name")
         nurses = User.objects.filter(role__name=ROLE_NURSE,is_active=True)
         doctors = User.objects.filter(role__name=ROLE_DOCTOR, is_active=True)
+        categories = Category.objects.filter(active=True).values("id", "name")
 
         doctors_data = [
             {
@@ -842,11 +836,13 @@ def get_all_config(request):
             }
             for nurse in nurses
         ]
+
         res_data = {
             "cityOptions": cities,
             "roles": roles,
             "doctors": doctors_data,
-            "nurses": nurses_data
+            "nurses": nurses_data,
+            "categories": categories
         }
 
     except Exception as ex:
