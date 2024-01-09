@@ -190,7 +190,7 @@ class MedicineUnit(BaseModel):
     price = models.FloatField(null=False)
     in_stock = models.IntegerField(null=False)
     image = CloudinaryField('medicineImage', default='', null=True)
-
+    packaging = models.CharField(max_length=50, null=True)
     medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 

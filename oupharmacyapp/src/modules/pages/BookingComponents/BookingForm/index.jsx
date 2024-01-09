@@ -30,7 +30,6 @@ const BookingForm = ({doctorInfo}) => {
         }
     };
 
-    console.log(timeNotAvailable)
     const methods = useForm({
         mode:"obSubmit", 
         resolver: yupResolver(formAddExaminationSchema),
@@ -65,7 +64,7 @@ const BookingForm = ({doctorInfo}) => {
             disabled={(!methods.getValues('selectedDate') || !methods.getValues('selectedTime')) && true }
             style={{"padding": "6px 40px", "marginLeft":"auto"}}
             >
-            GO next
+            {t('booking:continue')}
         </Button>
 
             
@@ -75,13 +74,12 @@ const BookingForm = ({doctorInfo}) => {
     const renderPatientInformationForm = (slideRight) => {
         if(!slideRight)
             return  (<>
-                    <h3 className="ou-text-2xl ou-text-center ou-mb-5">Doctor info</h3>
-                    <div className="ou-flex">
+                    <h3 className="ou-text-2xl ou-text-center ou-mb-5">{t('booking:doctorInfo')}</h3>
+                    <div className="ou-flex ou-mb-3">
                         <p className="ou-w-[50%]">{t('firstName')}: {doctor.first_name}</p>
                         <p className="ou-w-[50%]">{t('lastName')}: {doctor.last_name}</p>
                     </div>
-                    <div>{t('description')}:  </div>
-                    <div>Gio dat lich cua bac si </div>
+                    <div className="ou-mb-3">{t('description')}:  </div>
                     <Grid item className="!ou-mt-6 !ou-mb-3">
                         <TextField
                             fullWidth
@@ -267,7 +265,7 @@ const BookingForm = ({doctorInfo}) => {
                 
                     <form onSubmit={methods.handleSubmit((data)=> 
                     onSubmit(data, () => methods.reset(), methods.setError()))}
-                        className="ou-m-auto ou-py-5 ou-px-5"> 
+                        className="ou-m-auto  ou-px-5"> 
                         
                         {/* Patient Form required */}
                         {renderPatientInformationForm(slideRight)}
@@ -280,7 +278,7 @@ const BookingForm = ({doctorInfo}) => {
                                     onClick={handleSlideChange}
                                     style={{"padding": "6px 40px", "marginRight": "8px", "marginLeft":"auto"}}
                                     >
-                                    GO previous
+                                     {t('booking:goBack')}
                                 </Button> 
                                 <Button variant="contained" 
                                 color="success" 

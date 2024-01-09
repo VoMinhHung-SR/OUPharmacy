@@ -56,20 +56,6 @@ const PrescriptionList = () => {
                     : (
                         <>
                             <Box className='ou-py-8 ou-m-auto ou-max-w-[1536px] ou-w-[100%]'>
-                                {/* <form className="d-flex mb-3 "
-                                    // onSubmit={search} 
-                                    style={{ "marginLeft": "auto", "maxWidth": "300px" }}>
-                                    <FormControl
-                                        type="search"
-                                        placeholder="Nhập tên bác sĩ..."
-                                        aria-label="Search"
-                                    // value={q}
-                                    // onChange={event => setQ(event.target.value)}
-                                    />
-                                    <Button type="submit" variant="contained">
-                                        <SearchIcon />
-                                    </Button>
-                                </form> */}
                                 <TableContainer component={Paper} elevation={4}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                         <TableHead>

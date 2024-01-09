@@ -132,7 +132,7 @@ class MedicineUnitSerializer(ModelSerializer):
 
     class Meta:
         model = MedicineUnit
-        fields = ["id", "price", "in_stock", "image", "medicine", "category", "image_path"]
+        fields = ["id", "price", "in_stock", "image", "packaging", "medicine", "category", "image_path"]
         extra_kwargs = {
             'image_path': {'read_only': 'true'},
         }
