@@ -34,15 +34,16 @@ const useExaminationConfirm = () =>{
     const [page, setPage] = useState(1);
     
     const handleChangePage = (event, value) => {
-        goToTop();
-        setIsLoadingExamination(true);
-        setExaminationList([]);
-        setPage(value);
+      if(page=== value)
+        return;
+      goToTop();
+      setIsLoadingExamination(true);
+      setExaminationList([]);
+      setPage(value);
     };
 
     const handleOnSubmitFilter = (value) => {
         setIsLoadingExamination(true);
-        // setExaminationList([]);
         setParamsFilter(value)
         setFilterCount(Object.values(value).filter(v => v !== 0 && v !== '').length);
         setPage(1);
@@ -65,9 +66,16 @@ const useExaminationConfirm = () =>{
                 let query = q.toString();
                 
                 let querySample = query 
-                querySample === "" ? (querySample += `page=${page}&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }&status=${paramsFilter.mailStatus === 1 ? 'true' : (paramsFilter.mailStatus === -1 ? "false" : "")}&ordering=${paramsFilter.createdDate === 0 ? "-created_date": "created_date"}`): 
+                querySample === "" ? 
+                (querySample += `page=${page}
+                &kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw}
+                &status=${paramsFilter.mailStatus === 1 ? 'true' :(paramsFilter.mailStatus === -1 ? "false" : "")}
+                &ordering=${paramsFilter.createdDate === 0 ? "-created_date": "created_date"}`): 
 
-                (querySample += `&page=${page}&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }&status=${paramsFilter.mailStatus === 1 ? 'true' : paramsFilter.mailStatus === -1 ? "false" : ""}}&ordering=${paramsFilter.createdDate === 0 ? "created_date": "-created_date"}`);
+                (querySample += `&page=${page}
+                &kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }
+                &status=${paramsFilter.mailStatus === 1 ? 'true' : paramsFilter.mailStatus === -1 ? "false" : ""}}
+                &ordering=${paramsFilter.createdDate === 0 ? "created_date": "-created_date"}`);
 
   
                 const res = await fetchExaminationListConfirm(querySample);
@@ -101,7 +109,6 @@ const useExaminationConfirm = () =>{
         return async () => {
           setDisableOtherCards(true); // disable other cards
           setLoadingState((prevState) => ({ ...prevState, [examinationID]: true })); // set loading state for this card
-          console.log("handle Send email confirm")
           try {
             const res = await fetchSendEmailConfirmExamination(examinationID);
             if (res.status === 200) {
@@ -112,7 +119,7 @@ const useExaminationConfirm = () =>{
               ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));
             }
           } catch (err) {
-            console.log(err);
+            console.error(err);
           } finally {
             setLoadingState((prevState) => ({ ...prevState, [examinationID]: false })); // set loading state for this card
             setDisableOtherCards(false); // enable other cards
@@ -134,7 +141,6 @@ const useExaminationConfirm = () =>{
       
 
       const createNotificationRealtime  = async (userID, examinationID, avatar) => {
-        console.log("create notification")
         try{
             await setDoc(doc(db,`${APP_ENV}_notifications`, examinationID.toString()),{
                 "is_commit": false,
@@ -146,7 +152,7 @@ const useExaminationConfirm = () =>{
                 "sent_at" : serverTimestamp()
             },{merge:true})
         }catch(err){
-            console.log(err)
+            console.error(err)
         }
     }
    

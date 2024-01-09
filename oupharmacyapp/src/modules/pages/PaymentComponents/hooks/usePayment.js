@@ -27,7 +27,7 @@ const usePayment = () => {
                 }
             } catch (err) {
                 setExaminationDetail([])
-                console.log(err)
+                console.error(err)
             }finally {
                 setIsloadingPrescriptionDetail(false)
                 

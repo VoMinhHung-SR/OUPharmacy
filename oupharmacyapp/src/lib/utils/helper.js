@@ -88,7 +88,7 @@ export const getListExamToday = async () => {
         return [];
       }
     } catch (error) {
-      console.log('Error getting documents: ', error);
+
       return [];
     }
   };
@@ -129,7 +129,7 @@ export const setListExamToday = async (examData) => {
 
       try {
           await setDoc(waitingRoomRef, {exams: examList}, { merge: true });
-          console.log('Document saved successfully!');
+
       } catch (error) {
           console.error('Error saving document:', error);
       }

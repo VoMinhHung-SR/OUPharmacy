@@ -14,7 +14,6 @@ const [viewport, setViewport] = useState({
         longitude: locationData.lng,
         zoom: 16,
     }); 
-    console.log(locationData)
     return (
         <>
         

@@ -6,6 +6,8 @@ import usePrescriptionDetailCard from "./hooks/usePrescriptionDetailCard";
 import BackdropLoading from "../../BackdropLoading";
 import { useTranslation } from "react-i18next";
 import Loading from "../../Loading";
+import { useSelector } from "react-redux";
+import MedicinesHome from "../../../../pages/ProductComponents/MedicinesHome";
 
 const PrescriptionDetailCard = ({examID, recipientID}) => {
 
@@ -14,6 +16,8 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
         medicineUnits, setMedicine, handleDeleteItem, prescriptionDetailSchema} = usePrescriptionDetailCard()
 
     const {t, ready} = useTranslation(['prescription-detail', 'yup-validate', 'modal'])
+
+    const { allConfig } = useSelector((state) => state.config);
 
     const methods = useForm({
         mode:"onSubmit",
@@ -35,6 +39,9 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
         </Box>
     </Box>
 
+    if(!allConfig.categories)
+        return  <Container><div>Hien tai khong co danh muc phu hop</div></Container>
+
     return (
         <>
             {openBackdrop ?
@@ -42,7 +49,7 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                 : <></>
             }
             <Box className='ou-my-10 ou-py-8 ou-px-6'  component={Paper} elevation={5} >
-                <form 
+                {/* <form 
                     className="ou-m-auto"
                     onSubmit={methods.handleSubmit((data)=> onSubmit(data,methods.reset()))}
                 >
@@ -70,7 +77,7 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
 
                                     renderInput={(params) => <TextField {...params} label={t('medicineName') + "*"} />}
                                 />
-                            </FormControl>
+                            </FormControl>const { allConfig } = useSelector((state) => state.config);
                         </Grid>
 
                         <Grid item xs={3} className="ou-px-2">
@@ -116,10 +123,10 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                             </Grid>
                         </Grid>
                     </Grid>
-                </form>
+                </form> */}
                 
                 <Box component={Paper} >
-                <form
+                {/* <form
                     className="ou-my-4"
                     style={{ "padding": "20px 20px", "border": "1.5px solid gray", "borderRadius":"8px" }}>
                     <h1 className="ou-text-center ou-text-xl ou-pb-4">{t('prescriptionDetail')}</h1>
@@ -216,8 +223,8 @@ const PrescriptionDetailCard = ({examID, recipientID}) => {
                                 </Typography>
                             </Grid>
                         </Grid>)}
-                </form>
-
+                </form> */}
+                    <MedicinesHome/>
                 </Box>
                
             </Box>

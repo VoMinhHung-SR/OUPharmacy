@@ -73,7 +73,7 @@ const useBillCard = (prescribingID) => {
             try {
                 const res = await fetchMomoPaymentURL({amount: amount, prescribing: prescribingID})
                 if (res.status === 200) {
-                    // console.log(res.data.payUrl)
+        
                     window.location.replace(res.data.payUrl);
                 }
             } catch (err) {

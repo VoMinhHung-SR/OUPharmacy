@@ -15,7 +15,6 @@ const Demo = () => {
         const res = await authApi().post(endpoints['get-total-exams'], { date: date });
         if (res.status === 200) {
           setExaminations(res.data.examinations);
-          console.log(res.data);
         }
       } catch (error) {
         console.error(error);
@@ -46,14 +45,12 @@ const Demo = () => {
     const concatenatedValue = `${selectedDate}T${selectedTime}`;
     
     // Use the concatenated value as needed
-    console.log(concatenatedValue);
 
     setSelectedTime(concatenatedValue);
   };
 
   if(selectedTime){
     const date2= new Date(selectedTime)
-    console.log(selectedTime)
   }
   return (
     <>
