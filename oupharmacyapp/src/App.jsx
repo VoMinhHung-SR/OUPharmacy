@@ -44,6 +44,7 @@ import { UserProvider } from './lib/context/UserContext'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import ProductList from './pages/products'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -91,6 +92,8 @@ function App() {
                         <Route path='/' element={<Home />}/>
                         
                         <Route path='/waiting-room' element={<WaitingRoom/>}/>
+                        <Route path='/products' element={<ProductList/>}/>
+                        
                         {/* Accepted when user authorized */}
                         <Route element={<ProtectedUserRoute/>}>
                     

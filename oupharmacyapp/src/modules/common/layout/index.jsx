@@ -9,11 +9,10 @@ import LimitExamPerDay from "../../pages/HomeComponents/LimitExamPerDay";
 const Layout = () => {
     const location = useLocation();
     const isHomepage = location.pathname === '/';
-    // ou-bg-[#ededed]
   return (
     <>
         <Nav/>
-        <main className="ou-min-h-[550px] ou-relative ou-z-0 ou-mt-[62px] 
+        <main className="ou-min-h-[550px] ou-relative ou-z-0 ou-mt-[62px] ou-bg-[#ededed]
       
         ">
             {isHomepage ? (

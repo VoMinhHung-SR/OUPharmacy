@@ -32,6 +32,12 @@ const Nav = () => {
       name:t('booking'),
       link: '/booking'
     },
+    {
+      // Accept all user
+      id: 'products',
+      name:t('products'),
+      link: '/products'
+    },
     {  
       // Only user-doctor and nurse
       id: 'examinations',
@@ -40,15 +46,16 @@ const Nav = () => {
     },
     {  
       // Only user-Doctor
-      id: 'pescribings',
+      id: 'prescribing',
       name:t('prescribing'),
       link: '/prescribing'
     },
-    {
-      id: 'waiting-room',
-      name: t('waitingRoom'),
-      link: '/waiting-room'
-    }
+   
+    // {
+    //   id: 'waiting-room',
+    //   name: t('waitingRoom'),
+    //   link: '/waiting-room'
+    // }
   ];
   // State trigger menu open
   const {isLoading, notifyListContent, updateNotifications} = useNotification();
@@ -176,7 +183,7 @@ const Nav = () => {
 
   const renderElementNav = (pageID, pageLink, pageName, isMobile = false, keyPage) => {
     // Render for doctor
-      if(pageID === 'pescribings'|| pageID === 'pescribings-mb')
+      if(pageID === 'prescribing'|| pageID === 'prescribing-mb')
         if(user && user.role === ROLE_DOCTOR)
           return(
             <Link to={pageLink} key={keyPage}>
@@ -355,19 +362,6 @@ const Nav = () => {
           </Box>
         </Toolbar>
       </Container>
-      {/* <CustomModal title={'hhihi'}   className="ou-w-[900px]"
-        open={isOpen}
-        onClose={handleCloseModal}
-        content={<Box>
-          <div>
-              ahihi
-          </div> 
-        </Box>}
-        actions={[
-          <Button key="cancel" onClick={handleCloseModal}>
-            {t('modal:cancel')}
-          </Button>
-        ]}/> */}
     </AppBar>
   )
 }

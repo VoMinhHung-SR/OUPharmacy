@@ -489,7 +489,7 @@ class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView, generics.UpdateAPI
 class MedicineViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView,
                       generics.UpdateAPIView, generics.CreateAPIView, generics.DestroyAPIView):
     queryset = Medicine.objects.filter(active=True)
-    serializer_class = MedicineUnitPagination
+    serializer_class = MedicineSerializer
     pagination_class = BasePagination
 
 
