@@ -14,7 +14,6 @@ import UserContext from "../../../../../../lib/context/UserContext";
 const usePrescriptionDetailCard = () => {
     const {t} = useTranslation(['yup-validate', 'modal', 'prescription-detail'])
     const {prescribingId} = useParams();
-    // const [user] = useContext(userContext)
     const {user}=useContext(UserContext);
     const [flag, setFlag] = useState(false)
     const router = useNavigate();
@@ -23,7 +22,6 @@ const usePrescriptionDetailCard = () => {
         "medicineName": '',
         "medicineUnitId": -1
     })
-    const [medicineUnits, setMedicineUnits] = useState([])
     const [medicinesSubmit, setMedicineSubmit] = useState([])
 
 
@@ -67,6 +65,26 @@ const usePrescriptionDetailCard = () => {
         // this is callback function when user confirmed "Yes"
         ()=>{
             deleteItem()
+        }, () => { return; })
+    }
+
+    const handleOnEditItem = (itemID, data) => {
+        const editItem = () => {
+            if (medicinesSubmit.length !== 0) {
+                medicinesSubmit.forEach((medicineUnit, i) => {
+                    if (medicineUnit.id === itemID) {
+                        medicinesSubmit.quantity = data.quantity
+                        medicineUnit.uses = data.uses
+                        SuccessfulAlert(t('modal:deleteCompleted'),t('modal:ok'))
+                        setFlag(!flag)
+                    }
+                })
+            }
+        }
+        return ConfirmAlert(t('prescription-detail:confirmDeleteMedicine'),t('modal:noThrowBack'),t('modal:yes'),t('modal:cancel'),
+        // this is callback function when user confirmed "Yes"
+        ()=>{
+            editItem(itemID)
         }, () => { return; })
     }
 
@@ -118,17 +136,16 @@ const usePrescriptionDetailCard = () => {
         },() => { return; })
     }
 
-    const onSubmit = (data, resetForm) => {
+    const onSubmit = (medicineUnit, data) => {
         const addMedicinesUnit = async () => {
             try {
-                if (medicine.medicineUnitId === -1)
+                if (medicineUnit.id === -1)
                     return ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
                 else {
-                    resetForm
                     if (medicinesSubmit.length !== 0) {
                         for (let i = 0; i < medicinesSubmit.length; i++) {
                             // Update items in dynamic table
-                            if (medicinesSubmit[i].id === medicine.medicineUnitId) {
+                            if (medicinesSubmit[i].id === medicineUnit.id) {
                                 medicinesSubmit[i].uses = data.uses
                                 medicinesSubmit[i].quantity = medicinesSubmit[i].quantity + parseInt(data.quantity)
                                 return medicinesSubmit
@@ -136,36 +153,23 @@ const usePrescriptionDetailCard = () => {
                             // Add new lineItems
                                 if (medicinesSubmit[i].id !== medicine.medicineUnitId
                                     && i === medicinesSubmit.length - 1)
-                                    addMedicine(medicine.medicineUnitId, medicine.medicineName,
+                                    addMedicine(medicineUnit.id, medicineUnit.medicine.name,
                                         data.uses, data.quantity);
                         }
                     } else
-                        addMedicine(medicine.medicineUnitId, medicine.medicineName,
+                        addMedicine(medicineUnit.id, medicineUnit.medicine.name,
                             data.uses, data.quantity);
                 }
             } catch (err) {
                 ErrorAlert(t('modal:createFailed'), t('modal:pleaseDoubleCheck'), t('modal:ok'))
+            } finally {
+                setFlag(!flag)
             }
         }
         addMedicinesUnit();
     }
 
-    useEffect(() => {
-        const loadMedicineUnits = async () => {
-            try {
-                const res = await fetchMedicinesUnit()
-                if (res.status === 200) {
-                    const data = await res.data;
-                    setMedicineUnits(data.results)
-                }
-            } catch (err) {
-                setMedicineUnits([])
-            }
-        }
-        if(user){
-            loadMedicineUnits()
-        }
-    }, [flag, medicinesSubmit])
+    useEffect(() => {}, [flag, medicinesSubmit])
 
     const createNotificationRealtime  = async (userID, examinationID) => {
         try{
@@ -186,7 +190,6 @@ const usePrescriptionDetailCard = () => {
     return {
         user,
         medicinesSubmit,
-        medicineUnits,
         openBackdrop,
         setMedicine,
         onSubmit,

@@ -1,12 +1,11 @@
 
 import { useSelector } from "react-redux";
-import useMedicine from "../../../../lib/hooks/useMedicine"
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Paper } from "@mui/material";
 import ProductHomeLeft from "../LeftSide";
 import ProductHomeRight from "../RightSide";
 import { useTranslation } from "react-i18next";
 
-const MedicinesHome = () => {
+const MedicinesHome = ({actionButton, onAddMedicineLineItem}) => {
    
     const { t, tReady } = useTranslation(['product'])
     const { allConfig } = useSelector((state) => state.config);
@@ -15,12 +14,11 @@ const MedicinesHome = () => {
         return  <Container><div>{t('errNullCate')}</div></Container>
 
     return (
-        <Box>
+        <Box component={Paper} elevation={5} className="ou-px-4 ou-py-6">
             <Grid container>
-            
                 {/* Product Left Bar is for categories */}
-                <Grid item xs={3}>
-                        <h2 className="ou-text-center ou-font-bold">{t('categories')}</h2>
+                <Grid item xs={3} className="">
+                    <h2 className="ou-text-center ou-text-xl">{t('categories')}</h2>
                     <Box>
                         <ProductHomeLeft cates={allConfig.categories}/>
                     </Box>
@@ -29,14 +27,15 @@ const MedicinesHome = () => {
 
                 {/* Product Right Bar is for products */}
                 <Grid item xs={9}>
-                <h2 className="ou-text-center ou-font-bold">{t('products')}</h2>
-                    <Box>  
-                        <ProductHomeRight/>
+                    <Box> 
+                       <ProductHomeRight actionButton={actionButton} onAddMedicineLineItem={onAddMedicineLineItem}/>
                     </Box>
                 </Grid>
         
             </Grid>
+      
         </Box>
+            
         )
 }
 
