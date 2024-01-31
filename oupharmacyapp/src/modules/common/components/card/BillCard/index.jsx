@@ -55,19 +55,18 @@ const BillCard = (props) =>{
                     <Loading/>                
                 </Box>
             </Box>)
+          
             : prescriptionDetail.length === 0 ?
-                (<Box className="ou-relative ou-items-center " sx={{ minHeight: "300px" }}>
-                <Box className='ou-absolute ou-p-5 ou-text-center 
-                ou-flex-col ou-flex ou-justify-center ou-items-center
-                ou-top-0 ou-bottom-0 ou-w-full ou-place-items-center'>
-                    <h2 className='ou-text-xl ou-text-red-600'>
-                        {t('errNullPrescriptionDetail')}
-                    </h2>
-                    <Typography className='text-center'>
-                        <h3>{t('common:backToHomepage')} </h3>
-                        <Button onClick={() => { router('/') }}>{t('common:here')}!</Button>
-                    </Typography>
-                </Box>
+                (<Box>
+                    <Box className='ou-text-center  ou-flex ou-flex-col ou-items-center'>
+                        <h2 className='ou-text-xl ou-text-red-600'>
+                            {t('errNullPrescriptionDetail')}
+                        </h2>
+                        <Typography className='text-center'>
+                            <h3>{t('common:backToHomepage')} </h3>
+                            <Button onClick={() => { router('/dashboard') }}>{t('common:here')}!</Button>
+                        </Typography>
+                    </Box>
                 </Box>)
                 : (
                     <>

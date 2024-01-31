@@ -149,12 +149,18 @@ class PatientSerializer(ModelSerializer):
         exclude = ["created_date", "updated_date"]
 
 
+class DiagnosisStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diagnosis
+        fields = ["id", "sign", "diagnosed"]
+
 class ExaminationSerializer(ModelSerializer):
     patient_id = serializers.IntegerField(write_only=True)
 
     patient = PatientSerializer(read_only=True)
     user = UserSerializer()
     doctor_info = serializers.SerializerMethodField(source="doctor_availability")
+    diagnosis_info = DiagnosisStatusSerializer(many=True, read_only=True, source='diagnosis_set')
 
     def get_doctor_info(self, obj):
         doctor = obj.doctor_availability
@@ -181,7 +187,8 @@ class ExaminationSerializer(ModelSerializer):
     class Meta:
         model = Examination
         fields = ["id", "active", "created_date", "updated_date", "description", 'mail_status',
-                  'doctor_availability', 'user', 'patient', 'patient_id', 'wage', 'reminder_email', 'doctor_info']
+                  'doctor_availability', 'user', 'patient', 'patient_id', 'wage',
+                  'reminder_email', 'doctor_info', 'diagnosis_info']
         exclude = []
         extra_kwargs = {
             'doctor_info': {'read_only': 'true'},
@@ -212,10 +219,25 @@ class UserNormalSerializer(ModelSerializer):
         }
 
 
+class PrescribingSerializer(ModelSerializer):
+    bill_status = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = Prescribing
+        exclude = []
+
+    def get_bill_status(self, obj):
+        # Assuming 'bill' is the ForeignKey relation from Prescribing to Bill
+        bill_instance = obj.bill_set.first()
+        if bill_instance:
+            return {'id': bill_instance.id, 'amount': bill_instance.amount}
+        return None
+
+
 class DiagnosisSerializer(ModelSerializer):
     examination = ExaminationSerializer()
     user = UserNormalSerializer()
     patient = PatientSerializer()
+    prescribing_info = PrescribingSerializer(many=True, read_only=True, source='prescribing_set')
 
     class Meta:
         model = Diagnosis
@@ -223,7 +245,6 @@ class DiagnosisSerializer(ModelSerializer):
 
 
 class DiagnosisCRUDSerializer(ModelSerializer):
-
     class Meta:
         model = Diagnosis
         exclude = []
@@ -232,12 +253,6 @@ class DiagnosisCRUDSerializer(ModelSerializer):
 class PrescriptionDetailCRUDSerializer(ModelSerializer):
     class Meta:
         model = PrescriptionDetail
-        exclude = []
-
-
-class PrescribingSerializer(ModelSerializer):
-    class Meta:
-        model = Prescribing
         exclude = []
 
 

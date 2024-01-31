@@ -31,7 +31,7 @@ const Payments = () => {
         else
             return (
                 <Box className='ou-m-auto ou-max-w-[1536px] ou-min-h-[550px] 
-                ou-py-5 ou-flex ou-flex-col ou-justify-center'>
+                ou-py-5 ou-flex ou-flex-col ou-justify-center ou-w-[100%]'>
                     <Box className="!ou-mb-3">        
                         <Box  >
                             {examinationDetail.id ? 

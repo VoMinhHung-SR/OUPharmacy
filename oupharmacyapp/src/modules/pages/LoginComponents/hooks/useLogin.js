@@ -8,6 +8,7 @@ import { userContext } from '../../../../App';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import UserContext from '../../../../lib/context/UserContext';
+import { ROLE_DOCTOR, ROLE_NURSE } from '../../../../lib/constants';
 
 const useLogin = () => {
     const {t} = useTranslation(['yup-validate'])
@@ -53,7 +54,9 @@ const useLogin = () => {
             'payload': user.data
         })
         if (user !== null) {
-            nav("/")
+            if (user.data.role === ROLE_DOCTOR || user.data.role === ROLE_NURSE)
+                return nav('/dashboard')
+            return nav("/")
         }
     }
     const loginSchema = Yup.object().shape({

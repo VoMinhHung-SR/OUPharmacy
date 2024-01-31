@@ -45,6 +45,7 @@ import { UserProvider } from './lib/context/UserContext'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import ProductList from './pages/products'
+import Dashboard from './modules/common/layout/dashboard'
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -107,7 +108,6 @@ function App() {
                           {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
                           <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
                             <Route path='/examinations' element={<Examinations/>}/> 
-                            {/* <Route path='/examinations/:examinationId' element={<ExaminationDetail/>}/>  */}
                           </Route>
 
                           {/* Accepted user.role = ROLE_DOCTOR */}
@@ -127,23 +127,53 @@ function App() {
                           </Route>
 
                         </Route>
-                        <Route path="/forbidden" element={<Forbidden />} />
-                       
-                        <Route path="*" element={<NotFound/>} />
-                      
 
-                          <Route path='/demo' element={<Demo/>}/>
-                      
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                     
+
+                        <Route path="/forbidden" element={<Forbidden />} />
+                        <Route path="*" element={<NotFound/>} />
+
+                        <Route path='/demo' element={<Demo/>}/>
+                          
+                
                       </Route>
+                      <Route path='/dashboard/' element={<Dashboard/>}>
+                      <Route element={<ProtectedUserRoute/>}>                          {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
+                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
+                            <Route path='/dashboard/examinations' element={<Examinations/>}/> 
+                          </Route>
+
+                          {/* Accepted user.role = ROLE_DOCTOR */}
+                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
+                            <Route path='/dashboard/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                            <Route path='/dashboard/prescribing' element={<PrescriptionList/>} />
+                            <Route path='/dashboard/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                          </Route>
+
+                          {/* Accepted user.role = ROLE_NURSE */}
+                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
+                            <Route path='/dashboard/payments' element={<PrescriptionList/>} />
+                            <Route path='/dashboard/payments/examinations/:examinationId' element={<Payments />} />
+                          </Route>
+
+                          <Route path='/dashboard/profile' element={<Profile />} >
+                            <Route path='/dashboard/profile/address-info' element={<ProfileAddressInfo />} />
+                            <Route path='/dashboard/profile/examinations' element={<ExaminationList />} />
+                          </Route>
+
+                          <Route path="/dashboard/forbidden" element={<Forbidden />} />
+                      </Route>
+                      </Route>
+
+                    
+                    
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     </Routes>
                 </QueueStateProvider>
               {/* </userContext.Provider> */}
             {/* </CookiesProvider> */}
             </UserProvider>
-                        </LocalizationProvider>
+            </LocalizationProvider>
           </BrowserRouter>
         </I18nextProvider>
     </QueryClientProvider>

@@ -67,25 +67,25 @@ const Examinations = () => {
   const renderExamList = () => 
   (
       <Box className="ou-py-8 ou-m-auto ou-max-w-[1536px]" >
-      <Box className="ou-flex ou-justify-end ou-items-end"> 
-        {expanded &&  
-        <Fade show={expanded}>
-            <ExpandCloseComponent 
-              expanded={expanded}
-              disableButtonOff={true}
-              toggleExpanded = {toggleExpanded}
-              openIcon = { <FilterAltIcon/>}
-              closeIcon = { <FilterAltOffIcon/>}
-            >
-            <ExaminationFilter onSubmit={handleOnSubmitFilter} 
-              mailStatus={paramsFilter.mailStatus} createdDate={paramsFilter.createdDate} 
-              kw={paramsFilter.kw}/>
-          </ExpandCloseComponent>
-        </Fade>
-        
-      }
-        
-      </Box>
+        <Box className="ou-flex ou-justify-end ou-items-end"> 
+          {expanded &&  
+          <Fade show={expanded}>
+              <ExpandCloseComponent 
+                expanded={expanded}
+                disableButtonOff={true}
+                toggleExpanded = {toggleExpanded}
+                openIcon = { <FilterAltIcon/>}
+                closeIcon = { <FilterAltOffIcon/>}
+              >
+              <ExaminationFilter onSubmit={handleOnSubmitFilter} 
+                mailStatus={paramsFilter.mailStatus} createdDate={paramsFilter.createdDate} 
+                kw={paramsFilter.kw}/>
+            </ExpandCloseComponent>
+          </Fade>
+          
+        }
+          
+        </Box>
       
       <TableContainer component={Paper} elevation={4}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -95,12 +95,11 @@ const Examinations = () => {
               <TableCell align="center">{t("description")}</TableCell>
               <TableCell align="center">{t("createdDate")}</TableCell>
               <TableCell align="center">{t("mailStatus")}</TableCell>
+              <TableCell align="center">{t("diagnosisStatus")}</TableCell>    
               <TableCell align="center">{t("userCreated")}</TableCell>
               <TableCell align="center">
                 <Box className="ou-flex ou-justify-center ou-items-center">
-
                   {t("function")} 
-                
                   <Box className="!ou-text-right">
                     <Button onClick={toggleExpanded}>  
                       <Badge

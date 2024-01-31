@@ -152,7 +152,7 @@ const DiagnosisForm = (props) => {
                                 {props.seen ? <></> :  <Button variant="contained" 
                                     className="!ou-mt-5 !ou-min-w-[150px] !ou-min-h-[40px]" 
                                     color="success" 
-                                    onClick={()=> router(`/prescribing/${props.id}`)} >
+                                    onClick={()=> router(`/dashboard/prescribing/${props.id}`)} >
                                     {t('prescribing')}
                                 </Button>}
                                

@@ -5,6 +5,8 @@
     "description":"Description",
     "createdDate":"Created date",
     "mailStatus":"Mail status",
+    "diagnosisStatus": "Diagnosis status",
+    "paymentStatus": "Payment status",
     "userCreated": "User created",
     "patientName": "Patient name",
     "function": "Feature",

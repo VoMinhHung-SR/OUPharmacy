@@ -4,11 +4,14 @@ import { Link, useNavigate } from "react-router-dom"
 import Loading from "../../modules/common/components/Loading"
 import usePrescriptionList from "../../modules/pages/PrescriptionListComponents/hooks/usePrescription"
 import SearchIcon from '@mui/icons-material/Search';
+import PaidIcon from "@mui/icons-material/Paid";
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import moment from "moment"
 import { useTranslation } from "react-i18next"
-import { ROLE_DOCTOR } from "../../lib/constants"
+import { ROLE_DOCTOR, ROLE_NURSE } from "../../lib/constants"
 import { Helmet } from "react-helmet"
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 const PrescriptionList = () => {
     const {user, prescriptionList, isLoadingPrescriptionList,
     pagination, page, handleChangePage} = usePrescriptionList()
@@ -26,6 +29,22 @@ const PrescriptionList = () => {
                 <Loading/>
             </Box>
         </Box>
+
+    const renderBillStatus = (prescribingArray) => {
+
+        let doneStatus = 0
+        if(prescribingArray.length === 0)
+            return <span><CheckCircleIcon className="!ou-text-red-700"/></span> 
+
+    
+        if (prescribingArray.some(prescribing => prescribing && prescribing.bill_status === null)) {
+            doneStatus = -1;
+        }
+
+        if(doneStatus === -1 ) 
+            return <span><CheckCircleIcon className="!ou-text-red-700"/></span> 
+        return  <span><CheckCircleIcon className="!ou-text-green-700"/></span> 
+    }
 
     return (
         <>
@@ -61,11 +80,14 @@ const PrescriptionList = () => {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>{t('prescriptionId')}</TableCell>
-                                                <TableCell colSpan={3} align="center">{t('sign')}</TableCell>
-                                                <TableCell colSpan={3} align="center">{t('diagnosed')}</TableCell>
-                                                <TableCell colSpan={2} align="center">{t('diagnosisDate')}</TableCell>
-                                                <TableCell colSpan={2} align="center">{t('doctorName')}</TableCell>
-                                                <TableCell colSpan={1} align="center">{t('feature')}</TableCell>
+                                                <TableCell align="center">{t('sign')}</TableCell>
+                                                <TableCell align="center">{t('diagnosed')}</TableCell>
+                                                <TableCell align="center">{t('diagnosisDate')}</TableCell>
+                                                <TableCell align="center">{t('prescribingStatus')}</TableCell>
+                                                <TableCell align="center">{t('paymentStatus')}</TableCell>
+                                                <TableCell align="center">{t('patientName')}</TableCell>
+                                                <TableCell align="center">{t('doctorName')}</TableCell>
+                                                <TableCell align="center">{t('feature')}</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -79,32 +101,46 @@ const PrescriptionList = () => {
                                                             {p.examination.id}
                                                         </Typography>   
                                                     </TableCell>
-
-                                                    <TableCell  colSpan={3} >
+                                                    <TableCell  >
                                                         <Typography className="ou-table-truncate-text-container"  >
                                                             {p.sign}
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell  colSpan={3}>
+                                                    <TableCell >
                                                         <Typography className="ou-table-truncate-text-container" >
                                                             {p.diagnosed}
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align="center"  colSpan={2}>
+                                                    <TableCell align="center" >
                                                         <Typography>{moment(p.created_date).format('DD/MM/YYYY')}</Typography>
                                                     </TableCell>
-                                                    <TableCell align="center"  colSpan={2}>
+                                                    <TableCell align="center" >
+                                                        <Typography>{  p.prescribing_info?.length ? 
+                                                          <span><CheckCircleIcon className="!ou-text-green-700"/></span> 
+                                                        : <span><CheckCircleIcon className="!ou-text-red-700"/></span>}
+                                                    </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="center" >
+                                                        <Typography>{renderBillStatus(p.prescribing_info)}
+                                                    </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="center" >
+                                                        <Typography>
+                                                            {p.patient.first_name} {p.patient.last_name} 
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="center" >
                                                         <Typography>
                                                             {p.user.first_name} {p.user.last_name} 
                                                         </Typography>
                                                     </TableCell>
-                                                    <TableCell align="center"  colSpan={1}>
-                                                        {user && user.role === ROLE_DOCTOR ?
+                                                    <TableCell align="center" >
+                                                        {user && user.role === ROLE_DOCTOR &&
                                                             (<>
                                                                 <Typography className="mb-2">
                                                                     <Link style={{ "textDecoration": "none" }}
 
-                                                                        to={`/prescribing/${p.id}`}>
+                                                                        to={`/dashboard/prescribing/${p.id}`}>
 
                                                                             <Tooltip followCursor title={t('prescribing')}>
                                                                                 <span>
@@ -118,8 +154,28 @@ const PrescriptionList = () => {
                                                                         
                                                                     </Link>
                                                                 </Typography>
-                                                            </>)
-                                                            : <></>}
+                                                            </>)}
+                                                              {user && user.role === ROLE_NURSE && (
+                                                                    <>
+                                                                    <Tooltip followCursor title={t("pay")}>
+                                                                        <span>
+                                                                        <Link
+                                                                            style={{ textDecoration: "none" }}
+                                                                            to={`/dashboard/payments/examinations/${p.examination.id}`}
+                                                                        >
+                                                                            <Button
+                                                                            variant="contained"
+                                                                            color="success"
+                                                                            size="small"
+                                                                            className="!ou-min-w-[68px] !ou-py-2  !ou-min-h-[40px]"
+                                                                            >
+                                                                            <PaidIcon />
+                                                                            </Button>
+                                                                        </Link>
+                                                                        
+                                                                        </span>
+                                                                    </Tooltip>
+                                                                    </>)}
                                                     </TableCell>
                                                 </TableRow>
                                             ))}

@@ -4,7 +4,10 @@
     "sign": "Sign",
     "diagnosed": "Diagnosed",
     "diagnosisDate": "Diagnosis date",
+    "patientName": "Patient name",
     "doctorName": "Doctor name",
-    "feature": "Feature",
-    "prescribing": "Prescribing"
+    "feature": "Feature",   
+    "prescribing": "Prescribing",
+    "prescribingStatus": "Prescribing status",
+    "paymentStatus": "Payment status"
 }
