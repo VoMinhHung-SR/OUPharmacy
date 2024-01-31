@@ -1,13 +1,11 @@
 import { AppBar, Avatar, Badge, Box, Button, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
 import LoginIcon from '@mui/icons-material/Login';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from "react-router-dom"
 import { useState } from "react";
 import Logo from "../../../../../public/logo";
 import useNav from "../../../pages/HomeComponents/hooks/useNav";
-import { ListAlt } from "@mui/icons-material";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -17,7 +15,6 @@ import FlagUK from "../../../../../public/flagUK";
 import FlagVN from "../../../../../public/flagVN";
 import { ERROR_CLOUDINARY, ROLE_DOCTOR, ROLE_NURSE } from "../../../../lib/constants";
 import useNotification from "../../../../lib/hooks/useNotification";
-
 import NotificationButton from "../../components/button/Notification";
 import CustomModal from "../../components/Modal";
 import useCustomModal from "../../../../lib/hooks/useCustomModal";
@@ -41,7 +38,7 @@ const Nav = () => {
     {  
       // Only user-doctor and nurse
       id: 'examinations',
-      name:t('examination'),
+      name:t('examinations'),
       link: '/examinations'
     },
     {  

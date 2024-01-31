@@ -5,6 +5,9 @@
     "diagnosed": "Chẩn đoán",
     "diagnosisDate": "Ngày chẩn đoán",
     "doctorName": "Bác sĩ chẩn đoán",
+    "patientName": "Tên bệnh nhân",
     "feature": "Chức năng",
-    "prescribing": "Kê toa"
+    "prescribing": "Kê toa",
+    "prescribingStatus": "Trạng thái kê toa",
+    "paymentStatus": "Trạng thái thanh toán"
 }

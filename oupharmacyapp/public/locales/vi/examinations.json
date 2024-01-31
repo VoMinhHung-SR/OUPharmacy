@@ -5,6 +5,9 @@
     "description":"Mô tả",
     "createdDate":"Ngày đăng ký",
     "mailStatus":"Tình trạng mail",
+    "diagnosisStatus": "Trạng thái chẩn đoán",
+    "paymentStatus": "Trạng thái thanh toán",
+    
     "userCreated": "Người dùng đăng ký",
     "patientName": "Tên bệnh nhân",
     "function": "Chức năng",

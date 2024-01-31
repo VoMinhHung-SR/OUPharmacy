@@ -16,17 +16,14 @@ import ErrorIcon from "@mui/icons-material/Error";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import { ROLE_DOCTOR, ROLE_NURSE } from "../../../../../lib/constants";
-
-import Loading from "../../Loading";
 import CustomModal from "../../Modal";
 import useCustomModal from "../../../../../lib/hooks/useCustomModal";
 import ExaminationDetailCard from "../ExaminationDetailCard";
-import BackdropLoading from "../../BackdropLoading";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const ExaminationCard = ({examinationData, user, callback, disableOtherCards, loading, sendEmailConfirm}) => {
   const { t } = useTranslation(["examinations", "common", "modal", "examination-detail"]);
 
-  const {id, description, created_date, mail_status, doctor_info} = examinationData
+  const {id, description, created_date, mail_status, doctor_info, diagnosis_info} = examinationData
   const { handleCloseModal, isOpen, handleOpenModal } = useCustomModal();
  
   const handleSendEmailConfirm = async () => {
@@ -35,36 +32,19 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
 
  
   const renderButton = () => {
-    // if (isLoadingButton)
-    //   return (
-    //     <Box className="ou-min-w-[68px]">
-    //       <Loading />
-    //     </Box>
-    //   );
-
     return (
       <Tooltip followCursor title={t("sendEmail")}>
         <Button
           onClick={handleSendEmailConfirm}
           disabled={disableOtherCards}
-          // onClick={() => {
-          //   handleSendEmailConfirm(
-          //     userID,
-          //     examinationID,
-          //     avatar,
-          //     callback
-          //   );
-          // }}
           variant="contained"
           className="!ou-min-w-[68px] !ou-py-2"
         >
-          {/* <SendIcon /> */}
           {loading ? <CircularProgress size={24} /> : <SendIcon />}
         </Button>
       </Tooltip>
     );
   };
-
   return (
     <>
       <TableRow
@@ -88,6 +68,12 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
         ) : (
           <TableCell align="center" className="!ou-text-red-700 !ou-font-bold"> {t("noSent")}</TableCell>
         )}
+          <TableCell align="center">
+          <Typography> {diagnosis_info?.length ? 
+            <span><CheckCircleIcon className="!ou-text-green-700"/></span> 
+          : <span><CheckCircleIcon className="!ou-text-red-700"/></span>}
+          </Typography>
+        </TableCell>
         <TableCell align="center">
           <Typography>{examinationData?.user?.email ? examinationData.user.email : "undefined"}</Typography>
         </TableCell>
@@ -103,7 +89,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                     <>
                       <Link
                         style={{ textDecoration: "none" }}
-                        to={`/examinations/${id}/diagnosis`}
+                        to={`/dashboard/examinations/${id}/diagnosis`}
                       >
                       <Tooltip followCursor title={t("diagnose")} className="hover:ou-cursor-pointer">
                         <span>
@@ -129,7 +115,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                         <span>
                           <Link
                             style={{ textDecoration: "none" }}
-                            to={`/examinations/${id}/payments`}
+                            to={`/dashboard/payments/examinations/${id}`}
                           >
                             <Button
                               variant="contained"
