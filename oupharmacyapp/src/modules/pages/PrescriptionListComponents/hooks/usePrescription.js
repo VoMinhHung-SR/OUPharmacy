@@ -14,6 +14,16 @@ const usePrescriptionList = () =>{
     // ====== QuerySet ======
     const [q] = useSearchParams();
     const [flag, setFlag] = useState(false)
+
+    const [paramsFilter, setParamsFilter] = useState({
+        // id: 0,
+        createdDate:0,
+        hasPrescription:0, 
+        hasPayment:0,
+        patientName: '',
+        doctorName: ''
+    })
+
     const [pagination, setPagination] = useState({ count: 0, sizeNumber: 0 });
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false)
@@ -21,32 +31,50 @@ const usePrescriptionList = () =>{
     const handleChangePage = (event, value) => {
         goToTop();
         setIsLoading(true)
+        setIsLoadingPrescriptionList(true)
         setPage(value)
     };
+
+    const handleOnSubmitFilter = (value) => {
+        setIsLoadingPrescriptionList(true);
+        setParamsFilter(value)
+        setPage(1);
+        setFlag(!flag)
+    }
 
 
     useEffect(()=>{
         const loadPrescriptionList = async () =>{
             try {
 
-                let query = q.toString();
-                
-                let querySample = query 
-                querySample === "" ? (querySample += `page=${page}`): 
+                let querySample = q.toString();
 
-                (querySample += `&page=${page}`);
+                const queryParams = `page=${page}`+
+                `&ordering=${paramsFilter.createdDate === 0 ? "-created_date": "created_date"}` +
+                `&doctor_name=${paramsFilter.doctorName === '' ? '' : paramsFilter.doctorName.toString() }`+
+                `&patient_name=${paramsFilter.patientName === '' ? '' : paramsFilter.patientName.toString()}`+
+                `&has_payment=${paramsFilter.hasPayment === 1 ? 'true' 
+                :(paramsFilter.hasPayment === -1 ? "false" : "")}` +
+                `&has_prescription=${paramsFilter.hasPrescription === 1 ? 'true' 
+                :(paramsFilter.hasPrescription === -1 ? "false" : "")}`
+
+
+                querySample === "" ? querySample += '?' + queryParams : querySample += queryParams
 
                 const res = await fetchDiagnosisList(querySample);
+
                 if (res.status === 200) {
                     const data = await res.data;
                     setPrescriptionList(data.results);
                     setPagination({
                         count: data.count,
-                        sizeNumber: Math.ceil(data.count / 10),
+                        sizeNumber: Math.ceil(data.count / 30),
                     });
+                    setIsLoading(true)
                 }
             } catch (err) {
                 setPrescriptionList([]);
+                setIsLoading(false)
                 console.error(err);
             } finally {
                 setIsLoadingPrescriptionList(false);
@@ -58,8 +86,8 @@ const usePrescriptionList = () =>{
         }
     },[user, flag, page])
     return {
-        isLoadingPrescriptionList,
-        prescriptionList,
+        isLoadingPrescriptionList, paramsFilter,
+        prescriptionList, handleOnSubmitFilter, isLoading,
         user,  handleChangePage, pagination, page    
     }
 }

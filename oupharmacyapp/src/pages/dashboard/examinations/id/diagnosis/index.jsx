@@ -2,16 +2,16 @@ import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import Loading from "../../../../modules/common/components/Loading"
-import DiagnosisForm from "../../../../modules/pages/DiagnosisComponents/DiagnosisForm"
-import useDiagnosis from "../../../../modules/pages/DiagnosisComponents/hooks/useDiagnosis"
 import { Helmet } from "react-helmet"
-import PatientInfoModal from "../../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
-import MedicalRecordsModal from "../../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
+import Loading from "../../../../../modules/common/components/Loading"
+import DiagnosisForm from "../../../../../modules/pages/DiagnosisComponents/DiagnosisForm"
+import useDiagnosisForm from "../../../../../modules/pages/DiagnosisComponents/hooks/useDiagnosisForm"
+import PatientInfoModal from "../../../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
+import MedicalRecordsModal from "../../../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
 
 const Diagnosis = () => {
     const { examinationDetail, isLoadingExamination, diagnosis,
-        prescriptionId, examinationId, user, handleChangeFlag } = useDiagnosis()
+        prescriptionId, examinationId, user, handleChangeFlag } = useDiagnosisForm()
     const router = useNavigate()
     const {t , ready} = useTranslation(['diagnosis','common'])
 

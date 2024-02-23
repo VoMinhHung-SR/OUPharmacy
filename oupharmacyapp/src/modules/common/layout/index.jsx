@@ -1,7 +1,6 @@
 import { Outlet, useLocation } from "react-router"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Container } from "@mui/material";
 import LimitExamPerDay from "../../pages/HomeComponents/LimitExamPerDay";
@@ -25,10 +24,6 @@ const Layout = () => {
         </main>
         {/* <LimitExamPerDay/> */}
         <Footer />
-        <ToastContainer position="bottom-right" autoClose={1500} 
-            pauseOnFocusLoss draggable pauseOnHover
-            newestOnTop rtl={false}
-        />
     </>
 )
 }

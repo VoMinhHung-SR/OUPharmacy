@@ -1,8 +1,8 @@
 import { Box, Container, Grid, Paper, Typography } from "@mui/material";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import Loading from "../../../modules/common/components/Loading";
-import useExaminationDetail from "../../../modules/pages/ExaminationDetailComponents/hooks/useExaminationDetail";
+import Loading from "../../../../modules/common/components/Loading";
+import useExaminationDetail from "../../../../modules/pages/ExaminationDetailComponents/hooks/useExaminationDetail";
 
 const ExaminationDetail = () => {
   const { t, tReady } = useTranslation(["examination-detail"]);

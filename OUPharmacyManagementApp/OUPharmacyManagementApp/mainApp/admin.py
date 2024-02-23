@@ -183,6 +183,10 @@ class BillAdmin(admin.ModelAdmin):
     list_display = ['id', 'amount', 'prescribing']
 
 
+class PrescribingAdmin(admin.ModelAdmin):
+    list_display = ['id', 'diagnosis', 'user']
+
+
 class PrescriptionDetailAdmin(admin.ModelAdmin):
     list_display = ['id', 'quantity', 'uses', 'prescribing', 'medicine_unit']
 
@@ -277,6 +281,7 @@ admin_site.register(Medicine, MedicineAdmin)
 admin_site.register(MedicineUnit, MedicineUnitAdmin)
 admin_site.register(Examination, ExaminationAdmin)
 admin_site.register(Diagnosis, DiagnosisAdmin)
+admin_site.register(Prescribing, PrescribingAdmin)
 admin_site.register(PrescriptionDetail, PrescriptionDetailAdmin)
 admin_site.register(Patient, PatientAdmin)
 admin_site.register(User, UserAdmin)
