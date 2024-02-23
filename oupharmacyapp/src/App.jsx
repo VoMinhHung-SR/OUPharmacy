@@ -8,16 +8,15 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import Home from './pages'
 import Register from './pages/register'
 import ExaminationList from './pages/profile/examinations'
-import Diagnosis from './pages/examinations/id/diagnosis'
-import PrescriptionList from './pages/prescribing'
-import PrescriptionDetail from './pages/prescribing/id'
-import Payments from './pages/examinations/id/payments'
+import PrescriptionList from './pages/dashboard/prescribing'
+import PrescriptionDetail from './pages/dashboard/prescribing/id'
+import Payments from './pages/dashboard/examinations/id/payments'
 import ConversationList from './pages/conversations'
 import ChatWindow from './pages/conversations/id/recipientID/message'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
 import Booking from './pages/booking'
-import Examinations from './pages/examinations'
+import Examinations from './pages/dashboard/examinations'
 import ProtectedUserRoute from './modules/common/layout/userRoute'
 import { ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
 import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
@@ -41,9 +40,14 @@ import { OUPharmacyChatBot } from './chatbot'
 import Profile from './pages/profile'
 import ProfileAddressInfo from './pages/profile/address-info'
 import { UserProvider } from './lib/context/UserContext'
-
+import Diagnosis from './pages/dashboard/examinations/id/diagnosis'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import ProductList from './pages/products'
+import Dashboard from './modules/common/layout/dashboard'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -91,6 +95,8 @@ function App() {
                         <Route path='/' element={<Home />}/>
                         
                         <Route path='/waiting-room' element={<WaitingRoom/>}/>
+                        <Route path='/products' element={<ProductList/>}/>
+                        
                         {/* Accepted when user authorized */}
                         <Route element={<ProtectedUserRoute/>}>
                     
@@ -104,7 +110,6 @@ function App() {
                           {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
                           <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
                             <Route path='/examinations' element={<Examinations/>}/> 
-                            {/* <Route path='/examinations/:examinationId' element={<ExaminationDetail/>}/>  */}
                           </Route>
 
                           {/* Accepted user.role = ROLE_DOCTOR */}
@@ -124,26 +129,63 @@ function App() {
                           </Route>
 
                         </Route>
-                        <Route path="/forbidden" element={<Forbidden />} />
-                       
-                        <Route path="*" element={<NotFound/>} />
-                      
 
-                          <Route path='/demo' element={<Demo/>}/>
-                      
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                     
+
+                        <Route path="/forbidden" element={<Forbidden />} />
+                        <Route path="*" element={<NotFound/>} />
+
+                        <Route path='/demo' element={<Demo/>}/>
+                          
+                
                       </Route>
+                      <Route path='/dashboard/' element={<Dashboard/>}>
+                      <Route element={<ProtectedUserRoute/>}>                          {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
+                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
+                            <Route path='/dashboard/examinations' element={<Examinations/>}/> 
+                          </Route>
+
+                          {/* Accepted user.role = ROLE_DOCTOR */}
+                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
+                            <Route path='/dashboard/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                            <Route path='/dashboard/prescribing' element={<PrescriptionList/>} />
+                            <Route path='/dashboard/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                          </Route>
+
+                          {/* Accepted user.role = ROLE_NURSE */}
+                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
+                            <Route path='/dashboard/payments' element={<PrescriptionList/>} />
+                            <Route path='/dashboard/payments/examinations/:examinationId' element={<Payments />} />
+                          </Route>
+
+                          <Route path='/dashboard/profile' element={<Profile />} >
+                            <Route path='/dashboard/profile/address-info' element={<ProfileAddressInfo />} />
+                            <Route path='/dashboard/profile/examinations' element={<ExaminationList />} />
+                          </Route>
+
+                          <Route path="/dashboard/forbidden" element={<Forbidden />} />
+                      </Route>
+                      </Route>
+
+                    
+                    
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     </Routes>
+                   
                 </QueueStateProvider>
               {/* </userContext.Provider> */}
             {/* </CookiesProvider> */}
             </UserProvider>
-                        </LocalizationProvider>
+            </LocalizationProvider>
           </BrowserRouter>
         </I18nextProvider>
     </QueryClientProvider>
+      <div>
+        <ToastContainer
+            position="bottom-left"
+            theme='colored'
+          />
+      </div>
       {/* <OUPharmacyChatBot/> */}
     </>  
 }

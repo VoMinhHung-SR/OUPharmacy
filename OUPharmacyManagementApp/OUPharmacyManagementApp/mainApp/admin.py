@@ -165,6 +165,7 @@ class MedicineAdmin(admin.ModelAdmin):
 
 
 class MedicineUnitAdmin(admin.ModelAdmin):
+    
     list_display = ['id', 'price', 'in_stock', 'created_date', 'packaging', 'medicine', 'category']
     list_filter = ['medicine', 'category']
 
@@ -180,6 +181,10 @@ class DiagnosisAdmin(admin.ModelAdmin):
 
 class BillAdmin(admin.ModelAdmin):
     list_display = ['id', 'amount', 'prescribing']
+
+
+class PrescribingAdmin(admin.ModelAdmin):
+    list_display = ['id', 'diagnosis', 'user']
 
 
 class PrescriptionDetailAdmin(admin.ModelAdmin):
@@ -276,6 +281,7 @@ admin_site.register(Medicine, MedicineAdmin)
 admin_site.register(MedicineUnit, MedicineUnitAdmin)
 admin_site.register(Examination, ExaminationAdmin)
 admin_site.register(Diagnosis, DiagnosisAdmin)
+admin_site.register(Prescribing, PrescribingAdmin)
 admin_site.register(PrescriptionDetail, PrescriptionDetailAdmin)
 admin_site.register(Patient, PatientAdmin)
 admin_site.register(User, UserAdmin)

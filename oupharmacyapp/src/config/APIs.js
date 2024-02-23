@@ -58,7 +58,7 @@ export let endpoints = {
     
     //Medicine Units
     'medicine-units':'/medicine-units/',
-    
+    'medicine-units-detail':(medicineUnitID) =>  `/medicine-units/${medicineUnitID}/`,
     // Bill
     'bill':'/bills/',
     'receipt':'/bills/get-bill-by-pres/',

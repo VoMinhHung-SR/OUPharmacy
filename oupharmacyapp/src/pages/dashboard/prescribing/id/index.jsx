@@ -3,12 +3,12 @@ import { Box } from "@mui/system"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router-dom"
-import PrescriptionDetailCard from "../../../modules/common/components/card/PrescriptionDetailCard"
-import Loading from "../../../modules/common/components/Loading"
-import usePrescriptionDetail from "../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
+import PrescriptionDetailCard from "../../../../modules/common/components/card/PrescriptionDetailCard"
+import Loading from "../../../../modules/common/components/Loading"
+import usePrescriptionDetail from "../../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
 import { Helmet } from "react-helmet"
-import PatientInfoModal from "../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
-import MedicalRecordsModal from "../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
+import PatientInfoModal from "../../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
+import MedicalRecordsModal from "../../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
 
 const PrescriptionDetail = () => {
     const {isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()
@@ -54,8 +54,9 @@ const PrescriptionDetail = () => {
                     </Box>)
                     : (
                         <>
-                            <Box className='ou-my-5 ou-pt-8 ou-m-auto ou-max-w-[1536px]'>
-                                <Box style={{ "margin": "auto" }} >
+                            <Box className='ou-py-8 ou-m-auto ou-max-w-[1536px]'>
+                                
+                                <Box className="ou-m-auto ou-mb-6" >
                                     <Grid container justifyContent="flex" className="ou-min-h-[160px] ou-p-5" component={Paper} elevation={5}> 
                                         <Grid item xs={12} className="ou-pb-5" >
                                             <h1 className="ou-text-center ou-text-2xl">{t('common:basicInformation')}</h1>
@@ -70,10 +71,10 @@ const PrescriptionDetail = () => {
                                         </Grid>
                                     </Grid>
                                 </Box>
-                                <Box >
 
-                                <PrescriptionDetailCard examID={prescriptionDetail.examination.id} 
-                                recipientID={prescriptionDetail.examination.user.id} />
+                                <Box >
+                                    <PrescriptionDetailCard examID={prescriptionDetail.examination.id} 
+                                    recipientID={prescriptionDetail.examination.user.id} />
                                 </Box>
                             </Box>
                         </>

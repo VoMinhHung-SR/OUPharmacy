@@ -2,10 +2,10 @@ import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import BillCard from "../../../../modules/common/components/card/BillCard"
-import Loading from "../../../../modules/common/components/Loading"
-import usePayment from "../../../../modules/pages/PaymentComponents/hooks/usePayment"
+import usePayment from "../../../../../modules/pages/PaymentComponents/hooks/usePayment"
+import BillCard from "../../../../../modules/common/components/card/BillCard"
 import { Helmet } from "react-helmet"
+import Loading from "../../../../../modules/common/components/Loading"
 
 const Payments = () => {
     const {isLoadingPrescriptionDetail, examinationDetail, examinationId, prescribing} = usePayment()
@@ -31,7 +31,7 @@ const Payments = () => {
         else
             return (
                 <Box className='ou-m-auto ou-max-w-[1536px] ou-min-h-[550px] 
-                ou-py-5 ou-flex ou-flex-col ou-justify-center'>
+                ou-py-5 ou-flex ou-flex-col ou-justify-center ou-w-[100%]'>
                     <Box className="!ou-mb-3">        
                         <Box  >
                             {examinationDetail.id ? 

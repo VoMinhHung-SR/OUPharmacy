@@ -10,7 +10,7 @@ class MedicineUnitPagination(PageNumberPagination):
 
 
 class ExaminationPaginator(PageNumberPagination):
-    page_size = 10
+    page_size = 30
 
 
 class PrescribingPaginator(PageNumberPagination):

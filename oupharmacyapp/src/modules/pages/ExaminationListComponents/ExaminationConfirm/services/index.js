@@ -7,6 +7,6 @@ export const fetchSendEmailConfirmExamination = async (examinationID) =>{
 }
 // To: get array list of examination have pagination
 export const fetchExaminationListConfirm = async (query)=>{
-    const res = await authApi().get(`${endpoints['examination']}?${query}`)
+    const res = await authApi().get(`${endpoints['examination']}${query}`)
     return res
 }

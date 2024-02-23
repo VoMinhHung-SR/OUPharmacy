@@ -65,7 +65,7 @@ const Profile = () => {
 
 
            <Box className="ou-w-[70%] ou-ml-3" component={Paper} elevation={4}>
-               { removeSymbol('/',location.pathname) === 'profile' ? 
+               { removeSymbol('/',location.pathname) === 'profile' || 'dashboard/profile' ? 
                    <Box>
                         <Box>
 

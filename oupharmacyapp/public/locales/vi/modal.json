@@ -14,6 +14,7 @@
 
     "errSomethingWentWrong":"Đã có lỗi xảy ra",
     "pleaseTryAgain": "Vui lòng thử lại sau",
+    "errPrescribingNotOwner": "Không thể thực hiện chẩn đoán từ cuộc hẹn của bác sĩ khác",
     "pleaseDoubleCheck": "Vui lòng kiểm tra kỹ thông tin biểu mẫu",
     "noThrowBack": "Hành động nay sẽ không thể hoàn tác, tiếp tục"
 }
