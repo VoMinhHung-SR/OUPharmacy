@@ -8,16 +8,15 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import Home from './pages'
 import Register from './pages/register'
 import ExaminationList from './pages/profile/examinations'
-import Diagnosis from './pages/examinations/id/diagnosis'
-import PrescriptionList from './pages/prescribing'
-import PrescriptionDetail from './pages/prescribing/id'
-import Payments from './pages/examinations/id/payments'
+import PrescriptionList from './pages/dashboard/prescribing'
+import PrescriptionDetail from './pages/dashboard/prescribing/id'
+import Payments from './pages/dashboard/examinations/id/payments'
 import ConversationList from './pages/conversations'
 import ChatWindow from './pages/conversations/id/recipientID/message'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
 import Booking from './pages/booking'
-import Examinations from './pages/examinations'
+import Examinations from './pages/dashboard/examinations'
 import ProtectedUserRoute from './modules/common/layout/userRoute'
 import { ROLE_DOCTOR, ROLE_NURSE } from './lib/constants'
 import ProtectedSpecialRoleRoute from './modules/common/layout/specialRole'
@@ -41,11 +40,14 @@ import { OUPharmacyChatBot } from './chatbot'
 import Profile from './pages/profile'
 import ProfileAddressInfo from './pages/profile/address-info'
 import { UserProvider } from './lib/context/UserContext'
-
+import Diagnosis from './pages/dashboard/examinations/id/diagnosis'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import ProductList from './pages/products'
 import Dashboard from './modules/common/layout/dashboard'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const userContext = createContext()
 const queryClient = new QueryClient()
@@ -169,6 +171,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     </Routes>
+                   
                 </QueueStateProvider>
               {/* </userContext.Provider> */}
             {/* </CookiesProvider> */}
@@ -177,6 +180,12 @@ function App() {
           </BrowserRouter>
         </I18nextProvider>
     </QueryClientProvider>
+      <div>
+        <ToastContainer
+            position="bottom-left"
+            theme='colored'
+          />
+      </div>
       {/* <OUPharmacyChatBot/> */}
     </>  
 }

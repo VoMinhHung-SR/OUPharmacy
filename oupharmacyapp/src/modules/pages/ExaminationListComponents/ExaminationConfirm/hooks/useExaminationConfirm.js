@@ -23,7 +23,8 @@ const useExaminationConfirm = () =>{
         // id: 0,
         mailStatus:0,
         createdDate:0,
-        kw: ''
+        kw: '',
+        hasDiagnosis: ''
     })
     
     // ====== Pagination ======
@@ -52,7 +53,6 @@ const useExaminationConfirm = () =>{
 
 
     const {user} = useContext(UserContext)
-    // const [user] = useContext(userContext);
     const [flag, setFlag] = useState(false)
     const [examinationList, setExaminationList] = useState([])
 
@@ -63,21 +63,19 @@ const useExaminationConfirm = () =>{
     useEffect(()=>{
         const loadExamination = async () => {
             try{
-                let query = q.toString();
+
+                let querySample = q.toString();
                 
-                let querySample = query 
-                querySample === "" ? 
-                (querySample += `page=${page}
-                &kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw}
-                &status=${paramsFilter.mailStatus === 1 ? 'true' :(paramsFilter.mailStatus === -1 ? "false" : "")}
-                &ordering=${paramsFilter.createdDate === 0 ? "-created_date": "created_date"}`): 
+                const queryParams = `page=${page}`+
+                `&kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw}`+
+                `&status=${paramsFilter.mailStatus === 1 ? 'true' 
+                :(paramsFilter.mailStatus === -1 ? "false" : "")}` +
+                `&ordering=${paramsFilter.createdDate === 0 ? "-created_date": "created_date"}` +
+                `&has_diagnosis=${paramsFilter.hasDiagnosis === 1 ? 'true' 
+                :(paramsFilter.hasDiagnosis === -1 ? "false" : "")}`
 
-                (querySample += `&page=${page}
-                &kw=${paramsFilter.kw === '' ? '' : paramsFilter.kw }
-                &status=${paramsFilter.mailStatus === 1 ? 'true' : paramsFilter.mailStatus === -1 ? "false" : ""}}
-                &ordering=${paramsFilter.createdDate === 0 ? "created_date": "-created_date"}`);
-
-  
+                querySample === "" ? querySample += '?' + queryParams : querySample += queryParams
+                
                 const res = await fetchExaminationListConfirm(querySample);
                 if (res.status === 200) {
                     const data = await res.data;
@@ -85,7 +83,7 @@ const useExaminationConfirm = () =>{
                     setIsLoadingExamination(false)
                     setPagination({
                         count: data.count,
-                        sizeNumber: Math.ceil(data.count / 10),
+                        sizeNumber: Math.ceil(data.count / 30),
                     });
                     setIsRequestSuccessful(true);
                 }
@@ -113,7 +111,7 @@ const useExaminationConfirm = () =>{
             const res = await fetchSendEmailConfirmExamination(examinationID);
             if (res.status === 200) {
               createNotificationRealtime(userID, examinationID, avatar);
-              createToastMessage({ message: t('sendMailSuccessed'), type: TOAST_SUCCESS });
+              createToastMessage({ message: t('sendMailSuccesses'), type: TOAST_SUCCESS });
               setFlag(!flag)
             } else if (res.status === 400) {
               ErrorAlert(t('modal:errSomethingWentWrong'), t('modal:pleaseTryAgain'), t('modal:ok'));

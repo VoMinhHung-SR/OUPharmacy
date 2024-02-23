@@ -34,7 +34,7 @@ from rest_framework import views
 from rest_framework import filters
 
 from .constant import MAX_EXAMINATION_PER_DAY, ROLE_DOCTOR, ROLE_NURSE
-from .filters import ExaminationFilter,RecipientsFilter
+from .filters import ExaminationFilter, RecipientsFilter, DiagnosisFilter
 from .permissions import *
 from django.core.mail import send_mail, EmailMessage
 from rest_framework.decorators import action, api_view, permission_classes
@@ -197,10 +197,25 @@ class ExaminationViewSet(viewsets.ViewSet, generics.ListAPIView,
     queryset = Examination.objects.filter(active=True).order_by('-created_date')
     serializer_class = ExaminationSerializer
     pagination_class = ExaminationPaginator
-    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     ordering_fields = '__all__'
     filterset_class = ExaminationFilter
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     permissions = [permissions.AllowAny()]
+
+    # def get_queryset(self):
+    #     queryset = self.queryset
+    #
+    #     # Your custom filtering logic goes here
+    #     kw_param = self.request.query_params.get('kw')
+    #     status_param = self.request.query_params.get('status')
+    #
+    #     if kw_param:
+    #         queryset = queryset.filter(user__email=kw_param)
+    #
+    #     if status_param is not None:
+    #         queryset = queryset.filter(mail_status=status_param)
+    #
+    #     return queryset
 
     def create(self, request):
         user = request.user
@@ -507,7 +522,10 @@ class DiagnosisViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrieve
     serializer_class = DiagnosisSerializer
     parser_classes = [JSONParser, MultiPartParser]
     pagination_class = ExaminationPaginator
-    
+    ordering_fields = '__all__'
+    filterset_class = DiagnosisFilter
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
+
     def create(self, request, *args, **kwargs):
         serializer = DiagnosisCRUDSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

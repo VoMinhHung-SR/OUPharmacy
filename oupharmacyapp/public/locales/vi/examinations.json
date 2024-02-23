@@ -7,8 +7,8 @@
     "mailStatus":"Tình trạng mail",
     "diagnosisStatus": "Trạng thái chẩn đoán",
     "paymentStatus": "Trạng thái thanh toán",
-    
     "userCreated": "Người dùng đăng ký",
+    "doctorName": "Tên bác sĩ",
     "patientName": "Tên bệnh nhân",
     "function": "Chức năng",
 
@@ -25,8 +25,15 @@
     "ascending":"Tăng dần",
     "search": "Tìm kiếm",
 
+    "hasDiagnosis":"Chẩn đoán",
+    "yes": "Có",
+    "no": "Không",
+
     "filterUserLabel": "Email người dùng",
     "confirmDelete":"Xác nhận xóa phiếu đặt lịch",
     "confirmSendEmail": "Xác nhận gửi thư xác nhận",
-    "sendMailSuccessed": "Gửi email hoàn tất"
+    "sendMailSuccesses": "Gửi email hoàn tất",
+    "listOfExaminations": "Danh sách phiếu khám",
+
+    "resultOfTotal": "({{result}} kết quả)"
 }

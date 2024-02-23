@@ -3,12 +3,12 @@ import { Box } from "@mui/system"
 import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router-dom"
-import PrescriptionDetailCard from "../../../modules/common/components/card/PrescriptionDetailCard"
-import Loading from "../../../modules/common/components/Loading"
-import usePrescriptionDetail from "../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
+import PrescriptionDetailCard from "../../../../modules/common/components/card/PrescriptionDetailCard"
+import Loading from "../../../../modules/common/components/Loading"
+import usePrescriptionDetail from "../../../../modules/pages/PrescriptionDetailComponents/hooks/usePrescriptionDetail"
 import { Helmet } from "react-helmet"
-import PatientInfoModal from "../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
-import MedicalRecordsModal from "../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
+import PatientInfoModal from "../../../../modules/pages/PrescriptionDetailComponents/PatientInfoModal"
+import MedicalRecordsModal from "../../../../modules/pages/PrescriptionDetailComponents/MedicalRecordsModal"
 
 const PrescriptionDetail = () => {
     const {isLoadingPrescriptionDetail, prescriptionDetail} = usePrescriptionDetail()

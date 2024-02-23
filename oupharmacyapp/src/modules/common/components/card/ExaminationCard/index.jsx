@@ -77,6 +77,9 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
         <TableCell align="center">
           <Typography>{examinationData?.user?.email ? examinationData.user.email : "undefined"}</Typography>
         </TableCell>
+        <TableCell align="center">
+          <Typography>{examinationData?.doctor_info?.first_name + " " + examinationData?.doctor_info?.last_name}</Typography>
+        </TableCell>
         <TableCell
           align="center"
         
@@ -85,7 +88,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
             <Typography>
               {mail_status === true ? (
                 <>
-                  {user && user.role === ROLE_DOCTOR ? (
+                  {/* {user && user.role === ROLE_DOCTOR && (
                     <>
                       <Link
                         style={{ textDecoration: "none" }}
@@ -106,9 +109,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                         </Tooltip>
                       </Link>
                     </>
-                  ) : (
-                    <></>
-                  )}
+                  )} */}
                   {user && user.role === ROLE_NURSE ? (
                     <>
                       <Tooltip followCursor title={t("pay")}>
@@ -137,7 +138,7 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
               ) : (
                 <>
                   {/* Render button for DOCTORS */}
-                  {user && user.role === ROLE_DOCTOR ? (
+                  {user && user.role === ROLE_DOCTOR  &&
                     <>
                       <Tooltip followCursor title={t("noReady")}>
                         <span>
@@ -153,15 +154,9 @@ const ExaminationCard = ({examinationData, user, callback, disableOtherCards, lo
                           
                       </Tooltip>
                     </>
-                  ) : (
-                    <></>
-                  )}
+                 }
                   {/* Render button for NURSES */}
-                  {user && user.role === ROLE_NURSE ? (
-                    renderButton()
-                  ) : (
-                    <></>
-                  )}
+                  {user && user.role === ROLE_NURSE && renderButton()}
                 </>
               )}
             </Typography>

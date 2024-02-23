@@ -9,5 +9,18 @@
     "feature": "Feature",   
     "prescribing": "Prescribing",
     "prescribingStatus": "Prescribing status",
-    "paymentStatus": "Payment status"
+    "payment": "Payments",
+    "paymentStatus": "Payment status",
+    "listOfDiagnosisForms": "List of diagnosis forms",
+
+    "resultOfTotal": "({{result}} results)",
+
+    "all": "All",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "descending":"Descending",
+    "ascending":"Ascending",
+    "search": "Search",
+    "yes": "Yes",
+    "no": "No"
 }
