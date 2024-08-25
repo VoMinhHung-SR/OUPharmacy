@@ -26,8 +26,9 @@ export const ErrorAlert = (title, text, confirmButtonText) => {
 export const ConfirmAlert = (title, text, confirmButtonText, cancelButtonText, callBackYes, callBackNo) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
+            popup: '!ou-z-1500',
             confirmButton: 'ou-px-8 ou-py-3 ou-ml-3 ou-bg-green-600 ou-text-white ou-rounded', 
-            cancelButton: 'ou-rounded ou-px-8 ou-py-3 ou-p5 ou-bg-red-600 ou-mr-5 ou-text-white'
+            cancelButton: 'ou-rounded ou-px-8 ou-py-3 ou-p5 ou-bg-red-600 ou-mr-5 ou-text-white',
         }, buttonsStyling: false
     });
 

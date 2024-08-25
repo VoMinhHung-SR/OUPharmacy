@@ -1,4 +1,4 @@
-import { collection, query, where } from "firebase/firestore";
+// import { collection, query, where } from "firebase/fire";
 import { useContext } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { userContext } from "../../App";
@@ -6,6 +6,7 @@ import { db } from "../../config/firebase";
 import { getRecipientId } from "../utils/helper";
 import { APP_ENV } from "../constants";
 import UserContext from "../context/UserContext";
+import { collection, query, where } from "firebase/firestore";
 
 const useRecipient = (members) => {
     const {user} = useContext(UserContext);

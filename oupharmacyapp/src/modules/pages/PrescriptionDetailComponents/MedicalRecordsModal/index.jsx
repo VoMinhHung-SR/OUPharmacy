@@ -37,7 +37,7 @@ const MedicalRecordsModal = ({patientID}) => {
 
                <Button
                     variant="contained"
-                    className="ou-bg-blue-700 !ou-min-w-[68px]  !ou-min-h-[40px] !ou-px-8  !ou-py-2 !ou-mx-2"
+                    className="ou-bg-blue-700 !ou-min-w-[68px]  !ou-min-h-[40px] !ou-px-8  ou-w-[50%] !ou-py-2 !ou-mx-2"
                     size="small"
                     onClick={()=>handleOpenModal()}
                 >

@@ -53,6 +53,7 @@ const PrescriptionList = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>{t('prescriptionId')}</TableCell>
+                                <TableCell>{t('EID')}</TableCell>
                                 <TableCell align="center">{t('sign')}</TableCell>
                                 <TableCell align="center">{t('diagnosed')}</TableCell>
                                 <TableCell align="center">{t('diagnosisDate')}</TableCell>
@@ -79,7 +80,7 @@ const PrescriptionList = () => {
                             </TableCell> }
                             
                             {!isLoadingPrescriptionList && prescriptionList.map(diagnosisInfo => (
-                                    <DiagnosedCard diagnosedInfo={diagnosisInfo} user={user}/>
+                                <DiagnosedCard diagnosedInfo={diagnosisInfo} user={user}/>
                             ))}
                         </TableBody>
                     </Table>

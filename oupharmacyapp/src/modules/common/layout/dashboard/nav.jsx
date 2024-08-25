@@ -147,7 +147,7 @@ const NavDashboard = () => {
 
     const renderPage = (routingRole) => {
       return routingRole && routingRole.map(item => (
-        <Link to={`${item.link}`}>
+        <Link to={`${item.link}`} key={`${item.id}_tl`}>
               <ListItemButton>
                   <ListItemIcon >
                     {item.icon && item.icon}

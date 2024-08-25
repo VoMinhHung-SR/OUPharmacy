@@ -54,9 +54,9 @@ const ProductHomeRight = ({actionButton, onAddMedicineLineItem, callback}) => {
                 return (
                     <div>
                          <div className="ou-flex">
-                            <p className="ou-w-[50%] ou-text-center">ten sp</p>
-                            <p className="ou-w-[20%] ou-text-center">lieu dung</p>
-                            <p className="ou-w-[10%] ou-text-center">so luong</p>
+                            <p className="ou-w-[50%] ou-text-center">{t('prescription-detail:medicineName')}</p>
+                            <p className="ou-w-[20%] ou-text-center">{t('prescription-detail:uses')}</p>
+                            <p className="ou-w-[10%] ou-text-center">{t('prescription-detail:quantity')}</p>
                         </div>
                       {medicines.map((medicine) => (
                         <PrescribingMedicine key={medicine.id} 

@@ -47,6 +47,7 @@ import ProductList from './pages/products'
 import Dashboard from './modules/common/layout/dashboard'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { PrescribingProvider } from './lib/context/PrescribingContext'
 
 
 export const userContext = createContext()
@@ -86,7 +87,8 @@ function App() {
           <BrowserRouter>
             {/* <CookiesProvider> */}
                         <LocalizationProvider dateAdapter={AdapterMoment}>
-            <UserProvider>
+            <UserProvider>    
+              <PrescribingProvider>
               {/* <userContext.Provider value={[user, dispatch]}> */}
                 <QueueStateProvider>
                     <ScrollToTop />
@@ -148,7 +150,11 @@ function App() {
                           <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
                             <Route path='/dashboard/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
                             <Route path='/dashboard/prescribing' element={<PrescriptionList/>} />
-                            <Route path='/dashboard/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                            
+                        
+                              <Route path='/dashboard/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                         
+
                           </Route>
 
                           {/* Accepted user.role = ROLE_NURSE */}
@@ -174,7 +180,8 @@ function App() {
                    
                 </QueueStateProvider>
               {/* </userContext.Provider> */}
-            {/* </CookiesProvider> */}
+            {/* </CookiesProvider> */}   
+            </PrescribingProvider>
             </UserProvider>
             </LocalizationProvider>
           </BrowserRouter>

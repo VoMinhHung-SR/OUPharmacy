@@ -40,6 +40,9 @@ const DiagnosedCard = ({ diagnosedInfo, user }) => {
       <TableCell component="th" scope="row">
         <Typography>{diagnosedInfo.id}</Typography>
       </TableCell>
+      <TableCell component="th" scope="row">
+        <Typography>{diagnosedInfo.examination.id}</Typography>
+      </TableCell>
       <TableCell>
         <Typography className="ou-table-truncate-text-container">
           {diagnosedInfo.sign}
