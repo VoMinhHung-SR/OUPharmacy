@@ -1,41 +1,39 @@
 
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, TextField, Tooltip, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
 import usePrescriptionDetailCard from "../../../common/components/card/PrescriptionDetailCard/hooks/usePrescriptionDetailCard"
 import { useTranslation } from "react-i18next"
-
+import AddIcon from '@mui/icons-material/Add';
 
 const PrescribingMedicine = ({medicine, onAddToPrescription, schema}) => {
     const {t, ready} = useTranslation(['prescription-detail', 'yup-validate', 'modal'])
    
     const { register, control, handleSubmit, formState: { errors }, reset, setError } = useForm({
         resolver: yupResolver(schema),
-      });
+    });
 
-      const onSubmit = (data) => {
-        if (parseInt(data.quantity) > parseInt(medicine.in_stock))
-            return setError('quantity', {
-                type: 'custom',
-                message: 'Quantity exceeds the allowed limit',
-            });
-            
-        else
-            // Process the medicine data
-            console.log('Medicine data:', data);
+    const onSubmit = (data) => {
+    if (parseInt(data.quantity) > parseInt(medicine.in_stock))
+        return setError('quantity', {
+            type: 'custom',
+            message: 'Quantity exceeds the allowed limit',
+        });
         
-            // Reset the form after submission
+    else
+        // Process the medicine data
+        console.log('Medicine data:', data);
+    
+        // Reset the form after submission
 
-            reset();
-        
-            // Add the medicine to the prescription
-            onAddToPrescription(medicine, data);
-      };
+        reset();
+    
+        // Add the medicine to the prescription
+        onAddToPrescription(medicine, data);
+    };
 
     return (
         <>
-       
-         
                 <form onSubmit={handleSubmit(onSubmit)}> 
                     <Box item xs={4} style={{"display":"flex"}}>
                         <div key={medicine.id} className="ou-w-[100%] ou-px-2  hover:ou-border-blue-600 
@@ -44,7 +42,7 @@ const PrescribingMedicine = ({medicine, onAddToPrescription, schema}) => {
                                 <div className="ou-flex ou-items-center ">
                                     <img 
                                         className="ou-object-contain"
-                                        width={100} height={100} 
+                                        width={72} height={72} 
                                         src={medicine.image_path} 
                                         alt={medicine.medicine.name}/>
                                     <div className="ou-flex ou-px-2 ou-flex-col ou-justify-center">
@@ -87,9 +85,11 @@ const PrescribingMedicine = ({medicine, onAddToPrescription, schema}) => {
                     
                             </div>
 
-                            <div className="ou-ml-auto">                 
-                                <Button variant="contained" color="success" type="submit" >{t('addMedicine')}</Button>
-                            </div>
+                                <Tooltip title={t('addMedicine')} followCursor>
+                                    <div className="ou-ml-auto">       
+                                    <Button variant="contained" color="success" type="submit" ><AddIcon/></Button>
+                                    </div>
+                                </Tooltip>         
                             
                         </div>
                                 

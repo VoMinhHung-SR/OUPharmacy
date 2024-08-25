@@ -16,7 +16,8 @@ const PatientInfoModal = ({patientData}) => {
      
                 <Button
                     variant="contained"
-                    className="ou-bg-blue-700 !ou-min-w-[68px]  !ou-min-h-[40px] !ou-py-2 !ou-px-8 !ou-mx-2"
+                
+                    className="ou-bg-blue-700 !ou-min-w-[68px] !ou-min-h-[40px] ou-w-[50%] !ou-py-2 !ou-px-8 !ou-mx-2"
                     size="small"
                     onClick={()=>handleOpenModal()}
                 >

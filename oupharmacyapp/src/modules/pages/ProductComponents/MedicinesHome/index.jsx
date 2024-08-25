@@ -17,16 +17,16 @@ const MedicinesHome = ({actionButton, onAddMedicineLineItem}) => {
         <Box component={Paper} elevation={5} className="ou-px-4 ou-py-6">
             <Grid container>
                 {/* Product Left Bar is for categories */}
-                <Grid item xs={3} className="">
+                {/* <Grid item xs={3}>
                     <h2 className="ou-text-center ou-text-xl">{t('categories')}</h2>
                     <Box>
                         <ProductHomeLeft cates={allConfig.categories}/>
                     </Box>
-                </Grid>
+                </Grid> */}
 
 
                 {/* Product Right Bar is for products */}
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                     <Box> 
                        <ProductHomeRight actionButton={actionButton} onAddMedicineLineItem={onAddMedicineLineItem}/>
                     </Box>
