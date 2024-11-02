@@ -24,5 +24,14 @@
     "noDoctorFound": "No doctor's name was found",
     "confirmBooking": "Confirmation of booking form",
     "continue":"Continue",
-    "goBack": "Go back"
+    "goBack": "Go back",
+    "next": "Next",
+    "previous": "Previous",
+
+    "errPatientNeedToCreate": "You need to create a patient profile",
+    "errPatientNeedToSelect": "You need to select a patient profile",    
+    "patientCreatedSuccess": "Patient's profile created success",
+    "yearsOld": "y/o",
+    "seeDetail": "See detail",
+    "patientProfileList": "Patient profile list"
 }

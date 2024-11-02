@@ -10,6 +10,7 @@ import uuid
 from collections import deque
 from crypt import methods
 from datetime import timedelta
+from pickle import FALSE
 
 from django.db.models.functions import TruncDate
 from django.utils import timezone
@@ -86,7 +87,7 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
     def get_permissions(self):
         if self.action in ['get_current_user']:
             return [permissions.IsAuthenticated()]
-        if self.action in ['update', 'partial_update']:
+        if self.action in ['update', 'partial_update', 'get_patients']:
             return [UserPermission()]
         if self.action in ['get_examinations','change_password']:
             return [OwnerExaminationPermission()]
@@ -162,6 +163,19 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPI
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(status=status.HTTP_200_OK)
 
+    @action(methods=['get'], detail=True, url_path='get-patients')
+    def get_patients(self, request, pk):
+        user = self.get_object()
+        try:
+            patients = Patient.objects.filter(user=user).all()
+        except Exception as ex:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data=[])
+
+        if patients:
+            return Response(
+                data=PatientSerializer(patients, context={'request': request}, many=True).data,
+                status=status.HTTP_200_OK)
+        return Response(data=[], status=status.HTTP_200_OK)
 
 class DoctorAvailabilityViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView,
                          generics.UpdateAPIView, generics.RetrieveAPIView, generics.CreateAPIView):

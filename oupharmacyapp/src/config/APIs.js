@@ -15,13 +15,14 @@ export let endpoints = {
 
     // Role
     'roles': "/roles/",
-    // Commmon District 
+    // Common District 
     'districts-by-city': '/common-districts/get-by-city/',
     // Common Location
     'location':'/common-locations/', 
     'location-detail':(locationID) => `/common-locations/${locationID}/`,
     // User
     'users':'/users/',
+    'user-patients':(userId) => `/users/${userId}/get-patients/`,    
     'user-detail':(userId) => `/users/${userId}/`,
     'get-user-location':(userId) => `/users/${userId}/location-info/`,
     'booking-list':(userId) => `/users/${userId}/booking-list/`,

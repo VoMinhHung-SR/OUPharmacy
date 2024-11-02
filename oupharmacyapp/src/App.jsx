@@ -2,7 +2,6 @@ import { createContext, useEffect, useReducer, useState } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './modules/common/layout'
-import userReducer from './lib/reducer/userReducer'
 import Login from './pages/login'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Home from './pages'
@@ -48,6 +47,7 @@ import Dashboard from './modules/common/layout/dashboard'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { PrescribingProvider } from './lib/context/PrescribingContext'
+import { BookingProvider } from './lib/context/BookingContext'
 
 
 export const userContext = createContext()
@@ -86,103 +86,105 @@ function App() {
         <I18nextProvider i18n={i18n}>
           <BrowserRouter>
             {/* <CookiesProvider> */}
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-            <UserProvider>    
-              <PrescribingProvider>
-              {/* <userContext.Provider value={[user, dispatch]}> */}
-                <QueueStateProvider>
-                    <ScrollToTop />
-                    <Routes>
-                      <Route path='/' element={<Layout />}>
-                        <Route path='/' element={<Home />}/>
-                        
-                        <Route path='/waiting-room' element={<WaitingRoom/>}/>
-                        <Route path='/products' element={<ProductList/>}/>
-                        
-                        {/* Accepted when user authorized */}
-                        <Route element={<ProtectedUserRoute/>}>
-                    
-                          <Route path='/booking' element={<Booking/>}/>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <UserProvider>    
+                <BookingProvider>
+                  <PrescribingProvider>
+                    {/* <userContext.Provider value={[user, dispatch]}> */}
+                    <QueueStateProvider>
+                        <ScrollToTop />
+                          <Routes>
+                            <Route path='/' element={<Layout />}>
+                              <Route path='/' element={<Home />}/>
+                              
+                              <Route path='/waiting-room' element={<WaitingRoom/>}/>
+                              <Route path='/products' element={<ProductList/>}/>
+                              
+                              {/* Accepted when user authorized */}
+                              <Route element={<ProtectedUserRoute/>}>
                           
-                          <Route path='/profile' element={<Profile />} >
-                            <Route path='/profile/address-info' element={<ProfileAddressInfo />} />
-                            <Route path='/profile/examinations' element={<ExaminationList />} />
-                          </Route>
+                                <Route path='/booking' element={<Booking/>}/>
+                                
+                                <Route path='/profile' element={<Profile />} >
+                                  <Route path='/profile/address-info' element={<ProfileAddressInfo />} />
+                                  <Route path='/profile/examinations' element={<ExaminationList />} />
+                                </Route>
 
-                          {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
-                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
-                            <Route path='/examinations' element={<Examinations/>}/> 
-                          </Route>
+                                {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
+                                <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
+                                  <Route path='/examinations' element={<Examinations/>}/> 
+                                </Route>
 
-                          {/* Accepted user.role = ROLE_DOCTOR */}
-                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
-                            <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                            <Route path='/prescribing' element={<PrescriptionList/>} />
-                            <Route path='/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
-                          </Route>
+                                {/* Accepted user.role = ROLE_DOCTOR */}
+                                <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
+                                  <Route path='/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                                  <Route path='/prescribing' element={<PrescriptionList/>} />
+                                  <Route path='/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                                </Route>
 
-                          {/* Accepted user.role = ROLE_NURSE */}
-                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
-                            <Route path='/examinations/:examinationId/payments' element={<Payments />} />
-                          </Route>
+                                {/* Accepted user.role = ROLE_NURSE */}
+                                <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
+                                  <Route path='/examinations/:examinationId/payments' element={<Payments />} />
+                                </Route>
 
-                          <Route path='/conversations'  element={<ConversationList/>} >
-                            <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
-                          </Route>
+                                <Route path='/conversations'  element={<ConversationList/>} >
+                                  <Route path='/conversations/:conversationId/:recipientId/message' element={<ChatWindow/>} />
+                                </Route>
 
-                        </Route>
+                              </Route>
 
 
-                        <Route path="/forbidden" element={<Forbidden />} />
-                        <Route path="*" element={<NotFound/>} />
+                              <Route path="/forbidden" element={<Forbidden />} />
+                              <Route path="*" element={<NotFound/>} />
 
-                        <Route path='/demo' element={<Demo/>}/>
+                              <Route path='/demo' element={<Demo/>}/>
+                                
+                      
+                            </Route>
+                            <Route path='/dashboard/' element={<Dashboard/>}>
+                            <Route element={<ProtectedUserRoute/>}>                          {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
+                                <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
+                                  <Route path='/dashboard/examinations' element={<Examinations/>}/> 
+                                </Route>
+
+                                {/* Accepted user.role = ROLE_DOCTOR */}
+                                <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
+                                  <Route path='/dashboard/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
+                                  <Route path='/dashboard/prescribing' element={<PrescriptionList/>} />
+                                  
+                              
+                                    <Route path='/dashboard/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
+                              
+
+                                </Route>
+
+                                {/* Accepted user.role = ROLE_NURSE */}
+                                <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
+                                  <Route path='/dashboard/payments' element={<PrescriptionList/>} />
+                                  <Route path='/dashboard/payments/examinations/:examinationId' element={<Payments />} />
+                                </Route>
+
+                                <Route path='/dashboard/profile' element={<Profile />} >
+                                  <Route path='/dashboard/profile/address-info' element={<ProfileAddressInfo />} />
+                                  <Route path='/dashboard/profile/examinations' element={<ExaminationList />} />
+                                </Route>
+
+                                <Route path="/dashboard/forbidden" element={<Forbidden />} />
+                            </Route>
+                            </Route>
+
                           
-                
-                      </Route>
-                      <Route path='/dashboard/' element={<Dashboard/>}>
-                      <Route element={<ProtectedUserRoute/>}>                          {/* Accepted user.role = (ROLE_NURSE || ROLE_DOCTOR) */}
-                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR, ROLE_NURSE]} />}>
-                            <Route path='/dashboard/examinations' element={<Examinations/>}/> 
-                          </Route>
-
-                          {/* Accepted user.role = ROLE_DOCTOR */}
-                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_DOCTOR]} />}>
-                            <Route path='/dashboard/examinations/:examinationId/diagnosis' element={<Diagnosis />} />
-                            <Route path='/dashboard/prescribing' element={<PrescriptionList/>} />
-                            
+                          
+                          <Route path="/login" element={<Login />} />
+                          <Route path="/register" element={<Register />} />
+                          </Routes>
                         
-                              <Route path='/dashboard/prescribing/:prescribingId' element={<PrescriptionDetail/>} />
-                         
-
-                          </Route>
-
-                          {/* Accepted user.role = ROLE_NURSE */}
-                          <Route element={<ProtectedSpecialRoleRoute allowedRoles={[ROLE_NURSE]}/>}>
-                            <Route path='/dashboard/payments' element={<PrescriptionList/>} />
-                            <Route path='/dashboard/payments/examinations/:examinationId' element={<Payments />} />
-                          </Route>
-
-                          <Route path='/dashboard/profile' element={<Profile />} >
-                            <Route path='/dashboard/profile/address-info' element={<ProfileAddressInfo />} />
-                            <Route path='/dashboard/profile/examinations' element={<ExaminationList />} />
-                          </Route>
-
-                          <Route path="/dashboard/forbidden" element={<Forbidden />} />
-                      </Route>
-                      </Route>
-
-                    
-                    
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    </Routes>
-                   
-                </QueueStateProvider>
-              {/* </userContext.Provider> */}
-            {/* </CookiesProvider> */}   
-            </PrescribingProvider>
-            </UserProvider>
+                    </QueueStateProvider>
+                        {/* </userContext.Provider> */}
+                      {/* </CookiesProvider> */}   
+                  </PrescribingProvider>
+                </BookingProvider>
+              </UserProvider>
             </LocalizationProvider>
           </BrowserRouter>
         </I18nextProvider>

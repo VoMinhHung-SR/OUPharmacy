@@ -24,5 +24,14 @@
     "noDoctorFound": "Không tìm thấy tên bác sĩ",
     "confirmBooking": "Xác nhận tạo phiếu đặt lịch",
     "continue":"Tiếp tục",
-    "goBack": "Quay lại"
+    "goBack": "Quay lại",
+    "next": "Tiếp tục",
+    "previous": "Quay lại",
+
+    "errPatientNeedToCreate": "Bạn cần tạo hồ sơ bệnh nhân",
+    "errPatientNeedToSelect": "Bạn cần chọn hồ sơ bệnh nhân",  
+    "patientCreatedSuccess": "Tạo hồ sơ bệnh nhân thành công",
+    "yearsOld": "Tuổi",
+    "seeDetail": "Xem chi tiết",
+    "patientProfileList": "Hồ sơ bệnh nhân"
 }
